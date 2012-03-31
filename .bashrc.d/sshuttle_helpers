@@ -4,8 +4,8 @@
 #   user@hostname or a host in ~/.ssh/config
 SSH_SERVER=default_ssh
 
-# sshuttle for all traffic, including DNS.
-alias vpn='sshuttle --dns -vr $SSH_SERVER 0/0'
+# tunnel all traffic, including DNS.
+alias tnl='sshuttle --dns -vr $SSH_SERVER 0/0'
 
 # returns a list of IP addresses from given domain(s).
 #
@@ -17,23 +17,33 @@ function dns2ip() {
   dig +short $* | sed "/[^0-9\.]/d" # use sed to remove non-IPv4 line e.g. alias
 }
 
-# sshuttle for the specified domain(s) only.
+# tunnel specified domain(s) only.
 #
 # Examples:
-#  vpnfor google.com
-#  vpnfor netflix.com movies.netflix.com
+#  tnlfor google.com
+#  tnlfor netflix.com movies.netflix.com
 #
-function vpnfor() { 
+function tnlfor() { 
   sshuttle -vr $SSH_SERVER `dns2ip $*`;
 }
 
-# sshuttle for all traffic including DNS, except the specified domain(s).
+# tunnel all traffic including DNS, except the specified domain(s).
 #
 # Examples:
-#  vpnbut youku.com
-#  vpnbut youku.com weibo.com
+#  tnlbut youku.com
+#  tnlbut youku.com weibo.com
 #
-function vpnbut() { 
+function tnlbut() { 
   sshuttle --dns -vr $SSH_SERVER `dns2ip $* | sed "s/^/-x/"` 0/0; # use sed to append '-x' prefix 
+}
+
+# vpn to a ssh server.
+# 
+# Examples:
+#  vpnto my_office_server      # host in ~/.ssh/config
+#  vpnto user@123.123.123.123
+#
+function vpnto() {
+  sshuttle -HNvr $1;
 }
 
