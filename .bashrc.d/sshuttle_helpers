@@ -20,10 +20,10 @@ function dns2ip() {
 # tunnel specified domain(s) only.
 #
 # Examples:
-#  tnlfor google.com
-#  tnlfor netflix.com movies.netflix.com
+#  tnlonly google.com
+#  tnlonly netflix.com movies.netflix.com
 #
-function tnlfor() { 
+function tnlonly() { 
   sshuttle -vr $SSH_SERVER `dns2ip $*`;
 }
 
