@@ -11,10 +11,10 @@
 
 # set default SSH server:
 #   user@hostname or a host in ~/.ssh/config
-SSH_SERVER=default_ssh
+TNL_SERVER=default_ssh
 
 # tunnel all traffic, including DNS.
-alias tnl='sshuttle --dns -vr $SSH_SERVER 0/0'
+alias tnl='sshuttle --dns -vr $TNL_SERVER 0/0'
 
 # returns a list of IP addresses from given domain(s).
 #
@@ -33,7 +33,7 @@ function dns2ip() {
 #  tnlonly netflix.com movies.netflix.com
 #
 function tnlonly() { 
-  sshuttle -vr $SSH_SERVER `dns2ip $*`;
+  sshuttle -vr $TNL_SERVER `dns2ip $*`;
 }
 
 # tunnel all traffic including DNS, except the specified domain(s).
@@ -43,7 +43,7 @@ function tnlonly() {
 #  tnlbut youku.com weibo.com
 #
 function tnlbut() { 
-  sshuttle --dns -vr $SSH_SERVER `dns2ip $* | sed "s/^/-x/"` 0/0; # use sed to append '-x' prefix 
+  sshuttle --dns -vr $TNL_SERVER `dns2ip $* | sed "s/^/-x/"` 0/0; # use sed to append '-x' prefix 
 }
 
 # vpn to a ssh server.
