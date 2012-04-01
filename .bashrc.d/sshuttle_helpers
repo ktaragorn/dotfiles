@@ -1,4 +1,13 @@
 # sshuttle helpers
+#
+# To load, you can add a line in ~/.bashrc:
+#   source ~/.bashrc.d/sshuttle_helpers
+#
+# or add a few lines to load all files in ~/.bashrc.d
+#   for f in ~/.bashrc.d/*; do
+#     source $f;
+#   done
+#
 
 # set default SSH server:
 #   user@hostname or a host in ~/.ssh/config
