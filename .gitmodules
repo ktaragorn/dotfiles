@@ -1,0 +1,3 @@
+[submodule ".janus/powerline"]
+	path = .janus/powerline
+	url = git://github.com/Lokaltog/vim-powerline.git

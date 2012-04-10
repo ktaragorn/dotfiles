@@ -1,0 +1,19 @@
+
+"""""""""""""
+" B A S I C
+"""""""""""""
+set wildmenu     " fancy command completion menu!
+set showcmd      " shows incomplete command to the left of the ruler
+
+
+"""""""""""""""""
+" M A P P I N G
+"""""""""""""""""
+:nmap <C-N><C-N> :set invnumber<CR>  " toggle line number
+
+
+"""""""""""""""""
+" P L U G I N 
+"""""""""""""""""
+let g:ctrlp_working_path_mode = 0  " CtrlP current working dir
+
