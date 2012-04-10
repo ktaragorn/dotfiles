@@ -1,10 +1,10 @@
 # ~/.tmuxinator/rails.yml
 # you can make as many tabs as you wish...
 
-project_name: rails #rails_`date +%m%d%y%H%M%S`
+project_name: rails 
 project_root: .
 tabs:
-  - edit: vim .
+  - edit: vim
   - console:
       layout: main-vertical
       panes:
