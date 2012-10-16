@@ -16,4 +16,5 @@ set showcmd      " shows incomplete command to the left of the ruler
 " P L U G I N 
 """""""""""""""""
 let g:ctrlp_working_path_mode = 0  " CtrlP current working dir
-
+let g:buffergator_viewport_split_policy= "T"  " Top position
+let g:buffergator_split_size = 6
