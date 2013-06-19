@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+BREW_WATCHLIST='git macvim chruby ruby-install'
+GEM_WATCHLIST='bundler'
+
+gem update --system
+gem install $GEM_WATCHLIST && gem cleanup $GEM_WATCHLIST
+brew update
+brew upgrade $BREW_WATCHLIST
+
+brew outdated
