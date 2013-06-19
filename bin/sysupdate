@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-BREW_WATCHLIST='git macvim chruby ruby-install'
+BREW_WATCHLIST='git macvim chruby ruby-install tmux'
 GEM_WATCHLIST='bundler'
 
 gem update --system
