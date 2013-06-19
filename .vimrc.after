@@ -64,3 +64,14 @@ call MapCR()
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
+
+" Removes trailing spaces
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
+
+nnoremap <silent> <Leader>rts :call TrimWhiteSpace()<CR>
+autocmd FileType * autocmd FileWritePre    * :call TrimWhiteSpace()
+autocmd FileType * autocmd FileAppendPre   * :call TrimWhiteSpace()
+autocmd FileType * autocmd FilterWritePre  * :call TrimWhiteSpace()
+autocmd FileType * autocmd BufWritePre     * :call TrimWhiteSpace()
