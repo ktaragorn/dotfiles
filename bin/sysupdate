@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 BREW_WATCHLIST='git macvim chruby ruby-install tmux'
-GEM_WATCHLIST='bundler'
+GEM_WATCHLIST='bundler metric_fu'
 
 gem update --system
 gem install $GEM_WATCHLIST && gem cleanup $GEM_WATCHLIST
