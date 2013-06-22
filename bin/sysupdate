@@ -3,7 +3,10 @@
 BREW_WATCHLIST='git macvim chruby ruby-install tmux'
 GEM_WATCHLIST='bundler metric_fu'
 
-gem update --system
+echo "------------"
+date
+echo ""
+gem update --system --verbose
 gem install $GEM_WATCHLIST && gem cleanup $GEM_WATCHLIST
 brew update
 brew upgrade $BREW_WATCHLIST
