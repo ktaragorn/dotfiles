@@ -7,7 +7,10 @@
     <string>teohm.sysupdate</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/huiming/bin/sysupdate</string>
+      <string>sh</string>
+      <string>-i</string>
+      <string>-c</string>
+      <string>$SHELL --login -c "'/Users/huiming/bin/sysupdate'"</string>
     </array>
     <key>StandardErrorPath</key>
     <string>/Users/huiming/log/sysupdate.log</string>
@@ -17,6 +20,10 @@
     <dict>
       <key>Weekday</key>
       <integer>1</integer>
+      <key>Hour</key>
+      <integer>18</integer>
+      <key>Minute</key>
+      <integer>30</integer>
     </dict>
   </dict>
 </plist>
