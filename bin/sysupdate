@@ -7,7 +7,7 @@ echo "------------"
 date
 echo ""
 gem update --system --verbose
-gem install $GEM_WATCHLIST && gem cleanup $GEM_WATCHLIST
+gem install $GEM_WATCHLIST
 brew update
 brew upgrade $BREW_WATCHLIST
 
