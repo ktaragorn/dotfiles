@@ -69,16 +69,19 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
-" Removes trailing spaces
-function! TrimWhiteSpace()
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
     %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
 endfunction
-
-nnoremap <silent> <Leader>ts :call TrimWhiteSpace()<CR>
-autocmd FileType * autocmd FileWritePre    * :call TrimWhiteSpace()
-autocmd FileType * autocmd FileAppendPre   * :call TrimWhiteSpace()
-autocmd FileType * autocmd FilterWritePre  * :call TrimWhiteSpace()
-autocmd FileType * autocmd BufWritePre     * :call TrimWhiteSpace()
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
