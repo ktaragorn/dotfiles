@@ -1,3 +1,9 @@
 [submodule ".janus/powerline"]
 	path = .janus/powerline
 	url = git://github.com/Lokaltog/vim-powerline.git
+[submodule ".janus/bufkill"]
+	path = .janus/bufkill
+	url = git://github.com/vim-scripts/bufkill.vim.git
+[submodule ".janus/grb256"]
+	path = .janus/grb256
+	url = git@github.com:quanganhdo/grb256.git

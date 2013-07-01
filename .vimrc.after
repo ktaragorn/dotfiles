@@ -7,9 +7,7 @@ set showcmd        " shows incomplete command to the left of the ruler
 set colorcolumn=80 " draw line at column 80
 
 " Theme
-let g:solarized_termcolors=256
-set background=dark
-colorscheme solarized
+colorscheme grb256
 
 """""""""""""""""
 " M A P P I N G
@@ -41,7 +39,7 @@ map <leader>gg :topleft 100 :split Gemfile<cr>
 map <leader>d :topleft :split .<cr>
 
 " Use Bufkill to kill current buffer
-map <leader>q :bd<cr>
+map <leader>q :BD<cr>
 
 " Switch between last two files
 nnoremap <leader><leader> <c-^>
