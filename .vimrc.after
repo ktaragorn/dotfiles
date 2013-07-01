@@ -7,6 +7,8 @@ set showcmd        " shows incomplete command to the left of the ruler
 set colorcolumn=80 " draw line at column 80
 
 " Theme
+set t_Co=256 " 256 colors
+set background=dark
 colorscheme grb256
 
 """""""""""""""""
