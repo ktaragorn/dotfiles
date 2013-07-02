@@ -7,3 +7,6 @@
 [submodule ".janus/grb256"]
 	path = .janus/grb256
 	url = git@github.com:quanganhdo/grb256.git
+[submodule ".janus/rubocop"]
+	path = .janus/rubocop
+	url = git@github.com:ngmy/vim-rubocop.git

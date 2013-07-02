@@ -25,6 +25,9 @@ let g:buffergator_viewport_split_policy= "T"  " Top position
 let g:buffergator_split_size = 6
 
 
+"""""""""""""
+" Window Auto Adjust
+"""""""""""""
 " Enlarge current window size
 set winwidth=84
 " We have to have a winheight bigger than we want to set winminheight. But if
@@ -33,9 +36,18 @@ set winwidth=84
 set winheight=5
 set winminheight=5
 set winheight=999
-" - rails-specific
+
+"""""""""
+" Rails-specific
+"""""""""
 map <leader>gr :topleft :split config/routes.rb<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
+
+
+"""""""""
+" Rubocop
+""""""""
+map <leader>ru :w\|:RuboCop<cr>
 
 " Open current directory
 map <leader>d :topleft :split .<cr>
@@ -58,9 +70,37 @@ function! MapCR()
 endfunction
 call MapCR()
 
-" remap Tagbar Toggle to make VRoom <leader>r faster
-unmap <leader>rt
-map <leader>tt :TagbarToggle<cr>
+"""""""""
+" Autcmd
+"""""""""
+augroup vimrcEx
+  " Clear all autocmds in the group
+  autocmd!
+  autocmd FileType text setlocal textwidth=78
+  " Jump to last cursor position unless it's invalid or in an event handler
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+  " Leave the return key alone when in command line windows, since it's used
+  " to run commands there.
+  autocmd! CmdwinEnter * :unmap <cr>
+  autocmd! CmdwinLeave * :call MapCR()
+augroup END
+
+"""""""
+" Move between windows
+"""""""
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" Unmap invwrap to make <leader>t fast
+nunmap <leader>tw
+
+" Run test
+map <leader>t :VroomRunTestFile<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OPEN FILES IN DIRECTORY OF CURRENT FILE
@@ -112,3 +152,4 @@ function! AlternateForCurrentFile()
   return new_file
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
+
