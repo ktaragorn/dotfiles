@@ -65,10 +65,12 @@ map <leader>p "*p
 " Can't be bothered to understand ESC vs <c-c> in insert mode
 imap <c-c> <esc>
 " Clear the search buffer when hitting return
-function! MapCR()
-  nnoremap <cr> :nohlsearch<cr>
-endfunction
-call MapCR()
+"function! MapCR()
+  "nnoremap <cr><cr> :nohlsearch<cr>
+"endfunction
+"call MapCR()
+
+map <leader><cr> :nohlsearch<cr>
 
 """""""""
 " Autcmd
@@ -84,8 +86,8 @@ augroup vimrcEx
     \ endif
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
-  autocmd! CmdwinEnter * :unmap <cr>
-  autocmd! CmdwinLeave * :call MapCR()
+  "autocmd! CmdwinEnter * :unmap <cr><cr>
+  "autocmd! CmdwinLeave * :call MapCR()
 augroup END
 
 """""""
