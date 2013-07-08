@@ -6,6 +6,8 @@ GEM_WATCHLIST='bundler metric_fu brakeman zeus pry pry-plus rubocop'
 echo "------------"
 date
 
+cd /Users/huiming/
+
 echo ""
 echo "* Update gem watchlist.."
 gem update --system
