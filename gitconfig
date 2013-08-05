@@ -1,8 +1,6 @@
 [user]
-	name = Huiming Teo
-	email = teohuiming@gmail.com
-[core]
-	excludesfile = /Users/huiming/.gitignore_global
+	name = Karthik T
+	email = karthikt.holmes+github@gmail.com
 [alias]
   aa = add --all
   dc = diff --cached
@@ -35,7 +33,5 @@
 	;trustExitCode = true
 [web]
 	browser = open
-[github]
-	user = teohm
 [push]
 	default = current
