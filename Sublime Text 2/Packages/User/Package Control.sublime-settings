@@ -1,0 +1,23 @@
+{
+	"installed_packages":
+	[
+		"Alignment",
+		"BeautifyRuby",
+		"Block Cursor Everywhere",
+		"BracketHighlighter",
+		"ChangeList",
+		"Git",
+		"GitGrep",
+		"GitGutter",
+		"Neon Theme",
+		"Package Control",
+		"Preference Helper",
+		"QuickThemes",
+		"Ruby Markers",
+		"SublimeCodeIntel",
+		"SublimeLinter",
+		"SublimePeek",
+		"Theme - Soda",
+		"Themr"
+	]
+}

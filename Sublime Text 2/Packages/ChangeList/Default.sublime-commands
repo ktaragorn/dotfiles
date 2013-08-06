@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "Change List: Maintenance",
+        "command": "maintain_change_list"
+    },
+    {
+        "caption": "Change List: Show",
+        "command": "show_change_list"
+    }
+]

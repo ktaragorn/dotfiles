@@ -1,0 +1,1561 @@
+{
+	"folder_history":
+	[
+		"/Users/karthikt/Dropbox/koans",
+		"/Users/karthikt/Documents/Work/netprice"
+	],
+	"last_window_id": 4,
+	"settings":
+	{
+		"new_window_height": 752.0,
+		"new_window_settings":
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"build_system": "",
+			"command_palette":
+			{
+				"height": 49.0,
+				"selected_items":
+				[
+					[
+						"marker",
+						"Snippet: Add ‘# =>’ Marker"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
+					[
+						"remove",
+						"Package Control: Remove Package"
+					],
+					[
+						"repl",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"repl ru",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"list pac",
+						"Package Control: List Packages"
+					],
+					[
+						"install ",
+						"Package Control: Install Package"
+					],
+					[
+						"eval",
+						"RubyEval: ruby_eval"
+					],
+					[
+						"eva",
+						"RubyEval: ruby_eval"
+					],
+					[
+						"r",
+						"Rot13 Selection"
+					],
+					[
+						"list",
+						"SublimeLinter: Show Error List"
+					],
+					[
+						"alig",
+						"Preferences: Alignment File Settings – Default"
+					],
+					[
+						"align",
+						"Preferences: Alignment File Settings – User"
+					],
+					[
+						"list pa",
+						"Package Control: List Packages"
+					],
+					[
+						"git co",
+						"Git: Commit"
+					],
+					[
+						"git status",
+						"Git: Status"
+					],
+					[
+						"git chec",
+						"Git: Checkout Current File"
+					],
+					[
+						"gitstatus",
+						"Git: Status"
+					],
+					[
+						"",
+						"BeautifyRuby"
+					],
+					[
+						"remo",
+						"Package Control: Remove Package"
+					],
+					[
+						"git",
+						"Git: Commit history"
+					],
+					[
+						"git ",
+						"Git: Gui"
+					],
+					[
+						"git grep",
+						"Git: Grep"
+					],
+					[
+						"sublimerepl:rub",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"extr",
+						"SublimeLinter: Extract Annotations"
+					],
+					[
+						"lint",
+						"SublimeLinter: Extract Annotations"
+					],
+					[
+						"theme",
+						"Themr: List themes"
+					],
+					[
+						"git gre",
+						"Git: Grep"
+					],
+					[
+						"git diff",
+						"Git: Diff All"
+					],
+					[
+						"gitstatu",
+						"Git: Status"
+					],
+					[
+						"git statu",
+						"Git: Status"
+					],
+					[
+						"log ",
+						"Git: Log Current File"
+					],
+					[
+						"git blame",
+						"Git: Blame"
+					],
+					[
+						"git log",
+						"Git: Log Current File"
+					],
+					[
+						"git dif",
+						"Git: Diff All"
+					],
+					[
+						"them",
+						"Themr: List themes"
+					],
+					[
+						"the",
+						"Themr: List themes"
+					],
+					[
+						"next",
+						"Themr: Next theme"
+					],
+					[
+						"install",
+						"Package Control: Install Package"
+					],
+					[
+						"instal",
+						"Package Control: Install Package"
+					],
+					[
+						"rep rub",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"settings",
+						"Preferences: Settings - User"
+					],
+					[
+						"sublime",
+						"SublimePeek: Get Help for Function"
+					],
+					[
+						"subl",
+						"SublimePeek: Get Help for Function"
+					],
+					[
+						"user",
+						"Preferences: SublimeLinter Settings – User"
+					],
+					[
+						"brow",
+						"Preferences: Browse Packages"
+					],
+					[
+						"packa",
+						"Package Control: List Packages"
+					],
+					[
+						"gitsta",
+						"Git: Stash Changes"
+					],
+					[
+						"gitstat",
+						"Git: Status"
+					],
+					[
+						"inst",
+						"Package Control: Install Package"
+					],
+					[
+						"gitgr",
+						"Git: Grep"
+					],
+					[
+						"gitg",
+						"Git: Grep"
+					],
+					[
+						"git s",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						" git s",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						"git st",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						"pac",
+						"Preferences: Browse Packages"
+					]
+				],
+				"width": 588.0
+			},
+			"console":
+			{
+				"height": 125.0
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": false,
+				"show_tabs": false,
+				"side_bar_visible": false,
+				"status_bar_visible": false
+			},
+			"file_history":
+			[
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/SublimeREPL.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/db/schema.rb",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/BeautifyRuby/BeautifyRuby.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/SublimeLinter.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Alignment/Base File.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Base File.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Alignment/Default (OSX).sublime-keymap",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+				"/Users/karthikt/Documents/Work/netprice/app/controllers/application_controller.rb",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Terminal/Base File.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/models/net_price_calculator/harvard.rb",
+				"/Users/karthikt/Documents/Work/netprice/common_library/common_library.gemspec",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/QuickThemes.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/application_helper.rb",
+				"/Users/karthikt/Documents/Work/netprice/spec/support/controller_macros.rb",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/app/helpers/application_helper.rb",
+				"/Users/karthikt/Documents/Work/netprice/.rspec",
+				"/Users/karthikt/Documents/Work/netprice/Gemfile.lock",
+				"/Users/karthikt/Documents/Work/netprice/config.ru",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Ruby.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Distraction Free.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/mailers/user_mailer.rb",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/",
+				"/Users/karthikt/Documents/Work/netprice/common_library/Rakefile"
+			],
+			"find":
+			{
+				"height": 35.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					"ii",
+					"s",
+					"generate_results",
+					"answers",
+					"perform_calculation"
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": false,
+				"replace_history":
+				[
+					"perform_calculation"
+				],
+				"reverse": false,
+				"show_context": true,
+				"use_buffer2": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"incremental_find":
+			{
+				"height": 36.0
+			},
+			"input":
+			{
+				"height": 31.0
+			},
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"menu_visible": true,
+			"output.anypreter":
+			{
+				"height": 102.0
+			},
+			"output.git":
+			{
+				"height": 100.0
+			},
+			"replace":
+			{
+				"height": 0.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+					[
+						"harv",
+						"app/models/net_price_calculator/harvard.rb"
+					],
+					[
+						"contro",
+						"spec/support/controller_macros.rb"
+					]
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"show_minimap": true,
+			"show_open_files": false,
+			"show_tabs": true,
+			"side_bar_visible": true,
+			"side_bar_width": 211.0,
+			"status_bar_visible": true
+		},
+		"new_window_width": 1280.0
+	},
+	"windows":
+	[
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"buffers":
+			[
+				{
+					"file": "/Users/karthikt/Documents/Work/netprice/app/models/net_price_calculator/harvard.rb",
+					"settings":
+					{
+						"buffer_size": 31455,
+						"line_ending": "Unix"
+					}
+				}
+			],
+			"build_system": "",
+			"command_palette":
+			{
+				"height": 71.0,
+				"selected_items":
+				[
+					[
+						"remove",
+						"Package Control: Remove Package"
+					],
+					[
+						"list packa",
+						"Package Control: List Packages"
+					],
+					[
+						"install",
+						"Package Control: Install Package"
+					],
+					[
+						"list pack",
+						"Package Control: List Packages"
+					],
+					[
+						"marker",
+						"Snippet: Add ‘# =>’ Marker"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
+					[
+						"repl",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"repl ru",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"list pac",
+						"Package Control: List Packages"
+					],
+					[
+						"install ",
+						"Package Control: Install Package"
+					],
+					[
+						"eval",
+						"RubyEval: ruby_eval"
+					],
+					[
+						"eva",
+						"RubyEval: ruby_eval"
+					],
+					[
+						"r",
+						"Rot13 Selection"
+					],
+					[
+						"list",
+						"SublimeLinter: Show Error List"
+					],
+					[
+						"alig",
+						"Preferences: Alignment File Settings – Default"
+					],
+					[
+						"align",
+						"Preferences: Alignment File Settings – User"
+					],
+					[
+						"list pa",
+						"Package Control: List Packages"
+					],
+					[
+						"git co",
+						"Git: Commit"
+					],
+					[
+						"git status",
+						"Git: Status"
+					],
+					[
+						"git chec",
+						"Git: Checkout Current File"
+					],
+					[
+						"gitstatus",
+						"Git: Status"
+					],
+					[
+						"",
+						"BeautifyRuby"
+					],
+					[
+						"remo",
+						"Package Control: Remove Package"
+					],
+					[
+						"git",
+						"Git: Commit history"
+					],
+					[
+						"git ",
+						"Git: Gui"
+					],
+					[
+						"git grep",
+						"Git: Grep"
+					],
+					[
+						"sublimerepl:rub",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"extr",
+						"SublimeLinter: Extract Annotations"
+					],
+					[
+						"lint",
+						"SublimeLinter: Extract Annotations"
+					],
+					[
+						"theme",
+						"Themr: List themes"
+					],
+					[
+						"git gre",
+						"Git: Grep"
+					],
+					[
+						"git diff",
+						"Git: Diff All"
+					],
+					[
+						"gitstatu",
+						"Git: Status"
+					],
+					[
+						"git statu",
+						"Git: Status"
+					],
+					[
+						"log ",
+						"Git: Log Current File"
+					],
+					[
+						"git blame",
+						"Git: Blame"
+					],
+					[
+						"git log",
+						"Git: Log Current File"
+					],
+					[
+						"git dif",
+						"Git: Diff All"
+					],
+					[
+						"them",
+						"Themr: List themes"
+					],
+					[
+						"the",
+						"Themr: List themes"
+					],
+					[
+						"next",
+						"Themr: Next theme"
+					],
+					[
+						"instal",
+						"Package Control: Install Package"
+					],
+					[
+						"rep rub",
+						"SublimeREPL: Ruby"
+					],
+					[
+						"settings",
+						"Preferences: Settings - User"
+					],
+					[
+						"sublime",
+						"SublimePeek: Get Help for Function"
+					],
+					[
+						"subl",
+						"SublimePeek: Get Help for Function"
+					],
+					[
+						"user",
+						"Preferences: SublimeLinter Settings – User"
+					],
+					[
+						"brow",
+						"Preferences: Browse Packages"
+					],
+					[
+						"packa",
+						"Package Control: List Packages"
+					],
+					[
+						"gitsta",
+						"Git: Stash Changes"
+					],
+					[
+						"gitstat",
+						"Git: Status"
+					],
+					[
+						"inst",
+						"Package Control: Install Package"
+					],
+					[
+						"gitgr",
+						"Git: Grep"
+					],
+					[
+						"gitg",
+						"Git: Grep"
+					],
+					[
+						"git s",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						" git s",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						"git st",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						"pac",
+						"Preferences: Browse Packages"
+					]
+				],
+				"width": 588.0
+			},
+			"console":
+			{
+				"height": 125.0
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": false,
+				"show_tabs": false,
+				"side_bar_visible": false,
+				"status_bar_visible": false
+			},
+			"file_history":
+			[
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/ruby_markers.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Ruby Markers/ruby_markers.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/script/calc_uc_research.rb",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Base File.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/SublimeREPL.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/db/schema.rb",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/BeautifyRuby/BeautifyRuby.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/SublimeLinter.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Alignment/Base File.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Alignment/Default (OSX).sublime-keymap",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+				"/Users/karthikt/Documents/Work/netprice/app/controllers/application_controller.rb",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Terminal/Base File.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/models/net_price_calculator/harvard.rb",
+				"/Users/karthikt/Documents/Work/netprice/common_library/common_library.gemspec",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/QuickThemes.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/application_helper.rb",
+				"/Users/karthikt/Documents/Work/netprice/spec/support/controller_macros.rb",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/app/helpers/application_helper.rb",
+				"/Users/karthikt/Documents/Work/netprice/.rspec",
+				"/Users/karthikt/Documents/Work/netprice/Gemfile.lock",
+				"/Users/karthikt/Documents/Work/netprice/config.ru",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Ruby.sublime-settings",
+				"/Users/karthikt/Library/Application Support/Sublime Text 2/Packages/User/Distraction Free.sublime-settings",
+				"/Users/karthikt/Documents/Work/netprice/app/mailers/user_mailer.rb",
+				"/Users/karthikt/Documents/Work/netprice/app/helpers/",
+				"/Users/karthikt/Documents/Work/netprice/common_library/Rakefile"
+			],
+			"find":
+			{
+				"height": 35.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					"ii",
+					"s",
+					"generate_results",
+					"answers",
+					"perform_calculation"
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": false,
+				"replace_history":
+				[
+					"perform_calculation"
+				],
+				"reverse": false,
+				"show_context": true,
+				"use_buffer2": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"folders":
+			[
+				{
+					"path": "/Users/karthikt/Documents/Work/netprice"
+				}
+			],
+			"groups":
+			[
+				{
+					"selected": 0,
+					"sheets":
+					[
+						{
+							"buffer": 0,
+							"file": "/Users/karthikt/Documents/Work/netprice/app/models/net_price_calculator/harvard.rb",
+							"settings":
+							{
+								"buffer_size": 31455,
+								"regions":
+								{
+								},
+								"selection":
+								[
+									[
+										1975,
+										1975
+									]
+								],
+								"settings":
+								{
+									"BracketHighlighterBusy": false,
+									"annotations":
+									[
+										"TODO",
+										"README",
+										"FIXME"
+									],
+									"bh_regions":
+									[
+										"bh_regex",
+										"bh_regex_center",
+										"bh_regex_open",
+										"bh_regex_close",
+										"bh_double_quote",
+										"bh_double_quote_center",
+										"bh_double_quote_open",
+										"bh_double_quote_close",
+										"bh_square",
+										"bh_square_center",
+										"bh_square_open",
+										"bh_square_close",
+										"bh_angle",
+										"bh_angle_center",
+										"bh_angle_open",
+										"bh_angle_close",
+										"bh_curly",
+										"bh_curly_center",
+										"bh_curly_open",
+										"bh_curly_close",
+										"bh_default",
+										"bh_default_center",
+										"bh_default_open",
+										"bh_default_close",
+										"bh_unmatched",
+										"bh_unmatched_center",
+										"bh_unmatched_open",
+										"bh_unmatched_close",
+										"bh_round",
+										"bh_round_center",
+										"bh_round_open",
+										"bh_round_close",
+										"bh_tag",
+										"bh_tag_center",
+										"bh_tag_open",
+										"bh_tag_close",
+										"bh_single_quote",
+										"bh_single_quote_center",
+										"bh_single_quote_open",
+										"bh_single_quote_close"
+									],
+									"codeintel": true,
+									"codeintel_config":
+									{
+										"JavaScript":
+										{
+											"codeintel_max_recursive_dir_depth": 2.0,
+											"codeintel_scan_files_in_project": false,
+											"javascriptExtraPaths":
+											[
+											]
+										},
+										"PHP":
+										{
+											"codeintel_max_recursive_dir_depth": 5.0,
+											"codeintel_scan_files_in_project": false,
+											"phpExtraPaths":
+											[
+											]
+										},
+										"Python":
+										{
+											"env":
+											{
+											}
+										}
+									},
+									"codeintel_enabled_languages":
+									[
+										"JavaScript",
+										"Mason",
+										"XBL",
+										"XUL",
+										"RHTML",
+										"SCSS",
+										"Python",
+										"HTML",
+										"Ruby",
+										"Python3",
+										"XML",
+										"Sass",
+										"XSLT",
+										"Django",
+										"HTML5",
+										"Perl",
+										"CSS",
+										"Twig",
+										"Less",
+										"Smarty",
+										"Node.js",
+										"Tcl",
+										"TemplateToolkit",
+										"PHP"
+									],
+									"codeintel_live": true,
+									"codeintel_live_enabled_languages":
+									[
+										"JavaScript",
+										"Mason",
+										"XBL",
+										"XUL",
+										"RHTML",
+										"SCSS",
+										"Python",
+										"HTML",
+										"Ruby",
+										"Python3",
+										"XML",
+										"Sass",
+										"XSLT",
+										"Django",
+										"HTML5",
+										"Perl",
+										"CSS",
+										"Twig",
+										"Less",
+										"Smarty",
+										"Node.js",
+										"Tcl",
+										"TemplateToolkit",
+										"PHP"
+									],
+									"codeintel_max_recursive_dir_depth": 10.0,
+									"codeintel_scan_exclude_dir":
+									{
+										"JavaScript":
+										[
+											"/build/",
+											"/min/"
+										]
+									},
+									"codeintel_scan_files_in_project": true,
+									"codeintel_selected_catalogs":
+									[
+										"PyWin32",
+										"jQuery",
+										"Rails"
+									],
+									"codeintel_snippets": true,
+									"codeintel_syntax_map":
+									{
+										"Python Django": "Python"
+									},
+									"csslint_options":
+									{
+										"adjoining-classes": "warning",
+										"box-model": true,
+										"box-sizing": "warning",
+										"compatible-vendor-prefixes": "warning",
+										"display-property-grouping": true,
+										"duplicate-background-images": "warning",
+										"duplicate-properties": true,
+										"empty-rules": true,
+										"errors": true,
+										"fallback-colors": "warning",
+										"floats": "warning",
+										"font-faces": "warning",
+										"font-sizes": "warning",
+										"gradients": "warning",
+										"ids": "warning",
+										"import": "warning",
+										"important": "warning",
+										"known-properties": true,
+										"outline-none": "warning",
+										"overqualified-elements": "warning",
+										"qualified-headings": "warning",
+										"regex-selectors": "warning",
+										"rules-count": "warning",
+										"shorthand": "warning",
+										"star-property-hack": "warning",
+										"text-indent": "warning",
+										"underscore-property-hack": "warning",
+										"unique-headings": "warning",
+										"universal-selector": "warning",
+										"vendor-prefix": true,
+										"zero-units": "warning"
+									},
+									"gjslint_ignore":
+									[
+										110.0
+									],
+									"gjslint_options":
+									[
+									],
+									"javascript_linter": "jshint",
+									"jshint_options":
+									{
+										"browser": true,
+										"evil": true,
+										"regexdash": true,
+										"sub": true,
+										"trailing": true,
+										"wsh": true
+									},
+									"pep8": true,
+									"pep8_ignore":
+									[
+										"E501"
+									],
+									"perl_linter": "perlcritic",
+									"pyflakes_ignore":
+									[
+									],
+									"pyflakes_ignore_import_*": true,
+									"sublime_auto_complete": true,
+									"sublimelinter": true,
+									"sublimelinter_delay": 2.0,
+									"sublimelinter_disable":
+									[
+									],
+									"sublimelinter_executable_map":
+									{
+										"ruby": "/Users/karthikt/.rvm/rubies/ruby-1.9.3-p448/bin/ruby"
+									},
+									"sublimelinter_fill_outlines": false,
+									"sublimelinter_gutter_marks": true,
+									"sublimelinter_gutter_marks_theme": "simple",
+									"sublimelinter_mark_style": "fill",
+									"sublimelinter_notes": false,
+									"sublimelinter_objj_check_ascii": false,
+									"sublimelinter_popup_errors_on_save": false,
+									"sublimelinter_syntax_map":
+									{
+										"C++": "c",
+										"Python Django": "python",
+										"Ruby on Rails": "ruby"
+									},
+									"sublimelinter_wrap_find": true,
+									"syntax": "Packages/Ruby/Ruby.tmLanguage",
+									"tab_size": 2,
+									"translate_tabs_to_spaces": true
+								},
+								"translation.x": 0.0,
+								"translation.y": 314.0,
+								"zoom_level": 1.0
+							},
+							"type": "text"
+						}
+					]
+				}
+			],
+			"incremental_find":
+			{
+				"height": 36.0
+			},
+			"input":
+			{
+				"height": 31.0
+			},
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"menu_visible": true,
+			"output.anypreter":
+			{
+				"height": 102.0
+			},
+			"output.git":
+			{
+				"height": 100.0
+			},
+			"position": "0 4 1280 774 0 0 1280 778 ",
+			"replace":
+			{
+				"height": 0.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+					[
+						"harv",
+						"app/models/net_price_calculator/harvard.rb"
+					],
+					[
+						"contro",
+						"spec/support/controller_macros.rb"
+					]
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"show_minimap": true,
+			"show_open_files": false,
+			"show_tabs": true,
+			"side_bar_visible": true,
+			"side_bar_width": 211.0,
+			"status_bar_visible": true,
+			"window_id": 3,
+			"workspace_name": ""
+		},
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"buffers":
+			[
+				{
+					"file": "/Users/karthikt/Dropbox/koans/about_constants.rb",
+					"settings":
+					{
+						"buffer_size": 2041,
+						"line_ending": "Unix"
+					}
+				}
+			],
+			"build_system": "",
+			"command_palette":
+			{
+				"height": 159.0,
+				"selected_items":
+				[
+					[
+						"themr",
+						"Themr: List themes"
+					],
+					[
+						"status",
+						"Git Status Files: Opens all the files in a git repository that are listed by git status."
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
+					[
+						"install ",
+						"Package Control: Install Package"
+					],
+					[
+						"brow",
+						"Preferences: Browse Packages"
+					],
+					[
+						"pac",
+						"Preferences: Browse Packages"
+					]
+				],
+				"width": 588.0
+			},
+			"console":
+			{
+				"height": 125.0
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": false,
+				"show_tabs": false,
+				"side_bar_visible": false,
+				"status_bar_visible": false
+			},
+			"file_history":
+			[
+				"/Users/karthikt/Dropbox/koans/.git"
+			],
+			"find":
+			{
+				"height": 0.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					"4"
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": false,
+				"replace_history":
+				[
+				],
+				"reverse": false,
+				"show_context": true,
+				"use_buffer2": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"folders":
+			[
+				{
+					"path": "/Users/karthikt/Dropbox/koans"
+				}
+			],
+			"groups":
+			[
+				{
+					"selected": 0,
+					"sheets":
+					[
+						{
+							"buffer": 0,
+							"file": "/Users/karthikt/Dropbox/koans/about_constants.rb",
+							"settings":
+							{
+								"buffer_size": 2041,
+								"regions":
+								{
+								},
+								"selection":
+								[
+									[
+										1047,
+										1047
+									]
+								],
+								"settings":
+								{
+									"BracketHighlighterBusy": false,
+									"annotations":
+									[
+										"TODO",
+										"README",
+										"FIXME"
+									],
+									"bh_regions":
+									[
+										"bh_regex",
+										"bh_regex_center",
+										"bh_regex_open",
+										"bh_regex_close",
+										"bh_double_quote",
+										"bh_double_quote_center",
+										"bh_double_quote_open",
+										"bh_double_quote_close",
+										"bh_square",
+										"bh_square_center",
+										"bh_square_open",
+										"bh_square_close",
+										"bh_angle",
+										"bh_angle_center",
+										"bh_angle_open",
+										"bh_angle_close",
+										"bh_curly",
+										"bh_curly_center",
+										"bh_curly_open",
+										"bh_curly_close",
+										"bh_default",
+										"bh_default_center",
+										"bh_default_open",
+										"bh_default_close",
+										"bh_unmatched",
+										"bh_unmatched_center",
+										"bh_unmatched_open",
+										"bh_unmatched_close",
+										"bh_round",
+										"bh_round_center",
+										"bh_round_open",
+										"bh_round_close",
+										"bh_tag",
+										"bh_tag_center",
+										"bh_tag_open",
+										"bh_tag_close",
+										"bh_single_quote",
+										"bh_single_quote_center",
+										"bh_single_quote_open",
+										"bh_single_quote_close"
+									],
+									"codeintel": true,
+									"codeintel_config":
+									{
+										"JavaScript":
+										{
+											"codeintel_max_recursive_dir_depth": 2.0,
+											"codeintel_scan_files_in_project": false,
+											"javascriptExtraPaths":
+											[
+											]
+										},
+										"PHP":
+										{
+											"codeintel_max_recursive_dir_depth": 5.0,
+											"codeintel_scan_files_in_project": false,
+											"phpExtraPaths":
+											[
+											]
+										},
+										"Python":
+										{
+											"env":
+											{
+											}
+										}
+									},
+									"codeintel_enabled_languages":
+									[
+										"JavaScript",
+										"Mason",
+										"XBL",
+										"XUL",
+										"RHTML",
+										"SCSS",
+										"Python",
+										"HTML",
+										"Ruby",
+										"Python3",
+										"XML",
+										"Sass",
+										"XSLT",
+										"Django",
+										"HTML5",
+										"Perl",
+										"CSS",
+										"Twig",
+										"Less",
+										"Smarty",
+										"Node.js",
+										"Tcl",
+										"TemplateToolkit",
+										"PHP"
+									],
+									"codeintel_live": true,
+									"codeintel_live_enabled_languages":
+									[
+										"JavaScript",
+										"Mason",
+										"XBL",
+										"XUL",
+										"RHTML",
+										"SCSS",
+										"Python",
+										"HTML",
+										"Ruby",
+										"Python3",
+										"XML",
+										"Sass",
+										"XSLT",
+										"Django",
+										"HTML5",
+										"Perl",
+										"CSS",
+										"Twig",
+										"Less",
+										"Smarty",
+										"Node.js",
+										"Tcl",
+										"TemplateToolkit",
+										"PHP"
+									],
+									"codeintel_max_recursive_dir_depth": 10.0,
+									"codeintel_scan_exclude_dir":
+									{
+										"JavaScript":
+										[
+											"/build/",
+											"/min/"
+										]
+									},
+									"codeintel_scan_files_in_project": true,
+									"codeintel_selected_catalogs":
+									[
+										"PyWin32",
+										"jQuery",
+										"Rails"
+									],
+									"codeintel_snippets": true,
+									"codeintel_syntax_map":
+									{
+										"Python Django": "Python"
+									},
+									"csslint_options":
+									{
+										"adjoining-classes": "warning",
+										"box-model": true,
+										"box-sizing": "warning",
+										"compatible-vendor-prefixes": "warning",
+										"display-property-grouping": true,
+										"duplicate-background-images": "warning",
+										"duplicate-properties": true,
+										"empty-rules": true,
+										"errors": true,
+										"fallback-colors": "warning",
+										"floats": "warning",
+										"font-faces": "warning",
+										"font-sizes": "warning",
+										"gradients": "warning",
+										"ids": "warning",
+										"import": "warning",
+										"important": "warning",
+										"known-properties": true,
+										"outline-none": "warning",
+										"overqualified-elements": "warning",
+										"qualified-headings": "warning",
+										"regex-selectors": "warning",
+										"rules-count": "warning",
+										"shorthand": "warning",
+										"star-property-hack": "warning",
+										"text-indent": "warning",
+										"underscore-property-hack": "warning",
+										"unique-headings": "warning",
+										"universal-selector": "warning",
+										"vendor-prefix": true,
+										"zero-units": "warning"
+									},
+									"gjslint_ignore":
+									[
+										110.0
+									],
+									"gjslint_options":
+									[
+									],
+									"javascript_linter": "jshint",
+									"jshint_options":
+									{
+										"browser": true,
+										"evil": true,
+										"regexdash": true,
+										"sub": true,
+										"trailing": true,
+										"wsh": true
+									},
+									"pep8": true,
+									"pep8_ignore":
+									[
+										"E501"
+									],
+									"perl_linter": "perlcritic",
+									"pyflakes_ignore":
+									[
+									],
+									"pyflakes_ignore_import_*": true,
+									"sublime_auto_complete": true,
+									"sublimelinter": true,
+									"sublimelinter_delay": 2.0,
+									"sublimelinter_disable":
+									[
+									],
+									"sublimelinter_executable_map":
+									{
+										"ruby": "/Users/karthikt/.rvm/rubies/ruby-1.9.3-p448/bin/ruby"
+									},
+									"sublimelinter_fill_outlines": false,
+									"sublimelinter_gutter_marks": true,
+									"sublimelinter_gutter_marks_theme": "simple",
+									"sublimelinter_mark_style": "fill",
+									"sublimelinter_notes": false,
+									"sublimelinter_objj_check_ascii": false,
+									"sublimelinter_popup_errors_on_save": false,
+									"sublimelinter_syntax_map":
+									{
+										"C++": "c",
+										"Python Django": "python",
+										"Ruby on Rails": "ruby"
+									},
+									"sublimelinter_wrap_find": true,
+									"syntax": "Packages/Ruby/Ruby.tmLanguage",
+									"tab_size": 2,
+									"translate_tabs_to_spaces": true
+								},
+								"translation.x": 0.0,
+								"translation.y": 238.0,
+								"zoom_level": 1.0
+							},
+							"type": "text"
+						}
+					]
+				}
+			],
+			"incremental_find":
+			{
+				"height": 0.0
+			},
+			"input":
+			{
+				"height": 0.0
+			},
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"menu_visible": true,
+			"position": "1280 0 1920 1080 1280 0 1920 1080 ",
+			"replace":
+			{
+				"height": 0.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"show_minimap": true,
+			"show_open_files": false,
+			"show_tabs": true,
+			"side_bar_visible": true,
+			"side_bar_width": 262.0,
+			"status_bar_visible": true,
+			"window_id": 4,
+			"workspace_name": ""
+		}
+	],
+	"workspaces":
+	{
+		"recent_workspaces":
+		[
+		]
+	}
+}
