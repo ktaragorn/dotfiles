@@ -3,23 +3,5 @@
 	"font_face": "Menlo",
 	"font_size": 12.0,
 	"highlight_modified_tabs": "true",
-	"ignored_packages":
-	[
-		"Preference Helper",
-		"Sublimerge",
-		"Themr",
-		"GitGrep",
-		"Vintage",
-		"ChangeList",
-		"SublimePeek",
-		"GitGutter",
-		"Ruby Markers",
-		"SideBarGit",
-		"Theme - Soda",
-		"QuickThemes",
-		"Git",
-		"SideBarEnhancements",
-		"SublimeLinter"
-	],
 	"theme": "Soda Dark.sublime-theme"
 }
