@@ -1,4 +1,4 @@
-//2.1.5
+var window = {};//2.1.8
 var JSHINT;
 (function () {
 var require;
@@ -830,6 +830,42 @@ exports.yui = {
 
 })()
 },{}],4:[function(require,module,exports){
+/*
+ * Regular expressions. Some of these are stupidly long.
+ */
+
+/*jshint maxlen:1000 */
+
+"use string";
+
+// Unsafe comment or string (ax)
+exports.unsafeString =
+    /@cc|<\/?|script|\]\s*\]|<\s*!|&lt/i;
+
+// Unsafe characters that are silently deleted by one or more browsers (cx)
+exports.unsafeChars =
+    /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
+
+// Characters in strings that need escaping (nx and nxg)
+exports.needEsc =
+    /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
+
+exports.needEscGlobal =
+    /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+
+// Star slash (lx)
+exports.starSlash = /\*\//;
+
+// Identifier (ix)
+exports.identifier = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/;
+
+// JavaScript URL (jx)
+exports.javascriptURL = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
+
+// Catches /* falls through */ comments (ft)
+exports.fallsThrough = /^\s*\/\*\s*falls?\sthrough\s*\*\/\s*$/;
+
+},{}],5:[function(require,module,exports){
 (function(){"use strict";
 
 exports.register = function (linter) {
@@ -1002,42 +1038,6 @@ exports.register = function (linter) {
     });
 };
 })()
-},{}],5:[function(require,module,exports){
-/*
- * Regular expressions. Some of these are stupidly long.
- */
-
-/*jshint maxlen:1000 */
-
-"use string";
-
-// Unsafe comment or string (ax)
-exports.unsafeString =
-    /@cc|<\/?|script|\]\s*\]|<\s*!|&lt/i;
-
-// Unsafe characters that are silently deleted by one or more browsers (cx)
-exports.unsafeChars =
-    /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
-
-// Characters in strings that need escaping (nx and nxg)
-exports.needEsc =
-    /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
-
-exports.needEscGlobal =
-    /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-
-// Star slash (lx)
-exports.starSlash = /\*\//;
-
-// Identifier (ix)
-exports.identifier = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/;
-
-// JavaScript URL (jx)
-exports.javascriptURL = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
-
-// Catches /* falls through */ comments (ft)
-exports.fallsThrough = /^\s*\/\*\s*falls?\sthrough\s*\*\/\s*$/;
-
 },{}],6:[function(require,module,exports){
 "use strict";
 
@@ -3666,6 +3666,7 @@ var JSHINT = (function () {
         var ident;
         var tokens = [];
         var t;
+        var pastDefault = false;
 
         if (parsed) {
             if (parsed instanceof Array) {
@@ -3730,6 +3731,21 @@ var JSHINT = (function () {
                 ident = identifier(true);
                 params.push(ident);
                 addlabel(ident, "unused", state.tokens.curr);
+            }
+
+            // it is a syntax error to have a regular argument after a default argument
+            if (pastDefault) {
+                if (state.tokens.next.id !== "=") {
+                    error("E051", state.tokens.current);
+                }
+            }
+            if (state.tokens.next.id === "=") {
+                if (!state.option.inESNext()) {
+                    warning("W119", state.tokens.next, "default parameters");
+                }
+                advance("=");
+                pastDefault = true;
+                expression(10);
             }
             if (state.tokens.next.id === ",") {
                 comma();
@@ -5875,7 +5891,7 @@ if (typeof exports === "object" && exports) {
 }
 
 })()
-},{"events":2,"../shared/vars.js":3,"../shared/messages.js":7,"./lex.js":8,"./reg.js":5,"./style.js":4,"./state.js":6,"console-browserify":9,"underscore":10}],7:[function(require,module,exports){
+},{"events":2,"../shared/vars.js":3,"../shared/messages.js":7,"./reg.js":4,"./state.js":6,"./style.js":5,"./lex.js":8,"console-browserify":9,"underscore":10}],7:[function(require,module,exports){
 (function(){"use strict";
 
 var _ = require("underscore");
@@ -5943,7 +5959,8 @@ var errors = {
     E047: "A generator function shall contain a yield statement.",
     E048: "Let declaration not directly within block.",
     E049: "A {a} cannot be named '{b}'.",
-    E050: "Mozilla requires the yield expression to be parenthesized here."
+    E050: "Mozilla requires the yield expression to be parenthesized here.",
+    E051: "Regular parameters cannot come after default parameters."
 };
 
 var warnings = {
@@ -7791,7 +7808,7 @@ Lexer.prototype = {
 exports.Lexer = Lexer;
 
 })()
-},{"events":2,"./reg.js":5,"./state.js":6,"underscore":10}],9:[function(require,module,exports){
+},{"events":2,"./state.js":6,"./reg.js":4,"underscore":10}],9:[function(require,module,exports){
 (function(global){/*global window, global*/
 var util = require("util")
 var assert = require("assert")
