@@ -7,3 +7,5 @@ ln -sn $DIR/gitconfig $DIR/../.gitconfig
 #bashrc
 echo ". ~/dotfiles/bashrc.d/source_all" >> ~/.bashrc
 
+#byobu specific
+ln -sn $DIR/tmux.conf $DIR/../.byobu/.tmux.conf
