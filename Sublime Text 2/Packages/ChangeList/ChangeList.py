@@ -263,7 +263,7 @@ class ShowChangeList(sublime_plugin.WindowCommand):
         def f(i,history):
             #print history.file_name
             view = history.view
-            begin = view.get_regions(key.key)[0].begin()
+            begin = view.get_regions(history.key)[0].begin()
             return "[%2d]  %s : %3d  -  %s" % (i,os.path.basename(history.file_name) if history.file_name else "Unknown",view.rowcol(begin)[0]+1, view.substr(view.line(begin)))
         self.window.show_quick_panel([ f(i,key)
                     for i,key in enumerate(reversed(this_clist.history_list))], self.on_done)
