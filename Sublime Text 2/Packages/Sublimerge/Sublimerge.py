@@ -31,6 +31,7 @@ import os
 import subprocess
 import threading
 from xml.dom import minidom
+from webbrowser import open_new_tab as browser_open
 
 diffView = None
 
@@ -59,7 +60,8 @@ class SublimergeSettings():
         'git_show_args': '',
         'svn_executable_path': 'svn',
         'svn_log_args': '',
-        'svn_cat_args': ''
+        'svn_cat_args': '',
+        'pro_info_dialog': True
     }
 
     def load(self):
@@ -850,6 +852,7 @@ class SublimergeCommand(sublime_plugin.WindowCommand):
     commits = []
     window = None
     view = None
+    wasProDialog = False
 
     def is_enabled(self):
         view = sublime.active_window().active_view();
@@ -910,6 +913,11 @@ class SublimergeCommand(sublime_plugin.WindowCommand):
             sublime.error_message('There are no other open files to compare')
 
     def run(self):
+        if not self.wasProDialog and S.get('pro_info_dialog') and sublime.ok_cancel_dialog('Sublimerge Pro has been released.\nWould you like to visit sublimerge.com for more information?\n\nYou can disable this dialog through settings.'):
+            browser_open('http://www.sublimerge.com/')
+
+        self.wasProDialog = True
+
         self.window = sublime.active_window()
         self.active = self.window.active_view()
 

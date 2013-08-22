@@ -2,6 +2,10 @@
 //overwritten after Sublimerge update. To change the settings, edit
 //the "Settings - User" file (can be found via Preferences menu)
 {
+    //Set this to false to disable information dialog about Sublimerge Pro. This dialog is 
+    //displayed only once per Sublime Text session
+    "pro_info_dialog": true,
+    
     //this will limit the list of comparable files to the files with the same syntax
     "same_syntax_only": true,
 
