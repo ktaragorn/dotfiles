@@ -19,6 +19,7 @@
 [merge]
   keepBackup = false
   tool = vimdiff
+	defaultToUpstream = true
 ;[mergetool "p4merge"]
   ;cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   ;keepTemporaries = false
