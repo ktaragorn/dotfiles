@@ -7,6 +7,8 @@ import codecs
 # clist_dict = {}
 if not 'clist_dict' in globals(): clist_dict = {}
 
+def get_point_from_view(view):
+    return list(view.sel())[0].a
 
 class History():
 
@@ -17,42 +19,56 @@ class History():
 
     def update(self):
         self.file_name = self.view.file_name()
-        self.point = list(self.view.sel())[0].a
+        self.point = get_point_from_view(self.view)
         print self.file_name
 
 
 # Change List object
 class CList():
     LIST_LIMIT = 50
-    key_counter = 0
-    pointer = -1
-    history_list = []
-    try_again_index = 0
-    goto_in_progress = False
 
     def __init__(self,window):
         self.window = window #needed?
+        self.goto_in_progress = False  #dont add to changelist if you are switching to it
+        self.history_list = []        
+        self.key_counter = 0
+        self.pointer = -1
+        self.try_again_index = 0       # try to scroll down later if the file is loading
+        self.focus_add = False
+        self.last_added_file = None
 
     def push_key(self,view):
         region_list = list(view.sel())
         if not region_list: return
 
         if self.history_list:
-            last_sel = view.get_regions(self.history_list[-1].key)
-            # dont push key if no jump
-            if last_sel == region_list: return
+            # last_sel = view.get_regions(self.history_list[-1].key)
+            # # dont push key if no jump
+            # if last_sel == region_list: return
 
-            # delete last key if same line
-            if len(last_sel) == len(region_list):
-                if all([view.rowcol(i.begin())[0]==view.rowcol(j.begin())[0] for i,j in zip(last_sel, region_list)]):
-                    self.key_counter -= 1
-                    self.history_list.pop(-1)
+            # # delete last key if same line
+            # if len(last_sel) == len(region_list):
+            #     if all([view.rowcol(i.begin())[0]==view.rowcol(j.begin())[0] for i,j in zip(last_sel, region_list)]):
+            #         self.key_counter -= 1
+            #         self.history_list.pop(-1)
+
+            old_pt = self.history_list[-1].point
+            new_pt = get_point_from_view(view)
+
+            if(view.rowcol(old_pt)[0]==view.rowcol(new_pt)[0]):
+                self.key_counter -= 1
+                self.history_list.pop(-1)
+
+            if view.file_name() and self.same_file_focus_add(view.file_name()):
+                return
 
         self.pointer = -1
         key = self.generate_key()
         view.erase_regions(key)
         view.add_regions(key, region_list ,"")
         self.history_list.append(History(key,view))
+        if view.file_name():
+            self.last_added_file = view.file_name()
 
     def generate_key(self):
         self.key_counter += 1
@@ -74,7 +90,6 @@ class CList():
         # print(self.history_list)
         self.key_counter = len(sel_list)
 
-
     def trim_keys(self):
         if len(self.history_list) > self.LIST_LIMIT:
             for i in range(0, len(self.history_list) - self.LIST_LIMIT):
@@ -95,8 +110,18 @@ class CList():
                 view.erase_regions(key)
         self.history_list = new_key_list
 
+    def same_file_focus_add(self, file_name):
+        if self.focus_add and file_name:
+            self.focus_add = False
+            return file_name == self.last_added_file
+        else:
+            return False
+
     def update_head(self):
-        self.history_list[-1].update()
+        if not self.same_file_focus_add(self.history_list[-1].view.file_name):
+            self.history_list[-1].update()
+        else:
+            del self.history_list[-1]
 
     def try_again(self):
         old = self.try_again_index != 0
@@ -111,7 +136,13 @@ class CList():
         if index>=0 or index< -len(self.history_list): return
 
         self.goto_in_progress = True
-        view = sublime.active_window().open_file(self.history_list[index].file_name)
+
+        if self.history_list[index].file_name:
+            view = sublime.active_window().open_file(self.history_list[index].file_name)
+        else:
+            self.goto_in_progress = False
+            return
+
         if view.is_loading():
             self.try_again_index = index;
             return
@@ -219,8 +250,10 @@ class CListener(sublime_plugin.EventListener):
         get_clist(sublime.active_window()).update_head()
 
     def on_activated(self,v):
-        if not get_clist(sublime.active_window()).goto_in_progress:
-            get_clist(sublime.active_window()).push_key(v)
+        cList = get_clist(sublime.active_window())
+        if not cList.goto_in_progress and (v.file_name() or v.is_loading()):
+            cList.focus_add = True
+            cList.push_key(v)
 
 class JumpToChange(sublime_plugin.TextCommand):
     def run(self, _, **kwargs):
@@ -263,7 +296,7 @@ class ShowChangeList(sublime_plugin.WindowCommand):
         def f(i,history):
             #print history.file_name
             view = history.view
-            begin = view.get_regions(history.key)[0].begin()
+            begin = history.point#view.get_regions(history.key)[0].begin()
             return "[%2d]  %s : %3d  -  %s" % (i,os.path.basename(history.file_name) if history.file_name else "Unknown",view.rowcol(begin)[0]+1, view.substr(view.line(begin)))
         self.window.show_quick_panel([ f(i,key)
                     for i,key in enumerate(reversed(this_clist.history_list))], self.on_done)
@@ -283,10 +316,10 @@ class MaintainChangeList(sublime_plugin.WindowCommand):
     def run(self):
         view = self.window.active_view()
         if view.is_scratch() or view.settings().get('is_widget'): return
-        try:
-            fname = os.path.basename(view.file_name())
-        except:
-            fname = "untitled"
+        # try:
+        #     fname = os.path.basename(view.file_name())
+        # except:
+        #     fname = "untitled"
         self.show_quick_panel(
             ["Rebuild History", 
             #"Clear History - "+fname,  Loses meaning now that the history is interspersed
