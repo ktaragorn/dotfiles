@@ -6,3 +6,4 @@ Sublime Text 2/Settings/Session.sublime_session
 *.cache
 .DS_Store
 Package Control.last-run
+*.so
