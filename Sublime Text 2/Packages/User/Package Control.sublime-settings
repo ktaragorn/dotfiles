@@ -3,6 +3,7 @@
 	"installed_packages":
 	[
 		"Alignment",
+		"AlignTab",
 		"BeautifyRuby",
 		"Block Cursor Everywhere",
 		"BracketHighlighter",
@@ -23,6 +24,7 @@
 		"SublimePeek",
 		"Sublimerge",
 		"Theme - Soda",
-		"Themr"
+		"Themr",
+		"VAlign"
 	]
 }
