@@ -15,9 +15,9 @@ Provides the following features:
 
 Plugin should work in all three platforms (MacOS X, Windows and Linux).
 
-.. image:: http://pledgie.com/campaigns/16511.png?skin_name=chrome
-   :alt: Click here to lend your support to SublimeCodeIntel and make a donation at pledgie.com!
-   :target: http://pledgie.com/campaigns/16511
+.. image:: https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif
+   :alt: Click here to lend your support to SublimeCodeIntel and make a donation!
+   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VVX4Q9H3924LE
 
 
 Installing
@@ -148,6 +148,32 @@ More information in SublimeCodeIntel/CodeIntelSources/`src <https://github.com/S
 
 What's New
 ----------
+v2.0.6 (?):
+
++ Tooltips can use Popups, Output Panel or Status Bar ("popup", "panel", "status" respectively, in the settings)
+
+- Resolved issues with XML and other languages.
+
+- Improved speed by using cache for some things (added zope.cachedescriptors)
+
+
+v2.0.5 (18-09-2013):
+
+- Resolved issues with ST2 in Mac OS X and Windows
+
+- Fixed a few problems with Ruby and HTML parsers in ST3
+
+
+v2.0.4 (16-09-2013):
+
+* First non-pre-release for ST3
+
+
+v2.0.3 (14-09-2013):
+
+* Libraries built for compatibility with more systems.
+
+
 v2.0.2 (12-09-2013):
 
 * Initial Sublime Text 3 support!
