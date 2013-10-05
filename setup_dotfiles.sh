@@ -13,3 +13,6 @@ ln -sn $DIR/tmux.conf $DIR/../.byobu/.tmux.conf
 
 #rdebug
 ln -sn ~/dotfiles/rdebugrc ~/.rdebugrc
+
+#vim
+ln -sn ~/dotfiles/vimrc ~/.vimrc
