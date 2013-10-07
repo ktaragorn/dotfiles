@@ -1,15 +1,20 @@
 {
 	"color_scheme": "Packages/Neon Theme/Neon.tmTheme",
-	"font_face": "inconsolata",
-	"font_size": 13,
-  	"font_options": ["standardantialias"],
+	"font_face": "Inconsolata",
+	"font_size": 14,
+	"font_options":
+	[
+		"standardantialias"
+	],
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
 		"Vintage"
 	],
-	"theme": "Soda Dark.sublime-theme",
-	"indent_guide_options": ["draw_normal", "draw_active"]
-
-
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
+	],
+	"theme": "Soda Dark.sublime-theme"
 }
