@@ -16,5 +16,6 @@
 		"draw_normal",
 		"draw_active"
 	],
-	"theme": "Soda Dark.sublime-theme"
+	"theme": "Soda Dark.sublime-theme",
+	"find_selected_text": true
 }
