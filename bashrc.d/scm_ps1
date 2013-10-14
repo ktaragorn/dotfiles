@@ -5,14 +5,25 @@
 # Dependencies:
 #   brew install git              # to get __git_ps1 in git_completion.sh
 #   brew install bash-completion  # to load git_completion.sh
+
+function git-unpushed {
+    brinfo=$(git branch -v | grep git-branch-name)
+    if [[ $brinfo =~ ("[ahead "([[:digit:]]*)]) ]]
+    then
+        echo "(${BASH_REMATCH[2]})"
+    fi
+}
+
 scm_ps1() {
     local s=
+    local u=
     if [[ -d ".svn" ]] ; then
         s=\(r$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )\)
     else
         s=$(__git_ps1 "(%s)")
+        u=$(git-unpushed)
     fi
-    echo -n "$s"
+    echo -n "$s $u"
 }
 
 # this lets git ps1 show dirty state - * for dirty and + for staged
