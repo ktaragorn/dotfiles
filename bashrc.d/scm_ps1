@@ -6,8 +6,13 @@
 #   brew install git              # to get __git_ps1 in git_completion.sh
 #   brew install bash-completion  # to load git_completion.sh
 
+function git-branch-name
+{
+    echo $(git symbolic-ref HEAD 2>/dev/null | awk -F/ {'print $NF'})
+}
+
 function git-unpushed {
-    brinfo=$(git branch -v | grep git-branch-name)
+    brinfo=$(git branch -v | grep $(git-branch-name))
     if [[ $brinfo =~ ("[ahead "([[:digit:]]*)]) ]]
     then
         echo "(${BASH_REMATCH[2]})"
