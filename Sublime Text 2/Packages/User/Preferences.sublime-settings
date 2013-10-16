@@ -1,11 +1,14 @@
 {
 	"color_scheme": "Packages/Neon Theme/Neon.tmTheme",
+	"find_selected_text": true,
 	"font_face": "Inconsolata",
-	"font_size": 14,
 	"font_options":
 	[
-		"standardantialias"
+		"no_bold",
+		"subpixel_antialias"
 	],
+	"font_size": 16.0,
+	"highlight_line": true,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
@@ -16,6 +19,5 @@
 		"draw_normal",
 		"draw_active"
 	],
-	"theme": "Soda Dark.sublime-theme",
-	"find_selected_text": true
+	"theme": "Soda Dark.sublime-theme"
 }
