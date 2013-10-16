@@ -26,7 +26,12 @@ scm_ps1() {
         s=\(r$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )\)
     else
         s=$(__git_ps1 "(%s)")
-        u=$(git-unpushed)
+        status=$(git status 2>/dev/null | tail -n 1)
+        if [[ $status != "" ]]
+        then
+            u=$(git-unpushed)
+        fi
+        
     fi
     echo -n "$s $u"
 }
