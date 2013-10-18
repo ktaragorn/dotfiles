@@ -4,11 +4,10 @@
 	"font_face": "Inconsolata",
 	"font_options":
 	[
-		"no_bold",
+		"bold",
 		"subpixel_antialias"
 	],
-	"font_size": 16.0,
-	"highlight_line": true,
+	"font_size": 12.0,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
