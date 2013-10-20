@@ -1,5 +1,8 @@
 {
-	"color_scheme": "Packages/Neon Theme/Neon.tmTheme",
+	"bold_folder_labels": true,
+	"caret_style": "phase",
+	"color_scheme": "Packages/SML (Standard ML)/Son of Obsidian.tmTheme",
+	"fade_fold_buttons": false,
 	"find_selected_text": true,
 	"font_face": "Inconsolata",
 	"font_options":
@@ -8,6 +11,7 @@
 		"subpixel_antialias"
 	],
 	"font_size": 12.0,
+	"highlight_line": true,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
@@ -18,5 +22,7 @@
 		"draw_normal",
 		"draw_active"
 	],
+	"line_padding_bottom": 1,
+	"line_padding_top": 1,
 	"theme": "Soda Dark.sublime-theme"
 }
