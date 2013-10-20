@@ -223,5 +223,6 @@ class GitGutterHandler:
         if patience:
             self.patience_switch = '--patience'
 
-        #Untracked files
-        self.show_untracked = self.settings.get('show_markers_on_untracked_file')
+        # Untracked files
+        self.show_untracked = self.settings.get(
+            'show_markers_on_untracked_file')

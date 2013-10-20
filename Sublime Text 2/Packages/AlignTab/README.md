@@ -14,7 +14,7 @@ First time user
 
 - Predefined alignment tools can be found under the mouse menu `Align By`
 
-<img src="https://github.com/randy3k/AlignTab/raw/master/alignby.png">
+<img src="https://github.com/randy3k/AlignTab/raw/fig/alignby.png">
 
 Advanced user
 
@@ -36,65 +36,15 @@ Advanced user
  * All matched delimiters are aligned.
 
 
-<img src="https://github.com/randy3k/AlignTab/raw/master/aligntab.gif">
+<img src="https://github.com/randy3k/AlignTab/raw/fig/aligntab.gif">
 
 Installation
 ------------
 [Package Control](http://wbond.net/sublime_packages/package_control)
 
 
-Examples
-------------
-###First Example
-```
-apple =   1==0
-banana =100
- car = 2
-```
-
-- `=/f` or `=/lf` or `=/l1f` or `=/lf1` or `=/l1f1` aligns only the first `=`
-
-```
-apple  = 1==0
-banana = 100
-car    = 2
-```
-
-- `(?<==)\s*./l1r0l0f1` aligns the first non-space character just after `=`
-
-```
-apple =  1==0
-banana = 100
-car =    2
-```
-
-
-###Another Example
-```
-apple& orange &grapes
-   one & two& three
-```
-
-- `&` or `&/l` or `&/l1` yields
-
-```
-apple & orange & grapes
-one   & two    & three
-```
-
-- `&/c2l1` or `&/c2l` or `&/(c2l)*3` two spaces after odd columns
-
-```
-apple  & orange  & grapes
- one   &  two    & three
-```
-
-- `&/llclr` each column has its own justifications
-
-```
-apple & orange & grapes
-one   &  two   &  three
-```
+[Examples](https://github.com/randy3k/AlignTab/wiki/Examples)
+-----------
 
 Keybinds
 ------------
