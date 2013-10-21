@@ -1,7 +1,7 @@
 {
 	"bold_folder_labels": true,
 	"caret_style": "phase",
-	"color_scheme": "Packages/SML (Standard ML)/Son of Obsidian.tmTheme",
+	"color_scheme": "Packages/Decent Color Scheme/Samuel's decent.tmTheme",
 	"fade_fold_buttons": false,
 	"find_selected_text": true,
 	"font_face": "Inconsolata",
@@ -10,7 +10,6 @@
 		"bold",
 		"subpixel_antialias"
 	],
-	"font_size": 12,
 	"highlight_line": true,
 	"font_size": 15.0,
 	"highlight_modified_tabs": "true",
