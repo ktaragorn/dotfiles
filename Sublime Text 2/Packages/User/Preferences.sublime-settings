@@ -24,5 +24,12 @@
 	],
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
-	"theme": "Soda Dark.sublime-theme"
+	"theme": "Soda Dark.sublime-theme",
+	//from http://stackoverflow.com/questions/13706965/limit-file-search-scope-in-sublime-text-2
+	// not sure if this is default already or still needed, didnt seem to help
+	// These files will still show up in the side bar, but won't be included in
+	// Goto Anything or Find in Files
+	"binary_file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.ttf", "*.tga", "*.dds", "*.ico", "*.eot", "*.pdf", "*.swf", "*.jar", "*.zip"],
+
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS"]
 }
