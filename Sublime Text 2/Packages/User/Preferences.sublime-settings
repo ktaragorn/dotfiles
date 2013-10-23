@@ -1,17 +1,40 @@
 {
+	"binary_file_patterns":
+	[
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
 	"bold_folder_labels": true,
 	"caret_style": "phase",
 	"color_scheme": "Packages/Decent Color Scheme/Samuel's decent.tmTheme",
 	"fade_fold_buttons": false,
 	"find_selected_text": true,
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS"
+	],
 	"font_face": "Inconsolata",
 	"font_options":
 	[
 		"bold",
 		"subpixel_antialias"
 	],
+	"font_size": 14.0,
 	"highlight_line": true,
-	"font_size": 15.0,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
@@ -24,12 +47,5 @@
 	],
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
-	"theme": "Soda Dark.sublime-theme",
-	//from http://stackoverflow.com/questions/13706965/limit-file-search-scope-in-sublime-text-2
-	// not sure if this is default already or still needed, didnt seem to help
-	// These files will still show up in the side bar, but won't be included in
-	// Goto Anything or Find in Files
-	"binary_file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.ttf", "*.tga", "*.dds", "*.ico", "*.eot", "*.pdf", "*.swf", "*.jar", "*.zip"],
-
-	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS"]
+	"theme": "Soda Dark.sublime-theme"
 }
