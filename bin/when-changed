@@ -114,7 +114,7 @@ def main():
         exit(1)
 
     command = ' '.join(command)
-    command = "echo;clear;date;echo;" + command
+    command = "clear;echo;date;echo;" + command
     # Tell the user what we're doing
     if len(files) > 1:
         l = ["'%s'" % f for f in files]
