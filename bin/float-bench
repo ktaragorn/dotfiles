@@ -1,0 +1,2 @@
+# 25 seconds on macbook pro 36 seconds on numenor 37 on ec2 large (abacus worker)
+time -p echo "scale=5000; a(1)*4" | bc -l >/dev/null
