@@ -1,0 +1,28 @@
+# ~/.tmuxinator/netprice.yml
+
+name: netprice
+root: ~/Documents/work/netprice
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+#tmux_options: -f ~/.byobu/.tmux.conf
+
+tmux_cmd: byobu-tmux
+
+windows:
+  - netprice:
+      layout: 34a3,272x49,0,0{77x49,0,0[77x8,0,0,1,77x28,0,9,4,77x11,0,38,5],99x49,78,0,3,94x49,178,0,2}
+      panes:
+        - zeus start
+        - zeus s
+        - pry
+        - 
+        - 
