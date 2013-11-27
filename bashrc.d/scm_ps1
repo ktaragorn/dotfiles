@@ -38,5 +38,6 @@ scm_ps1() {
 
 # this lets git ps1 show dirty state - * for dirty and + for staged
 export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUPSTREAM=verbose
 # Reset bash prompt
 export PS1="\n\[\033[00;32m\]\u\[\033[00;32m\]@\[\033[00;32m\]\h:\[\033[0;37m\]\w \[\033[0;36m\]\$(scm_ps1)\[\033[00m\]\n$\[\033[00m\] "

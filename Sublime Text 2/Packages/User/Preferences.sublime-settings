@@ -40,8 +40,8 @@
 	"ignored_packages":
 	[
 		"Vintage",
-		"SublimeLinter",
-		"Themr"
+		"Themr",
+		"SublimeLinter"
 	],
 	"indent_guide_options":
 	[
