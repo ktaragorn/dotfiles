@@ -39,9 +39,7 @@
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
-		"Vintage",
-		"Themr",
-		"SublimeLinter"
+		"Vintage"
 	],
 	"indent_guide_options":
 	[
@@ -50,5 +48,5 @@
 	],
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
-	"theme": "Soda Dark.sublime-theme"
+	"theme": "Flatland Dark.sublime-theme"
 }
