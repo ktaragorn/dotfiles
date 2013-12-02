@@ -1,0 +1,5 @@
+{
+	"extra_tag_files" : [".gemtags", ".tags"],
+    "command"   :  "ctags_for_ruby",
+    "autocomplete": true
+}
