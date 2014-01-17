@@ -19,10 +19,11 @@ tmux_cmd: byobu-tmux
 
 windows:
   - netprice:
-      layout: 34a3,272x49,0,0{77x49,0,0[77x8,0,0,1,77x28,0,9,4,77x11,0,38,5],99x49,78,0,3,94x49,178,0,2}
+      layout: a564,236x49,0,0{65x49,0,0[65x8,0,0,1,65x28,0,9,2,65x11,0,38,3],87x49,66,0,4,82x49,154,0[82x22,154,0,5,82x26,154,23,7]}
       panes:
         - zeus start
         - zeus s
         - pry
         - 
-        - 
+        - rake sunspot:solr:start; ngrok -authtoken mOaUh5W_As6DB1PRYfBl -subdomain karthik 3000
+        -
