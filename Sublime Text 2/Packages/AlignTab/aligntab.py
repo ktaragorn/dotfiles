@@ -2,7 +2,7 @@ import sublime
 import sublime_plugin
 import re, sys
 
-if not 'IS_MODE' in globals(): IS_MODE = {}
+if not 'MODE' in globals(): MODE = {}
 if not 'HIST' in globals(): HIST = []
 
 def input_parser(user_input):
@@ -13,7 +13,7 @@ def input_parser(user_input):
         option = m.group(2)
         f = m.group(3)
     else:
-        print("No options!")
+        # print("No options!")
         return [user_input, [['l', 1]], 0]
 
     try:
@@ -56,7 +56,7 @@ class AlignTabCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, user_input=None, mode=False):
         if not user_input:
-            v = self.view.window().show_input_panel('Align with regex:', '',
+            v = self.view.window().show_input_panel('Align By RegEx:', '',
                     lambda x: self.view.run_command("align_tab",{"user_input":x, "mode":mode}), None, None)
             v.set_syntax_file('Packages/AlignTab/AlignTab.hidden-tmLanguage')
             v.settings().set('is_widget', True)
@@ -83,7 +83,7 @@ class AlignTabCommand(sublime_plugin.TextCommand):
                 update_colwidth(colwidth, content, option, strip_char)
                 rows.append(thisrow)
 
-            if sel.begin()==sel.end():
+            if sel.empty():
                 thisrow = view.rowcol(sel.begin())[0]
                 if not (thisrow in rows): continue
                 beginrow = endrow = thisrow
@@ -100,6 +100,23 @@ class AlignTabCommand(sublime_plugin.TextCommand):
                     beginrow = beginrow-1
                     rows.append(beginrow)
 
+    def prev_next_match(self, regex, f):
+        # it is used to check whether table mode should be disabled
+        view = self.view
+        lastrow = view.rowcol(view.size())[0]
+        rows = []
+        for sel in view.sel():
+            for line in view.lines(sel):
+                rows.append(view.rowcol(line.begin())[0])
+        rows = list(set(rows))
+        for row in rows:
+            if row-1>=0 and len(self.get_line_content(regex, f, row-1))>1:
+                yield True
+            elif row+1<=lastrow and len(self.get_line_content(regex, f, row+1))>1:
+                yield True
+            else:
+                yield False
+
 
     def align_tab(self, edit, user_input, mode):
         view = self.view
@@ -110,23 +127,24 @@ class AlignTabCommand(sublime_plugin.TextCommand):
         AlignTabHistory.index = None
 
         user_input = get_named_pattern(user_input)
-
         [regex, option, f] = input_parser(user_input)
         regex = '(' + regex + ')'
 
         rows = []
         colwidth = []
+        # do not strip \t if translate_tabs_to_spaces is false (which is the default)
         strip_char = ' ' if not view.settings().get("translate_tabs_to_spaces", False) else None
         self.expand_sel(regex, option, f , rows, colwidth, strip_char)
         rows = sorted(set(rows))
-        global IS_MODE
+        global MODE
         if rows:
-            if mode == True:
-                IS_MODE[vid] = True
+            if mode:
+                MODE[vid] = True
                 view.set_status("AlignTab", "[Table Mode]")
         else:
-            if mode == True:
-                IS_MODE[vid] = False
+            # this means no selection was detected to contain the regex, therefore we check previous line and next line for each cursor
+            if mode and not all(list(self.prev_next_match(regex, f))):
+                MODE[vid] = False
                 view.set_status("AlignTab", "")
             return
 
@@ -146,7 +164,7 @@ class AlignTabCommand(sublime_plugin.TextCommand):
                 se = len(c) - len(c.rstrip(strip_char))
                 sb = len(c)-lenc-se
 
-                # oldpt is used to reset cursor position
+                # oldpt is used to reset cursor position, since view.insert will change cursor's location
 
                 if op[0] == "l":
                     fill = colwidth[i]-lenc+op[1] if i != len(content)-1 else 0
@@ -192,10 +210,10 @@ class AlignTabClearMode(sublime_plugin.TextCommand):
         view = self.view
         if view.is_scratch() or view.settings().get('is_widget'): return
         vid = view.id()
-        global IS_MODE
+        global MODE
         print("Clear Table Mode!")
-        if vid in IS_MODE:
-            IS_MODE[vid] = False
+        if vid in MODE:
+            MODE[vid] = False
             view.set_status("AlignTab", "")
 
 class AlignTabUndo(sublime_plugin.WindowCommand):
@@ -203,12 +221,12 @@ class AlignTabUndo(sublime_plugin.WindowCommand):
         view = self.window.active_view()
         if view.is_scratch() or view.settings().get('is_widget'): return
         vid = view.id()
-        global IS_MODE
-        if vid in IS_MODE:
-            IS_MODE[vid] = False
+        global MODE
+        if vid in MODE:
+            MODE[vid] = False
             view.run_command("undo")
             view.run_command("undo")
-            IS_MODE[vid]["mode"] = True
+            MODE[vid] = True
 
 class AlignTabUpdater(sublime_plugin.EventListener):
     # Table mode
@@ -218,18 +236,18 @@ class AlignTabUpdater(sublime_plugin.EventListener):
         if cmdhist[0] not in ["insert", "left_delete", "right_delete", "paste", "cut"]: return
         if cmdhist[0] == "insert" and cmdhist[1] == {'characters': ' '}: return
         vid = view.id()
-        global IS_MODE
-        if vid in IS_MODE:
-            if IS_MODE[vid]:
+        global MODE
+        if vid in MODE:
+            if MODE[vid]:
                 view.run_command("align_tab", {"user_input": "last_rexp", "mode": True})
 
     def on_query_context(self, view, key, operator, operand, match_all):
         if view.is_scratch() or view.settings().get('is_widget'): return
         vid = view.id()
         if key == 'align_tab_mode':
-            global IS_MODE
-            if vid in IS_MODE:
-                return IS_MODE[vid]
+            global MODE
+            if vid in MODE:
+                return MODE[vid]
             else:
                 return False
 
@@ -237,6 +255,11 @@ class AlignTabUpdater(sublime_plugin.EventListener):
     def on_deactivated(self, view):
         if view.score_selector(0, 'text.aligntab') > 0:
             AlignTabHistory.index = None
+
+    # remove MODE[vid] if file closes
+    def on_close(self, view):
+        vid = view.id()
+        if vid in MODE: MODE.pop(vid)
 
 # VintageEX teaches me the following
 class AlignTabHistory(sublime_plugin.TextCommand):
