@@ -16,3 +16,6 @@ ln -sn ~/dotfiles/rdebugrc ~/.rdebugrc
 
 #vim
 ln -sn ~/dotfiles/vimrc ~/.vimrc
+
+#ngrok
+ln -sn ~/dotfiles/ngrok ~/.ngrok
