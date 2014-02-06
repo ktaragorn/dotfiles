@@ -15,7 +15,7 @@ root: ~/Documents/work/netprice
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 #tmux_options: -f ~/.byobu/.tmux.conf
 
-tmux_cmd: byobu-tmux
+tmux_command: byobu-tmux
 
 windows:
   - netprice:
