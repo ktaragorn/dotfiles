@@ -7,3 +7,5 @@ Sublime Text 2/Settings/Session.sublime_session
 .DS_Store
 Package Control.last-run
 *.so
+Sublime Text 2/Packages/*
+!Sublime Text 2/Packages/User
