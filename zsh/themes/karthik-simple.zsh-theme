@@ -57,6 +57,7 @@ scm_ps1() {
 # this lets git ps1 show dirty state - * for dirty and + for staged
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUPSTREAM=verbose
+GIT_PS1_SHOWUNTRACKEDFILES=1
 # Prompt format
 PROMPT="
 $prompt_newline%{$reset_color$fg[green]%}%n%{$reset_color$fg[green]%}@%{$reset_color$fg[green]%}%m:%{$reset_color$fg[white]%}%~ %{$reset_color$fg[cyan]%}\$(scm_ps1)%{$reset_color%}
