@@ -2,6 +2,8 @@ d=~/dotfiles/bashrc.d
 
 . $d/add_home_bin_path
 . $d/add_this_bin_path
-. $d/scm_ps1
+if [ -n "$BASH_VERSION" ]; then
+   . $d/scm_ps1 #only for bash. This is already in zshrc as theme
+fi
 . $d/screenfetch
 . $d/misc

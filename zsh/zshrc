@@ -45,13 +45,17 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git capistrano bundler brew tmux tmuxinator themes zeus gitfast)
+plugins=(git capistrano bundler brew tmux tmuxinator themes zeus gitfast web-search)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# User configuration - from bashrc - hope it doesnt brk linux
 
-export PATH="/Users/karthikt/.rvm/gems/ruby-1.9.3-p448/bin:/Users/karthikt/.rvm/gems/ruby-1.9.3-p448@global/bin:/Users/karthikt/.rvm/rubies/ruby-1.9.3-p448/bin:/Users/karthikt/.rvm/bin:/Users/karthikt/dotfiles/bin/:/Users/karthikt/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+PATH=/usr/local/bin:$PATH
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+. ~/dotfiles/bashrc.d/source_all
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
