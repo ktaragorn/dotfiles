@@ -55,6 +55,8 @@ PATH=/usr/local/bin:$PATH
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 . ~/dotfiles/bashrc.d/source_all
+bindkey "^[[A" history-search-backward
+bindkey "^[[B" history-search-forward
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
