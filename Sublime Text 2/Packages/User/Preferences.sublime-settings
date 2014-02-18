@@ -32,7 +32,8 @@
 		".svn",
 		".git",
 		".hg",
-		"CVS"
+		"CVS",
+		".sass-cache"
 	],
 	"font_face": "Inconsolata",
 	"font_options":
