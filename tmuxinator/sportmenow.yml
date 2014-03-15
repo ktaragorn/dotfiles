@@ -1,0 +1,27 @@
+# ~/.tmuxinator/sportmenow.yml
+
+name: sportmenow
+root: ~/Documents/sportmenow/website
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+#tmux_options: -f ~/.byobu/.tmux.conf
+
+tmux_command: byobu-tmux
+
+windows:
+  - sportmenow:
+      layout: fb5b,237x58,0,0{174x58,0,0,1,62x58,175,0[62x15,175,0,2,62x26,175,16,5,62x15,175,43,6]}
+      panes:
+        - 
+        - rake server
+        - guard
+        - subl ..
