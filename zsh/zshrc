@@ -81,3 +81,6 @@ bindkey '\e[B' down-line-or-beginning-search
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
