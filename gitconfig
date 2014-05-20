@@ -15,6 +15,7 @@
   mff = merge --ff-only
   mnf = merge --no-ff
   commit = commit --verbose
+	d = difftool
 [color]
   ui = auto
 [merge]
@@ -47,3 +48,7 @@
 	trustExitCode = true
 [github]
 	user = ktaragorn
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
