@@ -1,7 +1,7 @@
 # ~/.tmuxinator/sportmenow.yml
 
 name: sportmenow
-root: ~/Documents/sportmenow/website
+root: ~/Documents/sportmenow/public
 
 # Optional tmux socket
 # socket_name: foo
