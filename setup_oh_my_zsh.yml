@@ -9,6 +9,7 @@
   - name: Link zshrc
     file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link
 
+# Note to self, src is relative to the folder of dest
   - name: Link up custom folders
     file: src=~/dotfiles/zsh/{{item}} dest=~/.oh-my-zsh/custom/{{item}} state=link
     with_items:
