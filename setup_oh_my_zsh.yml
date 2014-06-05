@@ -1,0 +1,16 @@
+---
+- hosts: all
+  connection: local  
+  tasks:
+
+  - name: Install Oh-My-Zsh
+    command: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
+
+  - name: Link zshrc
+    file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link
+
+  - name: Link up custom folders
+    file: src=~/dotfiles/zsh/{{item}} dest=~/.oh-my-zsh/custom/{{item}} state=link
+    with_items:
+    - plugins
+    - themes
