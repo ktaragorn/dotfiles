@@ -1,0 +1,26 @@
+# Run with 
+# ansible-playbook setup_dotfiles.yml -i inventory.yml
+---
+- hosts: all
+  connection: local  
+  tasks:
+
+  - name: Ensure bash files exist
+    command: touch ~/.{{item}} creates=~/.{{item}}
+    with_items: 
+    - bashrc
+    - bash_profile
+
+  - name: Ensure bash_profile sources bashrc    
+    lineinfile: dest=~/.bash_profile line=". ~/.bashrc"
+
+  - name: Add source line for bashrc
+    lineinfile: dest=~/.bashrc line=". ~/dotfiles/bashrc.d/source_all"
+
+  - name: Link the basic dotfiles which are linked to .file in home
+    file: src=dotfiles/{{item}} dest=~/.{{item}} state=link
+    with_items:
+    - vimrc
+    - ngrok
+    - rdebugrc
+    - gitconfig
