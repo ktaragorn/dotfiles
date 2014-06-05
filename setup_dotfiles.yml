@@ -1,8 +1,8 @@
 # Run with 
 # ansible-playbook setup_dotfiles.yml -i inventory.yml
 ---
-- hosts: all
-  connection: local  
+- hosts: numenor
+  connection: ssh 
   tasks:
 
   - name: Ensure bash files exist
