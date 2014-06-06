@@ -1,9 +1,13 @@
 # Run with 
 # ansible-playbook setup_dotfiles.yml -i inventory.yml
 ---
-- hosts: numenor
-  connection: ssh 
+- hosts: localhost
   tasks:
+
+  - name: Checkout/update dotfiles on target machine
+    git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
+    # Assuming localhost is always updated
+    when: ansible_connection != "local"
 
   - name: Ensure bash files exist
     command: touch ~/.{{item}} creates=~/.{{item}}
