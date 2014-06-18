@@ -22,6 +22,6 @@ windows:
       layout: fb5b,237x58,0,0{174x58,0,0,1,62x58,175,0[62x15,175,0,2,62x26,175,16,5,62x15,175,43,6]}
       panes:
         - 
-        - rake server
+        - cd .. ; rails s
         - guard
         - subl ..
