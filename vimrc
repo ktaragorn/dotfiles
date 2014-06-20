@@ -22,14 +22,14 @@ filetype off                  " required
     "...All your other bundles...
     Plugin 'Raimondi/delimitMate'
     Plugin 'ervandew/supertab'
+    Plugin 'SearchComplete' 
 
     if iCanHazVundle == 0
         echo "Installing Bundles, please ignore key map error messages"
         echo ""
-        :BundleInstall
+        :PluginInstall
     endif
 " Setting up Vundle - the vim plugin bundler end
-
 filetype plugin indent on    " required"
 syntax on 
 set mouse=a
@@ -53,6 +53,8 @@ set incsearch     " show search matches as you type
 "Fix ctrl c ctrl v stuff
 "Fix auto indent paste stuff http://stackoverflow.com/questions/2514445/turning-off-auto-indent-when-pasting-text-into-vim
 "SHift tab?
+"Undo with ctrl z
+"Tab length - file based or 2
 
 "not working?
 "http://rishabhsays.wordpress.com/2010/07/03/vim-for-lazy-people/
