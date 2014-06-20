@@ -21,7 +21,7 @@ filetype off                  " required
     "Plugin 'https://github.com/tpope/vim-fugitive' "So awesome, it should be illegal 
     "...All your other bundles...
     Plugin 'Raimondi/delimitMate'
-    Plugin 'supertab'
+    Plugin 'ervandew/supertab'
 
     if iCanHazVundle == 0
         echo "Installing Bundles, please ignore key map error messages"
@@ -33,13 +33,26 @@ filetype off                  " required
 filetype plugin indent on    " required"
 syntax on 
 set mouse=a
+"http://stackoverflow.com/questions/2514445/turning-off-auto-indent-when-pasting-text-into-vim
+set pastetoggle=<F10>
 
+" To set shift - tab to reverse tab, not working still with super tab
+"http://stackoverflow.com/questions/4766230/map-shift-tab-in-vim-to-inverse-tab-in-vim
+" for command mode
+nmap <S-Tab> <<
+" " for insert mode
+imap <S-Tab> <Esc><<i
+ 
 "http://nvie.com/posts/how-i-boosted-my-vim/
 set autoindent    " always set autoindenting on
 "set copyindent    " copy the previous indentation on autoindenting
 set number        " always show line numbers
 set incsearch     " show search matches as you type
 
+"TODO
+"Fix ctrl c ctrl v stuff
+"Fix auto indent paste stuff http://stackoverflow.com/questions/2514445/turning-off-auto-indent-when-pasting-text-into-vim
+"SHift tab?
 
 "not working?
 "http://rishabhsays.wordpress.com/2010/07/03/vim-for-lazy-people/
