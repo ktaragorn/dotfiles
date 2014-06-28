@@ -58,5 +58,5 @@
 	"line_padding_top": 1,
 	"shift_tab_unindent": true,
 	"theme": "Nexus.sublime-theme",
-	"trim_trailing_white_space_on_save": false
+	"trim_trailing_white_space_on_save": true
 }
