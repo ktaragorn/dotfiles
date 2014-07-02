@@ -84,5 +84,7 @@ bindkey '\e[B' down-line-or-beginning-search
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-export TERM="xterm-256color"
+#use screen instead of xterm to fix home/end issue
+#https://wiki.archlinux.org/index.php/Home_and_End_keys_not_working
+export TERM="screen-256color"
 
