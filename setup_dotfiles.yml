@@ -11,6 +11,7 @@
       - byobu
       # - guake - only for machines with GUI..
       - git
+      - ncdu
     when: ansible_os_family == 'Debian'
 
   - name: Checkout/update dotfiles on target machine
