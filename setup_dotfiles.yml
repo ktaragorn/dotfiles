@@ -1,8 +1,17 @@
-# Run with 
+# Run with
 # ansible-playbook setup_dotfiles.yml -i inventory.yml
 ---
 - hosts: localhost
   tasks:
+
+  - name: Install nice packages on Debian systems
+    apt: pkg={{item}} state=present
+    with_items:
+      - htop
+      - byobu
+      # - guake - only for machines with GUI..
+      - git
+    when: ansible_os_family == 'Debian'
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -11,11 +20,11 @@
 
   - name: Ensure bash files exist
     command: touch ~/.{{item}} creates=~/.{{item}}
-    with_items: 
+    with_items:
     - bashrc
     - bash_profile
 
-  - name: Ensure bash_profile sources bashrc    
+  - name: Ensure bash_profile sources bashrc
     lineinfile: dest=~/.bash_profile line=". ~/.bashrc"
 
   - name: Add source line for bashrc
@@ -30,3 +39,5 @@
     - gitconfig
     - pryrc
     - gemrc
+
+    # TODO RVM? Brew, tmuxinator tmux config
