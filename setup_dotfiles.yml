@@ -34,11 +34,21 @@
   - name: Link the basic dotfiles which are linked to .file in home
     file: src=dotfiles/{{item}} dest=~/.{{item}} state=link
     with_items:
-    - vimrc
-    - ngrok
-    - rdebugrc
-    - gitconfig
-    - pryrc
-    - gemrc
+      - vimrc
+      - ngrok
+      - rdebugrc
+      - gitconfig
+      - pryrc
+      - gemrc
+
+  - name: Link inputrc
+    file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
+
+  #https://github.com/Russell91/sshrc
+  - name: Link sshrc file and folder
+    file: src=dotfiles/sshrc/{{item}} dest=~/.{{item}} state=link
+    with_items:
+      - sshrc
+      - sshrc.d
 
     # TODO RVM? Brew, tmuxinator tmux config
