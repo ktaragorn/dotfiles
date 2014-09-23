@@ -1,13 +1,13 @@
-Sublime Text 2/Backup/
-Sublime Text 2/Packages/User/ChangeList.json
-Sublime Text 2/Settings
-Sublime Text 2/Pristine Packages
-Sublime Text 2/Installed Packages
+Sublime Text 3/Backup/
+Sublime Text 3/Packages/User/ChangeList.json
+Sublime Text 3/Settings
+Sublime Text 3/Pristine Packages
+Sublime Text 3/Installed Packages
 
 *.pyc
 *.cache
 .DS_Store
 Package Control.last-run
 *.so
-Sublime Text 2/Packages/*
-!Sublime Text 2/Packages/User
+Sublime Text 3/Packages/*
+!Sublime Text 3/Packages/User

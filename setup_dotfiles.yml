@@ -4,15 +4,23 @@
 - hosts: localhost
   tasks:
 
-  - name: Install nice packages on Debian systems
+  - name: Install nice CLI packages on Debian systems
     apt: pkg={{item}} state=present
     with_items:
       - htop
       - byobu
-      # - guake - only for machines with GUI..
       - git
       - ncdu
     when: ansible_os_family == 'Debian'
+
+  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
+    apt: pkg={{item}} state=present
+    with_items:
+      - guake
+      - caffeine
+      - qbittorrent
+      #todo add more
+    when: ansible_os_family == 'Debian' and
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
