@@ -1,0 +1,145 @@
+{
+    "user": {
+        "debug": false,
+        "plugins": {
+            "AppleScript": {},
+            "C": {
+                "args": [
+                    "-xc",
+                    "-fsyntax-only",
+                    "-std=c99",
+                    "-Werror",
+                    "-pedantic"
+                ],
+                "cmd": [
+                    "clang"
+                ],
+                "include": []
+            },
+            "CPP": {
+                "args": [
+                    "-xc++",
+                    "-fsyntax-only",
+                    "-std=c++11",
+                    "-Werror",
+                    "-pedantic"
+                ],
+                "cmd": [
+                    "clang++"
+                ],
+                "include": []
+            },
+            "CSS": {
+                "cmd": [
+                    "csslint"
+                ]
+            },
+            "Coffee": {
+                "cmd": [
+                    "coffee",
+                    "--compile",
+                    "--stdio"
+                ]
+            },
+            "Eclim": {
+                "cmd": [
+                    "eclim",
+                    "-command",
+                    "java_src_update"
+                ],
+                "disable": true
+            },
+            "EmbeddedJS": {},
+            "Golang": {
+                "cmd": [
+                    "go",
+                    "build",
+                    "-gcflags",
+                    "-e -N"
+                ]
+            },
+            "HAML": {
+                "cmd": [
+                    "haml",
+                    "-c"
+                ]
+            },
+            "HTML": {
+                "cmd": [
+                    "tidy",
+                    "-q",
+                    "-e",
+                    "-utf8"
+                ]
+            },
+            "Java": {
+                "cmd": [
+                    "javac",
+                    "-Xlint"
+                ],
+                "disable": true
+            },
+            "JavaScript": {
+                "cmd": [
+                    "jsl",
+                    "-stdin"
+                ]
+            },
+            "Lua": {
+                "cmd": [
+                    "luac",
+                    "-p"
+                ]
+            },
+            "Nasm": {
+                "cmd": [
+                    "nasm",
+                    "-X",
+                    "gnu",
+                    "-I.",
+                    "-o",
+                    "/dev/null"
+                ]
+            },
+            "PHP": {
+                "cmd": [
+                    "php",
+                    "-l",
+                    "-n",
+                    "-d display_errors=On"
+                ]
+            },
+            "Perl": {
+                "cmd": [
+                    "perl",
+                    "-c"
+                ]
+            },
+            "Puppet": {
+                "cmd": [
+                    "puppet",
+                    "parser",
+                    "validate",
+                    "--color=false"
+                ]
+            },
+            "Python": {
+                "cmd": "pyflakes"
+            },
+            "Ruby": {
+                "cmd": [
+                    "ruby",
+                    "-wc"
+                ]
+            },
+            "TODO": {},
+            "XML": {
+                "cmd": [
+                    "xmllint",
+                    "-noout",
+                    "-"
+                ]
+            }
+        }
+    }
+}
