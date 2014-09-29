@@ -1,17 +1,38 @@
 ---
 - hosts: all
-  connection: local  
+  connection: local
   tasks:
 
+  - name: Install zsh
+    apt: pkg=zsh state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Install zsh (osx)
+    homebrew: name=zsh state=present
+    when: ansible_os_family == "Darwin"
+
+#http://zanshin.net/2013/09/03/how-to-use-homebrew-zsh-instead-of-max-os-x-default/
+  - name: Add to /etc/shells
+    lineinfile: dest=/etc/shells line=/usr/local/bin/zsh
+    sudo: yes  #needs --ask-sudo-pass
+    when: ansible_os_family == "Darwin"
+
+  - name: Change shell to homebrew version
+    command: chsh -s /usr/local/bin/zsh
+    when: ansible_os_family == "Darwin"
+
   - name: Install Oh-My-Zsh
-    command: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
+    shell: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
 
   - name: Link zshrc
-    file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link
+    file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one
 
 # Note to self, src is relative to the folder of dest
+  - name: Delete plugins folder #i give up
+    file: dest=~/.oh-my-zsh/custom/plugins state=absent force=yes
+
   - name: Link up custom folders
-    file: src=~/dotfiles/zsh/{{item}} dest=~/.oh-my-zsh/custom/{{item}} state=link
+    file: src=~/dotfiles/zsh/{{item}} dest=~/.oh-my-zsh/custom/{{item}} state=link force=yes # force cuz oh-my-zsh creates plugins folder
     with_items:
     - plugins
     - themes
