@@ -1,0 +1,43 @@
+# manually need to add ssh key to authorized keys - osx is messy with sshpass which is needed to do passwords
+# manually changed password
+#http://lattejed.com/first-five-and-a-half-minutes-on-a-server-with-ansible
+---
+- hosts: numenor
+  sudo: yes
+  tasks:
+    - name: setup ssh key
+      authorized_key: user=user key="{{ lookup('file', '~/id_rsa.pub') }}"
+
+    - name: Disallow password authentication
+      action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+      notify: Restart ssh
+
+    - name: Disallow root SSH access
+      action: lineinfile dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+      notify: Restart ssh
+
+    - name: setup no password sudo
+      lineinfile: "dest=/etc/sudoers state=present line='user    ALL=NOPASSWD: ALL'"
+
+    - name: Install unattended-upgrades
+      action: apt pkg=unattended-upgrades state=present
+
+    - name: set hostname
+      hostname: name=numenor
+
+    - name: install ddclient
+      apt: pkg=ddclient state=present update_cache=yes
+
+    - name: install ddclient conf
+      copy: src=ddclient.conf dest=/etc/ddclient.conf force=yes owner=root group=root
+      notify: Restart ddclient
+
+    - name: enable ddclient
+      service: name=ddclient enabled=yes
+
+  handlers:
+    - name: Restart ddclient
+      service: name=ddclient state=restarted
+
+    - name: Restart ssh
+      service: name=ssh state=restarted
