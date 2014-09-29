@@ -1,9 +1,41 @@
 {
-
-	"sublimelinter_executable_map":
-    {
-    	"ruby" :"/Users/karthikt/.rvm/rubies/ruby-1.9.3-p448/bin/ruby"
-    },
-
-    "sublimelinter_mark_style": "outline"
+    "user": {
+        "no_column_highlights_line": true,
+        "linters": {
+            "annotations": {
+                "@disable": false,
+                "args": [],
+                "errors": [
+                    "FIXME"
+                ],
+                "excludes": [],
+                "warnings": [
+                    "TODO",
+                    "README"
+                ]
+            },
+            "coffee": {
+                "@disable": false,
+                "args": [],
+                "excludes": []
+            },
+            "lua": {
+                "@disable": false,
+                "args": [],
+                "excludes": []
+            },
+            "ruby": {
+                "@disable": false,
+                "args": [],
+                "excludes": []
+            },
+            "scss": {
+                "@disable": false,
+                "args": [],
+                "exclude-linter": "",
+                "excludes": [],
+                "include-linter": ""
+            }
+        }
+    }
 }
