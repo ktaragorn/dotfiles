@@ -27,12 +27,13 @@
   - name: Link zshrc
     file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one
 
-# Note to self, src is relative to the folder of dest
-  - name: Delete plugins folder #i give up
-    file: dest=~/.oh-my-zsh/custom/plugins state=absent force=yes
+  - name: Link up custom themes folder
+    file: src=~/dotfiles/zsh/themes dest=~/.oh-my-zsh/custom/themes state=link force=yes
 
-  - name: Link up custom folders
-    file: src=~/dotfiles/zsh/{{item}} dest=~/.oh-my-zsh/custom/{{item}} state=link force=yes # force cuz oh-my-zsh creates plugins folder
-    with_items:
-    - plugins
-    - themes
+  - name: Grab plugins
+    shell: ls ~/dotfiles/zsh/plugins/
+    register: plugins
+
+  - name: Link up custom plugins
+    file: src=~/dotfiles/zsh/plugins/{{item}} dest=~/.oh-my-zsh/custom/plugins/{{item}} state=link force=yes
+    with_items: plugins.stdout_lines
