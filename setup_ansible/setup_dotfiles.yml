@@ -10,17 +10,19 @@
       - htop
       - byobu
       - git
+      - vim
       - ncdu
     when: ansible_os_family == 'Debian'
+    sudo: yes
 
-  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
-    apt: pkg={{item}} state=present
-    with_items:
-      - guake
-      - caffeine
-      - qbittorrent
+#  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
+#    apt: pkg={{item}} state=present
+#    with_items:
+#      - guake
+#      - caffeine
+#      - qbittorrent
       #todo add more
-    when: ansible_os_family == 'Debian' and
+#    when: ansible_os_family == 'Debian' and
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
