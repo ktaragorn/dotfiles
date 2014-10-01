@@ -61,4 +61,13 @@
       - sshrc
       - sshrc.d
 
+  - name: Link tmux.conf in debian systems
+    file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
+    when: ansible_os_family == 'Debian'
+
+  - name: Link tmux.conf in osx systems
+    file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
+    when: ansible_os_family == 'Darwin'
+
+
     # TODO RVM? Brew, tmuxinator tmux config
