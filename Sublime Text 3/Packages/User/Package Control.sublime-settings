@@ -1,5 +1,8 @@
 {
 	"auto_upgrade_last_run": null,
+	"in_process_packages":
+	[
+	],
 	"installed_packages":
 	[
 		"AlignTab",
@@ -11,12 +14,13 @@
 		"Decent Color Scheme",
 		"Git",
 		"GitGutter-Edge",
-		"GoSublime",
 		"Haml",
+		"Markdown Preview",
 		"Neon Color Scheme",
 		"Package Control",
 		"PhpTidy",
 		"Preference Helper",
+		"Pretty JSON",
 		"QuickThemes",
 		"Ruby Slim",
 		"Sass",
