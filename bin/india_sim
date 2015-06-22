@@ -1,0 +1,6 @@
+curl 'https://portal.bsnl.in/rc/aspxfiles/prepaid_balance_enquiry.aspx' --compressed \
+-H 'X-Requested-With: XMLHttpRequest' \
+-H 'Referer: https://portal.bsnl.in/rc/aspxfiles/welcome.aspx' \
+--data 'mobileno=8277399447&ServiceType=GSM&Circle=NONE'
+
+http -vf POST https://portal.bsnl.in/rc/aspxfiles/prepaid_balance_enquiry.aspx User-Agent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:38.0) Gecko/20100101 Firefox/38.0" Cookie:"ASP.NET_SessionId=euxeokvjpr22ci55hgwjph45" mobileno=8277399447 ServiceType=GSM Circle=none Referer:"https://portal.bsnl.in/rc/aspxfiles/welcome.aspx" X-Requested-With:XMLHttpRequest Accept:"text/plain, */*; q=0.01" --follow
