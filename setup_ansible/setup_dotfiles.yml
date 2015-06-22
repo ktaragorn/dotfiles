@@ -10,17 +10,19 @@
       - htop
       - byobu
       - git
+      - vim
       - ncdu
     when: ansible_os_family == 'Debian'
+    sudo: yes
 
-  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
-    apt: pkg={{item}} state=present
-    with_items:
-      - guake
-      - caffeine
-      - qbittorrent
+#  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
+#    apt: pkg={{item}} state=present
+#    with_items:
+#      - guake
+#      - caffeine
+#      - qbittorrent
       #todo add more
-    when: ansible_os_family == 'Debian' and
+#    when: ansible_os_family == 'Debian' and
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -58,5 +60,14 @@
     with_items:
       - sshrc
       - sshrc.d
+
+  - name: Link tmux.conf in debian systems
+    file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
+    when: ansible_os_family == 'Debian'
+
+  - name: Link tmux.conf in osx systems
+    file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
+    when: ansible_os_family == 'Darwin'
+
 
     # TODO RVM? Brew, tmuxinator tmux config
