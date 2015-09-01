@@ -52,19 +52,20 @@
 		"CVS",
 		".sass-cache"
 	],
-	"font_face": "Inconsolata",
+	"font_face": "Hack",
+	//Inconsolata
 	"font_options":
 	[
-		"bold",
+		// "bold",
 		"subpixel_antialias"
 	],
-	"font_size": 14,
+	"font_size": 12,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
-		"BracketHighlighter",
-		"Vintage"
+		"Vintage",
+		"BracketHighlighter"
 	],
 	"indent_guide_options":
 	[
