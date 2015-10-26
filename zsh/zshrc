@@ -37,7 +37,7 @@ COMPLETION_WAITING_DOTS="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Uncomment following line if you want to  shown in the command execution time stamp 
+# Uncomment following line if you want to  shown in the command execution time stamp
 # in the history command output. The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|
 # yyyy-mm-dd
 # HIST_STAMPS="mm/dd/yyyy"
@@ -88,3 +88,6 @@ bindkey '\e[B' down-line-or-beginning-search
 #https://wiki.archlinux.org/index.php/Home_and_End_keys_not_working
 export TERM="screen-256color"
 
+if which direnv > /dev/null 2>&1; then
+    eval "$(direnv hook $0)"
+fi
