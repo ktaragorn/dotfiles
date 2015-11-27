@@ -50,6 +50,7 @@
       - gitconfig
       - pryrc
       - gemrc
+      - bcrc
 
   - name: Link inputrc
     file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
