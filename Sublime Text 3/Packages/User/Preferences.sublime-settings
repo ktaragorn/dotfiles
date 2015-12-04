@@ -53,10 +53,8 @@
 		".sass-cache"
 	],
 	"font_face": "Hack",
-	//Inconsolata
 	"font_options":
 	[
-		// "bold",
 		"subpixel_antialias"
 	],
 	"font_size": 12,
@@ -64,8 +62,8 @@
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
-		"Vintage",
-		"BracketHighlighter"
+		"BracketHighlighter",
+		"Vintage"
 	],
 	"indent_guide_options":
 	[
