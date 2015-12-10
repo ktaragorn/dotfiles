@@ -13,3 +13,4 @@ Package Control.last-run
 Sublime Text 3/Packages/*
 !Sublime Text 3/Packages/User
 *.tmtheme
+*-ca-bundle

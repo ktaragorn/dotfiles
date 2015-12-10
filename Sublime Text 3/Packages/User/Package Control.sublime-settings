@@ -1,5 +1,6 @@
 {
 	"auto_upgrade_last_run": null,
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
@@ -9,7 +10,6 @@
 		"BeautifyRuby",
 		"Block Cursor Everywhere",
 		"BracketHighlighter",
-		"CoffeeScript",
 		"Crystal",
 		"CTags",
 		"Decent Color Scheme",
@@ -22,7 +22,6 @@
 		"Markdown Preview",
 		"Neon Color Scheme",
 		"Package Control",
-		"PhpTidy",
 		"Preference Helper",
 		"Pretty JSON",
 		"QuickThemes",

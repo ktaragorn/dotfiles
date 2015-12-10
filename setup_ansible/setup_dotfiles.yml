@@ -15,6 +15,22 @@
     when: ansible_os_family == 'Debian'
     sudo: yes
 
+    # unnecessary since need to install homebrew to install ansible in the first place..
+  # - name: Install Homebrew on osx
+  #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
+
+  - name: Install nice CLI packages on OSX systems
+    homebrew: pkg={{item}} state=present
+    with_items:
+      - htop
+      - byobu
+      - reattach-to-user-namespace # needed for http://superuser.com/questions/834525/unable-to-launch-application-in-tmux
+      - git
+      - vim
+      - ncdu
+      - wget
+    when: ansible_os_family == 'Darwin'
+
 #  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
 #    apt: pkg={{item}} state=present
 #    with_items:

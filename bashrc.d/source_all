@@ -7,8 +7,4 @@ if [ -n "$BASH_VERSION" ]; then
    . $d/scm_ps1 #only for bash. This is already in zshrc as theme
 fi
 
-case "$-" in
-*i*)    . $d/screenfetch ;;
-esac
-
 . $d/misc
