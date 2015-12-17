@@ -30,6 +30,10 @@
   - name: Link up custom themes folder
     file: src=~/dotfiles/zsh/themes dest=~/.oh-my-zsh/custom/themes state=link force=yes
 
+  #TODO improve this step
+  - name: Update submodule
+    command: git submodule update --init
+
   - name: Grab plugins
     shell: ls ~/dotfiles/zsh/plugins/
     register: plugins
