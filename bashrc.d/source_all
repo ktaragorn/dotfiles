@@ -1,13 +1,17 @@
 d=~/dotfiles/bashrc.d
 
-. $d/add_home_bin_path
-. $d/add_this_bin_path
-if [ -n "$BASH_VERSION" ]; then
-   . $d/z.sh
-   . $d/scm_ps1 #only for bash. This is already in zshrc as theme
+#http://stackoverflow.com/questions/13058578/how-to-prevent-tmux-from-filling-up-the-global-path-variable-with-duplicated-pat
+if [[ -z $TMUX ]]; then
+	. $d/add_home_bin_path
+	. $d/add_this_bin_path
+	if [ -n "$BASH_VERSION" ]; then
+		#only for bash. This is already in zshrc as theme
+	   . $d/z.sh
+	   . $d/scm_ps1
+	fi
+	. $d/os_specific
+	. $d/misc
+	. $d/rvm
 fi
 
-
-. $d/os_specific
-
-. $d/misc
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

@@ -1,3 +1,8 @@
 export EDITOR="vim"
-alias production_prepare="git co production && git merge master && git co master && git push origin master && git push origin production"
 export TERM="screen-256color"
+export BC_ENV_ARGS="-ql $HOME/.bcrc"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+PATH=/usr/local/bin:$PATH

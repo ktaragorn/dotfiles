@@ -51,13 +51,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration - from bashrc - hope it doesnt brk linux
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-PATH=/usr/local/bin:$PATH
 . ~/dotfiles/bashrc.d/source_all
-PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 #copied from https://github.com/graysky2/configs/blob/master/dotfiles/.zshrc
 autoload -Uz up-line-or-beginning-search
@@ -71,19 +65,6 @@ bindkey '\e[B' down-line-or-beginning-search
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
 #use screen instead of xterm to fix home/end issue
 #https://wiki.archlinux.org/index.php/Home_and_End_keys_not_working
 export TERM="screen-256color"
@@ -92,4 +73,3 @@ if which direnv > /dev/null 2>&1; then
     eval "$(direnv hook $0)"
 fi
 
-export BC_ENV_ARGS="-ql $HOME/.bcrc"
