@@ -1,1 +1,1 @@
-export PATH=~/bin:$PATH
+pathprepend ~/bin

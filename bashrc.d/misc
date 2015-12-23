@@ -3,6 +3,6 @@ export TERM="screen-256color"
 export BC_ENV_ARGS="-ql $HOME/.bcrc"
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+pathprepend /usr/local/heroku/bin
 
-PATH=/usr/local/bin:$PATH
+pathprepend /usr/local/bin
