@@ -11,7 +11,7 @@ if [[ -z $TMUX ]]; then
 	fi
 	. $d/os_specific
 	. $d/misc
-	. $d/rvm
+	. $d/rvm_path
 fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
