@@ -2,8 +2,8 @@
 # Karthik.T oh-my-zsh theme
 # (Needs Gitfast plugin for __git_ps1, and Git plugin for other commands)
 #
-# Using http://www.opensource.apple.com/source/zsh/zsh-42/zsh/Misc/bash2zshprompt 
-# to convert from my bash prompt (think i took that from 
+# Using http://www.opensource.apple.com/source/zsh/zsh-42/zsh/Misc/bash2zshprompt
+# to convert from my bash prompt (think i took that from
 #	http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html or similar)
 # used juanghurtado as base
 # ------------------------------------------------------------------------
@@ -49,7 +49,7 @@ scm_ps1() {
         #then
         #    u=$(git-unpushed)
         #fi
-        
+
     fi
     echo -n "$s"
 }

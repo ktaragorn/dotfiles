@@ -41,6 +41,7 @@
 	default = current
 [core]
 	excludesfile = /Users/karthikt/.gitignore_global
+	commentchar = ";"
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
