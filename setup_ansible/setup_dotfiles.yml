@@ -13,7 +13,7 @@
       - vim
       - ncdu
       - guake
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family != 'Darwin'
     sudo: yes
 
     # unnecessary since need to install homebrew to install ansible in the first place..
@@ -31,15 +31,6 @@
       - ncdu
       - wget
     when: ansible_os_family == 'Darwin'
-
-#  - name: Install nice GUI packages on Debian systems with a GTK(?) gui installed
-#    apt: pkg={{item}} state=present
-#    with_items:
-#      - guake
-#      - caffeine
-#      - qbittorrent
-      #todo add more
-#    when: ansible_os_family == 'Debian' and
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -81,7 +72,7 @@
 
   - name: Link tmux.conf in debian systems
     file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family != 'Darwin'
 
   - name: Link tmux.conf in osx systems
     file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
