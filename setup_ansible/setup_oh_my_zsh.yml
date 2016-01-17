@@ -5,7 +5,9 @@
 
   - name: Install zsh
     apt: pkg=zsh state=present
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family != "Darwin"
+    with_items: [zsh, curl]
+    sudo: yes
 
   - name: Install zsh (osx)
     homebrew: name=zsh state=present
@@ -34,8 +36,8 @@
   - name: Update submodule
     command: git submodule update --init
 
-  - name: Install powerline fonts
-    shell: powerline/fonts/install.sh
+#  - name: Install powerline fonts
+#    shell: ~/dotfiles/powerline/fonts/install.sh
 
   - name: Grab plugins
     shell: ls ~/dotfiles/zsh/plugins/

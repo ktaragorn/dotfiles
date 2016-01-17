@@ -12,6 +12,7 @@
       - git
       - vim
       - ncdu
+      - guake
     when: ansible_os_family == 'Debian'
     sudo: yes
 
