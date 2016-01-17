@@ -64,6 +64,9 @@
 	"ignored_packages":
 	[
 		"BracketHighlighter",
+		"CoffeeScript",
+		"PhpTidy",
+		"SublimeCodeIntel",
 		"Vintage"
 	],
 	"indent_guide_options":

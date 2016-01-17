@@ -59,6 +59,7 @@
       - pryrc
       - gemrc
       - bcrc
+      - Xmodmap # only used in linux though
 
   - name: Link inputrc
     file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
