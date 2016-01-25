@@ -30,6 +30,7 @@
       - vim
       - ncdu
       - wget
+      - direnv
     when: ansible_os_family == 'Darwin'
 
   - name: Checkout/update dotfiles on target machine
