@@ -9,3 +9,12 @@
 
 - name: Setup user preferences folder
   hosts: localhost
+  tags: link
+  vars:
+    osx:
+      src: ~/dotfiles/Sublime Text 3/Packages/User
+      dest: ~/Library/Application Support/Sublime Text 3/Packages/User
+  tasks:
+    - name: Link user folder on osx
+      file: state=link src="{{osx.src}}" dest="{{osx.dest}}"
+      when: ansible_os_family == 'Darwin'
