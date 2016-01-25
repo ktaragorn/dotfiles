@@ -1,0 +1,11 @@
+---
+- name: Install Sublime text
+  hosts: localhost
+  tasks:
+    - include: sublime/osx.yml
+      when: ansible_os_family == 'Darwin'
+    - include: sublime/deb.yml
+      when: ansible_os_family != 'Darwin'
+
+- name: Setup user preferences folder
+  hosts: localhost
