@@ -99,5 +99,10 @@
     file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
     when: ansible_os_family == 'Darwin'
 
+    # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
+  - name: Fix key repeat on osx
+    command: defaults write -g ApplePressAndHoldEnabled -bool false
+    when: ansible_os_family == 'Darwin'
+
 
     # TODO RVM? Brew, tmuxinator tmux config
