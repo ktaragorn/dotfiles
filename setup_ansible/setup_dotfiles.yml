@@ -37,6 +37,17 @@
       - direnv
     when: ansible_os_family == 'Darwin'
 
+  - name: Install brew cask
+    homebrew: pkg=caskroom/cask/brew-cask
+    when: ansible_os_family == 'Darwin'
+
+  - name: Install casks
+    homebrew_cask: name={{item}}
+    when: ansible_os_family == 'Darwin'
+    with_items:
+    - gitx
+    - iterm2
+
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
     # Assuming localhost is always updated
@@ -79,6 +90,10 @@
   - name: Link tmux.conf in debian systems
     file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
     when: ansible_os_family != 'Darwin'
+
+  - name: Create byobu folder in case it doesnt exist
+    file: path=~/.byobu state=directory
+    when: ansible_os_family == 'Darwin'
 
   - name: Link tmux.conf in osx systems
     file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes

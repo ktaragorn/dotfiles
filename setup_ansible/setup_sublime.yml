@@ -16,5 +16,5 @@
       dest: ~/Library/Application Support/Sublime Text 3/Packages/User
   tasks:
     - name: Link user folder on osx
-      file: state=link src="{{osx.src}}" dest="{{osx.dest}}"
+      file: state=link src="{{osx.src}}" dest="{{osx.dest}}" force=yes
       when: ansible_os_family == 'Darwin'
