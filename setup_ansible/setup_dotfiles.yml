@@ -37,6 +37,11 @@
       - direnv
     when: ansible_os_family == 'Darwin'
 
+  #http://superuser.com/a/373448/160502
+  - name: Fix htop for osx
+    file: name=/usr/local/bin/htop mode=6555 owner=root follow=yes
+    become: yes
+
   - name: Install brew cask
     homebrew: pkg=caskroom/cask/brew-cask
     when: ansible_os_family == 'Darwin'
@@ -76,6 +81,7 @@
       - gemrc
       - bcrc
       - Xmodmap # only used in linux though
+      - tmuxinator
 
   - name: Link inputrc
     file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
