@@ -31,7 +31,7 @@ scm_ps1() {
         #then
         #    u=$(git-unpushed)
         #fi
-        
+
     fi
     echo -n "$s $u"
 }
@@ -40,4 +40,4 @@ scm_ps1() {
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUPSTREAM=verbose
 # Reset bash prompt
-export PS1="\n\[\033[00;32m\]\u\[\033[00;32m\]@\[\033[00;32m\]\h:\[\033[0;37m\]\w \[\033[0;36m\]\$(scm_ps1)\[\033[00m\]\n$\[\033[00m\] "
+export PS1="\n\[$(tput bold)\]\[\033[38;5;196m\][REMOTE]\[$(tput sgr0)\]\[\033[00;32m\]\u\[\033[00;32m\]@\[\033[00;32m\]\h:\[\033[0;37m\]\w \[\033[0;36m\]\$(scm_ps1)\[\033[00m\]\n$\[\033[00m\] "
