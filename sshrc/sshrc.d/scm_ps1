@@ -25,7 +25,7 @@ scm_ps1() {
     if [[ -d ".svn" ]] ; then
         s=\(r$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )\)
     else
-        s=$(__git_ps1 "(%s)")
+        s=$(__git_ps1 "(%s)" 2> /dev/null)
         #status=$(git status 2>/dev/null | tail -n 1)
         #if [[ $status != "" ]]
         #then
