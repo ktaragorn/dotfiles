@@ -29,10 +29,11 @@ tmux_command: byobu
 
 windows:
   - main:
-      layout: cd63,269x53,0,0[270x16,0,0{69x16,0,0,1,200x16,70,0,3},270x37,0,17{69x37,0,17,4,200x37,70,17,5}]
+      layout: 9ee9,270x54,0,0[271x17,0,0{70x17,0,0,1,100x17,71,0,3,99x17,172,0,4},271x37,0,18{70x37,0,18,5,200x37,71,18,7}]    
       panes:
         - foreman start -f Procfile_no_web
         - rails s
+        - spork
         - rails c
         - ls
   - fix: z trav fix
