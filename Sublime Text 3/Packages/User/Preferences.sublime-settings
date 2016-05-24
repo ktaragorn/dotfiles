@@ -59,11 +59,11 @@
 		"subpixel_antialias"
 	],
 	"font_size": 17,
+	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",
 	"ignored_packages":
 	[
-		"BracketHighlighter",
 		"CoffeeScript",
 		"PhpTidy",
 		"SublimeCodeIntel",
@@ -77,6 +77,8 @@
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
 	"shift_tab_unindent": true,
+	"show_sidebar_on_activated": false,
+	"show_sidebar_on_save": true,
 	"theme": "Flatland Dark.sublime-theme",
 	"trim_trailing_white_space_on_save": true
 }
