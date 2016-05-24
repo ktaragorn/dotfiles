@@ -1,8 +1,11 @@
 #!/bin/sh
+ip=${1-oneplus_one.local}
+port=${2-2222}
 source="/Users/kthirugnanam/Documents/PC_Videos/"
-dest="sftp://admin:admin@oneplus_one.local:2222/data/data/com.arachnoid.sshelper/home/SDCard/PC\ Videos/"
-echo
-push_syncer.rb $source "10.180.0.41" "2222" "/data/data/com.arachnoid.sshelper/home/SDCard/PC_Videos/"
+# dest="sftp://admin:admin@oneplus_one.local:2222/data/data/com.arachnoid.sshelper/home/SDCard/PC\ Videos/"
+dest="/data/data/com.arachnoid.sshelper/home/SDCard/PC_Videos/"
+
+push_syncer.rb $source $ip $port $dest
 # csync $source $dest
 #rsync -rvz -e "ssh -p 2222"  admin@oneplus_one.local:
 
