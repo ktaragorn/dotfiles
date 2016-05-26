@@ -20,7 +20,8 @@ class LastSyncList
 end
 
 def file_list_cmd path
-  "cd \"#{path}\"; find . -type f"
+  #ignore dot files/folders
+  "cd \"#{path}\"; find . -type f -not -path '*/\.*'"
 end
 
 def current_list_remote dest
@@ -29,13 +30,25 @@ def current_list_remote dest
 end
 
 def ssh_command host, port, command
-  `ssh #{host} -p #{port} \"#{command}\"`
+  ret = `ssh #{host} -p #{port} \"#{command}\"`
+  if $? != 0
+    raise "Command Failed"
+  end
+  ret
 end
 
 def delete_remote_deleted_files src_path, list
+  #TODO once tested, to add a stage here, before the next stage, to wipe .deleted
+  del_folder =File.join(src_path, ".deleted")
+  Dir.mkdir del_folder
   list.each do |file|
     puts "Deleting #{file}"
-    File.delete(File.join(src_path, file))
+    #2 stage deletion - to prevent accidental deletion
+    #perhaps shift to .deleted folder and delete in 2nd pass
+
+    src    = File.join(src_path, file)
+    target = File.join(del_folder, file)
+    File.rename(src, target)
   end
 end
 
