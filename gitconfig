@@ -2,9 +2,9 @@
 	name = Karthik T
 	email = karthikt.holmes+github@gmail.com
 [alias]
-  aa = add --all
-  dc = diff --cached
-  di = diff
+	aa = add --all
+	dc = diff --cached
+	di = diff
 	co = checkout
 	ci = commit --verbose
 	st = status
@@ -12,22 +12,22 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --all
 	type = cat-file -t
 	dump = cat-file -p
-  mff = merge --ff-only
-  mnf = merge --no-ff
-  commit = commit --verbose
+	mff = merge --ff-only
+	mnf = merge --no-ff
+	commit = commit --verbose
 	d = difftool
 	ignore-io = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
 [color]
-  ui = auto
+  	ui = auto
 [merge]
-  keepBackup = false
-  tool = vimdiff
+	keepBackup = false
+	tool = vimdiff
 	defaultToUpstream = true
 ;[mergetool "p4merge"]
-  ;cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-  ;keepTemporaries = false
-  ;trustExitCode = false
-  ;keepBackup = false
+	;cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	;keepTemporaries = false
+	;trustExitCode = false
+	;keepBackup = false
 
 ;[difftool "sourcetree"]
 	;cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -40,13 +40,13 @@
 [push]
 	default = current
 [core]
-	excludesfile = /Users/karthikt/.gitignore_global
+	excludesfile = /Users/kthirugnanam/.gitignore_global
 	commentchar = ";"
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /Users/kthirugnanam/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [github]
 	user = ktaragorn
