@@ -1,2 +1,1 @@
-168.235.148.83 ansible_ssh_user=user
-numenor
+numenor ansible_ssh_user=user

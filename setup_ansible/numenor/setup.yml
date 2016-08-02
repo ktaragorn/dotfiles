@@ -2,11 +2,11 @@
 # manually changed password
 #http://lattejed.com/first-five-and-a-half-minutes-on-a-server-with-ansible
 ---
-- hosts: numenor
+- hosts: all
   sudo: yes
   tasks:
     - name: setup ssh key
-      authorized_key: user=user key="{{ lookup('file', '~/id_rsa.pub') }}"
+      authorized_key: user=user key="{{ lookup('file', '~/.ssh/numenor.pub') }}"
 
     - name: Disallow password authentication
       action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
