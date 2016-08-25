@@ -25,6 +25,9 @@
     - name: set hostname
       hostname: name=numenor
 
+    - name: fix hosts file for hostname
+      lineinfile: dest=/etc/hosts state=present line="127.0.0.1 numenor"
+
     - name: install ddclient
       apt: pkg=ddclient state=present update_cache=yes
 
