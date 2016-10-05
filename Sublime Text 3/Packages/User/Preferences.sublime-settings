@@ -53,12 +53,12 @@
 		".sass-cache",
 		"coverage"
 	],
-	"font_face": "Inconsolata",
+	"font_face": "hack",
 	"font_options":
 	[
 		"subpixel_antialias"
 	],
-	"font_size": 17,
+	"font_size": 16,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",

@@ -52,5 +52,6 @@
 	user = ktaragorn
 [diff]
 	tool = vimdiff
+	compactionHeuristic = true
 [difftool]
 	prompt = false
