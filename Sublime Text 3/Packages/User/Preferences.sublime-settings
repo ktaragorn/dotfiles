@@ -56,9 +56,11 @@
 	"font_face": "hack",
 	"font_options":
 	[
-		"subpixel_antialias"
+		"subpixel_antialias",
+		"no_bold", 
+		"no_italic"
 	],
-	"font_size": 16,
+	"font_size": 13,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",
@@ -79,6 +81,5 @@
 	"shift_tab_unindent": true,
 	"show_sidebar_on_activated": false,
 	"show_sidebar_on_save": false,
-	"theme": "Flatland Dark.sublime-theme",
-	"trim_trailing_white_space_on_save": true
+	"theme": "Flatland Dark.sublime-theme"
 }

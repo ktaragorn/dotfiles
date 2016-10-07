@@ -28,19 +28,9 @@
     - name: fix hosts file for hostname
       lineinfile: dest=/etc/hosts state=present line="127.0.0.1 numenor"
 
-    - name: install ddclient
-      apt: pkg=ddclient state=present update_cache=yes
-
-    - name: install ddclient conf
-      copy: src=ddclient.conf dest=/etc/ddclient.conf force=yes owner=root group=root
-      notify: Restart ddclient
-
-    - name: enable ddclient
-      service: name=ddclient enabled=yes
+    - name: Setup cron job for dynamic dns update for freedns.afraid.org
+      cron: name="freedns update" special_time="daily" job="curl -s http://sync.afraid.org/u/lzeNnnCjn8UpQeug6Ag4XykF/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null"
 
   handlers:
-    - name: Restart ddclient
-      service: name=ddclient state=restarted
-
     - name: Restart ssh
       service: name=ssh state=restarted
