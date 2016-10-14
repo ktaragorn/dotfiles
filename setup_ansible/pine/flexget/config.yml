@@ -1,0 +1,63 @@
+#{{ansible_managed}}
+tasks:
+  showrss-dload:
+    rss: {{rss_url}}
+    thetvdb_lookup: yes
+    series:
+      settings:
+        all:
+          propers: 12 hours
+          set:
+            movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+            main_file_only: yes
+            ratio: 0.1
+            removeatratio: yes
+            magnetization_timeout: 100
+            content_filename: >
+              {{'{{ series_name }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+      all:
+        - Modern Family
+        - 12 Monkeys
+        - 2 Broke Girls
+        - Elementary
+        - Fresh Off the Boat
+        - Game of Thrones
+        - Sherlock
+        - Silicon Valley
+        - The Big Bang Theory
+        - The Simpsons
+    deluge: yes
+
+  # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
+  #problems a) season was wrong b) didnt rename at all..
+
+  move-to-archive:
+    no_entries_ok: yes
+    accept_all: yes
+    metainfo_series: yes
+    seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
+    require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
+    configure_series:
+      settings:
+        parse_only: yes
+        identified_by: ep
+      from:
+        filesystem: 
+          path:  /media/ubuntu/Archive/Torrent/TV Shows/
+    filesystem:
+      path: /media/ubuntu/Archive/Torrent/TV Shows/
+      recursive: yes
+      retrieve: files
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg)$'
+    # Ignore samples
+    regexp:
+      reject:
+        - sample
+    move:
+      to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
+      clean_source: 50
+    kodi_library:
+      action: scan
+      category: video
+      url: http://192.168.1.244
+      port: 8080

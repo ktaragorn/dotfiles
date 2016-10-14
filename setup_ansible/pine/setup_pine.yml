@@ -1,0 +1,121 @@
+# before this, setup as a server and install SSH
+#http://askubuntu.com/questions/511463/can-i-convert-ubuntu-desktop-14-04-to-server
+---
+- name: Generic server setup and harden ssh
+  tags: basic
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks: 
+    - name: Install pip and other tools required
+      apt: pkg={{item}} state=present
+      with_items:
+        - python-pip
+    - name: Install locate if needed
+      apt: pkg=locate state=present
+      notify: updatedb
+  handlers: 
+  - name: updatedb
+    command: updatedb
+
+- name: Harddisks setup - ntfs and fstab
+  become: yes
+  tags: hdd
+  hosts: all
+  gather_facts: no
+  tasks: 
+    - name: Install ntfs-3g
+      apt: pkg={{item}} state=present
+      with_items:
+        - ntfs-3g
+    - name: Create mount points      
+      file: path=/media/ubuntu/{{item}} state=directory
+      with_items:
+        - Archive
+        - Vault
+    - name: Mount the disks
+      mount:
+        name: /media/ubuntu/{{item}}
+        src: LABEL={{item}}
+        fstype: ntfs
+        opts: users,rw,uid=1000,gid=1000
+        dump: "0"
+        passno: "2"
+        state: present
+      with_items:
+        - Archive
+        - Vault
+
+- name: File sharing and SAMBA
+  tags: samba
+  hosts: all
+  gather_facts: no
+  tasks: 
+
+- name: Dynamic dns for black-gate.
+  tags: dyndns
+  hosts: all
+  gather_facts: no
+  vars_files: [vars/all.yml]
+  tasks: 
+  - name: Cron to curl privatedns
+    cron: 
+      name: 'Update dyndns for black-gate.privatedns.org' 
+      user: ubuntu
+      special_time: hourly 
+      job: curl -s http://sync.afraid.org/u/{{freedns_token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
+
+- name: Deluge installation and setup with systemd
+  become: yes
+  tags: deluge
+  hosts: all
+  gather_facts: no
+  tasks: 
+  - name: Install deluged and deluged-web
+    apt: pkg={{item}} state=present
+    with_items: 
+      - deluged
+      - deluged-web
+  # - name: Config if any
+  # - name: Systemd files - delete the default
+  # - name: Enable and start both
+
+- name: Apache default site for webmin and deluge
+  become: yes
+  tags: apache
+  hosts: all
+  gather_facts: no
+  tasks: 
+  - name: Install apache
+    apt: pkg=apache2
+  - name: Enable service
+    service: state=started enabled=yes name=apache2
+  - name: Setup index page
+    copy: src=files/index.html dest=/var/www/html/index.html
+
+- name: Install tvnamer
+  tags: tvnamer
+  hosts: all
+  gather_facts: no
+  tasks: 
+  - name: Install tvnamer for adhoc tv renaming
+    become: yes
+    pip: name=tvnamer
+
+- name: Flexget installation and setup
+  tags: flexget
+  hosts: all
+  vars_files: [vars/all.yml]
+  gather_facts: no
+  tasks: 
+  - name: Install flexget
+    become: yes
+    pip: name=flexget
+  - name: Copy config file
+    template: src=flexget/config.yml dest=~/.config/flexget/config.yml
+  - name: Setup cron job
+    cron: 
+      name: 'Execute flexget rss fetch and move' 
+      user: ubuntu
+      hour: 0,4,8,12,16,20 
+      job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
