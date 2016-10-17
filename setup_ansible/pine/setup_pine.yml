@@ -97,15 +97,15 @@
   tasks: 
   - name: Install deluged and deluged-web
     apt: pkg={{item}} state=present
-    with_items: items
+    with_items: '{{items}}'
   # - name: Config if any
   # - name: Systemd files - delete the default
   - name: Copy service files
     copy: src=files/{{item}}.service dest=/etc/systemd/system/{{item}}.service
-    with_items: items
+    with_items: '{{items}}'
   - name: Start and enable both services
     service: name={{item}} state=started enabled=true
-    with_items: items
+    with_items: '{{items}}'
 
 - name: Apache default site for webmin and deluge
   become: yes

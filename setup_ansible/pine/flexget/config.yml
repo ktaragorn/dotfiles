@@ -48,7 +48,7 @@ tasks:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes
       retrieve: files
-      regexp: '.*\.(avi|mkv|mp4|m4v|mpg)$'
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
     # Ignore samples
     regexp:
       reject:

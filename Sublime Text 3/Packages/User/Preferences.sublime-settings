@@ -60,7 +60,7 @@
 		"no_bold", 
 		"no_italic"
 	],
-	"font_size": 13,
+	"font_size": 12,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",
