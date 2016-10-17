@@ -1,0 +1,25 @@
+[Unit]
+Description=Deluge Bittorrent Client Daemon
+After=network-online.target
+
+# Unit starts after the following mounts are available.
+RequiresMountsFor=media-ubuntu-Archive.mount 
+# Unit is stopped when any of these mounts disappear.
+BindsTo=media-ubuntu-Archive.mount
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+UMask=007
+
+ExecStart=/usr/bin/deluged -d
+
+Restart=on-failure
+
+# Configures the time to wait before service is stopped forcefully.
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target
+
