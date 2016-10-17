@@ -11,12 +11,32 @@
       apt: pkg={{item}} state=present
       with_items:
         - python-pip
+        - htop
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
+    - name: Download z.sh
+      get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/Documents/z.sh
+      become: no
+    - name: Activate z.sh
+      lineinfile: dest=~/.bashrc line=". ~/Documents/z.sh"
+      become: no
+    - name: setup ssh keys
+      copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
+      become: no
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+      notify: Restart ssh
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+      notify: Restart ssh
+    - name: setup no password sudo
+      lineinfile: "dest=/etc/sudoers state=present line='ubuntu    ALL=NOPASSWD: ALL'"
   handlers: 
   - name: updatedb
     command: updatedb
+  - name: Restart ssh
+    service: name=ssh state=restarted
 
 - name: Harddisks setup - ntfs and fstab
   become: yes
