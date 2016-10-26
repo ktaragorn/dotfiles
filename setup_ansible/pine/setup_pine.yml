@@ -144,5 +144,6 @@
     cron: 
       name: 'Execute flexget rss fetch and move' 
       user: ubuntu
-      hour: 0,4,8,12,16,20 
+      hour: 0,4,8,12,16,20
+      minute: 0
       job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
