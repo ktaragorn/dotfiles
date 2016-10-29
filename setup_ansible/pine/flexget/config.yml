@@ -43,8 +43,8 @@ tasks:
         parse_only: yes
         identified_by: ep
       from:
-        filesystem: 
-          path:  /media/ubuntu/Archive/Torrent/TV Shows/
+        filesystem:
+          path: /media/ubuntu/Archive/Torrent/TV Shows/
     filesystem:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes

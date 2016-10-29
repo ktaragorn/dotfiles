@@ -144,6 +144,72 @@
     cron: 
       name: 'Execute flexget rss fetch and move' 
       user: ubuntu
-      hour: 0,4,8,12,16,20
+      hour: 0,4,8,12,16,20 
       minute: 0
       job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
+
+
+# add this to advancedsettings.xml
+# <advancedsettings>
+#     <network>
+#         <buffermode>1</buffermode>
+#         <cachemembuffersize>41943040</cachemembuffersize>
+#         <readbufferfactor>3</readbufferfactor>
+#     </network>                                                                                                                                                                                                                                
+#     <skiploopfilter>8</skiploopfilter>
+#   <videodatabase>
+#     <type>mysql</type>
+#     <host>pine64.middle.earth</host>
+#     <port>3306</port>
+#     <user>kodi</user>
+#     <pass>kodi</pass>
+#   </videodatabase> 
+#   <videolibrary>
+#     <importwatchedstate>true</importwatchedstate>
+#     <importresumepoint>true</importresumepoint>
+#   </videolibrary>
+# </advancedsettings>
+
+- name: Install & Configure mysql server
+  tags: mysql
+  hosts: all
+  become: yes
+  vars_files: [vars/all.yml]
+  roles:
+    - role: geerlingguy.mysql
+      mysql_root_password: '{{my_mysql_root_password}}'
+      mysql_users: 
+        - name: kodi
+          password: kodi
+          host: "%"
+          priv: "*.*:ALL"
+      mysql_packages: [mariadb-server]
+      mysql_bind_address: '192.168.1.222' # update if ipaddress changes
+
+# TODO undo this if needed..
+# #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta
+# - name: Install emby server and setup # ubuntu 16.04 method
+#   tags: emby
+#   hosts: all
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     # unable to install emby without this
+#     - name: Add mono repo key
+#       apt_key: keyserver=keyserver.ubuntu.com id=3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF      
+#     - name: Add repo to apt
+#       apt_repository: 
+#         repo: deb http://download.mono-project.com/repo/debian wheezy main
+#         update_cache: yes
+#         filename: mono-xamarin
+#     - name: Add repo key to apt
+#       apt_key: url=http://download.opensuse.org/repositories/home:emby/xUbuntu_16.04/Release.key
+#     - name: Add repo to apt
+#       apt_repository: 
+#         repo: deb http://download.opensuse.org/repositories/home:/emby/xUbuntu_16.04/ /
+#         update_cache: yes
+#         filename: emby-server-beta
+#     - name: Install emby-server
+#       apt: name=emby-server-beta
+#     - name: Start and enable the emby server
+#       service: name=emby-server state=started enabled=yes
