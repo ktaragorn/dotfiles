@@ -185,6 +185,7 @@
           priv: "*.*:ALL"
       mysql_packages: [mariadb-server]
       mysql_bind_address: '192.168.1.222' # update if ipaddress changes
+      mysql_databases: [{name: 1channel}]
 
 # TODO undo this if needed..
 # #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta
