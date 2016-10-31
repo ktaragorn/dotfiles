@@ -99,7 +99,9 @@
     apt: pkg={{item}} state=present
     with_items: '{{items}}'
   # - name: Config if any
-  # - name: Systemd files - delete the default
+  - name: Delete the default service files
+    file: path=/lib/systemd/system/{{item}}.service state=absent
+    with_items: '{{items}}'
   - name: Copy service files
     copy: src=files/{{item}}.service dest=/etc/systemd/system/{{item}}.service
     with_items: '{{items}}'
