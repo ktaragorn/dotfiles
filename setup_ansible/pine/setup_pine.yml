@@ -74,13 +74,16 @@
   gather_facts: yes
   roles:
   - role: bertvv.samba
+    samba_guest_account: ubuntu
     samba_shares:
     - name: Archive
       path: /media/ubuntu/Archive
       public: yes
+      writable: yes
     - name: Vault
       path: /media/ubuntu/Vault
       public: yes
+      writable: yes
 
 - name: Dynamic dns for black-gate.
   tags: dyndns

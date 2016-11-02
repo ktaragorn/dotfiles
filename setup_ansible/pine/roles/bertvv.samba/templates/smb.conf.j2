@@ -4,7 +4,9 @@
 # {{ ansible_managed }}
 
 [global]
-  guest account = ubuntu
+{% if samba_guest_account is defined %}
+  guest account = {{samba_guest_account}}
+{% endif %}
   # Server information
   netbios name = {% if samba_netbios_name is defined %}{{ samba_netbios_name }}{% else %}{{ ansible_hostname }}{% endif %}
 
@@ -73,5 +75,6 @@ log level = 3
   force create mode = {{ share.force_create_mode|default('0664') }}
   directory mode = {{ share.directory_mode|default('0775') }}
   force directory mode = {{ share.force_directory_mode|default('0775') }}
+  writable = {{ share.writable|default('no') }}
 {% endfor %}
 {% endif%}
