@@ -69,8 +69,17 @@
 - name: File sharing and SAMBA
   tags: samba
   hosts: all
-  gather_facts: no
-  tasks: 
+  become: yes
+  gather_facts: yes
+  roles:
+  - role: bertvv.samba
+    samba_shares:
+    - name: Archive
+      path: /media/ubuntu/Archive
+      public: yes
+    - name: Vault
+      path: /media/ubuntu/Vault
+      public: yes
 
 - name: Dynamic dns for black-gate.
   tags: dyndns

@@ -3,6 +3,7 @@ tasks:
   showrss-dload:
     rss: {{rss_url}}
     thetvdb_lookup: yes
+    convert_magnet: yes
     series:
       settings:
         all:
