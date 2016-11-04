@@ -12,6 +12,7 @@
       with_items:
         - python-pip
         - htop
+        - git
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -197,6 +198,27 @@
       mysql_packages: [mariadb-server]
       mysql_bind_address: '192.168.1.222' # update if ipaddress changes
       mysql_databases: [{name: 1channel}]
+
+- name: HTPC Manager
+  tags: htpc
+  hosts: all
+  gather_facts: no
+  vars:
+    htpc_path: /home/ubuntu/Documents/HTPC-Manager
+  tasks:
+  - name: Get latest htpc manager code
+    git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
+    notify: restart htpc manager
+  - name: Push systemd service file
+    become: yes
+    template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
+  - name: Start and enable htpc
+    service: name=htpc state=started enabled=true #daemon-reload=true
+    become: yes
+
+  handlers:
+  - name: restart htpc manager
+    service: name=htpc state=restarted
 
 # TODO undo this if needed..
 # #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta

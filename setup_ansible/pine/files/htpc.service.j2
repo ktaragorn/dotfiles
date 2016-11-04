@@ -1,0 +1,16 @@
+#{{ansible_managed}}
+[Unit]
+  Description=HTPC Manager Daemon
+  After=network.target
+
+[Service]
+  User=ubuntu
+  Group=ubuntu
+  Type=forking
+  ExecStart=/usr/bin/python {{htpc_path}}/Htpc.py --daemon --datadir {{htpc_path}}/userdata --pid {{htpc_path}}/userdata/htpcmanager.pid
+  PIDFile={{htpc_path}}/userdata/htpcmanager.pid
+  KillMode=process
+  Restart=on-failure
+     
+[Install]
+WantedBy=multi-user.target
