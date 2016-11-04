@@ -119,18 +119,30 @@
     service: name={{item}} state=started enabled=true
     with_items: '{{items}}'
 
-- name: Apache default site for webmin and deluge
+- name: Nginx default site for webmin and deluge
   become: yes
-  tags: apache
+  tags: nginx
   hosts: all
   gather_facts: no
+  vars: 
+    proxied_services:
+      - {name: webmin, port: 10000}
+      - {name: deluge, port: 8112}
+      - {name: htpc, port: 8085}
   tasks: 
-  - name: Install apache
-    apt: pkg=apache2
+  - name: Install nginx
+    apt: pkg=nginx
+  - name: Configure site
+    template: src=files/pine.j2 dest=/etc/nginx/sites-available/default
+    notify: Restart nginx
+    tags: nginx_conf
   - name: Enable service
-    service: state=started enabled=yes name=apache2
+    service: state=started enabled=yes name=nginx
   - name: Setup index page
-    copy: src=files/index.html dest=/var/www/html/index.html
+    template: src=files/index.html.j2 dest=/var/www/html/index.html
+  handlers: 
+    - name: Restart nginx
+      service: state=restarted name=nginx
 
 - name: Install tvnamer
   tags: tvnamer
@@ -203,18 +215,36 @@
   tags: htpc
   hosts: all
   gather_facts: no
+  become: yes
   vars:
     htpc_path: /home/ubuntu/Documents/HTPC-Manager
   tasks:
   - name: Get latest htpc manager code
     git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
     notify: restart htpc manager
+    become: no
+  - name: Install stuff to compile pillow
+    apt: package={{item}}
+    with_items:
+    - libjpeg9
+    - libjpeg9-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+  - name: Install psutil for system info and pillow for images
+    pip: name={{item}}
+    with_items:
+    - psutil
+    - pillow
   - name: Push systemd service file
-    become: yes
     template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
   - name: Start and enable htpc
     service: name=htpc state=started enabled=true #daemon-reload=true
-    become: yes
+# config
+# path to /htpc
+# enable kodi and deluge and add webmin and systeminfo
+# theme to atmosphere
+# dashboard latest tv shows, system info, disks info
 
   handlers:
   - name: restart htpc manager
