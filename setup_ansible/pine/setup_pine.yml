@@ -143,6 +143,11 @@
     service: state=started enabled=yes name=nginx
   - name: Setup index page
     template: src=files/index.html.j2 dest=/var/www/html/index.html
+  - name: Setup links to flexget outputs
+    file: src=/home/ubuntu/{{item}}.html dest=/var/www/html/{{item}}.html state=link
+    with_items:
+      - moved
+      - downloaded
   handlers: 
     - name: Restart nginx
       service: state=restarted name=nginx
@@ -161,6 +166,8 @@
   hosts: all
   vars_files: [vars/all.yml]
   gather_facts: no
+  vars:
+    web_root: /var/www/html/
   tasks: 
   - name: Install flexget
     become: yes

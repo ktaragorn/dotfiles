@@ -27,7 +27,12 @@ tasks:
         - Sherlock
         - Silicon Valley
         - The Big Bang Theory
+        - Last Week Tonight With John Oliver
         - The Simpsons
+        - DreamWorks Dragons
+        - The 100
+    make_html:
+      file: ~/downloaded.html
     deluge: yes
 
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
@@ -55,9 +60,16 @@ tasks:
     regexp:
       reject:
         - sample
+    manipulate:
+    - filename:
+        replace:
+          regexp: :|\?
+          format: ''
     move:
       to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50
+    make_html:
+      file: ~/moved.html
     kodi_library:
       action: scan
       category: video
