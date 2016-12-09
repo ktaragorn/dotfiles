@@ -31,6 +31,8 @@ tasks:
         - The Simpsons
         - DreamWorks Dragons
         - The 100
+    pushbullet:
+      apikey: {{pushbullet_access_token}}
     make_html:
       file: ~/downloaded.html
     deluge: yes
@@ -70,6 +72,8 @@ tasks:
       clean_source: 50
     make_html:
       file: ~/moved.html
+    pushbullet:
+      apikey: {{pushbullet_access_token}}
     kodi_library:
       action: scan
       category: video
