@@ -122,6 +122,8 @@
     service: name={{item}} state=started enabled=true
     with_items: '{{items}}'
 
+# TODO install webmin tasks
+
 - name: Nginx default site for webmin and deluge
   become: yes
   tags: nginx
@@ -129,9 +131,9 @@
   gather_facts: no
   vars: 
     proxied_services:
-      - {name: webmin, port: 10000}
-      - {name: deluge, port: 8112}
-      - {name: htpc, port: 8085}
+      - {name: webmin, port: 10000, scheme: "https"}
+      - {name: deluge, port: 8112, terminate: "/"}
+      - {name: htpc, port: 8085, terminate: "/"}
   tasks: 
   - name: Install nginx
     apt: pkg=nginx

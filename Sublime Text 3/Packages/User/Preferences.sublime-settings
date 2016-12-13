@@ -41,7 +41,8 @@
 		"*.class",
 		".tags",
 		".tags_sorted_by_file",
-		".gemtags"
+		".gemtags",
+		"*.log"
 	],
 	"find_selected_text": true,
 	"folder_exclude_patterns":
