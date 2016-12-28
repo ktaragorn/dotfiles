@@ -1,7 +1,9 @@
 #{{ansible_managed}}
 tasks:
   showrss-dload:
-    rss: {{rss_url}}
+    rss:
+      url: {{rss_url}}
+      all_entries: no
     thetvdb_lookup: yes
     convert_magnet: yes
     series:
@@ -31,6 +33,7 @@ tasks:
         - The Simpsons
         - DreamWorks Dragons
         - The 100
+        - Mr. Robot
     pushbullet:
       apikey: {{pushbullet_access_token}}
     make_html:
@@ -62,6 +65,7 @@ tasks:
     regexp:
       reject:
         - sample
+    pathscrub: windows
     manipulate:
     - filename:
         replace:

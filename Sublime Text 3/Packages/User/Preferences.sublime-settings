@@ -58,7 +58,7 @@
 	"font_options":
 	[
 		"subpixel_antialias",
-		"no_bold", 
+		"no_bold",
 		"no_italic"
 	],
 	"font_size": 12,
@@ -82,5 +82,6 @@
 	"shift_tab_unindent": true,
 	"show_sidebar_on_activated": false,
 	"show_sidebar_on_save": false,
-	"theme": "Flatland Dark.sublime-theme"
+	"theme": "Default.sublime-theme",
+	"trim_trailing_white_space_on_save": true
 }
