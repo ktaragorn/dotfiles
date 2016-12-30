@@ -1,7 +1,7 @@
 <!--{{ansible_managed}} -->
 {% for service in proxied_services %}
-<div> 
-<a href="/{{service.name}}"> {{service.name |capitalize}}<!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} --> </a> 
+<div>
+<a href="/{{service.name}}/"> {{service.name |capitalize}}<!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} --> </a>
 <a href="http://pine64.middle.earth:{{service.port}}"> By Port </a>
 </div>
 {% endfor %}

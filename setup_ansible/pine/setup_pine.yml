@@ -6,7 +6,7 @@
   hosts: all
   gather_facts: no
   become: yes
-  tasks: 
+  tasks:
     - name: Install pip and other tools required
       apt: pkg={{item}} state=present
       with_items:
@@ -33,7 +33,7 @@
       notify: Restart ssh
     - name: setup no password sudo
       lineinfile: "dest=/etc/sudoers state=present line='ubuntu    ALL=NOPASSWD: ALL'"
-  handlers: 
+  handlers:
   - name: updatedb
     command: updatedb
   - name: Restart ssh
@@ -44,12 +44,12 @@
   tags: hdd
   hosts: all
   gather_facts: no
-  tasks: 
+  tasks:
     - name: Install ntfs-3g
       apt: pkg={{item}} state=present
       with_items:
         - ntfs-3g
-    - name: Create mount points      
+    - name: Create mount points
       file: path=/media/ubuntu/{{item}} state=directory
       with_items:
         - Archive
@@ -90,12 +90,12 @@
   hosts: all
   gather_facts: no
   vars_files: [vars/all.yml]
-  tasks: 
+  tasks:
   - name: Cron to curl privatedns
-    cron: 
-      name: 'Update dyndns for black-gate.privatedns.org' 
+    cron:
+      name: 'Update dyndns for black-gate.privatedns.org'
       user: ubuntu
-      special_time: hourly 
+      special_time: hourly
       job: curl -s http://sync.afraid.org/u/{{freedns_token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
 
 - name: Deluge installation and setup with systemd
@@ -107,7 +107,7 @@
     items:
       - deluged
       - deluge-web
-  tasks: 
+  tasks:
   - name: Install deluged and deluged-web
     apt: pkg={{item}} state=present
     with_items: '{{items}}'
@@ -129,12 +129,12 @@
   tags: nginx
   hosts: all
   gather_facts: no
-  vars: 
+  vars:
     proxied_services:
       - {name: webmin, port: 10000, scheme: "https"}
       - {name: deluge, port: 8112, terminate: "/"}
-      - {name: htpc, port: 8085, terminate: "/"}
-  tasks: 
+      - {name: htpc, port: 8085}
+  tasks:
   - name: Install nginx
     apt: pkg=nginx
   - name: Configure site
@@ -150,7 +150,7 @@
     with_items:
       - moved
       - downloaded
-  handlers: 
+  handlers:
     - name: Restart nginx
       service: state=restarted name=nginx
 
@@ -158,7 +158,7 @@
   tags: tvnamer
   hosts: all
   gather_facts: no
-  tasks: 
+  tasks:
   - name: Install tvnamer for adhoc tv renaming
     become: yes
     pip: name=tvnamer
@@ -170,17 +170,17 @@
   gather_facts: no
   vars:
     web_root: /var/www/html/
-  tasks: 
+  tasks:
   - name: Install flexget
     become: yes
     pip: name=flexget
   - name: Copy config file
     template: src=flexget/config.yml dest=~/.config/flexget/config.yml
   - name: Setup cron job
-    cron: 
-      name: 'Execute flexget rss fetch and move' 
+    cron:
+      name: 'Execute flexget rss fetch and move'
       user: ubuntu
-      hour: 0,4,8,12,16,20 
+      hour: 0,4,8,12,16,20
       minute: 0
       job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
 
@@ -191,7 +191,7 @@
 #         <buffermode>1</buffermode>
 #         <cachemembuffersize>41943040</cachemembuffersize>
 #         <readbufferfactor>3</readbufferfactor>
-#     </network>                                                                                                                                                                                                                                
+#     </network>
 #     <skiploopfilter>8</skiploopfilter>
 #   <videodatabase>
 #     <type>mysql</type>
@@ -199,7 +199,7 @@
 #     <port>3306</port>
 #     <user>kodi</user>
 #     <pass>kodi</pass>
-#   </videodatabase> 
+#   </videodatabase>
 #   <videolibrary>
 #     <importwatchedstate>true</importwatchedstate>
 #     <importresumepoint>true</importresumepoint>
@@ -214,7 +214,7 @@
   roles:
     - role: geerlingguy.mysql
       mysql_root_password: '{{my_mysql_root_password}}'
-      mysql_users: 
+      mysql_users:
         - name: kodi
           password: kodi
           host: "%"
@@ -272,16 +272,16 @@
 #   tasks:
 #     # unable to install emby without this
 #     - name: Add mono repo key
-#       apt_key: keyserver=keyserver.ubuntu.com id=3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF      
+#       apt_key: keyserver=keyserver.ubuntu.com id=3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 #     - name: Add repo to apt
-#       apt_repository: 
+#       apt_repository:
 #         repo: deb http://download.mono-project.com/repo/debian wheezy main
 #         update_cache: yes
 #         filename: mono-xamarin
 #     - name: Add repo key to apt
 #       apt_key: url=http://download.opensuse.org/repositories/home:emby/xUbuntu_16.04/Release.key
 #     - name: Add repo to apt
-#       apt_repository: 
+#       apt_repository:
 #         repo: deb http://download.opensuse.org/repositories/home:/emby/xUbuntu_16.04/ /
 #         update_cache: yes
 #         filename: emby-server-beta
