@@ -123,6 +123,26 @@
     with_items: '{{items}}'
 
 # TODO install webmin tasks
+- name: Install webmin and configure for reverse proxy
+  become: yes
+  hosts: all
+  tags: webmin
+  tasks:
+    - name: Configure webmin for reverse proxy
+      lineinfile: dest=/etc/webmin/config line={{item}}
+      with_items:
+        - webprefix=/webmin
+        - webprefixnoredir=1
+      notify: Restart webmin
+    - name: Configure webmin's server miniserv for reverse proxy
+      lineinfile: dest=/etc/webmin/miniserv.conf line={{item}}
+      with_items:
+        - cookiepath=/webmin
+      notify: Restart webmin
+    #http://webmin.com/apache.html
+  handlers:
+    - name: Restart webmin
+      service: state=restarted name=webmin
 
 - name: Nginx default site for webmin and deluge
   become: yes
@@ -131,7 +151,7 @@
   gather_facts: no
   vars:
     proxied_services:
-      - {name: webmin, port: 10000, scheme: "https"}
+      - {name: webmin, port: 10000, scheme: "https", terminate: "/"}
       - {name: deluge, port: 8112, terminate: "/"}
       - {name: htpc, port: 8085}
   tasks:
