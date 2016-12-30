@@ -133,12 +133,17 @@
       with_items:
         - webprefix=/webmin
         - webprefixnoredir=1
+        - referers=localhost
       notify: Restart webmin
     - name: Configure webmin's server miniserv for reverse proxy
       lineinfile: dest=/etc/webmin/miniserv.conf line={{item}}
       with_items:
         - cookiepath=/webmin
       notify: Restart webmin
+    - name: Disable ssl to "fix" cookie issue when proxying non https to https
+      lineinfile: dest=/etc/webmin/miniserv.conf line='ssl=0' regexp='^ssl=\d'
+      notify: Restart webmin
+    # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
     #http://webmin.com/apache.html
   handlers:
     - name: Restart webmin
@@ -151,7 +156,7 @@
   gather_facts: no
   vars:
     proxied_services:
-      - {name: webmin, port: 10000, scheme: "https", terminate: "/"}
+      - {name: webmin, port: 10000, terminate: "/"}
       - {name: deluge, port: 8112, terminate: "/"}
       - {name: htpc, port: 8085}
   tasks:
