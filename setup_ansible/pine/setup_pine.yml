@@ -127,6 +127,7 @@
   become: yes
   hosts: all
   tags: webmin
+  gather_facts: no
   tasks:
     - name: Configure webmin for reverse proxy
       lineinfile: dest=/etc/webmin/config line={{item}}
@@ -135,13 +136,13 @@
         - webprefixnoredir=1
         - referers=localhost
       notify: Restart webmin
-    - name: Configure webmin's server miniserv for reverse proxy
-      lineinfile: dest=/etc/webmin/miniserv.conf line={{item}}
+    - name: Configure webmin's server miniserv for reverse proxy, disable ssl
+      lineinfile: dest=/etc/webmin/miniserv.conf line={{item.line}} regexp="^{{item.regex}}"
       with_items:
-        - cookiepath=/webmin
-      notify: Restart webmin
-    - name: Disable ssl to "fix" cookie issue when proxying non https to https
-      lineinfile: dest=/etc/webmin/miniserv.conf line='ssl=0' regexp='^ssl=\d'
+        - {line: cookiepath=/webmin, regex: cookiepath=}
+        - {line: bind=127.0.0.1, regex: bind=}
+        - {line: sockets=, regex: sockets=}
+        - {line: ssl=0, regex: ssl=\d}
       notify: Restart webmin
     # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
     #http://webmin.com/apache.html
@@ -156,9 +157,9 @@
   gather_facts: no
   vars:
     proxied_services:
-      - {name: webmin, port: 10000, terminate: "/"}
-      - {name: deluge, port: 8112, terminate: "/"}
-      - {name: htpc, port: 8085}
+      - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
+      - {name: deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
+      - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
   tasks:
   - name: Install nginx
     apt: pkg=nginx

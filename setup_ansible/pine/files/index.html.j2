@@ -1,6 +1,10 @@
 <!--{{ansible_managed}} -->
 {% for service in proxied_services %}
 <div>
-<a href="/{{service.name}}/"> {{service.name |capitalize}}<!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} --> </a>
+<a href="/{{service.name}}/">
+	<img src={{service.icon}} style="height:100px">
+	{{service.name |capitalize}}
+<!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} -->
+</a>
 </div>
 {% endfor %}
