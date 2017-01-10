@@ -315,3 +315,12 @@
 #       apt: name=emby-server-beta
 #     - name: Start and enable the emby server
 #       service: name=emby-server state=started enabled=yes
+
+- name: Misc minor tasks
+  tags: misc
+  hosts: all
+  vars_files: [vars/all.yml]
+  gather_facts: no
+  tasks:
+    - name: Create command line kodi file
+      template: src=files/kodi dest=~/kodi mode=u+rwx

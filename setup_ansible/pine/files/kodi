@@ -1,0 +1,12 @@
+#{{ansible_managed}}
+if [ "$1" == "clean" ]
+then
+	operation="Clean"
+elif [ "$1" == "scan" ]
+then
+	operation="Scan"
+else
+	echo "Enter valid operation"
+	exit 1
+fi
+curl --data-binary "{ \"jsonrpc\": \"2.0\", \"method\": \"VideoLibrary.$operation\", \"id\": \"mybash\"}" -H 'content-type: application/json;' http://{{kodi_main_host_address_with_auth}}/jsonrpc
