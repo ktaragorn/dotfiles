@@ -122,6 +122,25 @@
     service: name={{item}} state=started enabled=true
     with_items: '{{items}}'
 
+- name: Deluge Thin client setup
+  tags: deluge_thin
+  hosts: all
+  gather_facts: no
+  vars_files: [vars/all.yml]
+  tasks:
+    - name: Add deluge thin client user to auth file
+      lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}}
+      notify: Restart deluge
+    - name: Configure to allow remote access
+      lineinfile:
+        dest: ~/.config/deluge/core.conf
+        regexp: '"allow_remote":'
+        line: '  "allow_remote": true,'
+      notify: Restart deluge
+  handlers:
+    - name: Restart deluge
+      service: state=restarted name=deluge
+
 # TODO install webmin tasks
 - name: Install webmin and configure for reverse proxy
   become: yes
