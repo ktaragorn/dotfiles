@@ -341,5 +341,8 @@
   vars_files: [vars/all.yml]
   gather_facts: no
   tasks:
-    - name: Create command line kodi file
-      template: src=files/kodi dest=~/kodi mode=u+rwx
+    - name: Create command line kodi and pushbullet file
+      template: src=files/{{item}} dest=~/{{item}} mode=u+rwx
+      with_items:
+        - kodi
+        - pushbullet
