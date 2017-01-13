@@ -11,8 +11,8 @@ server {
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
 		proxy_set_header X-Deluge-Base "/deluge/";
-		proxy_pass {{service.scheme | default("http")}}://localhost:{{service.port}}{{service.terminate | default("")}};
-		proxy_redirect http://localhost:{{service.port}}/ $host:$server_port/{{service.name}}/;
+		proxy_pass {{service.scheme | default("http")}}://{{service.host | default("localhost")}}:{{service.port}}{{service.terminate | default("")}};
+		proxy_redirect http://{{service.host | default("localhost")}}:{{service.port}}/ $host:$server_port/{{service.name}}/;
 		# https needed for webmin, / in the end needed for deluge, /in the end not needed for htpc
 	}
 	{% endfor %}
