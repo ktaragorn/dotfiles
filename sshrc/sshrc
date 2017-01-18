@@ -4,4 +4,4 @@ source $SSHHOME/.sshrc.d/scm_ps1
 export _Z_NO_RESOLVE_SYMLINKS=true
 source $SSHHOME/.sshrc.d/z.sh
 INPUTRC=$SSHHOME/.sshrc.d/inputrc
-alias screen="screen -R -c $SSHHOME/.sshrc.d/screenrc"
+alias screen="screen -dR -c $SSHHOME/.sshrc.d/screenrc"
