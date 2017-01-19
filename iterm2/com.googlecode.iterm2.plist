@@ -83,9 +83,11 @@
 	<key>MaxVertically</key>
 	<false/>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Public/Drop Box</string>
+	<string>~/Documents</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 459}</string>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
+	<string>{712, 521}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -119,9 +121,11 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>2364 601 606 456 1920 -840 1080 1897 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>2150 288 620 392 1920 -840 1080 1897 </string>
+	<string>652 498 620 392 0 0 1920 1057 </string>
+	<key>NSWindow Frame SessionsPreferences</key>
+	<string>1920 -701 606 456 1920 -840 1080 1897 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>269 97 918 498 0 0 1920 1057 </string>
+	<string>269 72 918 498 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>0 118 1920 939 0 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_8A89CC29-5FF0-4E33-8309-96F3E7A62F09</key>
@@ -1613,6 +1617,8 @@
 	<false/>
 	<key>PasteFromClipboard</key>
 	<false/>
+	<key>PasteTabToStringTabStopSize</key>
+	<integer>2</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1665,7 +1671,9 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-11-16T02:20:18Z</date>
+	<date>2017-01-16T08:14:23Z</date>
+	<key>SUSkippedVersion</key>
+	<string>3.0.13</string>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
