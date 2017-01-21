@@ -59,7 +59,7 @@
         name: /media/ubuntu/{{item}}
         src: LABEL={{item}}
         fstype: ntfs
-        opts: users,rw,uid=1000,gid=1000
+        opts: users,rw,uid=1000,gid=1000,noatime
         dump: "0"
         passno: "2"
         state: present
