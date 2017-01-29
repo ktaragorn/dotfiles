@@ -33,6 +33,7 @@ tasks:
         - The Simpsons
         - DreamWorks Dragons
         - The 100
+        - Riverdale
         - Mr. Robot
     pushbullet:
       apikey: {{pushbullet_access_token}}

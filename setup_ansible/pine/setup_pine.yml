@@ -165,6 +165,15 @@
       notify: Restart webmin
     # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
     #http://webmin.com/apache.html
+
+    # try to fix the hdd no spin down problem as per
+    # https://sourceforge.net/p/webadmin/bugs/3999/
+    # if this doesnt work, next step is to disable collection all out
+    # I also reduced the frequency to once in 30 min from once in 5
+    - name: Disable drive temperature collection in the background
+      lineinfile: dest=/etc/webmin/system-status/config line={{item}}
+      with_items:
+        - collect_notemp=1
   handlers:
     - name: Restart webmin
       service: state=restarted name=webmin
