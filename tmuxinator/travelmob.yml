@@ -36,5 +36,4 @@ windows:
         - ls
         - rails c
         - ls
-  - fix: z trav fix
 

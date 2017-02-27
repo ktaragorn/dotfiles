@@ -17,7 +17,7 @@
 		"Decent Color Scheme",
 		"Elixir",
 		"Git",
-		"GitGutter-Edge",
+		"GitGutter",
 		"Haml",
 		"Markdown HTML Preview",
 		"Markdown Preview",
@@ -27,6 +27,7 @@
 		"Pretty JSON",
 		"QuickThemes",
 		"Ruby Slim",
+		"RubyTest",
 		"Sass",
 		"SCSS",
 		"SideBarEnhancements",
@@ -45,6 +46,7 @@
 		"Theme - Soda",
 		"Themr",
 		"Tomorrow Color Schemes",
-		"VAlign"
+		"VAlign",
+		"YAML Nav"
 	]
 }
