@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require "json"
+list = JSON.parse(ARGV.first)
+list.each do | item|
+	puts "Downloading #{item}"
+	`youtube_dl #{item}`
+end
