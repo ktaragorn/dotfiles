@@ -3,7 +3,7 @@
 #http://lattejed.com/first-five-and-a-half-minutes-on-a-server-with-ansible
 ---
 - hosts: all
-  sudo: yes
+  become: yes
   tasks:
     - name: setup ssh key
       authorized_key: user=user key="{{ lookup('file', '~/.ssh/numenor.pub') }}"
@@ -21,6 +21,19 @@
 
     - name: Install unattended-upgrades
       action: apt pkg=unattended-upgrades state=present
+
+    - name: Install other tools
+      apt: pkg={{item}}
+      with_items:
+        - htop
+
+    # https://www.reddit.com/r/CloudAtCost/comments/4sz90m/anyone_else_just_loose_their_file_system/
+    - name: Install fs fixer script
+      become: no
+      lineinfile:
+        create: yes
+        dest: /home/user/fix_fs
+        line: sudo e2fsck /dev/dm-0
 
     - name: set hostname
       hostname: name=numenor
