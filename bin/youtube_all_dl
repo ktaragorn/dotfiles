@@ -2,6 +2,6 @@
 require "json"
 list = JSON.parse(ARGV.first)
 list.each_with_index do | item, index|
-	puts "Downloading #{item}, [#{index+1}/#{list.count} [#{Time.now}]"
+	puts "Downloading #{item}, [#{index+1}/#{list.count}] [#{Time.now}]"
 	`youtube_dl #{item}`
 end
