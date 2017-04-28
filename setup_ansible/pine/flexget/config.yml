@@ -6,35 +6,36 @@ tasks:
       all_entries: no
     thetvdb_lookup: yes
     convert_magnet: yes
-    series:
-      settings:
-        all:
-          propers: 12 hours
-          set:
-            movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
-            main_file_only: yes
-            ratio: 0.1
-            removeatratio: yes
-            magnetization_timeout: 100
-            content_filename: >
-              {{'{{ series_name }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
-      all:
-        - Modern Family
-        - 12 Monkeys
-        - Westworld
-        - 2 Broke Girls
-        - Elementary
-        - Fresh Off the Boat
-        - Game of Thrones
-        - Sherlock
-        - Silicon Valley
-        - The Big Bang Theory
-        - Last Week Tonight With John Oliver
-        - The Simpsons
-        - DreamWorks Dragons
-        - The 100
-        - Riverdale
-        - Mr. Robot
+    all_series:
+      # settings:
+      #   all:
+      propers: 12 hours
+      set:
+        movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+        main_file_only: yes
+        ratio: 0.1
+        removeatratio: yes
+        magnetization_timeout: 100
+        content_filename: >
+          {{'{{ series_name }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+      # all:
+      #   - Modern Family
+      #   - 12 Monkeys
+      #   - Westworld
+      #   - 2 Broke Girls
+      #   - Elementary
+      #   - Fresh Off the Boat
+      #   - Game of Thrones
+      #   - Sherlock
+      #   - Silicon Valley
+      #   - The Big Bang Theory
+      #   - Last Week Tonight With John Oliver
+      #   - The Simpsons
+      #   - DreamWorks Dragons
+      #   - The 100
+      #   - Riverdale
+      #   - Mr. Robot
+      #   - The Walking Dead
     pushbullet:
       apikey: {{pushbullet_access_token}}
     make_html:
