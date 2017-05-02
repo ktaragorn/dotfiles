@@ -1,4 +1,8 @@
 #{{ansible_managed}}
+schedules: no
+web_server:
+  port: 5050
+  base_url: /flexget
 tasks:
   showrss-dload:
     rss:
@@ -7,8 +11,6 @@ tasks:
     thetvdb_lookup: yes
     convert_magnet: yes
     all_series:
-      # settings:
-      #   all:
       propers: 12 hours
       set:
         movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
@@ -18,26 +20,11 @@ tasks:
         magnetization_timeout: 100
         content_filename: >
           {{'{{ series_name }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
-      # all:
-      #   - Modern Family
-      #   - 12 Monkeys
-      #   - Westworld
-      #   - 2 Broke Girls
-      #   - Elementary
-      #   - Fresh Off the Boat
-      #   - Game of Thrones
-      #   - Sherlock
-      #   - Silicon Valley
-      #   - The Big Bang Theory
-      #   - Last Week Tonight With John Oliver
-      #   - The Simpsons
-      #   - DreamWorks Dragons
-      #   - The 100
-      #   - Riverdale
-      #   - Mr. Robot
-      #   - The Walking Dead
-    pushbullet:
-      apikey: {{pushbullet_access_token}}
+    notify:
+      entries:
+        via:
+          - pushbullet:
+              api_key: {{pushbullet_access_token}}
     make_html:
       file: ~/downloaded.html
     deluge: yes
@@ -78,8 +65,11 @@ tasks:
       clean_source: 50
     make_html:
       file: ~/moved.html
-    pushbullet:
-      apikey: {{pushbullet_access_token}}
+    notify:
+      entries:
+        via:
+          - pushbullet:
+              api_key: {{pushbullet_access_token}}
     kodi_library:
       action: scan
       category: video
