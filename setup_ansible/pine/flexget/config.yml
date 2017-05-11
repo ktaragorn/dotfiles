@@ -7,7 +7,6 @@ tasks:
   showrss-dload:
     rss:
       url: {{rss_url}}
-      all_entries: no
     thetvdb_lookup: yes
     convert_magnet: yes
     all_series:
@@ -19,7 +18,7 @@ tasks:
         removeatratio: yes
         magnetization_timeout: 100
         content_filename: >
-          {{'{{ series_name }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+          {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
     notify:
       entries:
         via:
