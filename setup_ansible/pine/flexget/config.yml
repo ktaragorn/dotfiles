@@ -4,9 +4,11 @@ web_server:
   port: 5050
   base_url: /flexget
 templates:
-  global:
+  notify_pushbullet:
     notify:
       entries:
+        title: "{{ '{{task}}'}}"
+        message: "{{ '{{series_name}} - {{series_id}}' }}"
         via:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
@@ -30,12 +32,15 @@ tasks:
       propers: 12 hours
     make_html:
       file: ~/downloaded.html
-    template: deluge-tv-download
+    template:
+      - deluge-tv-download
+      - notify_pushbullet
 
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
 
   move-to-archive:
+    template: notify_pushbullet
     no_entries_ok: yes
     accept_all: yes
     metainfo_series: yes
@@ -93,4 +98,6 @@ tasks:
       shows:
         - The Walking Dead
         - Elementary
-    template: deluge-tv-download
+    template:
+      - deluge-tv-download
+      - notify_pushbullet
