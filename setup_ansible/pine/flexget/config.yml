@@ -3,30 +3,34 @@ schedules: no
 web_server:
   port: 5050
   base_url: /flexget
-tasks:
-  showrss-dload:
-    rss:
-      url: {{rss_url}}
-    thetvdb_lookup: yes
-    convert_magnet: yes
-    all_series:
-      propers: 12 hours
-      set:
-        movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
-        main_file_only: yes
-        ratio: 0.1
-        removeatratio: yes
-        magnetization_timeout: 100
-        content_filename: >
-          {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+templates:
+  global:
     notify:
       entries:
         via:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
+  deluge-tv-download:
+    convert_magnet: yes
+    thetvdb_lookup: yes
+    deluge:
+      movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+      main_file_only: yes
+      ratio: 0.1
+      removeatratio: yes
+      magnetization_timeout: 100
+      keep_subs: yes
+      content_filename: >
+        {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+tasks:
+  showrss-dload:
+    rss:
+      url: {{rss_url}}
+    all_series:
+      propers: 12 hours
     make_html:
       file: ~/downloaded.html
-    deluge: yes
+    template: deluge-tv-download
 
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
@@ -48,7 +52,7 @@ tasks:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes
       retrieve: files
-      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv|srt|sub|sbv)$'
     # Ignore samples
     regexp:
       reject:
@@ -64,13 +68,29 @@ tasks:
       clean_source: 50
     make_html:
       file: ~/moved.html
-    notify:
-      entries:
-        via:
-          - pushbullet:
-              api_key: {{pushbullet_access_token}}
     kodi_library:
       action: scan
       category: video
-      url: http://192.168.1.244
+      url: http://192.168.1.243
       port: 8080
+
+  search-missing:
+    manual: yes
+    discover:
+      what:
+        - next_series_episodes:
+            from_start: yes
+            backfill: yes
+      from:
+        - search_rss: https://www.skytorrents.in/rss/all/ad/1/{{ '{{ search_term }}' }}
+    torrent_alive: 10
+    quality: 480p-720p
+    series:
+      settings:
+        shows:
+          identified_by: ep
+          tracking: backfill
+      shows:
+        - The Walking Dead
+        - Elementary
+    template: deluge-tv-download
