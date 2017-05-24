@@ -90,6 +90,9 @@ tasks:
         - search_rss: https://www.skytorrents.in/rss/all/ad/1/{{ '{{ search_term }}' }}
     torrent_alive: 10
     quality: 480p-720p
+    exists_series: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}'}}
+    domain_delay:
+      skytorrents.in: 2 seconds
     series:
       settings:
         shows:
@@ -101,3 +104,16 @@ tasks:
     template:
       - deluge-tv-download
       - notify_pushbullet
+
+  #https://flexget.com/Cookbook/Series/SeedDB
+  seed_series_db:
+    # The find plugin will find all of your existing episodes
+    filesystem:
+      regexp: .*(avi|mkv|mp4|m4v|mpg|wmv|srt|sub|sbv)$
+      path:
+        - /media/ubuntu/Archive/TV Shows/The Walking Dead
+        - /media/ubuntu/Archive/TV Shows/Elementary
+      recursive: yes
+    # We use the manual plugin so that this task only runs when explicitly called
+    manual: yes
+
