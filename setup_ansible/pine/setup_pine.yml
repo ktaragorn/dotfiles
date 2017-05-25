@@ -190,6 +190,7 @@
       - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
       - {name: kodi, host: 192.168.1.244, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
+      - {name: sonarr, port: 8989, icon: "http://appv2.asustor.com/uploadIcons/0020_999_1439891916_0020_17730_1400232290_nzbDrone_icon_256x256.png"}
   tasks:
   - name: Install nginx
     apt: pkg=nginx
@@ -353,6 +354,45 @@
 #       apt: name=emby-server-beta
 #     - name: Start and enable the emby server
 #       service: name=emby-server state=started enabled=yes
+
+
+# from https://github.com/Sonarr/Sonarr/wiki/Installation
+# configuration mostly in GUI
+# - Reverse proxy
+# - Connect to deluge
+# - Setup TV SHows
+- name: Sonarr Installation/Config
+  tags: sonarr
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Add mono & sonarr PPA key
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: "{{item}}"
+      with_items:
+        - FDA5DFFC #sonarr
+        - 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF #mono
+    - name: Add mono & sonarr PPA repository
+      apt_repository:
+        repo: "{{item.repo}}"
+        filename: "{{item.file}}"
+        update_cache: yes
+      with_items:
+        - {repo: "deb http://apt.sonarr.tv/ master main", file: sonarr}
+        - {repo: "deb http://download.mono-project.com/repo/ubuntu xenial main", file: mono-official}
+    - name: Install mono and Sonarr
+      apt: name={{item}}
+      with_items:
+        - libmono-cil-dev
+        - nzbdrone
+    - name: install sonarr systemd unit file
+      copy: src=files/sonarr.service dest=/etc/systemd/system/sonarr.service
+    - name: Start and enable the daemon
+      systemd: name=sonarr enabled=yes daemon_reload=yes state=started
+    # - name: Configure for reverse proxy
+    #   lineinfile
 
 - name: Misc minor tasks
   tags: misc

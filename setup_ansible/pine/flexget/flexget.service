@@ -1,0 +1,21 @@
+[Unit]
+Description=Flexget Daemon
+After=network.target
+
+[Service]
+Type=simple
+
+User=ubuntu
+Group=ubuntu
+UMask=027
+
+WorkingDirectory=/home/ubuntu
+
+ExecStart=/usr/local/bin/flexget daemon start
+ExecStop=/usr/local/bin/flexget daemon stop
+ExecReload=/usr/local/bin/flexget daemon reload
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
