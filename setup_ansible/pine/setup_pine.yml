@@ -191,6 +191,7 @@
       - {name: kodi, host: 192.168.1.244, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: sonarr, port: 8989, icon: "http://appv2.asustor.com/uploadIcons/0020_999_1439891916_0020_17730_1400232290_nzbDrone_icon_256x256.png"}
+      - {name: jackett, port: 9117, icon: "https://avatars1.githubusercontent.com/u/15383019?v=3&s=400"}
   tasks:
   - name: Install nginx
     apt: pkg=nginx
@@ -393,6 +394,78 @@
       systemd: name=sonarr enabled=yes daemon_reload=yes state=started
     # - name: Configure for reverse proxy
     #   lineinfile
+
+# #https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
+# - name: Install Docker
+#   tags: docker
+#   hosts: all
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     - name: Install requirements/dependencies to access repo
+#       apt: name={{item}}
+#       with_items:
+#         - apt-transport-https
+#         - ca-certificates
+#         - software-properties-common
+#     - name: Install docker GPG key
+#       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+#     - name: Install Docker repo
+#       apt_repository:
+#         repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
+#         update_cache: yes
+#     - name: Install docker-ce
+#       apt: name=docker-ce
+
+- name: Install Docker
+  tags: docker
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Install docker.io
+      apt: name=docker.io
+    - name: Enable docker to start on boot
+      systemd: name=docker enabled=yes
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+      notify: Restart Docker
+  handlers:
+    - name: Restart Docker
+      systemd: name=docker state=restarted
+
+#https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
+#https://hub.docker.com/r/linuxserver/jackett/
+- name: Jackett setup via docker
+  tags: jackett
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Download jackett docker image
+      docker_image:
+        name: lsioarmhf/jackett
+    - name: Start jackett container
+      docker_container:
+        name: jackett
+        image: lsioarmhf/jackett
+        volumes:
+          - /home/ubuntu/.config/jackett:/config
+          - /home/ubuntu/Downloads/jackett:/downloads
+          - /etc/localtime:/etc/localtime:ro
+        env:
+          PGID: 1000
+          PUID: 1000
+        restart_policy: unless-stopped
+        published_ports: 9117:9117
+    - name: Prepare for reverse proxy
+      lineinfile:
+        dest: /home/ubuntu/.config/jackett/Jackett/ServerConfig.json
+        regexp: '^  "BasePathOverride":'
+        line: '  "BasePathOverride": "/jackett"'
+        state: present
 
 - name: Misc minor tasks
   tags: misc
