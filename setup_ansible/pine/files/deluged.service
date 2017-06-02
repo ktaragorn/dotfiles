@@ -3,7 +3,7 @@ Description=Deluge Bittorrent Client Daemon
 After=network-online.target
 
 # Unit starts after the following mounts are available.
-RequiresMountsFor=media-ubuntu-Archive.mount 
+RequiresMountsFor=/media/ubuntu/Archive
 # Unit is stopped when any of these mounts disappear.
 BindsTo=media-ubuntu-Archive.mount
 
