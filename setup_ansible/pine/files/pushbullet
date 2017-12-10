@@ -1,2 +1,2 @@
 #!/bin/bash
-curl --header 'Access-Token: {{pushbullet_access_token}}' https://api.pushbullet.com/v2/pushes -d type=note -d title=$1 -d body=$2
+curl --header 'Access-Token: {{pushbullet_access_token}}' https://api.pushbullet.com/v2/pushes -d type=note -d title="$1" -d body="$2"

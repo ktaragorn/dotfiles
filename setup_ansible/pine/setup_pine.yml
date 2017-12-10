@@ -473,8 +473,15 @@
   vars_files: [vars/all.yml]
   gather_facts: no
   tasks:
-    - name: Create command line kodi and pushbullet file
+    - name: Create command line kodi, pushbullet file, monitor file
       template: src=files/{{item}} dest=~/{{item}} mode=u+rwx
       with_items:
         - kodi
         - pushbullet
+        - monitor_free_disk_space.sh
+    - name: Create cron job to Monitor disk space and alert if low
+      cron:
+        name: 'Monitor disk space and alert if low'
+        user: ubuntu
+        special_time: daily
+        job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '99'
