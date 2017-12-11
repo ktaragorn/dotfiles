@@ -485,3 +485,21 @@
         user: ubuntu
         special_time: daily
         job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '99'
+
+- name: Setup NFS
+  tags: nfs
+  hosts: all
+  become: yes
+  vars_files: [vars/all.yml]
+  gather_facts: no
+  tasks:
+    - name: Install NFS Server
+      apt: package=nfs-kernel-server
+    - name: Start and enable NFS Server
+      service: name=nfs-kernel-server state=started enabled=true
+    - name: Configure NFS Server
+      copy: src=files/exports dest=/etc/exports
+      notify: Restart NFS server
+  handlers:
+    - name: Restart NFS server
+      systemd: name=nfs-kernel-server state=restarted
