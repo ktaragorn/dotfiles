@@ -229,9 +229,12 @@
   vars:
     web_root: /var/www/html/
   tasks:
-  - name: Install flexget
+  - name: Install flexget and subliminal
     become: yes
-    pip: name=flexget
+    pip: name={{item}}
+    with_items:
+      - flexget
+      - subliminal
   - name: Copy config file
     template: src=flexget/config.yml dest=~/.config/flexget/config.yml
   - name: Copy flexget service file for systemd
@@ -249,6 +252,13 @@
       hour: 0,4,8,12,16,20
       minute: 0
       job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
+  - name: Setup Subtitle cron job
+    cron:
+      name: 'Execute flexget rss fetch and move'
+      user: ubuntu
+      hour: *
+      minute: 0
+      job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute --task get_subtitles
 
 
 # add this to advancedsettings.xml

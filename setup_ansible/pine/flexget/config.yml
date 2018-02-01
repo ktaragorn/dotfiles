@@ -44,6 +44,25 @@ tasks:
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
 
+  get_subtitles:
+    manual: yes
+    filesystem:
+      path:
+        - /media/ubuntu/Archive/Torrent/TV Shows/
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'  # only include filenames with these extensions
+      recursive: yes
+    accept_all: yes
+    seen: local                     # seen shouldn't interfer with anything outside this subtitles task
+    template: notify_pushbullet
+    subliminal:
+      languages:
+        - eng
+      providers: [opensubtitles]
+      authentication:
+        opensubtitles:
+          username: {{opensubtitles_username}}
+          password: {{opensubtitles_password}}
+
   move-to-archive:
     template: notify_pushbullet
     no_entries_ok: yes

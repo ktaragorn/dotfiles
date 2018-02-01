@@ -65,13 +65,13 @@
 	<key>Hotkey</key>
 	<false/>
 	<key>HotkeyChar</key>
-	<integer>0</integer>
+	<integer>32</integer>
 	<key>HotkeyCode</key>
-	<integer>0</integer>
+	<integer>49</integer>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>HotkeyModifiers</key>
-	<integer>8388864</integer>
+	<integer>524288</integer>
 	<key>IRMemory</key>
 	<integer>4</integer>
 	<key>JobName</key>
@@ -133,9 +133,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>4 58 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>495 193 796 473 0 0 1920 1057 </string>
+	<string>495 154 796 473 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1920 1080 0 0 1920 1057 </string>
+	<string>0 118 1920 939 0 0 1920 1057 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>4 0 1916 1057 0 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_8A89CC29-5FF0-4E33-8309-96F3E7A62F09</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_8A89CC29-5FF0-4E33-8309-96F3E7A62F09_selection</key>
@@ -707,7 +709,7 @@
 			<key>Rows</key>
 			<integer>35</integer>
 			<key>Screen</key>
-			<integer>-1</integer>
+			<integer>2</integer>
 			<key>Scrollback Lines</key>
 			<integer>1000</integer>
 			<key>Scrollback With Status Bar</key>
@@ -1707,9 +1709,9 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-24T03:31:37Z</date>
+	<date>2018-01-05T07:37:41Z</date>
 	<key>SUSkippedVersion</key>
-	<string>3.1.5.beta.1</string>
+	<string>3.1.5.beta.2</string>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>

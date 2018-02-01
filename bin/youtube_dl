@@ -1,2 +1,2 @@
 #!/bin/sh
-youtube-dl --format 'worst[ext=mp4]' $1
+youtube-dl --format 'worst[ext=mp4]' $@
