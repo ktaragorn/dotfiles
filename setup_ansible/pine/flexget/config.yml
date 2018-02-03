@@ -1,5 +1,11 @@
 #{{ansible_managed}}
-schedules: no
+schedules:
+  - tasks: get_subtitles
+    interval:
+      hours: 1
+  - tasks: [showrss-dload, move-to-archive]
+    interval:
+      hours: 4
 web_server:
   port: 5050
   base_url: /flexget

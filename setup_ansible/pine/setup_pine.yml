@@ -245,21 +245,6 @@
     service: name=flexget state=started enabled=true
   - name: Set web password
     command: flexget web passwd {{flexget_web_password}}
-  - name: Setup cron job
-    cron:
-      name: 'Execute flexget rss fetch and move'
-      user: ubuntu
-      hour: 0,4,8,12,16,20
-      minute: 0
-      job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute
-  - name: Setup Subtitle cron job
-    cron:
-      name: 'Execute flexget rss fetch and move'
-      user: ubuntu
-      hour: *
-      minute: 0
-      job: /usr/local/bin/flexget -c /home/ubuntu/.config/flexget/config.yml --cron -L verbose execute --task get_subtitles
-
 
 # add this to advancedsettings.xml
 # <advancedsettings>
@@ -494,7 +479,7 @@
         name: 'Monitor disk space and alert if low'
         user: ubuntu
         special_time: daily
-        job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '99'
+        job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '1000'
 
 - name: Setup NFS
   tags: nfs
