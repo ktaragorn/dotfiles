@@ -51,7 +51,6 @@ tasks:
   #problems a) season was wrong b) didnt rename at all..
 
   get_subtitles:
-    manual: yes
     filesystem:
       path:
         - /media/ubuntu/Archive/Torrent/TV Shows/

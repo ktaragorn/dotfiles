@@ -249,6 +249,7 @@
   handlers:
     - name: Restart Flexget
       service: name=flexget state=restarted
+      become: yes
 
 # add this to advancedsettings.xml
 # <advancedsettings>
