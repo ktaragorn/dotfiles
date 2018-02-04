@@ -237,6 +237,7 @@
       - subliminal
   - name: Copy config file
     template: src=flexget/config.yml dest=~/.config/flexget/config.yml
+    notify: Restart Flexget
   - name: Copy flexget service file for systemd
     become: yes
     copy: src=flexget/flexget.service dest=/etc/systemd/system/flexget.service
@@ -245,6 +246,9 @@
     service: name=flexget state=started enabled=true
   - name: Set web password
     command: flexget web passwd {{flexget_web_password}}
+  handlers:
+    - name: Restart Flexget
+      service: name=flexget state=restarted
 
 # add this to advancedsettings.xml
 # <advancedsettings>

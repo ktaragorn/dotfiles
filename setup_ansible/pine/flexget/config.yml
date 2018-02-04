@@ -35,10 +35,10 @@ tasks:
     rss:
       url: {{rss_url}}
     manipulate:
-      title:
-        replace:
-          regexp: Riverdale.US
-          format: Riverdale
+      - title:
+          replace:
+            regexp: Riverdale.US
+            format: Riverdale
     all_series:
       propers: 12 hours
     make_html:
