@@ -30,6 +30,8 @@ log level = 3
 {% if samba_interfaces|length > 0 %}
   interfaces = {{ samba_interfaces }}
 {% endif %}
+  #performance https://eggplant.pro/blog/faster-samba-smb-cifs-share-performance/
+  read raw = yes
 
   # Name resolution: make sure \\NETBIOS_NAME\ works
   wins support = yes

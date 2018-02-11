@@ -485,6 +485,12 @@
         user: ubuntu
         special_time: daily
         job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '1000'
+    - name: Create cron job to start iperf daemon
+      cron:
+        name: Start Iperf3 daemon
+        user: ubuntu
+        special_time: reboot
+        job: iperf3 -sD
 
 - name: Setup NFS
   tags: nfs
