@@ -18,6 +18,14 @@ templates:
         via:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
+  configure_series_from_downloaded:
+    configure_series:
+      settings:
+        parse_only: yes
+        identified_by: ep
+      from:
+        filesystem:
+          path: /media/ubuntu/Archive/Torrent/TV Shows/
   deluge-tv-download:
     convert_magnet: yes
     thetvdb_lookup: yes
@@ -58,7 +66,9 @@ tasks:
       recursive: yes
     accept_all: yes
     seen: local                     # seen shouldn't interfer with anything outside this subtitles task
-    template: notify_pushbullet
+    template:
+      - configure_series_from_downloaded
+      - notify_pushbullet
     subliminal:
       languages:
         - eng
@@ -69,19 +79,14 @@ tasks:
           password: {{opensubtitles_password}}
 
   move-to-archive:
-    template: notify_pushbullet
+    template:
+      - configure_series_from_downloaded
+      - notify_pushbullet
     no_entries_ok: yes
     accept_all: yes
     metainfo_series: yes
     seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
     require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
-    configure_series:
-      settings:
-        parse_only: yes
-        identified_by: ep
-      from:
-        filesystem:
-          path: /media/ubuntu/Archive/Torrent/TV Shows/
     filesystem:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes
