@@ -53,19 +53,19 @@
       file: path=/media/ubuntu/{{item}} state=directory
       with_items:
         - Archive
-        - Vault
+        - Chest
     - name: Mount the disks
       mount:
-        name: /media/ubuntu/{{item}}
-        src: LABEL={{item}}
-        fstype: ntfs
-        opts: users,rw,uid=1000,gid=1000,noatime
+        name: /media/ubuntu/{{item.name}}
+        src: LABEL={{item.name}}
+        fstype: "{{item.fstype}}"
+        opts: users,rw,noatime{{item.other_opts}}
         dump: "0"
         passno: "2"
         state: present
       with_items:
-        - Archive
-        - Vault
+        - {name: Archive, other_opts: ,uid=1000,gid=1000, fstype: ntfs}
+        - {name: Chest, other_opts: "", fstype: "ext4"}
 
 - name: File sharing and SAMBA
   tags: samba
@@ -80,8 +80,8 @@
       path: /media/ubuntu/Archive
       public: yes
       writable: yes
-    - name: Vault
-      path: /media/ubuntu/Vault
+    - name: Chest
+      path: /media/ubuntu/Chest
       public: yes
       writable: yes
 
