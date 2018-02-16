@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+SHELL=/bin/bash
+# Minute (m), Hour (h), Day (d), Month (mth), Weekday (wd)
+# m  h d mth wd command
+{{ automysqlbackup_cron.minute }} {{ automysqlbackup_cron.hour }} {{ automysqlbackup_cron.day }} {{ automysqlbackup_cron.month }} {{ automysqlbackup_cron.weekday }} root /usr/local/bin/automysqlbackup /etc/automysqlbackup/{{ ansible_hostname.lower() }}.conf

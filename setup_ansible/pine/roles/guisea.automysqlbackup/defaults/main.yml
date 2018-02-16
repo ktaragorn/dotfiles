@@ -1,0 +1,87 @@
+---
+
+# Download URL to get the archive from
+automysqlbackup_download_url: "https://github.com/guisea/automysqlbackup/archive/master.zip"
+
+# database username and password that will perform the backups
+automysqlbackup_username: "$(grep user ~/.my.cnf | tail -n 1 | cut -d'=' -f2 | awk '{print $1}')"
+automysqlbackup_password: "$(grep password ~/.my.cnf | tail -n 1 | cut -d'=' -f2 | awk '{print $1}')"
+
+# hostname or ip address of the database server
+automysqlbackup_host: localhost
+
+# space separated string of databases to include or ignore in the backup
+# by default all databases are backed up implied by ()
+automysqlbackup_dbames: ()
+# These are exlusions from backup
+automysqlbackup_dbexclude: "performance_schema information_schema"
+
+# Choose Compression type. (gzip or bzip2)
+automysqlbackup_compression: gzip
+
+# use multicore compression
+automysqlbackup_multicore: no
+automysqlbackup_multicore_threads: "{{ ((ansible_processor_cores * ansible_processor_threads_per_core) * ansible_processor_count) -1 }}"
+
+# whether to include a create database statement
+automysqlbackup_createdb_stmt: no
+
+automysqlbackup_backup_directory: /var/lib/automysqlbackup
+
+# Dump full schema, routines, triggers etc.
+automysqlbackup_dump_full_schema: yes
+
+# backup each database in a separate directory or everything to a single file
+automysqlbackup_sepdir: "yes"
+
+# day of the week for weekly backups (1 to 7 where 1 is Monday)
+# Set to 0 to disable weekly backups.
+automysqlbackup_doweekly: 6
+
+# Which day do you want monthly backups? (01 to 31)
+# If the chosen day is greater than the last day of the month, it will be done
+# on the last day of the month.
+# Set to 0 to disable monthly backups.
+automysqlbackup_domonthly: 0
+
+# Set rotation of daily backups. VALUE*24hours
+# If you want to keep only today's backups, you could choose 1, i.e. everything older than 24hours will be removed.
+automysqlbackup_rotationdaily: 6
+
+# Set rotation for weekly backups. VALUE*24hours
+automysqlbackup_rotationweekly: 35
+
+# Set rotation for monthly backups. VALUE*24hours
+automysqlbackup_rotationmonthly: 150
+
+# output location (log, files, stdout, quiet) and where output is sent (user / email address)
+automysqlbackup_mailcontent: "stdout"
+# Email Address to send mail to? (user@domain.com)
+automysqlbackup_mailaddr: "root"
+
+# Do you wish to encrypt your backups using openssl?
+automysqlbackup_encrypt: "no"
+# Choose a password to encrypt the backups.
+automysqlbackup_encrypt_password: password0123
+
+# default cron configuration
+automysqlbackup_cron:
+  minute: 30
+  hour: 19
+  day: "*"
+  month: "*"
+  weekday: "*"
+
+# Keep a look
+automysqlbackup_latest: "no"
+
+# Remove all date and time information from the filenames in the latest folder.
+# Runs, if activated, once after the backups are completed. Practically it just finds all files in the latest folder
+# and removes the date and time information from the filenames (if present).
+automysqlbackup_latest_clean_filenames: "yes"
+
+automysqlbackup_deps:
+  - unzip
+
+
+

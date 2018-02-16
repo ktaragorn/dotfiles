@@ -1,0 +1,29 @@
+---
+driver:
+  # using docker to test
+  name: docker
+
+provisioner:
+  # use an ansible playbook to provision our server
+  name: ansible_playbook
+  # name of the host
+  hosts: test-kitchen
+  # list of ansible galaxy requirements from the roles meta/main.yml
+  requirements_path: dependencies.yml
+
+platforms:
+  - name: centos-7
+    driver_config:
+      image: centos:centos7
+      run_command:
+        - /usr/sbin/init
+        - yum install -y epel-release
+        - yum install -y deltarpm ansible git openssl
+      privileged: true
+      waitfor_ssh: false
+
+
+
+suites:
+  # suites found at /test/integration/$test-name
+  - name: default

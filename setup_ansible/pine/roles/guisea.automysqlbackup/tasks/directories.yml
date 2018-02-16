@@ -1,0 +1,34 @@
+---
+- name: check if is installed
+  stat:
+    path: /usr/local/bin/automysqlbackup
+  register: st
+
+- name: Ensure tmp dir exists
+  file:
+    path: /tmp/automysqlbackup
+    state: directory
+  tags:
+    - automysqlbackup
+  when: not st.stat.exists
+
+- name: Ensure config directory exists
+  file:
+    path: /etc/automysqlbackup
+    state: directory
+  tags:
+    - automysqlbackup
+
+- name: Ensure cron.d is present
+  file:
+    path: /etc/cron.d
+    state: directory
+  tags:
+    - automysqlbackup
+
+- name: Ensure Backup directory is present
+  file:
+    path: "{{ automysqlbackup_backup_directory }}"
+    state: directory
+  tags:
+    - automysqlbackup

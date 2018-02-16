@@ -1,0 +1,8 @@
+---
+- name: Ensure Dependencies installed
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ automysqlbackup_deps }}"
+  tags:
+    - automysqlbackup

@@ -1,0 +1,55 @@
+---
+# Ensure directories are established as required
+- include: directories.yml
+
+- include: "setup-{{ ansible_os_family }}.yml"
+
+- name: download automysqlbackup
+  unarchive:
+    src: "{{ automysqlbackup_download_url }}"
+    dest: /tmp
+    creates: /usr/local/bin/automysqlbackup
+    remote_src: true
+  register: installed
+  tags:
+    - automysqlbackup
+
+- name: Install automysqlbackup
+  copy:
+    src: /tmp/automysqlbackup-master/automysqlbackup
+    dest: /usr/local/bin/automysqlbackup
+    remote_src: yes
+  when: installed.changed
+  tags:
+    - automysqlbackup
+
+- name: set permissions
+  file:
+    path: /usr/local/bin/automysqlbackup
+    state: touch
+    mode: u+rwx,g+rx,a+rx
+  changed_when: false
+  tags:
+    - automysqlbackup
+
+# Run configuration items
+- include: configuration.yml
+
+- name: Ensure deps installed for multicore archiving if enabled
+  package:
+    name: pigz
+    state: present
+  when: automysqlbackup_multicore == "yes" and automysqlbackup_compression == "gzip"
+  tags:
+    - automysqlbackup
+
+- name: Ensure deps installed for multicore archiving if enabled
+  package:
+    name: pbzip2
+    state: present
+  when: automysqlbackup_multicore == "yes" and automysqlbackup_compression == "bzip2"
+  tags:
+    - automysqlbackup
+
+- include: cron.yml
+- include: cleanup.yml

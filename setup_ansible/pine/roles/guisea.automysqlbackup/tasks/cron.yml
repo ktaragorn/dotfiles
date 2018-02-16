@@ -1,0 +1,18 @@
+---
+
+- name: remove the cron.daily file if exists
+  file:
+    path: /etc/cron.daily/automysqlbackup
+    state: absent
+  tags:
+    - automysqlbackup
+
+- name: add automysqlbackup cron job
+  template:
+    src: cron.d.j2
+    dest: /etc/cron.d/00automysqlbackup
+    group: root
+    owner: root
+    mode: "0600"
+  tags:
+    - automysqlbackup

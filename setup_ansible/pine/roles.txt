@@ -1,2 +1,3 @@
 geerlingguy.mysql
 bertvv.samba
+guisea.automysqlbackup

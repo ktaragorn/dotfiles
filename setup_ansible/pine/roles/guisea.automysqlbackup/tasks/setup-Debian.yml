@@ -1,0 +1,9 @@
+---
+- name: Ensure Dependencies installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ automysqlbackup_deps }}"
+  tags:
+    - automysqlbackup

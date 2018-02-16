@@ -288,6 +288,16 @@
       mysql_packages: [mariadb-server]
       mysql_bind_address: '192.168.1.222' # update if ipaddress changes
       mysql_databases: [{name: 1channel}]
+    - role: guisea.automysqlbackup
+      automysqlbackup_cron:
+        minute: 30
+        hour: 2
+        day: "*"
+        month: "*"
+        weekday: "*"
+      automysqlbackup_backup_directory: /var/lib/automysqlbackup
+      automysqlbackup_username: kodi
+      automysqlbackup_password: kodi
 
 - name: HTPC Manager
   tags: htpc
