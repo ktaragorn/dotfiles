@@ -19,6 +19,8 @@ templates:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
   configure_series_from_downloaded:
+    require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
+    metainfo_series: yes
     configure_series:
       settings:
         parse_only: yes
@@ -70,6 +72,7 @@ tasks:
       - configure_series_from_downloaded
       - notify_pushbullet
     subliminal:
+      exact_match: no
       languages:
         - eng
       providers: [opensubtitles]
@@ -84,9 +87,7 @@ tasks:
       - notify_pushbullet
     no_entries_ok: yes
     accept_all: yes
-    metainfo_series: yes
     seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
-    require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
     filesystem:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes
