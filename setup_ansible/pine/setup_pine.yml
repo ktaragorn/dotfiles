@@ -51,7 +51,7 @@
       with_items:
         - ntfs-3g
     - name: Create mount points
-      file: path=/media/ubuntu/{{item}} state=directory
+      file: path=/media/ubuntu/{{item}} state=directory mode=0777
       with_items:
         - Archive
         - Chest
