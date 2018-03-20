@@ -13,6 +13,7 @@
         - python-pip
         - htop
         - git
+        - jq
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -489,6 +490,7 @@
         - kodi
         - pushbullet
         - monitor_free_disk_space.sh
+        - speed_test.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: 'Monitor disk space and alert if low'
@@ -501,6 +503,12 @@
         user: ubuntu
         special_time: reboot
         job: iperf3 -sD
+    - name: Create cron job to check network speed and alert if low
+      cron:
+        name: Check network speed and alert if low
+        user: ubuntu
+        special_time: daily
+        job: /home/ubuntu/speed_test.sh
 
 - name: Setup NFS
   tags: nfs
