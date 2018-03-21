@@ -6,7 +6,7 @@
   - name: Add byobu PPA on debian machines
     apt_repository: repo='ppa:byobu/ppa' update_cache=yes
     when: ansible_os_family != 'Darwin'
-    sudo: yes
+    become: yes
 
   - name: Install nice CLI packages on Debian systems
     apt: pkg={{item}} state=present
@@ -18,7 +18,7 @@
       - ncdu
       - guake
     when: ansible_os_family != 'Darwin'
-    sudo: yes
+    become: yes
 
     # unnecessary since need to install homebrew to install ansible in the first place..
   # - name: Install Homebrew on osx
@@ -41,6 +41,7 @@
   - name: Fix htop for osx
     file: name=/usr/local/bin/htop mode=6555 owner=root follow=yes
     become: yes
+    when: ansible_os_family == 'Darwin'
 
   - name: Install brew cask
     homebrew: pkg=caskroom/cask/brew-cask
@@ -92,6 +93,11 @@
     with_items:
       - sshrc
       - sshrc.d
+
+  #https://askubuntu.com/questions/7190/why-wont-my-xmodmap-file-load-on-login
+  - name: Autostart Xmodmap in linux
+    when: ansible_os_family != 'Darwin' #gnome only??
+    file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
 
   - name: Link tmux.conf in debian systems
     file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
