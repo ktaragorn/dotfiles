@@ -112,8 +112,6 @@ tasks:
           - srt
           - sub
           - sbv
-        subdirs:
-          - Subs
     make_html:
       file: ~/moved.html
     kodi_library:
