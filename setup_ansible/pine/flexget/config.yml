@@ -1,9 +1,9 @@
 #{{ansible_managed}}
 schedules:
-  - tasks: get_subtitles
+  - tasks: [get_subtitles,showrss-dload]
     interval:
       hours: 1
-  - tasks: [showrss-dload, move-to-archive]
+  - tasks: [move-to-archive]
     interval:
       hours: 4
 web_server:
@@ -51,7 +51,7 @@ tasks:
             regexp: Riverdale.US
             format: Riverdale
     all_series:
-      propers: 12 hours
+      propers: 1 hour
     make_html:
       file: ~/downloaded.html
     template:
