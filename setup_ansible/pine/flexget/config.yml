@@ -73,7 +73,7 @@ tasks:
     # seen: local                     # seen shouldn't interfer with anything outside this subtitles task
     template:
       - configure_series_from_downloaded
-      - notify_pushbullet
+      # - notify_pushbullet
     subliminal:
       exact_match: no
       languages:
