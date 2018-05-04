@@ -29,6 +29,12 @@ templates:
       from:
         filesystem:
           path: /media/ubuntu/Archive/Torrent/TV Shows/
+  work_on_downloaded_files:
+    filesystem:
+      path: /media/ubuntu/Archive/Torrent/TV Shows/
+      recursive: yes
+      retrieve: files
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
   deluge-tv-download:
     convert_magnet: yes
     thetvdb_lookup: yes
@@ -64,15 +70,11 @@ tasks:
   get_subtitles:
     disable:
       - seen
-    filesystem:
-      path:
-        - /media/ubuntu/Archive/Torrent/TV Shows/
-      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'  # only include filenames with these extensions
-      recursive: yes
     accept_all: yes
     # seen: local                     # seen shouldn't interfer with anything outside this subtitles task
     template:
       - configure_series_from_downloaded
+      - work_on_downloaded_files
       # - notify_pushbullet
     subliminal:
       exact_match: no
@@ -88,14 +90,10 @@ tasks:
     template:
       - configure_series_from_downloaded
       - notify_pushbullet
+      - work_on_downloaded_files
     no_entries_ok: yes
     accept_all: yes
     seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
-    filesystem:
-      path: /media/ubuntu/Archive/Torrent/TV Shows/
-      recursive: yes
-      retrieve: files
-      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
     # Ignore samples
     regexp:
       reject:
