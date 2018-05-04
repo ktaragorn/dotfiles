@@ -95,7 +95,7 @@ tasks:
       path: /media/ubuntu/Archive/Torrent/TV Shows/
       recursive: yes
       retrieve: files
-      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv|srt|sub|sbv)$'
+      regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
     # Ignore samples
     regexp:
       reject:
@@ -109,6 +109,13 @@ tasks:
     move:
       to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50
+      along:
+        extensions:
+          - srt
+          - sub
+          - sbv
+        subdirs:
+          - Subs
     make_html:
       file: ~/moved.html
     kodi_library:
