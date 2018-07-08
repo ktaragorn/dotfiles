@@ -14,4 +14,4 @@ Package Control.last-run
 *.tmtheme
 *-ca-bundle
 .DS_Store
-*.retry  # ansible
+*.retry

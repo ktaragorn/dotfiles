@@ -35,6 +35,11 @@ templates:
       recursive: yes
       retrieve: files
       regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
+  kodi_scan:
+    action: scan
+    category: video
+    url: http://192.168.1.244
+    port: 8080
   deluge-tv-download:
     convert_magnet: yes
     thetvdb_lookup: yes
@@ -58,8 +63,6 @@ tasks:
             format: Riverdale
     all_series:
       propers: 1 hour
-    make_html:
-      file: ~/downloaded.html
     template:
       - deluge-tv-download
       - notify_pushbullet
@@ -91,10 +94,13 @@ tasks:
       - configure_series_from_downloaded
       - notify_pushbullet
       - work_on_downloaded_files
+      - kodi_scan
     no_entries_ok: yes
     accept_all: yes
-    seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
-    # Ignore samples
+    #seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
+    disable: # redownloads and propers etc should go through
+      - seen
+    thetvdb_lookup: yes
     regexp:
       reject:
         - sample
@@ -107,18 +113,13 @@ tasks:
     move:
       to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50
+      rename: >
+        {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
       along:
         extensions:
           - srt
           - sub
           - sbv
-    make_html:
-      file: ~/moved.html
-    kodi_library:
-      action: scan
-      category: video
-      url: http://192.168.1.244
-      port: 8080
 
   search-missing:
     manual: yes
