@@ -490,6 +490,7 @@
         - kodi
         - pushbullet
         - monitor_free_disk_space.sh
+        - monitor_chest_drive.sh
         - speed_test.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
@@ -497,6 +498,12 @@
         user: ubuntu
         special_time: daily
         job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '1000' >> /tmp/cron.log 2>&1
+    - name: Create cron job to Monitor disk space and alert if low
+      cron:
+        name: 'Monitor Chest drive and alert if dead'
+        user: ubuntu
+        special_time: hourly
+        job: /home/ubuntu/monitor_chest_drive.sh >> /tmp/cron.log 2>&1
     - name: Create cron job to start iperf daemon
       cron:
         name: Start Iperf3 daemon
