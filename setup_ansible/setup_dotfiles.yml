@@ -99,6 +99,10 @@
     when: ansible_os_family != 'Darwin' #gnome only??
     file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
 
+  - name: Create byobu config folder
+    file: dest=~/.config/byobu state=directory
+    when: ansible_os_family != 'Darwin'
+
   - name: Link tmux.conf in debian systems
     file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
     when: ansible_os_family != 'Darwin'
