@@ -10,11 +10,17 @@
 - name: Setup user preferences folder
   hosts: localhost
   tags: link
-  vars:
+  vars: #potentially can clean this up by moving this to files and loading with `include_vars`
     osx:
       src: ~/dotfiles/Sublime Text 3/Packages/User
       dest: ~/Library/Application Support/Sublime Text 3/Packages/User
+    linux:
+      src: ~/dotfiles/Sublime Text 3/Packages/User
+      dest: ~/.config/sublime-text-3/Packages/User
   tasks:
     - name: Link user folder on osx
       file: state=link src="{{osx.src}}" dest="{{osx.dest}}" force=yes
       when: ansible_os_family == 'Darwin'
+    - name: Link user folder on linux
+      file: state=link src="{{linux.src}}" dest="{{linux.dest}}" force=yes
+      when: ansible_os_family != 'Darwin'
