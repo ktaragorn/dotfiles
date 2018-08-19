@@ -62,4 +62,4 @@
 
   - name: Link up custom plugins
     file: src=~/dotfiles/zsh/plugins/{{item}} dest=~/.oh-my-zsh/custom/plugins/{{item}} state=link force=yes
-    with_items: plugins.stdout_lines
+    with_items: "{{plugins.stdout_lines}}"
