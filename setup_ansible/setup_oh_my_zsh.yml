@@ -7,7 +7,7 @@
     apt: pkg=zsh state=present
     when: ansible_os_family != "Darwin"
     with_items: [zsh, curl]
-    sudo: yes
+    become: yes
 
   - name: Install zsh (osx)
     homebrew: name=zsh state=present
@@ -23,11 +23,28 @@
     command: chsh -s /usr/local/bin/zsh
     when: ansible_os_family == "Darwin"
 
-  - name: Install Oh-My-Zsh
-    shell: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
+  - name: Set shell for linux
+    user:
+      name: karthikt
+      shell: /usr/bin/zsh
+
+  - name: Download Oh-My-Zsh
+    get_url: url=http://install.ohmyz.sh dest=/tmp/zsh-installer.sh
+
+  - name: Execute Oh-My-Zshinstaller.sh
+    shell: sh /tmp/zsh-installer.sh creates=~/.oh-my-zsh
+
+  - name: Remove the zsh-installer.sh
+    file: path=/tmp/zsh-installer.sh state=absent
+
+  # - name: Install Oh-My-Zsh
+  #   shell: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
 
   - name: Link zshrc
     file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one
+
+  - name: Delete custom themes folder
+    file: dest=~/.oh-my-zsh/custom/themes state=absent force=yes
 
   - name: Link up custom themes folder
     file: src=~/dotfiles/zsh/themes dest=~/.oh-my-zsh/custom/themes state=link force=yes

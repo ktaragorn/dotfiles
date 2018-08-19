@@ -18,7 +18,7 @@
 	],
 	"bold_folder_labels": true,
 	"caret_style": "phase",
-	"color_scheme": "Packages/User/SublimeLinter/Samuel's decent (SL).tmTheme",
+	"color_scheme": "Packages/Decent Color Scheme/Samuel's decent.tmTheme",
 	"fade_fold_buttons": false,
 	"file_exclude_patterns":
 	[
@@ -69,6 +69,7 @@
 	[
 		"CoffeeScript",
 		"PhpTidy",
+		"SideBarGit",
 		"SublimeCodeIntel",
 		"Vintage"
 	],
