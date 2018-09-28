@@ -1,2 +1,2 @@
 #!/bin/sh
-youtube-dl --format 'worst[ext=mp4]' $@
+youtube-dl --write-auto-sub --embed-subs --format 'worst[ext=mp4]' $@
