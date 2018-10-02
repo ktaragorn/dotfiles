@@ -14,6 +14,7 @@
         - htop
         - git
         - jq
+        - unattended-upgrades
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -23,7 +24,7 @@
     - name: Activate z.sh
       lineinfile: dest=~/.bashrc line=". ~/Documents/z.sh"
       become: no
-    - name: setup ssh keys
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
       copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
       become: no
     - name: Disallow password authentication
@@ -191,8 +192,6 @@
       - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
       - {name: kodi, host: 192.168.1.244, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
-      - {name: sonarr, port: 8989, icon: "http://appv2.asustor.com/uploadIcons/0020_999_1439891916_0020_17730_1400232290_nzbDrone_icon_256x256.png"}
-      - {name: jackett, port: 9117, icon: "https://avatars1.githubusercontent.com/u/15383019?v=3&s=400"}
   tasks:
   - name: Install nginx
     apt: pkg=nginx
