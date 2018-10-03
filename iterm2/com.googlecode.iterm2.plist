@@ -129,13 +129,13 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>2364 686 606 456 1920 -840 1080 1897 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>652 498 620 392 0 0 1920 1057 </string>
+	<string>652 516 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>4 58 606 456 0 0 1920 1057 </string>
+	<string>319 174 606 469 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>495 154 796 473 0 0 1920 1057 </string>
+	<string>496 522 918 512 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 118 1920 939 0 0 1920 1057 </string>
+	<string>0 0 1440 900 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4 0 1916 1057 0 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_8A89CC29-5FF0-4E33-8309-96F3E7A62F09</key>
@@ -342,7 +342,7 @@
 			<key>Columns</key>
 			<integer>80</integer>
 			<key>Command</key>
-			<string></string>
+			<string>bash</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -364,7 +364,7 @@
 			<key>Cursor Type</key>
 			<integer>2</integer>
 			<key>Custom Command</key>
-			<string>No</string>
+			<string>Yes</string>
 			<key>Custom Directory</key>
 			<string>No</string>
 			<key>Default Bookmark</key>
@@ -1629,6 +1629,8 @@
 	<integer>0</integer>
 	<key>NoSyncHaveShownPromoWithId_4</key>
 	<true/>
+	<key>NoSyncHaveUsedCopyMode</key>
+	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>FFCFE183-3FA3-415F-9B32-6ED74BF049FF</string>
 	<key>NoSyncPermissionToShowTip</key>
@@ -1709,9 +1711,9 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-01-05T07:37:41Z</date>
+	<date>2018-09-21T07:53:51Z</date>
 	<key>SUSkippedVersion</key>
-	<string>3.1.5.beta.2</string>
+	<string>3.2.1beta5</string>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -1756,6 +1758,8 @@
 	<string>/-+\~_.</string>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
