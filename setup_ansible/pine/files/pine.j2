@@ -7,7 +7,7 @@ server {
 	server_name _;
     index index.htm index.html index.php;
 
-	{% for service in proxied_services %}
+	{% for service in proxied_services if not service.port == 80%}
 	location /{{service.name}}/ {
 		proxy_set_header Host      $host:$server_port;
 		proxy_set_header X-Real-IP $remote_addr;
