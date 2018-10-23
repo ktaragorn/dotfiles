@@ -439,36 +439,27 @@
 #     # - name: Configure for reverse proxy
 #     #   lineinfile
 
-# #https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
-# - name: Install Docker
-#   tags: docker
-#   hosts: all
-#   gather_facts: no
-#   become: yes
-#   tasks:
-#     - name: Install requirements/dependencies to access repo
-#       apt: name={{item}}
-#       with_items:
-#         - apt-transport-https
-#         - ca-certificates
-#         - software-properties-common
-#     - name: Install docker GPG key
-#       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
-#     - name: Install Docker repo
-#       apt_repository:
-#         repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
-#         update_cache: yes
-#     - name: Install docker-ce
-#       apt: name=docker-ce
-
+#https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 - name: Install Docker
   tags: docker
   hosts: all
   gather_facts: no
   become: yes
   tasks:
-    - name: Install docker.io
-      apt: name=docker.io
+    - name: Install requirements/dependencies to access repo
+      apt: name={{item}}
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
+    - name: Install docker GPG key
+      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+    - name: Install Docker repo
+      apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
+        update_cache: yes
+    - name: Install docker-ce
+      apt: name=docker-ce
     - name: Enable docker to start on boot
       systemd: name=docker enabled=yes
     - name: Add ubuntu user to docker group
@@ -480,6 +471,69 @@
   handlers:
     - name: Restart Docker
       systemd: name=docker state=restarted
+
+# - name: Install Docker
+#   tags: docker
+#   hosts: all
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     - name: Install docker.io
+#       apt: name=docker.io
+#     - name: Enable docker to start on boot
+#       systemd: name=docker enabled=yes
+#     - name: Add ubuntu user to docker group
+#       user:
+#         name: ubuntu
+#         groups: docker
+#         append: yes
+#       notify: Restart Docker
+#   handlers:
+#     - name: Restart Docker
+#       systemd: name=docker state=restarted
+
+- name: Headless Kodi vs Docker
+  tags: headless
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Download Headless Kodi
+      docker_image:
+        name: lsioarmhf/kodi-headless-aarch64
+    - name: Make folder for headless kodi config
+      file:
+        path: /home/ubuntu/kodi.d/headless
+        state: directory
+    - name: Copy advancedsettings and sources from kodi.d folder - externally managed
+      copy:
+        src: /home/ubuntu/kodi.d/files/{{item}}
+        dest: /home/ubuntu/kodi.d/headless
+        remote_src: yes
+      with_items:
+        - advancedsettings.xml
+        - sources.xml
+      notify:
+        - Restart Kodi
+    - name: Start headless kodi container
+      docker_container:
+        name: kodi-headless
+        image: lsioarmhf/kodi-headless-aarch64
+        volumes:
+          - /home/ubuntu/kodi.d/headless:/config/.kodi
+        env:
+          PGID: 1000
+          PUID: 1000
+        published_ports:
+          - 8080:8080
+          - 9090:9090
+          - 9777:9777/udp
+        restart_policy: unless-stopped
+  handlers:
+    - name: Restart Kodi
+      docker_container:
+        name: kodi-headless
+        restart: yes
+
 
 #https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
 #https://hub.docker.com/r/linuxserver/jackett/
