@@ -192,7 +192,7 @@
       - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
       - {name: deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
       - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
-      - {name: kodi, host: 192.168.1.244, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
+      - {name: kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
   tasks:
