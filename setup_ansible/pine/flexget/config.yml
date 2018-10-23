@@ -39,8 +39,8 @@ templates:
     kodi_library:
       action: scan
       category: video
-      url: http://192.168.1.244
-      port: 8080
+      url: {{kodi_main_host}}
+      port: {{kodi_main_host_port}}
   deluge-tv-download:
     convert_magnet: yes
     thetvdb_lookup: yes

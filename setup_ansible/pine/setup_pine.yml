@@ -500,14 +500,15 @@
     - name: Download Headless Kodi
       docker_image:
         name: lsioarmhf/kodi-headless-aarch64
-    - name: Make folder for headless kodi config
+    - name: Make folder for headless kodi config, and userdata below it
       file:
-        path: /home/ubuntu/kodi.d/headless
+        path: /home/ubuntu/kodi.d/headless/userdata
+        recurse: yes
         state: directory
     - name: Copy advancedsettings and sources from kodi.d folder - externally managed
       copy:
         src: /home/ubuntu/kodi.d/files/{{item}}
-        dest: /home/ubuntu/kodi.d/headless
+        dest: /home/ubuntu/kodi.d/headless/userdata
         remote_src: yes
       with_items:
         - advancedsettings.xml
