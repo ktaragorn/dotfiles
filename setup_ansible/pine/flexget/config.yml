@@ -19,6 +19,18 @@ templates:
         via:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
+  fix_title_filename:
+    manipulate:
+      - title:
+          replace:
+            regexp: /Riverdale.US/i
+            format: Riverdale
+      - filename:
+          from: title
+      - filename:
+          replace:
+            regexp: :|\?
+            format: ''
   configure_series_from_downloaded:
     require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
     metainfo_series: yes
@@ -39,7 +51,7 @@ templates:
     kodi_library:
       action: scan
       category: video
-      url: {{kodi_main_host}}
+      url: http://{{kodi_user_auth}}@{{kodi_main_host}}
       port: {{kodi_main_host_port}}
   deluge-tv-download:
     convert_magnet: yes
@@ -57,14 +69,10 @@ tasks:
   showrss-dload:
     rss:
       url: {{rss_url}}
-    manipulate:
-      - title:
-          replace:
-            regexp: /Riverdale.US/i
-            format: Riverdale
     all_series:
       propers: 1 hour
     template:
+      - fix_title_filename
       - deluge-tv-download
       - notify_pushbullet
 
@@ -80,12 +88,13 @@ tasks:
     template:
       - configure_series_from_downloaded
       - work_on_downloaded_files
+      - fix_title_filename
       # - notify_pushbullet
     subliminal:
       exact_match: no
       languages:
         - eng
-      providers: [opensubtitles]
+      providers: [opensubtitles,thesubdb,tvsubtitles]
       authentication:
         opensubtitles:
           username: {{opensubtitles_username}}
@@ -94,6 +103,7 @@ tasks:
   move-to-archive:
     template:
       - configure_series_from_downloaded
+      - fix_title_filename
       - notify_pushbullet
       - work_on_downloaded_files
       - kodi_scan
@@ -108,11 +118,6 @@ tasks:
       reject:
         - sample
     pathscrub: windows
-    manipulate:
-    - filename:
-        replace:
-          regexp: :|\?
-          format: ''
     move:
       to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50

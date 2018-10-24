@@ -270,11 +270,16 @@
       - flexget
       - subliminal
   - name: Copy config file
-    template: src=flexget/config.yml dest=~/.config/flexget/config.yml
+    template:
+      src: flexget/config.yml
+      dest: ~/.config/flexget/config.yml
+      validate: flexget -c %s check
     notify: Restart Flexget
   - name: Copy flexget service file for systemd
     become: yes
-    copy: src=flexget/flexget.service dest=/etc/systemd/system/flexget.service
+    copy:
+      src: flexget/flexget.service
+      dest: /etc/systemd/system/flexget.service
   - name: Start and enable flexget daemon
     become: yes
     service: name=flexget state=started enabled=true
