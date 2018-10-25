@@ -53,8 +53,10 @@ templates:
     kodi_library:
       action: scan
       category: video
-      url: http://{{kodi_user_auth}}@{{kodi_main_host}}
+      url: http://{{kodi_main_host}}
       port: {{kodi_main_host_port}}
+      username: {{kodi_username}}
+      password: {{kodi_password}}
   deluge-tv-download:
     convert_magnet: yes
     thetvdb_lookup: yes
