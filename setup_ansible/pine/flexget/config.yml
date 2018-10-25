@@ -26,7 +26,9 @@ templates:
             regexp: /Riverdale.US/i
             format: Riverdale
       - filename:
-          from: title
+          replace:
+            regexp: /Riverdale.US/i
+            format: Riverdale
       - filename:
           replace:
             regexp: :|\?
