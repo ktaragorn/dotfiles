@@ -4,7 +4,11 @@ ls
 
 if [ $? -eq 0 ]; then
     echo OK
+elif [$1 -eq "try_only"]; then
+	/home/ubuntu/pushbullet "Chest HDD Alert" "The Chest hard disk is down, and unable to fix by remount!"
 else
-	# to test on first alert if it can be remounted right here
-    /home/ubuntu/pushbullet "Chest HDD Alert" "The Chest hard disk is down, remount asap!"
+    /home/ubuntu/pushbullet "Chest HDD Alert" "The Chest hard disk is down, attempting to remount!"
+    sudo umount /media/ubuntu/Chest/
+    sudo mount /media/ubuntu/Chest/
+    /home/ubuntu/monitor_chest_drive.sh try_only
 fi
