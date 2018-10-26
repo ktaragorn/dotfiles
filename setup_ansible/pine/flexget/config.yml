@@ -33,6 +33,11 @@ templates:
           replace:
             regexp: :|\?
             format: ''
+# trying as per suggestion in https://discuss.flexget.com/t/manipulate-help-or-other-solutions/4350/2?u=ktaragorn
+  fix_riverdale_detection:
+    series:
+      - Riverdale:
+          alternate_name: Riverdale US
   configure_series_from_downloaded:
     require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
     metainfo_series: yes
@@ -77,6 +82,7 @@ tasks:
       propers: 1 hour
     template:
       - fix_title_filename
+      - fix_riverdale_detection
       - deluge-tv-download
       - notify_pushbullet
 
@@ -93,6 +99,7 @@ tasks:
       - configure_series_from_downloaded
       - work_on_downloaded_files
       - fix_title_filename
+      - fix_riverdale_detection
       # - notify_pushbullet
     subliminal:
       exact_match: no
@@ -108,6 +115,7 @@ tasks:
     template:
       - configure_series_from_downloaded
       - fix_title_filename
+      - fix_riverdale_detection
       - notify_pushbullet
       - work_on_downloaded_files
       - kodi_scan
