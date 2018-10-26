@@ -187,6 +187,7 @@
   tags: nginx
   hosts: all
   gather_facts: no
+  vars_files: [vars/all.yml]
   vars:
     proxied_services:
       - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
@@ -208,6 +209,15 @@
     tags: nginx_conf
   - name: Enable service
     service: state=started enabled=yes name=nginx
+  - name: Install passlib python library
+    pip: name=passlib
+  - name: Create basic auth password file
+    htpasswd:
+      path: /etc/nginx/passwdfile
+      name: "{{nginx_username}}"
+      password: "{{nginx_password}}"
+      group: www-data
+      mode: 0640
   - name: Setup index page
     template: src=files/index.html.j2 dest=/var/www/html/index.html
   - name: Setup links to flexget outputs
