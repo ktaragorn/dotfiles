@@ -9,4 +9,4 @@ else
 	echo "Enter valid operation"
 	exit 1
 fi
-curl --data-binary "{ \"jsonrpc\": \"2.0\", \"method\": \"VideoLibrary.$operation\", \"id\": \"mybash\"}" -H 'content-type: application/json;' http://{{kodi_user_auth}}@{{kodi_main_host}}:{{kodi_main_host_port}}/jsonrpc
+curl --data-binary "{ \"jsonrpc\": \"2.0\", \"method\": \"VideoLibrary.$operation\", \"id\": \"mybash\"}" -H 'content-type: application/json;' http://{{kodi_username}}:{{kodi_password}}@{{kodi_main_host}}:{{kodi_main_host_port}}/jsonrpc

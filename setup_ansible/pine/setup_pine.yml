@@ -188,7 +188,7 @@
   hosts: all
   gather_facts: no
   vars_files: [vars/all.yml]
-  vars:
+  vars: &nginx_vars
     proxied_services:
       - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
       - {name: deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
@@ -196,6 +196,11 @@
       - {name: kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
+    other_services:
+      - {name: Web Server, port: 80}
+      - {name: SSH Server, port: 22}
+      - {name: Samba Server, port: 445}
+      - {name: MariaDB server, port: 3306, host: pine64.middle.earth}
   tasks:
   - name: Install nginx and php
     package: name={{item}}
@@ -234,6 +239,7 @@
   hosts: all
   gather_facts: no
   become: yes
+  vars: *nginx_vars
   tasks:
   - name: Create folder
     file:
@@ -254,7 +260,11 @@
       name: www-data
       groups: disk
       append: yes
-
+  - name: Generate and copy the config file
+    template:
+      src: files/esm.config.json.j2
+      dest: /var/www/html/status/conf/esm.config.json
+      validate: jq '' %s
 
 - name: Install tvnamer
   tags: tvnamer

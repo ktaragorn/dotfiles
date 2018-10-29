@@ -1,0 +1,52 @@
+{
+    "esm": {
+        "version": "2.5",
+        "website": "http://www.ezservermonitor.com",
+        "check_updates": true,
+        "auto_refresh": 0,
+        "theme": "blue",
+        "custom_title": ""
+    },
+    "cpu": {
+        "enable_temperature": true
+    },
+    "disk": {
+        "show_tmpfs": false,
+        "show_filesystem": true
+    },
+    "ping": {
+        "hosts": [
+            "facebook.com",
+            "google.com",
+            "yahoo.com"
+        ]
+    },
+    "last_login": {
+        "enable": true,
+        "max": 5
+    },
+    "services": {
+        "show_port": true,
+        "list": [
+            {% for service in proxied_services if not service.port == 80 %}
+                {
+                    "name": "{{service.name | title}}",
+                    "host": "localhost",
+                    "port": {{service.port}},
+                    "protocol": "tcp"
+                },
+            {% endfor %}
+            {% for service in other_services %}
+                {
+                    "name": "{{service.name}}",
+                    "host": "{{ service.host |default("localhost")}}",
+                    "port": {{service.port}},
+                    "protocol": "tcp"
+                }
+                {% if not loop.last %}
+                    ,
+                {% endif %}
+            {% endfor %}
+        ]
+    }
+}
