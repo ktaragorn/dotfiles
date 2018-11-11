@@ -21,14 +21,6 @@ templates:
               api_key: {{pushbullet_access_token}}
   fix_title_filename:
     manipulate:
-      - title:
-          replace:
-            regexp: /Riverdale.US/i
-            format: Riverdale
-      - filename:
-          replace:
-            regexp: /Riverdale.US/i
-            format: Riverdale
       - filename:
           replace:
             regexp: :|\?
@@ -81,7 +73,6 @@ tasks:
     all_series:
       propers: 1 hour
     template:
-      - fix_title_filename
       - fix_riverdale_detection
       - deluge-tv-download
       - notify_pushbullet
