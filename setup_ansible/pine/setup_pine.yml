@@ -47,10 +47,11 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Install ntfs-3g
+    - name: Install ntfs-3g and cifs-utils
       apt: pkg={{item}} state=present
       with_items:
         - ntfs-3g
+        - cifs-utils
     - name: Fix permissions of /media/ubuntu to be open to all
       file: path=/media/ubuntu/ state=directory mode=755
     - name: Create mount points
@@ -58,6 +59,7 @@
       with_items:
         - Archive
         - Chest
+        - Vault
     - name: Mount the disks
       mount:
         name: /media/ubuntu/{{item.name}}
@@ -70,6 +72,13 @@
       with_items:
         - {name: Archive, other_opts: ,uid=1000,gid=1000, fstype: ntfs}
         - {name: Chest, other_opts: "", fstype: "ext4"}
+    - name: Mount Vault for maintenance purposes
+      mount:
+        path: /media/ubuntu/Vault
+        src: //router/Vault
+        fstype: cifs
+        state: mounted
+        opts: user=guest,guest
 
 - name: File sharing and SAMBA
   tags: samba
