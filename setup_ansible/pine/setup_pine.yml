@@ -506,25 +506,44 @@
     - name: Restart Docker
       systemd: name=docker state=restarted
 
-# - name: Install Docker
-#   tags: docker
-#   hosts: all
-#   gather_facts: no
-#   become: yes
-#   tasks:
-#     - name: Install docker.io
-#       apt: name=docker.io
-#     - name: Enable docker to start on boot
-#       systemd: name=docker enabled=yes
-#     - name: Add ubuntu user to docker group
-#       user:
-#         name: ubuntu
-#         groups: docker
-#         append: yes
-#       notify: Restart Docker
-#   handlers:
-#     - name: Restart Docker
-#       systemd: name=docker state=restarted
+- name: Install Home assistant via Docker
+  tags: hass
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Download Home assistant
+      docker_image:
+        name: homeassistant/aarch64-homeassistant
+    - name: Make folder for headless kodi config, and userdata below it
+      file:
+        path: /home/ubuntu/homeassistant_config
+        recurse: yes
+        state: directory
+    # - name: Copy advancedsettings and sources from kodi.d folder - externally managed
+    #   copy:
+    #     src: /home/ubuntu/kodi.d/files/{{item}}
+    #     dest: /home/ubuntu/kodi.d/headless/userdata
+    #     remote_src: yes
+    #   with_items:
+    #     - advancedsettings.xml
+    #     - sources.xml
+    #   notify:
+    #     - Restart Home assistant
+    - name: Start headless kodi container
+      docker_container:
+        name: home-assistant
+        image: homeassistant/aarch64-homeassistant
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - /home/ubuntu/homeassistant_config:/config
+        published_ports:
+          - 8123:8123
+        restart_policy: unless-stopped
+  handlers:
+    - name: Restart Home assistant
+      docker_container:
+        name: home-assistant
+        restart: yes
 
 - name: Headless Kodi vs Docker
   tags: headless
