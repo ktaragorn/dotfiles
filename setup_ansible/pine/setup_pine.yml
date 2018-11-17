@@ -510,6 +510,7 @@
   tags: hass
   hosts: all
   gather_facts: no
+  vars_files: [vars/all.yml]
   tasks:
     - name: Download Home assistant
       docker_image:
@@ -519,16 +520,15 @@
         path: /home/ubuntu/homeassistant_config
         recurse: yes
         state: directory
-    # - name: Copy advancedsettings and sources from kodi.d folder - externally managed
-    #   copy:
-    #     src: /home/ubuntu/kodi.d/files/{{item}}
-    #     dest: /home/ubuntu/kodi.d/headless/userdata
-    #     remote_src: yes
-    #   with_items:
-    #     - advancedsettings.xml
-    #     - sources.xml
-    #   notify:
-    #     - Restart Home assistant
+    - name: Copy config files to server
+      template:
+        src: files/{{item}}.j2
+        dest: /home/ubuntu/homeassistant_config/{{item}}
+      with_items:
+        - configuration.yaml
+        - automations.yaml
+      notify:
+        - Restart Home assistant
     - name: Start headless kodi container
       docker_container:
         name: home-assistant

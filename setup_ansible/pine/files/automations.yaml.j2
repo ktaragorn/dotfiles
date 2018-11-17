@@ -1,0 +1,24 @@
+---
+- alias: Any Entered house
+  trigger:
+    platform: state
+    entity_id: group.all_devices
+    to: "home"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: Someone entered house
+
+- alias: All left home
+  trigger:
+    platform: state
+    entity_id: group.all_devices
+    to: "not_home"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: All have left the house, AC has been switched off
+    # - service: switch.turn_off
+    #   entity_id: switch.ac
