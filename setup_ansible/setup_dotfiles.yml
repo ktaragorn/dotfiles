@@ -28,7 +28,7 @@
       user: karthikt
       name: Start guake with byobu
       job: guake -e byobu
-
+    when: ansible_os_family == 'Darwin'
     # unnecessary since need to install homebrew to install ansible in the first place..
   # - name: Install Homebrew on osx
   #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
@@ -52,16 +52,16 @@
     become: yes
     when: ansible_os_family == 'Darwin'
 
-  - name: Install brew cask
-    homebrew: pkg=caskroom/cask/brew-cask
-    when: ansible_os_family == 'Darwin'
+    #  - name: Install brew cask
+    #homebrew: pkg=caskroom/cask/brew-cask
+    #when: ansible_os_family == 'Darwin'
 
   - name: Install casks
     homebrew_cask: name={{item}}
     when: ansible_os_family == 'Darwin'
     with_items:
     - gitx
-    - iterm2
+      #- iterm2
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no

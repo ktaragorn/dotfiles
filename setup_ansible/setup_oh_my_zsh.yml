@@ -27,6 +27,7 @@
     user:
       name: karthikt
       shell: /usr/bin/zsh
+    when: ansible_os_family != "Darwin"
 
   - name: Download Oh-My-Zsh
     get_url: url=http://install.ohmyz.sh dest=/tmp/zsh-installer.sh
