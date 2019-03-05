@@ -54,14 +54,14 @@
 		".sass-cache",
 		"coverage"
 	],
-	"font_face": "hack",
+	"font_face": "Hack",
 	"font_options":
 	[
 		"subpixel_antialias",
 		"no_bold",
 		"no_italic"
 	],
-	"font_size": 14,
+	"font_size": 15,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": "true",

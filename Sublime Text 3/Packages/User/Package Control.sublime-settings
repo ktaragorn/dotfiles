@@ -38,6 +38,7 @@
 		"SublimeLinter-annotations",
 		"SublimeLinter-coffee",
 		"SublimeLinter-contrib-scss-lint",
+		"SublimeLinter-eslint",
 		"SublimeLinter-lua",
 		"SublimeLinter-ruby",
 		"Theme - Flatland",
@@ -46,6 +47,9 @@
 		"Theme - Soda",
 		"Themr",
 		"Tomorrow Color Schemes",
+		"TypeScript",
+		"TypeScript Syntax",
+		"TypescriptCompletion",
 		"VAlign",
 		"YAML Nav"
 	]
