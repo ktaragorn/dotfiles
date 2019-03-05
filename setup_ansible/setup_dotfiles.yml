@@ -61,7 +61,8 @@
     when: ansible_os_family == 'Darwin'
     with_items:
     - gitx
-      #- iterm2
+    - iterm2
+    - karabiner-elements
 
   - name: Checkout/update dotfiles on target machine
     git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -122,6 +123,14 @@
 
   - name: Link tmux.conf in osx systems
     file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
+    when: ansible_os_family == 'Darwin'
+
+  - name: Create karabiner folders if needed
+    file: dest=~/.config/karabiner/ state=directory
+    when: ansible_os_family == 'Darwin'
+
+  - name: Link karabiner.json in osx systems
+    file: src=~/dotfiles/karabiner.json dest=~/.config/karabiner/karabiner.json state=link force=yes
     when: ansible_os_family == 'Darwin'
 
     # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
