@@ -7,7 +7,7 @@ root: ~/Documents/beam
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-# pre: sudo /etc/rc.d/mysqld start
+on_project_start: redis-server --daemonize yes
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -35,4 +35,10 @@ windows:
         - cd beam-ops; node --inspect=9111 scripts/start.js
         - cd beam-api; npm run start:debug
         - cd beam-api;  node --require @babel/register
+
+  - app:
+      layout: main-vertical
+      panes:
+        - cd escooterapp
+        - cd escooterapp ; react-native start
 
