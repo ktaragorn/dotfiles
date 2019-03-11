@@ -328,6 +328,14 @@
                     "to": {
                         "key_code": "left_command"
                     }
+                },
+                {
+                    "from": {
+                        "key_code": "scroll_lock"
+                    },
+                    "to": {
+                        "key_code": "power"
+                    }
                 }
             ],
             "virtual_hid_keyboard": {
