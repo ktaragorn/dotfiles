@@ -1,0 +1,10 @@
+//https://stackoverflow.com/questions/16235706/sublime-3-set-key-map-for-function-goto-definition
+[
+    {
+        "button": "button1",
+        "count": 1,
+        "modifiers": ["ctrl"],
+        "press_command": "drag_select",
+        "command": "goto_definition"
+    }
+]

@@ -2,19 +2,7 @@
 	"auto_complete_commit_on_tab": true,
 	"binary_file_patterns":
 	[
-		"*.jpg",
-		"*.jpeg",
-		"*.png",
-		"*.gif",
-		"*.ttf",
-		"*.tga",
-		"*.dds",
-		"*.ico",
-		"*.eot",
-		"*.pdf",
-		"*.swf",
-		"*.jar",
-		"*.zip"
+		"node_modules/"
 	],
 	"bold_folder_labels": true,
 	"caret_style": "phase",
