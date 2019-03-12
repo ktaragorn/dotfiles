@@ -7,7 +7,7 @@ root: ~/Documents/beam
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-on_project_start: redis-server --daemonize yes
+on_project_start: redis-server --daemonize yes && pg_ctl -D ~/Documents/beam/data -l logfile start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
