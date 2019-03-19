@@ -210,6 +210,7 @@
       - {name: SSH Server, port: 22}
       - {name: Samba Server, port: 445}
       - {name: MariaDB server, port: 3306, host: pine64.middle.earth}
+      - {name: Deluged, port: 58846}
   tasks:
   - name: Install nginx and php
     package: name={{item}}
