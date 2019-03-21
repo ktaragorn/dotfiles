@@ -40,7 +40,9 @@
 		".hg",
 		"CVS",
 		".sass-cache",
-		"coverage"
+		"coverage",
+		"build",
+		"ios/Pod"
 	],
 	"font_face": "Hack",
 	"font_options":
