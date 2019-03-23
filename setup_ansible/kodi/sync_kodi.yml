@@ -1,0 +1,20 @@
+---
+- name: Sync Kodi files into all clients
+  tags: basic
+  hosts: all
+  gather_facts: no
+  become: no
+  vars:
+    - config_files:
+        - advancedsettings.xml
+        - sources.xml
+    - target_kodi_config_folder: /sdcard/Android/data/org.xbmc.kodi/files/.kodi/userdata
+  tasks:
+    - name: Extract Files locally
+      copy: src=files/{{item}} dest=/tmp/{{item}}
+      delegate_to: localhost
+      with_items: '{{config_files}}'
+    - name: local scp — copy config files to the correct directory
+      shell: scp /tmp/{{item}} {{ansible_user}}@{{inventory_hostname}}:{{target_kodi_config_folder}}/{{item}}
+      delegate_to: localhost
+      with_items: '{{config_files}}'
