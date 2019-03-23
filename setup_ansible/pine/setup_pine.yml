@@ -6,6 +6,9 @@
   hosts: all
   gather_facts: no
   become: yes
+  pre_tasks:
+    - name: 'install python2' #https://stackoverflow.com/a/34402816 ansible still needs python 2
+      raw: sudo apt-get -y install python
   tasks:
     - name: Install pip and other tools required
       apt: pkg={{item}} state=present
@@ -19,10 +22,13 @@
       apt: pkg=locate state=present
       notify: updatedb
     - name: Download z.sh
-      get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/Documents/z.sh
+      get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/z.sh
       become: no
     - name: Activate z.sh
-      lineinfile: dest=~/.bashrc line=". ~/Documents/z.sh"
+      lineinfile: dest=~/.bashrc line=". ~/z.sh"
+      become: no
+    - name: Create .ssh directory
+      file: dest=/home/ubuntu/.ssh state=directory
       become: no
     - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
       copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
@@ -142,54 +148,54 @@
   vars_files: [vars/all.yml]
   tasks:
     - name: Add deluge thin client user to auth file
-      lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}}
+      lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}} create=yes
       notify: Restart deluge
     - name: Configure to allow remote access
       lineinfile:
         dest: ~/.config/deluge/core.conf
         regexp: '"allow_remote":'
         line: '  "allow_remote": true,'
+        create: yes
       notify: Restart deluge
   handlers:
     - name: Restart deluge
-      service: state=restarted name=deluge
+      service: state=restarted name=deluged
+# # TODO install webmin tasks
+# - name: Install webmin and configure for reverse proxy
+#   become: yes
+#   hosts: all
+#   tags: webmin
+#   gather_facts: no
+#   tasks:
+#     - name: Configure webmin for reverse proxy
+#       lineinfile: dest=/etc/webmin/config line={{item}}
+#       with_items:
+#         - webprefix=/webmin
+#         - webprefixnoredir=1
+#         - referers=localhost
+#       notify: Restart webmin
+#     - name: Configure webmin's server miniserv for reverse proxy, disable ssl
+#       lineinfile: dest=/etc/webmin/miniserv.conf line={{item.line}} regexp="^{{item.regex}}"
+#       with_items:
+#         - {line: cookiepath=/webmin, regex: cookiepath=}
+#         - {line: bind=127.0.0.1, regex: bind=}
+#         - {line: sockets=, regex: sockets=}
+#         - {line: ssl=0, regex: ssl=\d}
+#       notify: Restart webmin
+#     # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
+#     #http://webmin.com/apache.html
 
-# TODO install webmin tasks
-- name: Install webmin and configure for reverse proxy
-  become: yes
-  hosts: all
-  tags: webmin
-  gather_facts: no
-  tasks:
-    - name: Configure webmin for reverse proxy
-      lineinfile: dest=/etc/webmin/config line={{item}}
-      with_items:
-        - webprefix=/webmin
-        - webprefixnoredir=1
-        - referers=localhost
-      notify: Restart webmin
-    - name: Configure webmin's server miniserv for reverse proxy, disable ssl
-      lineinfile: dest=/etc/webmin/miniserv.conf line={{item.line}} regexp="^{{item.regex}}"
-      with_items:
-        - {line: cookiepath=/webmin, regex: cookiepath=}
-        - {line: bind=127.0.0.1, regex: bind=}
-        - {line: sockets=, regex: sockets=}
-        - {line: ssl=0, regex: ssl=\d}
-      notify: Restart webmin
-    # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
-    #http://webmin.com/apache.html
-
-    # try to fix the hdd no spin down problem as per
-    # https://sourceforge.net/p/webadmin/bugs/3999/
-    # if this doesnt work, next step is to disable collection all out
-    # I also reduced the frequency to once in 30 min from once in 5
-    - name: Disable drive temperature collection in the background
-      lineinfile: dest=/etc/webmin/system-status/config line={{item}}
-      with_items:
-        - collect_notemp=1
-  handlers:
-    - name: Restart webmin
-      service: state=restarted name=webmin
+#     # try to fix the hdd no spin down problem as per
+#     # https://sourceforge.net/p/webadmin/bugs/3999/
+#     # if this doesnt work, next step is to disable collection all out
+#     # I also reduced the frequency to once in 30 min from once in 5
+#     - name: Disable drive temperature collection in the background
+#       lineinfile: dest=/etc/webmin/system-status/config line={{item}}
+#       with_items:
+#         - collect_notemp=1
+#   handlers:
+#     - name: Restart webmin
+#       service: state=restarted name=webmin
 
 - name: Nginx default site for webmin and deluge and others
   become: yes
