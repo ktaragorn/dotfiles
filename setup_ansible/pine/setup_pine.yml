@@ -46,6 +46,10 @@
       notify: Restart ssh
     - name: setup no password sudo
       lineinfile: "dest=/etc/sudoers state=present line='ubuntu    ALL=NOPASSWD: ALL'"
+    - name: Point DNS to router
+      copy:
+        src: files/resolv.conf
+        dest: /etc/resolv.conf
   handlers:
   - name: updatedb
     command: updatedb
@@ -520,6 +524,8 @@
         groups: docker
         append: yes
       notify: Restart Docker
+    - name: Install docker python module
+      pip: name=docker
   handlers:
     - name: Restart Docker
       systemd: name=docker state=restarted
@@ -578,9 +584,8 @@
         state: directory
     - name: Copy advancedsettings and sources from kodi.d folder - externally managed
       copy:
-        src: /home/ubuntu/kodi.d/files/{{item}}
+        src: ../kodi/files/{{item}}
         dest: /home/ubuntu/kodi.d/headless/userdata
-        remote_src: yes
       with_items:
         - advancedsettings.xml
         - sources.xml
