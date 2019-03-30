@@ -15,3 +15,9 @@
         groups: ssh,sudo
         password: $6$yoQLH9hmeyaC.$J0otiqXkgN9kUQwnRqE7L9eyuOpuOJl8dEFNAFseMLaUHS2Mn1SBYgtcGEE5gGk.b02t2om0c4pZRHXMg4NrR0
         append: yes
+    - name: Create .ssh directory
+      file: dest=/home/ubuntu/.ssh state=directory
+      become: no
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
+      copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
+      become: no
