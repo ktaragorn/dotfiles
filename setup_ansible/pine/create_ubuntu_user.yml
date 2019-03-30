@@ -1,0 +1,17 @@
+---
+- name: Create the ubuntu user if not present (openmediavault)
+  hosts: all
+  become: yes
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2' #https://stackoverflow.com/a/34402816 ansible still needs python 2
+      raw: sudo apt-get -y install python
+      register: command_result
+      changed_when: '"is already the newest version" not in command_result.stdout'
+  tasks:
+    - name: Create ubuntu user
+      user:
+        name: ubuntu
+        groups: ssh,sudo
+        password: $6$yoQLH9hmeyaC.$J0otiqXkgN9kUQwnRqE7L9eyuOpuOJl8dEFNAFseMLaUHS2Mn1SBYgtcGEE5gGk.b02t2om0c4pZRHXMg4NrR0
+        append: yes
