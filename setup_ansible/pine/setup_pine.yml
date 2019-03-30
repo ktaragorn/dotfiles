@@ -96,13 +96,13 @@
         user: ubuntu
         special_time: reboot
         job: sleep 5 && mount /media/ubuntu/Chest
-    # - name: Mount Vault for maintenance purposes
-    #   mount:
-    #     path: /media/ubuntu/Vault
-    #     src: //192.168.1.1/Vault # https://unix.stackexchange.com/a/152153 how did it work before..
-    #     fstype: cifs
-    #     state: mounted
-    #     opts: user=guest,guest
+    - name: Mount Vault for maintenance purposes
+      mount:
+        path: /media/ubuntu/Vault
+        src: //router/Vault # https://unix.stackexchange.com/a/152153 how did it work before..
+        fstype: cifs
+        state: mounted
+        opts: guest,vers=1.0
 
 - name: File sharing and SAMBA
   tags: samba
