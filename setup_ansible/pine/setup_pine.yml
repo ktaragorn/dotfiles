@@ -1,5 +1,8 @@
 # before this, setup as a server and install SSH
 #http://askubuntu.com/questions/511463/can-i-convert-ubuntu-desktop-14-04-to-server
+#TODO - configure openmediavault from scratch?
+# create ubuntu user and home dir
+# install plugins
 ---
 - name: Generic server setup and harden ssh
   tags: basic
@@ -9,6 +12,8 @@
   pre_tasks:
     - name: 'install python2' #https://stackoverflow.com/a/34402816 ansible still needs python 2
       raw: sudo apt-get -y install python
+      register: command_result
+      changed_when: '"is already the newest version" not in command_result.stdout'
   tasks:
     - name: Install pip and other tools required
       apt: pkg={{item}} state=present
@@ -25,7 +30,7 @@
       get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/z.sh
       become: no
     - name: Activate z.sh
-      lineinfile: dest=~/.bashrc line=". ~/z.sh"
+      lineinfile: dest=~/.bashrc line=". ~/z.sh" create=yes
       become: no
     - name: Create .ssh directory
       file: dest=/home/ubuntu/.ssh state=directory
@@ -71,20 +76,26 @@
         name: /media/ubuntu/{{item.name}}
         src: LABEL={{item.name}}
         fstype: "{{item.fstype}}"
-        opts: users,rw,noatime{{item.other_opts}}
+        opts: users,nofail,noauto,x-systemd.device-timeout=5,rw,noatime{{item.other_opts}}
         dump: "0"
         passno: "2"
         state: present
       with_items:
-        - {name: Archive, other_opts: ,uid=1000,gid=1000, fstype: ntfs}
+        - {name: Archive, other_opts: ",x-systemd.automount,uid=1000,gid=1000", fstype: ntfs}
         - {name: Chest, other_opts: "", fstype: "ext4"}
-    - name: Mount Vault for maintenance purposes
-      mount:
-        path: /media/ubuntu/Vault
-        src: //router/Vault
-        fstype: cifs
-        state: mounted
-        opts: user=guest,guest
+    - name: Mount Chest after reboot
+      cron:
+        name: Mount Chest after reboot
+        user: ubuntu
+        special_time: reboot
+        job: sleep 5 && mount /media/ubuntu/Chest
+    # - name: Mount Vault for maintenance purposes
+    #   mount:
+    #     path: /media/ubuntu/Vault
+    #     src: //192.168.1.1/Vault # https://unix.stackexchange.com/a/152153 how did it work before..
+    #     fstype: cifs
+    #     state: mounted
+    #     opts: user=guest,guest
 
 - name: File sharing and SAMBA
   tags: samba
