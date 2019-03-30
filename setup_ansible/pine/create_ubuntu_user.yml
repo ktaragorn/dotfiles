@@ -17,7 +17,7 @@
         append: yes
     - name: Create .ssh directory
       file: dest=/home/ubuntu/.ssh state=directory
-      become: no
+      become: ubuntu
     - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
-      copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
-      become: no
+      copy: src=files/authorized_keys dest=/home/ubuntu/.ssh/authorized_keys
+      become: ubuntu

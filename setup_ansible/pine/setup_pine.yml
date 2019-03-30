@@ -87,6 +87,9 @@
       with_items:
         - {name: Archive, other_opts: ",x-systemd.automount,uid=1000,gid=1000", fstype: ntfs}
         - {name: Chest, other_opts: "", fstype: "ext4"}
+        #this hack is because Chest is unstable enough that it might not be mountable
+        # and the mount on boot will hang until it is, so we disable mount on boot and
+        # mount it via cron here
     - name: Mount Chest after reboot
       cron:
         name: Mount Chest after reboot
@@ -165,6 +168,7 @@
     - name: Add deluge thin client user to auth file
       lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}} create=yes
       notify: Restart deluge
+      # this file is only created after first launch
     - name: Configure to allow remote access
       lineinfile:
         dest: ~/.config/deluge/core.conf
