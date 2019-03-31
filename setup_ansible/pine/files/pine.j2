@@ -1,7 +1,6 @@
 #{{ansible_managed}}
 # parts taken from https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/
 server {
-	listen 80 default_server;
 	listen [::]:80 default_server;
 	root /var/www/html;
 	server_name _;
@@ -22,7 +21,7 @@ server {
 	location /{{service.name}}/ {
 		proxy_set_header Host      $host:$server_port;
 		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
 		proxy_set_header X-Deluge-Base "/deluge/";
 		proxy_pass {{service.scheme | default("http")}}://{{service.host | default("localhost")}}:{{service.port}}{{service.terminate | default("")}};
 		proxy_redirect http://{{service.host | default("localhost")}}:{{service.port}}/ $host:$server_port/{{service.name}}/;

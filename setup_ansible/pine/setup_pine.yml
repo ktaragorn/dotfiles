@@ -224,12 +224,13 @@
   vars_files: [vars/all.yml]
   vars: &nginx_vars
     proxied_services:
-      - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
-      - {name: deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
-      - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
-      - {name: kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
-      - {name: flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
-      - {name: status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
+      # - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
+      - {name: deluge,link_to: /deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
+      # - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
+      - {name: kodi,link_to: /kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
+      - {name: flexget,link_to: /flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
+      - {name: status,link_to: /status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
+      - {name: OMV,link_to: 'http://omv.middle.earth', port: 80, icon: "https://scoolplace.eu/images/openmediavault-circle.png"}
     other_services:
       - {name: Web Server, port: 80}
       - {name: SSH Server, port: 22}
@@ -244,7 +245,7 @@
       - php7.0-fpm
       - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
   - name: Configure site
-    template: src=files/pine.j2 dest=/etc/nginx/sites-available/default
+    template: src=files/pine.j2 dest=/etc/nginx/sites-enabled/default
     notify: Restart nginx
     tags: nginx_conf
   - name: Enable service
@@ -260,11 +261,6 @@
       mode: 0640
   - name: Setup index page
     template: src=files/index.html.j2 dest=/var/www/html/index.html
-  - name: Setup links to flexget outputs
-    file: src=/home/ubuntu/{{item}}.html dest=/var/www/html/{{item}}.html state=link
-    with_items:
-      - moved
-      - downloaded
   handlers:
     - name: Restart nginx
       service: state=restarted name=nginx

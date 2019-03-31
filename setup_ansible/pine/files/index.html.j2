@@ -40,7 +40,7 @@
 <div class="container">
     {% for service in proxied_services %}
     <div class="service">
-    <a href="/{{service.name}}/">
+    <a href="{{service.link_to}}/">
     	<img src={{service.icon}} style="height:100px">
     	<div class="name">{{service.name |capitalize}}</div>
     <!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} -->
