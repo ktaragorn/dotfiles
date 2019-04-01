@@ -77,7 +77,7 @@ switch:
 
 device_tracker:
   - platform: ping
-    consider_home: 600 # 10 min
+    consider_home: 1200 # 10 min
     hosts:
       anu: Redmi4X-Redmi
       kt: opo
@@ -88,6 +88,6 @@ notify:
     api_key: {{pushbullet_access_token}}
 
 
-group: !include groups.yaml
+# group: !include groups.yaml
 automation: !include automations.yaml
-script: !include scripts.yaml
+# script: !include scripts.yaml

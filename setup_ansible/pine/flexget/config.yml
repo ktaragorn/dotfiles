@@ -58,10 +58,10 @@ templates:
     convert_magnet: yes
     thetvdb_lookup: yes
     deluge:
-      movedone: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+      move_completed_path: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
       main_file_only: yes
       ratio: 0.1
-      removeatratio: yes
+      remove_at_ratio: yes
       magnetization_timeout: 100
       keep_subs: yes
       content_filename: >

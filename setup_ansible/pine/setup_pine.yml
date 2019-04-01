@@ -231,6 +231,7 @@
       - {name: flexget,link_to: /flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: status,link_to: /status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
       - {name: OMV,link_to: 'http://omv.middle.earth', port: 80, icon: "https://scoolplace.eu/images/openmediavault-circle.png"}
+      # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - {name: Web Server, port: 80}
       - {name: SSH Server, port: 22}
@@ -320,6 +321,10 @@
     with_items:
       - flexget
       - subliminal
+  - name: Create flexget config folder
+    file:
+      dest: ~/.config/flexget
+      state: directory
   - name: Copy config file
     template:
       src: flexget/config.yml
@@ -553,7 +558,7 @@
         - automations.yaml
       notify:
         - Restart Home assistant
-    - name: Start headless kodi container
+    - name: Start home assistant container
       docker_container:
         name: home-assistant
         image: homeassistant/aarch64-homeassistant
