@@ -331,6 +331,8 @@
       dest: ~/.config/flexget/config.yml
       validate: flexget -c %s check
     notify: Restart Flexget
+  - name: Install deluge-client needed to add downloads
+    pip: name=deluge-client
   - name: Copy flexget service file for systemd
     become: yes
     copy:
