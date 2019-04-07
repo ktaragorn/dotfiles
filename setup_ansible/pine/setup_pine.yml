@@ -232,6 +232,7 @@
       - {name: flexget,link_to: /flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: status,link_to: /status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
       - {name: OMV,link_to: 'http://omv.middle.earth', port: 80, icon: "https://scoolplace.eu/images/openmediavault-circle.png"}
+      - {name: Hass,link_to: 'http://hass.middle.earth', port: 80, icon: "https://www.home-assistant.io/images/favicon-192x192-full.png"}
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - {name: Web Server, port: 80}

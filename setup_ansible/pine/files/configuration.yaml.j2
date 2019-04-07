@@ -23,9 +23,13 @@ frontend:
 config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
-#   base_url: example.duckdns.org:8123
+http:
+  base_url: http://hass.middle.earth
+  use_x_forwarded_for: true
+  trusted_proxies: 127.0.0.1
 
+logger:
+  default: info
 # Checks for available updates
 # Note: This component will send some information about your system to
 # the developers to assist with development of Home Assistant.
