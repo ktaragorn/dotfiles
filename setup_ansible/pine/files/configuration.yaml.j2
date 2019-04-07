@@ -11,7 +11,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: UTC
   # Customization file
-  customize: !include customize.yaml
+  # customize: !include customize.yaml
 
 # Show links to resources in log and frontend
 # introduction:
@@ -53,6 +53,8 @@ map:
 # Track the sun
 sun:
 
+system_health:
+
 # Sensors
 sensor:
   # Weather prediction
@@ -77,10 +79,14 @@ switch:
 
 device_tracker:
   - platform: ping
-    consider_home: 1200 # 10 min
+    consider_home: 1200 # 20 min
     hosts:
       anu: Redmi4X-Redmi
-      kt: opo
+      kt: mia2lite
+  - platform: nmap_tracker
+    hosts:
+      - Redmi4X-Redmi
+      - mia2lite
 
 notify:
   - name: pushbullet

@@ -239,6 +239,7 @@
       - {name: Samba Server, port: 445}
       - {name: MariaDB server, port: 3306, host: pine64.middle.earth}
       - {name: Deluged, port: 58846}
+      - {name: Home Assistant, port: 8123}
   tasks:
   - name: Install nginx and php
     package: name={{item}}
@@ -549,7 +550,7 @@
     - name: Download Home assistant
       docker_image:
         name: homeassistant/aarch64-homeassistant
-    - name: Make folder for headless kodi config, and userdata below it
+    - name: Make folder for Home assistant config
       file:
         path: /home/ubuntu/homeassistant_config
         recurse: yes
@@ -561,11 +562,12 @@
       with_items:
         - configuration.yaml
         - automations.yaml
+        - known_devices.yaml
       notify:
         - Restart Home assistant
     - name: Start home assistant container
       docker_container:
-        name: home-assistant
+        name: hass
         image: homeassistant/aarch64-homeassistant
         volumes:
           - /etc/localtime:/etc/localtime:ro
@@ -576,7 +578,7 @@
   handlers:
     - name: Restart Home assistant
       docker_container:
-        name: home-assistant
+        name: hass
         restart: yes
 
 - name: Headless Kodi vs Docker
