@@ -59,6 +59,7 @@ templates:
     thetvdb_lookup: yes
     deluge:
       move_completed_path: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+      path: /media/ubuntu/Chest/Torrent/
       main_file_only: yes
       ratio: 0.1
       remove_at_ratio: yes

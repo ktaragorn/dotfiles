@@ -23,6 +23,7 @@
         - git
         - jq
         - unattended-upgrades
+        - ncdu
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -226,7 +227,7 @@
     proxied_services:
       # - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
       - {name: deluge,link_to: /deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
-      - {name: htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
+      - {name: htpc, link_to: /htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
       - {name: kodi,link_to: /kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
       - {name: flexget,link_to: /flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
       - {name: status,link_to: /status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
@@ -421,6 +422,8 @@
       name:
       - psutil
       - pillow
+  - name: It needs smartmontools installed
+    apt: name=smartmontools
   - name: Push systemd service file
     template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
   - name: Start and enable htpc
