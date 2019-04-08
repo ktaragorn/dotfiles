@@ -336,6 +336,14 @@
                     "to": {
                         "key_code": "power"
                     }
+                },
+                {
+                    "from": {
+                        "key_code": "print_screen"
+                    },
+                    "to": {
+                        "key_code": "scroll_lock"
+                    }
                 }
             ],
             "virtual_hid_keyboard": {
