@@ -39,6 +39,9 @@
     - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
       copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
       become: no
+    - name: Allow TCP forwarding to allow remote access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
+      notify: Restart ssh
     - name: Disallow password authentication
       lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
       notify: Restart ssh
