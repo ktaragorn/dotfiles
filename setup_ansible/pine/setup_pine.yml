@@ -612,6 +612,7 @@
     - name: Start home assistant container
       docker_container:
         name: hass
+        network_mode: host
         image: homeassistant/aarch64-homeassistant
         volumes:
           - /etc/localtime:/etc/localtime:ro
