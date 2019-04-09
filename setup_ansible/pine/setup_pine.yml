@@ -10,7 +10,7 @@
   gather_facts: no
   become: yes
   pre_tasks:
-    - name: 'install python2' #https://stackoverflow.com/a/34402816 ansible still needs python 2
+    - name: "install python2" #https://stackoverflow.com/a/34402816 ansible still needs python 2
       raw: sudo apt-get -y install python
       register: command_result
       changed_when: '"is already the newest version" not in command_result.stdout'
@@ -55,10 +55,10 @@
         src: files/resolv.conf
         dest: /etc/resolv.conf
   handlers:
-  - name: updatedb
-    command: updatedb
-  - name: Restart ssh
-    service: name=ssh state=restarted
+    - name: updatedb
+      command: updatedb
+    - name: Restart ssh
+      service: name=ssh state=restarted
 
 - name: Harddisks setup - ntfs and fstab
   become: yes
@@ -89,8 +89,12 @@
         passno: "2"
         state: present
       with_items:
-        - {name: Archive, other_opts: ",x-systemd.automount,uid=1000,gid=1000", fstype: ntfs}
-        - {name: Chest, other_opts: "", fstype: "ext4"}
+        - {
+            name: Archive,
+            other_opts: ",x-systemd.automount,uid=1000,gid=1000",
+            fstype: ntfs,
+          }
+        - { name: Chest, other_opts: "", fstype: "ext4" }
         #this hack is because Chest is unstable enough that it might not be mountable
         # and the mount on boot will hang until it is, so we disable mount on boot and
         # mount it via cron here
@@ -114,17 +118,17 @@
   become: yes
   gather_facts: yes
   roles:
-  - role: bertvv.samba
-    samba_guest_account: ubuntu
-    samba_shares:
-    - name: Archive
-      path: /media/ubuntu/Archive
-      public: yes
-      writable: yes
-    - name: Chest
-      path: /media/ubuntu/Chest
-      public: yes
-      writable: yes
+    - role: bertvv.samba
+      samba_guest_account: ubuntu
+      samba_shares:
+        - name: Archive
+          path: /media/ubuntu/Archive
+          public: yes
+          writable: yes
+        - name: Chest
+          path: /media/ubuntu/Chest
+          public: yes
+          writable: yes
 
 - name: Dynamic dns for black-gate.
   tags: dyndns
@@ -132,12 +136,12 @@
   gather_facts: no
   vars_files: [vars/all.yml]
   tasks:
-  - name: Cron to curl privatedns
-    cron:
-      name: 'Update dyndns for black-gate.privatedns.org'
-      user: ubuntu
-      special_time: hourly
-      job: curl -s http://sync.afraid.org/u/{{freedns_token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
+    - name: Cron to curl privatedns
+      cron:
+        name: "Update dyndns for black-gate.privatedns.org"
+        user: ubuntu
+        special_time: hourly
+        job: curl -s http://sync.afraid.org/u/{{freedns_token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
 
 - name: Deluge installation and setup with systemd
   become: yes
@@ -149,19 +153,19 @@
       - deluged
       - deluge-web
   tasks:
-  - name: Install deluged and deluged-web
-    apt: pkg={{item}} state=present
-    with_items: '{{items}}'
-  # - name: Config if any
-  - name: Delete the default service files
-    file: path=/lib/systemd/system/{{item}}.service state=absent
-    with_items: '{{items}}'
-  - name: Copy service files
-    copy: src=files/{{item}}.service dest=/etc/systemd/system/{{item}}.service
-    with_items: '{{items}}'
-  - name: Start and enable both services
-    service: name={{item}} state=started enabled=true
-    with_items: '{{items}}'
+    - name: Install deluged and deluged-web
+      apt: pkg={{item}} state=present
+      with_items: "{{items}}"
+    # - name: Config if any
+    - name: Delete the default service files
+      file: path=/lib/systemd/system/{{item}}.service state=absent
+      with_items: "{{items}}"
+    - name: Copy service files
+      copy: src=files/{{item}}.service dest=/etc/systemd/system/{{item}}.service
+      with_items: "{{items}}"
+    - name: Start and enable both services
+      service: name={{item}} state=started enabled=true
+      with_items: "{{items}}"
 
 - name: Deluge Thin client setup
   tags: deluge_thin
@@ -229,45 +233,82 @@
   vars: &nginx_vars
     proxied_services:
       # - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
-      - {name: deluge,link_to: /deluge, port: 8112, terminate: "/", icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"}
-      - {name: htpc, link_to: /htpc, port: 8085, icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"}
-      - {name: kodi,link_to: /kodi, terminate: "/", port: 8080, icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"}
-      - {name: flexget,link_to: /flexget, port: 5050, icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"}
-      - {name: status,link_to: /status, port: 80, icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"}
-      - {name: OMV,link_to: 'http://omv.middle.earth', port: 80, icon: "https://scoolplace.eu/images/openmediavault-circle.png"}
-      - {name: Hass,link_to: 'http://hass.middle.earth', port: 80, icon: "https://www.home-assistant.io/images/favicon-192x192-full.png"}
+      - {
+          name: deluge,
+          link_to: /deluge,
+          port: 8112,
+          terminate: "/",
+          icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png",
+        }
+      - {
+          name: htpc,
+          link_to: /htpc,
+          port: 8085,
+          icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png",
+        }
+      - {
+          name: kodi,
+          link_to: /kodi,
+          terminate: "/",
+          port: 8080,
+          icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300",
+        }
+      - {
+          name: flexget,
+          link_to: /flexget,
+          port: 5050,
+          icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400",
+        }
+      - {
+          name: status,
+          link_to: /status,
+          port: 80,
+          icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png",
+        }
+      - {
+          name: OMV,
+          link_to: "http://omv.middle.earth",
+          port: 80,
+          icon: "https://scoolplace.eu/images/openmediavault-circle.png",
+        }
+      - {
+          name: Hass,
+          link_to: "http://hass.middle.earth",
+          port: 80,
+          icon: "https://www.home-assistant.io/images/favicon-192x192-full.png",
+        }
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
-      - {name: Web Server, port: 80}
-      - {name: SSH Server, port: 22}
-      - {name: Samba Server, port: 445}
-      - {name: MariaDB server, port: 3306, host: pine64.middle.earth}
-      - {name: Deluged, port: 58846}
-      - {name: Home Assistant, port: 8123}
+      - { name: Web Server, port: 80 }
+      - { name: SSH Server, port: 22 }
+      - { name: Samba Server, port: 445 }
+      - { name: MariaDB server, port: 3306, host: pine64.middle.earth }
+      - { name: Deluged, port: 58846 }
+      - { name: Home Assistant, port: 8123 }
   tasks:
-  - name: Install nginx and php
-    package: name={{item}}
-    with_items:
-      - nginx
-      - php7.0-fpm
-      - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
-  - name: Configure site
-    template: src=files/pine.j2 dest=/etc/nginx/sites-enabled/default
-    notify: Restart nginx
-    tags: nginx_conf
-  - name: Enable service
-    service: state=started enabled=yes name=nginx
-  - name: Install passlib python library
-    pip: name=passlib
-  - name: Create basic auth password file
-    htpasswd:
-      path: /etc/nginx/passwdfile
-      name: "{{nginx_username}}"
-      password: "{{nginx_password}}"
-      group: www-data
-      mode: 0640
-  - name: Setup index page
-    template: src=files/index.html.j2 dest=/var/www/html/index.html
+    - name: Install nginx and php
+      package: name={{item}}
+      with_items:
+        - nginx
+        - php7.0-fpm
+        - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
+    - name: Configure site
+      template: src=files/pine.j2 dest=/etc/nginx/sites-enabled/default
+      notify: Restart nginx
+      tags: nginx_conf
+    - name: Enable service
+      service: state=started enabled=yes name=nginx
+    - name: Install passlib python library
+      pip: name=passlib
+    - name: Create basic auth password file
+      htpasswd:
+        path: /etc/nginx/passwdfile
+        name: "{{nginx_username}}"
+        password: "{{nginx_password}}"
+        group: www-data
+        mode: 0640
+    - name: Setup index page
+      template: src=files/index.html.j2 dest=/var/www/html/index.html
   handlers:
     - name: Restart nginx
       service: state=restarted name=nginx
@@ -279,39 +320,39 @@
   become: yes
   vars: *nginx_vars
   tasks:
-  - name: Create folder
-    file:
-      dest: /var/www/html/monitoring/
-      state: directory
-  - name: Download and unzip ez server monitor
-    unarchive:
-      src: http://www.ezservermonitor.com/esm-web/downloads/version/2.5
-      dest: /var/www/html/monitoring
-      remote_src: yes
-  - name: Create a symlink
-    file:
-      state: link
-      src: /var/www/html/monitoring/eZServerMonitor-2.5
-      dest: /var/www/html/status
-  - name: Grant access to the mounted disks to the nginx user (otherwise it doesnt show disk usage)
-    user:
-      name: www-data
-      groups: disk
-      append: yes
-  - name: Generate and copy the config file
-    template:
-      src: files/esm.config.json.j2
-      dest: /var/www/html/status/conf/esm.config.json
-      validate: jq '' %s
+    - name: Create folder
+      file:
+        dest: /var/www/html/monitoring/
+        state: directory
+    - name: Download and unzip ez server monitor
+      unarchive:
+        src: http://www.ezservermonitor.com/esm-web/downloads/version/2.5
+        dest: /var/www/html/monitoring
+        remote_src: yes
+    - name: Create a symlink
+      file:
+        state: link
+        src: /var/www/html/monitoring/eZServerMonitor-2.5
+        dest: /var/www/html/status
+    - name: Grant access to the mounted disks to the nginx user (otherwise it doesnt show disk usage)
+      user:
+        name: www-data
+        groups: disk
+        append: yes
+    - name: Generate and copy the config file
+      template:
+        src: files/esm.config.json.j2
+        dest: /var/www/html/status/conf/esm.config.json
+        validate: jq '' %s
 
 - name: Install tvnamer
   tags: tvnamer
   hosts: all
   gather_facts: no
   tasks:
-  - name: Install tvnamer for adhoc tv renaming
-    become: yes
-    pip: name=tvnamer
+    - name: Install tvnamer for adhoc tv renaming
+      become: yes
+      pip: name=tvnamer
 
 - name: Flexget installation and setup
   tags: flexget
@@ -321,34 +362,34 @@
   vars:
     web_root: /var/www/html/
   tasks:
-  - name: Install flexget and subliminal
-    become: yes
-    pip: name={{item}}
-    with_items:
-      - flexget
-      - subliminal
-  - name: Create flexget config folder
-    file:
-      dest: ~/.config/flexget
-      state: directory
-  - name: Copy config file
-    template:
-      src: flexget/config.yml
-      dest: ~/.config/flexget/config.yml
-      validate: flexget -c %s check
-    notify: Restart Flexget
-  - name: Install deluge-client needed to add downloads
-    pip: name=deluge-client
-  - name: Copy flexget service file for systemd
-    become: yes
-    copy:
-      src: flexget/flexget.service
-      dest: /etc/systemd/system/flexget.service
-  - name: Start and enable flexget daemon
-    become: yes
-    service: name=flexget state=started enabled=true
-  - name: Set web password
-    command: flexget web passwd {{flexget_web_password}}
+    - name: Install flexget and subliminal
+      become: yes
+      pip: name={{item}}
+      with_items:
+        - flexget
+        - subliminal
+    - name: Create flexget config folder
+      file:
+        dest: ~/.config/flexget
+        state: directory
+    - name: Copy config file
+      template:
+        src: flexget/config.yml
+        dest: ~/.config/flexget/config.yml
+        validate: flexget -c %s check
+      notify: Restart Flexget
+    - name: Install deluge-client needed to add downloads
+      pip: name=deluge-client
+    - name: Copy flexget service file for systemd
+      become: yes
+      copy:
+        src: flexget/flexget.service
+        dest: /etc/systemd/system/flexget.service
+    - name: Start and enable flexget daemon
+      become: yes
+      service: name=flexget state=started enabled=true
+    - name: Set web password
+      command: flexget web passwd {{flexget_web_password}}
   handlers:
     - name: Restart Flexget
       service: name=flexget state=restarted
@@ -382,15 +423,15 @@
   vars_files: [vars/all.yml]
   roles:
     - role: geerlingguy.mysql
-      mysql_root_password: '{{my_mysql_root_password}}'
+      mysql_root_password: "{{my_mysql_root_password}}"
       mysql_users:
         - name: kodi
           password: kodi
           host: "%"
           priv: "*.*:ALL"
       mysql_packages: [mariadb-server]
-      mysql_bind_address: '192.168.1.222' # update if ipaddress changes
-      mysql_databases: [{name: 1channel}]
+      mysql_bind_address: "192.168.1.222" # update if ipaddress changes
+      mysql_databases: [{ name: 1channel }]
     - role: guisea.automysqlbackup
       automysqlbackup_cron:
         minute: 30
@@ -410,38 +451,38 @@
   vars:
     htpc_path: /home/ubuntu/Documents/HTPC-Manager
   tasks:
-  - name: Get latest htpc manager code
-    git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
-    notify: restart htpc manager
-    become: no
-  - name: Install stuff to compile pillow
-    apt:
-      package:
-        - libjpeg-dev
-        - libfreetype6
-        - libfreetype6-dev
-        - zlib1g-dev
-        - python-dev
-  - name: Install psutil for system info and pillow for images
-    pip:
-      name:
-      - psutil
-      - pillow
-  - name: It needs smartmontools installed
-    apt: name=smartmontools
-  - name: Push systemd service file
-    template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
-  - name: Start and enable htpc
-    service: name=htpc state=started enabled=true #daemon-reload=true
-# config
-# path to /htpc
-# enable kodi and deluge and add webmin and systeminfo
-# theme to atmosphere
-# dashboard latest tv shows, system info, disks info
+    - name: Get latest htpc manager code
+      git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
+      notify: restart htpc manager
+      become: no
+    - name: Install stuff to compile pillow
+      apt:
+        package:
+          - libjpeg-dev
+          - libfreetype6
+          - libfreetype6-dev
+          - zlib1g-dev
+          - python-dev
+    - name: Install psutil for system info and pillow for images
+      pip:
+        name:
+          - psutil
+          - pillow
+    - name: It needs smartmontools installed
+      apt: name=smartmontools
+    - name: Push systemd service file
+      template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
+    - name: Start and enable htpc
+      service: name=htpc state=started enabled=true #daemon-reload=true
+  # config
+  # path to /htpc
+  # enable kodi and deluge and add webmin and systeminfo
+  # theme to atmosphere
+  # dashboard latest tv shows, system info, disks info
 
   handlers:
-  - name: restart htpc manager
-    service: name=htpc state=restarted
+    - name: restart htpc manager
+      service: name=htpc state=restarted
 
 # TODO undo this if needed..
 # #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta
@@ -470,7 +511,6 @@
 #       apt: name=emby-server-beta
 #     - name: Start and enable the emby server
 #       service: name=emby-server state=started enabled=yes
-
 
 # from https://github.com/Sonarr/Sonarr/wiki/Installation
 # configuration mostly in GUI
@@ -627,7 +667,6 @@
         name: kodi-headless
         restart: yes
 
-
 #https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
 #https://hub.docker.com/r/linuxserver/jackett/
 # - name: Jackett setup via docker
@@ -674,13 +713,13 @@
         - speed_test.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
-        name: 'Monitor disk space and alert if low'
+        name: "Monitor disk space and alert if low"
         user: ubuntu
         special_time: daily
         job: /home/ubuntu/monitor_free_disk_space.sh '/dev/sda1' '1000' >> /tmp/cron.log 2>&1
     - name: Create cron job to Monitor chest disk and alert if dead
       cron:
-        name: 'Monitor Chest drive and alert if dead'
+        name: "Monitor Chest drive and alert if dead"
         user: ubuntu
         special_time: hourly
         job: /home/ubuntu/monitor_chest_drive.sh >> /tmp/cron.log 2>&1
