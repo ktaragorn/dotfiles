@@ -148,6 +148,7 @@
   tags: deluge
   hosts: all
   gather_facts: no
+  vars_files: [vars/all.yml]
   vars:
     items:
       - deluged
@@ -166,27 +167,31 @@
     - name: Start and enable both services
       service: name={{item}} state=started enabled=true
       with_items: "{{items}}"
-
-- name: Deluge Thin client setup
-  tags: deluge_thin
-  hosts: all
-  gather_facts: no
-  vars_files: [vars/all.yml]
-  tasks:
+    - name: Stop deluged and deluge-web to allow for config
+      service: name={{item}} state=stopped
+      with_items: "{{items}}"
+      changed_when: false
     - name: Add deluge thin client user to auth file
+      become: no
       lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}} create=yes
-      notify: Restart deluge
       # this file is only created after first launch
     - name: Configure to allow remote access
+      become: no
       lineinfile:
         dest: ~/.config/deluge/core.conf
         regexp: '"allow_remote":'
         line: '  "allow_remote": true,'
-        create: yes
-      notify: Restart deluge
-  handlers:
-    - name: Restart deluge
-      service: state=restarted name=deluged
+    - name: Configure to connect to default daemon
+      become: no
+      lineinfile:
+        dest: ~/.config/deluge/web.conf
+        regexp: '"default_daemon":'
+        line: '  "default_daemon": "127.0.0.1:58846",'
+    - name: Start deluged and deluge-web again
+      service: name={{item}} state=started
+      with_items: "{{items}}"
+      changed_when: false
+
 # # TODO install webmin tasks
 # - name: Install webmin and configure for reverse proxy
 #   become: yes
