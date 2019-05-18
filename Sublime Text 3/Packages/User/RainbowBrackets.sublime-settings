@@ -1,0 +1,13 @@
+/*
+	RainbowBrackets user settings in here override the default
+*/
+{
+	"languages": {
+		"js":{
+			"extensions": [
+				"js",
+				"ts"
+			]
+		}
+	}
+}
