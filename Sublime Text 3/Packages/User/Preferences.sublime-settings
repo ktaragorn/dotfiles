@@ -44,7 +44,7 @@
 		"build",
 		"ios/Pod"
 	],
-	"font_face": "Hack",
+	"font_face": "Fira Code Medium",
 	"font_options":
 	[
 		"subpixel_antialias",
