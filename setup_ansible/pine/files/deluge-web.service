@@ -1,6 +1,9 @@
 [Unit]
 Description=Deluge Bittorrent Client Web Interface
 After=network-online.target
+After=deluged.service
+Requires=deluged.service
+PartOf=deluged.service
 
 [Service]
 Type=simple
