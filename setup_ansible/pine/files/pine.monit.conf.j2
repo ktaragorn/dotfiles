@@ -1,0 +1,30 @@
+set logfile /var/log/monit.log
+
+# Alert if disk space of root filesystem gets low
+check filesystem Archive with path /media/ubuntu/Archive
+  if space free < 10 GB for 5 times within 15 cycles
+    then {{alert}} else if succeeded for 10 cycles then {{alert}}
+# Alert if disk space of root filesystem gets low
+check filesystem Chest with path /media/ubuntu/Chest
+  if space usage > 99% for 5 times within 15 cycles
+    then {{alert}} else if succeeded for 10 cycles then {{alert}}
+
+check file this_is_chest_drive with path /media/ubuntu/Chest/this_is_chest_drive
+  if does not exist then {{alert}}
+
+# Alert if disk space of root filesystem gets low
+check filesystem rootfs2 with path /
+  if space usage > 85% for 5 times within 15 cycles
+    then {{alert}} else if succeeded for 10 cycles then {{alert}}
+
+check system pine64.middle.earth
+  if loadavg (1min) > 8 for 3 cycles then {{alert}}
+  if loadavg (5min) > 4 for 3 cycles then {{alert}}
+  if memory usage > 90% then {{alert}}
+  if cpu usage (user) > 95% for 2 cycles then {{alert}}
+  if cpu usage (system) > 95% for 2 cycles then {{alert}}
+  if cpu usage (wait) > 95% for 2 cycles then {{alert}}
+
+check file flexget.log with path /home/ubuntu/.config/flexget/flexget.log
+    if content = ".*CRITICAL.*" then {{alert}}
+    if content = ".*ERROR.*" then {{alert}}

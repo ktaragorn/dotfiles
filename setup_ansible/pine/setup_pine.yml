@@ -717,6 +717,7 @@
         - monitor_free_disk_space.sh
         - monitor_chest_drive.sh
         - speed_test.sh
+        - monit_pushbullet
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
@@ -759,3 +760,27 @@
   handlers:
     - name: Restart NFS server
       systemd: name=nfs-kernel-server state=restarted
+
+- name: Setup and configure monit
+  tags: monit
+  hosts: all
+  become: yes
+  vars_files: [vars/all.yml]
+  gather_facts: no
+  vars:
+    alert: exec /home/ubuntu/monit_pushbullet
+  tasks:
+    # monit was already setup by OMV, so this may not be complete
+    - name: Install monit server
+      apt: package=monit
+    - name: Configure monit
+      template:
+        src: files/pine.monit.conf.j2
+        dest: /etc/monit/conf.d/pine.conf
+        # validate: monit -vc %s
+        mode: 0700
+        owner: root
+      notify: Restart monit
+  handlers:
+    - name: Restart monit
+      systemd: name=monit state=restarted
