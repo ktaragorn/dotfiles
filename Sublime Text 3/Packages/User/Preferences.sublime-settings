@@ -5,6 +5,9 @@
 		"node_modules/"
 	],
 	"bold_folder_labels": true,
+	"caret_extra_bottom": 2,
+	"caret_extra_top": 2,
+	"caret_extra_width": 3,
 	"caret_style": "phase",
 	"color_scheme": "Packages/Theme - Cobalt2/cobalt2.tmTheme",
 	"fade_fold_buttons": false,
@@ -44,17 +47,18 @@
 		"build",
 		"ios/Pod"
 	],
-	"font_face": "Fira Code Medium",
+	"font_face": "Fira Code",
 	"font_options":
 	[
+		"gray_antialias",
 		"subpixel_antialias",
 		"no_bold",
 		"no_italic"
 	],
-	"font_size": 15,
+	"font_size": 16,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
-	"highlight_modified_tabs": "true",
+	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
 		"CoffeeScript",
@@ -74,5 +78,6 @@
 	"show_sidebar_on_activated": false,
 	"show_sidebar_on_save": false,
 	"theme": "Cobalt2.sublime-theme",
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": true,
+	"wide_caret": true
 }

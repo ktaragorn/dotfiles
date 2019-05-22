@@ -7,7 +7,15 @@
 			"extensions": [
 				"js",
 				"ts"
-			]
+			],
+			"mode": "all"
+		},
+		"ruby":{
+			"extensions": [
+				"rb",
+				"rake"
+			],
+			"mode": "all"
 		}
 	}
 }
