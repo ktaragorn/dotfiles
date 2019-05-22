@@ -238,50 +238,40 @@
   vars: &nginx_vars
     proxied_services:
       # - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
-      - {
-          name: deluge,
-          link_to: /deluge,
-          port: 8112,
-          terminate: "/",
-          icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png",
-        }
-      - {
-          name: htpc,
-          link_to: /htpc,
-          port: 8085,
-          icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png",
-        }
-      - {
-          name: kodi,
-          link_to: /kodi,
-          terminate: "/",
-          port: 8080,
-          icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300",
-        }
-      - {
-          name: flexget,
-          link_to: /flexget,
-          port: 5050,
-          icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400",
-        }
-      - {
-          name: status,
-          link_to: /status,
-          port: 80,
-          icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png",
-        }
-      - {
-          name: OMV,
-          link_to: "http://omv.middle.earth",
-          port: 80,
-          icon: "https://scoolplace.eu/images/openmediavault-circle.png",
-        }
-      - {
-          name: Hass,
-          link_to: "http://hass.middle.earth",
-          port: 80,
-          icon: "https://www.home-assistant.io/images/favicon-192x192-full.png",
-        }
+      - name: deluge
+        link_to: /deluge
+        port: 8112
+        terminate: "/"
+        icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"
+      - name: htpc
+        link_to: /htpc
+        port: 8085
+        icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
+      - name: kodi
+        link_to: /kodi
+        terminate: "/"
+        port: 8080
+        icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
+      - name: flexget
+        link_to: /flexget
+        port: 5050
+        icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"
+      - name: status
+        link_to: /status
+        port: 80
+        icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"
+      - name: OMV,
+        link_to: "http://omv.middle.earth"
+        port: 80
+        icon: "https://scoolplace.eu/images/openmediavault-circle.png"
+      - name: Hass
+        link_to: "http://hass.middle.earth"
+        port: 80
+        icon: "https://www.home-assistant.io/images/favicon-192x192-full.png"
+      - name: monit
+        icon: https://binarymist.files.wordpress.com/2015/06/monit.png?w=450
+        link_to: /monit
+        port: 2812
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80 }
@@ -298,7 +288,12 @@
         - php7.0-fpm
         - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
     - name: Configure site
-      template: src=files/pine.j2 dest=/etc/nginx/sites-enabled/default
+      template:
+        src: files/pine.j2
+        dest: /etc/nginx/sites-enabled/default
+        # cant do this since the individual files are included
+        # INSIDE the `http` block of the main config and so are not valid on their own
+        # validate: nginx -t -c %s
       notify: Restart nginx
       tags: nginx_conf
     - name: Enable service
