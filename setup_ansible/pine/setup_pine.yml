@@ -764,6 +764,8 @@
   gather_facts: no
   vars:
     alert: exec /home/ubuntu/monit_pushbullet
+    alert_and_stop_deluged: exec '/home/ubuntu/monit_pushbullet && systemctl stop deluged'
+    alert_and_start_deluged: exec '/home/ubuntu/monit_pushbullet && systemctl start deluged'
   tasks:
     # monit was already setup by OMV, so this may not be complete
     - name: Install monit server

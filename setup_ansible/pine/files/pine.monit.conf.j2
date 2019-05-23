@@ -10,7 +10,10 @@ check filesystem Chest with path /media/ubuntu/Chest
     then {{alert}} else if succeeded for 10 cycles then {{alert}}
 
 check file this_is_chest_drive with path /media/ubuntu/Chest/this_is_chest_drive
-  if does not exist then {{alert}}
+  if does not exist
+	then {{alert_and_stop_deluged}}
+  else if succeeded
+	then {{alert_and_start_deluged}}
 
 # Alert if disk space of root filesystem gets low
 check filesystem rootfs2 with path /
