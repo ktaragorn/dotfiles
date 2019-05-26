@@ -243,19 +243,23 @@
         port: 8112
         terminate: "/"
         icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"
+        proc: deluge-web
       - name: htpc
         link_to: /htpc
         port: 8085
         icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
+        proc: htpc
       - name: kodi
         link_to: /kodi
         terminate: "/"
         port: 8080
         icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
+        proc: kodi --headless
       - name: flexget
         link_to: /flexget
         port: 5050
         icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"
+        proc: flexget
       - name: status
         link_to: /status
         port: 80
@@ -274,12 +278,12 @@
         port: 2812
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
-      - { name: Web Server, port: 80 }
-      - { name: SSH Server, port: 22 }
-      - { name: Samba Server, port: 445 }
-      - { name: MariaDB server, port: 3306, host: pine64.middle.earth }
-      - { name: Deluged, port: 58846 }
-      - { name: Home Assistant, port: 8123 }
+      - { name: Web Server, port: 80, proc: nginx }
+      - { name: SSH Server, port: 22, proc: sshd }
+      - { name: Samba Server, port: 445, proc: smbd }
+      - { name: MariaDB server, port: 3306, host: pine64.middle.earth, proc: mysqld }
+      - { name: Deluged, port: 58846, proc: deluged }
+      - { name: Home Assistant, port: 8123, proc: homeassistant }
   tasks:
     - name: Install nginx and php
       package: name={{item}}
@@ -763,9 +767,10 @@
   vars_files: [vars/all.yml]
   gather_facts: no
   vars:
+    <<: *nginx_vars
     alert: exec /home/ubuntu/monit_pushbullet
-    alert_and_stop_deluged: exec '/home/ubuntu/monit_pushbullet && systemctl stop deluged'
-    alert_and_start_deluged: exec '/home/ubuntu/monit_pushbullet && systemctl start deluged'
+    alert_and_stop_deluged: exec "/bin/bash -c '/home/ubuntu/monit_pushbullet && /bin/systemctl stop deluged'"
+    alert_and_start_deluged: exec "/bin/bash -c '/home/ubuntu/monit_pushbullet && /bin/systemctl start deluged'"
   tasks:
     # monit was already setup by OMV, so this may not be complete
     - name: Install monit server

@@ -22,7 +22,7 @@ check filesystem rootfs2 with path /
 
 check system pine64.middle.earth
   if loadavg (1min) > 8 for 3 cycles then {{alert}}
-  if loadavg (5min) > 4 for 3 cycles then {{alert}}
+  if loadavg (5min) > 5 for 6 cycles then {{alert}}
   if memory usage > 90% then {{alert}}
   if cpu usage (user) > 95% for 2 cycles then {{alert}}
   if cpu usage (system) > 95% for 2 cycles then {{alert}}
@@ -31,3 +31,11 @@ check system pine64.middle.earth
 check file flexget.log with path /home/ubuntu/.config/flexget/flexget.log
     if content = ".*CRITICAL.*" then {{alert}}
     if content = ".*ERROR.*" then {{alert}}
+
+{% for service in proxied_services + other_services if "proc" in service %}
+check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
+	if failed host {{service.host|default("localhost")}} port {{service.port}} then
+		{{alert}}
+	else if succeeded then
+		{{alert}}
+{% endfor %}
