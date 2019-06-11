@@ -771,6 +771,10 @@
     alert: exec /home/ubuntu/monit_pushbullet
     alert_and_stop_deluged: exec "/bin/bash -c '/home/ubuntu/monit_pushbullet && /bin/systemctl stop deluged'"
     alert_and_start_deluged: exec "/bin/bash -c '/home/ubuntu/monit_pushbullet && /bin/systemctl start deluged'"
+    alert_succeeded: |
+        {{alert}}
+        else if succeeded then
+        {{alert}}
   tasks:
     # monit was already setup by OMV, so this may not be complete
     - name: Install monit server
@@ -783,6 +787,8 @@
         mode: 0700
         owner: root
       notify: Restart monit
+    - name: Validate monit config
+      command: monit -v
   handlers:
     - name: Restart monit
       systemd: name=monit state=restarted
