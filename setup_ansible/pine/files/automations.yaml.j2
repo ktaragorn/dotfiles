@@ -8,7 +8,7 @@
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
-        message: Someone entered house
+        message: Someone entered house. Downstairs AC is on.
 
 - alias: All left home
   trigger:
@@ -22,3 +22,25 @@
         message: All have left the house, AC has been switched off
     - service: switch.turn_off
       entity_id: switch.ac
+
+- alias: We are in bed
+  trigger:
+    platform: state
+    entity_id: binary_sensor.phone_charging
+    to: "on"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: We have come to bed, AC downstairs is off, AC upstairs is on
+
+- alias: We are heading down
+  trigger:
+    platform: state
+    entity_id: binary_sensor.phone_charging
+    to: "off"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: We are going downstairs, AC downstairs is on, AC upstairs is off
