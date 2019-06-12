@@ -21,14 +21,14 @@ check filesystem rootfs2 with path /
     then {{alert}} else if succeeded for 10 cycles then {{alert}}
 
 check system pine64.middle.earth
-  if loadavg (1min) > 8 for 3 cycles then {{alert_succeeded}}
-  if loadavg (5min) > 5 for 6 cycles then {{alert_succeeded}}
+  if loadavg (1min) > 8 for 6 cycles then {{alert_succeeded}}
+  if loadavg (5min) > 5 for 12 cycles then {{alert_succeeded}}
   if memory usage > 90% then {{alert_succeeded}}
   if cpu usage (user) > 95% for 2 cycles then {{alert_succeeded}}
   if cpu usage (system) > 95% for 2 cycles then {{alert_succeeded}}
   if cpu usage (wait) > 95% for 2 cycles then {{alert_succeeded}}
 
-# I think content does not support "succeeded check"
+# I think content does not support "succeeded check".. makes sense..
 check file flexget.log with path /home/ubuntu/.config/flexget/flexget.log
     if content = ".*CRITICAL.*" then {{alert}}
     if content = ".*ERROR.*" then {{alert}}
