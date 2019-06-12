@@ -54,6 +54,8 @@
       copy:
         src: files/resolv.conf
         dest: /etc/resolv.conf
+    - name: Set timezone
+      timezone: name=Asia/Singapore
   handlers:
     - name: updatedb
       command: updatedb
@@ -264,10 +266,10 @@
         link_to: /status
         port: 80
         icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"
-      - name: OMV,
+      - name: OMV
         link_to: "http://omv.middle.earth"
         port: 80
-        icon: "https://scoolplace.eu/images/openmediavault-circle.png"
+        icon: "https://www.htpcguides.com/wp-content/uploads/2015/12/openmediavault-circle.png"
       - name: Hass
         link_to: "http://hass.middle.earth"
         port: 80
