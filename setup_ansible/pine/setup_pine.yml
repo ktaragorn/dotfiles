@@ -794,3 +794,11 @@
   handlers:
     - name: Restart monit
       systemd: name=monit state=restarted
+
+- name: Setup and config Munin
+  hosts: all
+  become: yes
+  tags: munin
+  roles:
+    - geerlingguy.munin
+    - geerlingguy.munin-node
