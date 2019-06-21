@@ -803,3 +803,27 @@
   roles:
     - geerlingguy.munin
     - geerlingguy.munin-node
+- name: Install progress cli tool
+  hosts: all
+  become: no
+  tags: progress-cli
+  tasks:
+    - name: Install prerequisites
+      become: yes
+      apt:
+        name:
+          - libncurses5-dev
+          - pkg-config
+    - name: Git clone the package
+      git:
+        repo: https://github.com/Xfennec/progress.git
+        dest: /home/ubuntu/Documents/progress
+    - name: Build package
+      make:
+        chdir: /home/ubuntu/Documents/progress
+    - name: install package
+      become: yes
+      make:
+        chdir: /home/ubuntu/Documents/progress
+        target: install
+
