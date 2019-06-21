@@ -36,6 +36,13 @@ windows:
         - cd beam-api; npm run start:debug
         - cd beam-api;  node --require @babel/register
 
+  - scooter:
+        layout: main-vertical
+        panes:
+                - cd scooter-server
+                - cd scooter-server; yarn start:dev
+                - cd scooter-server; ngrok start --all
+
   - app:
       layout: main-vertical
       panes:
