@@ -269,11 +269,15 @@
       - name: OMV
         link_to: "http://omv.middle.earth"
         port: 80
-        icon: "https://www.htpcguides.com/wp-content/uploads/2015/12/openmediavault-circle.png"
+        icon: "https://27jts3o00yy49vo2y30wem91-wpengine.netdna-ssl.com/wp-content/uploads/2018/06/openmediavault-300x300.png"
       - name: Hass
         link_to: "http://hass.middle.earth"
         port: 80
         icon: "https://www.home-assistant.io/images/favicon-192x192-full.png"
+      - name: Retropie
+        link_to: "http://retropie:8000"
+        port: 80
+        icon: http://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/retropie-icon.png
       - name: monit
         icon: https://binarymist.files.wordpress.com/2015/06/monit.png?w=450
         link_to: /monit
@@ -803,6 +807,7 @@
   roles:
     - geerlingguy.munin
     - geerlingguy.munin-node
+
 - name: Install progress cli tool
   hosts: all
   become: no

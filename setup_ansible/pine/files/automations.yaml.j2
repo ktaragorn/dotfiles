@@ -25,9 +25,15 @@
 
 - alias: We are in bed
   trigger:
-    platform: state
-    entity_id: binary_sensor.phone_charging
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.phone_charging
+      to: "on"
+    - platform: time
+      at: '23:00:00'
+  condition:
+    condition: state
+    entity_id: group.all_devices
+    to: "home"
   action:
     - service: notify.pushbullet
       data:
@@ -36,9 +42,29 @@
 
 - alias: We are heading down
   trigger:
-    platform: state
-    entity_id: binary_sensor.phone_charging
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.phone_charging
+      to: "off"
+    - platform: time
+      at: '07:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thurs
+        - fri
+    - platform: time
+      at: '09:30:00'
+      weekday:
+        - sat
+        - sun
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '09:30:00'
+    - condition: state
+      entity_id: group.all_devices
+      to: "home"
   action:
     - service: notify.pushbullet
       data:
