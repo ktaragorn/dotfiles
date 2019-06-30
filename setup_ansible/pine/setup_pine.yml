@@ -618,6 +618,7 @@
         - automations.yaml
         - known_devices.yaml
       notify:
+        - Validate config
         - Restart Home assistant
     - name: Start home assistant container
       docker_container:
@@ -631,6 +632,8 @@
           - 8123:8123
         restart_policy: unless-stopped
   handlers:
+    - name: Validate config
+      command: docker exec hass bash -l -c '/usr/local/bin/hass --script check_config -c /config'
     - name: Restart Home assistant
       docker_container:
         name: hass
@@ -793,10 +796,12 @@
         # validate: monit -vc %s
         mode: 0700
         owner: root
-      notify: Restart monit
+      notify:
+        - Validate monit config
+        - Restart monit
+  handlers:
     - name: Validate monit config
       command: monit -v
-  handlers:
     - name: Restart monit
       systemd: name=monit state=restarted
 

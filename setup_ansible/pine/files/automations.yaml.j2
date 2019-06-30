@@ -1,5 +1,6 @@
 ---
 - alias: Any Entered house
+  id: any_enter_house
   trigger:
     platform: state
     entity_id: group.all_devices
@@ -11,6 +12,7 @@
         message: Someone entered house. Downstairs AC is on.
 
 - alias: All left home
+  id: all_leave_house
   trigger:
     platform: state
     entity_id: group.all_devices
@@ -19,11 +21,12 @@
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
-        message: All have left the house, AC has been switched off
+        message: All have left the house, Both ACs have been switched off
     - service: switch.turn_off
       entity_id: switch.ac
 
 - alias: We are in bed
+  id: moved_upstairs
   trigger:
     - platform: state
       entity_id: binary_sensor.phone_charging
@@ -31,42 +34,66 @@
     - platform: time
       at: '23:00:00'
   condition:
-    condition: state
-    entity_id: group.all_devices
-    to: "home"
+    - condition: state
+      entity_id: group.all_devices
+      state: "home"
+    - condition: time
+      after: '20:00:00'
   action:
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
         message: We have come to bed, AC downstairs is off, AC upstairs is on
 
-- alias: We are heading down
+- alias: We are heading down on workdays
+  id: moved_downstairs_work
   trigger:
     - platform: state
       entity_id: binary_sensor.phone_charging
       to: "off"
     - platform: time
       at: '07:30:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thurs
-        - fri
-    - platform: time
-      at: '09:30:00'
-      weekday:
-        - sat
-        - sun
   condition:
     - condition: time
       after: '07:30:00'
       before: '09:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
     - condition: state
       entity_id: group.all_devices
-      to: "home"
-  action:
+      state: "home"
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+  action: &going_down_actions
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
         message: We are going downstairs, AC downstairs is on, AC upstairs is off
+
+- alias: We are heading down on holidays
+  id: moved_downstairs_holiday
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.phone_charging
+      to: "off"
+    - platform: time
+      at: '09:30:00'
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '09:30:00'
+      weekday:
+        - sun
+        - sat
+    - condition: state
+      entity_id: group.all_devices
+      state: "home"
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+  action: *going_down_actions
