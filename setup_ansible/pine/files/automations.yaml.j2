@@ -44,6 +44,8 @@
       data:
         title: Gondor Home Assistant
         message: We have come to bed, AC downstairs is off, AC upstairs is on
+    - service: switch.turn_off
+      entity_id: switch.ac
 
 - alias: We are heading down on workdays
   id: moved_downstairs_work
@@ -55,8 +57,8 @@
       at: '07:30:00'
   condition:
     - condition: time
-      after: '07:30:00'
-      before: '09:30:00'
+      after: '07:00:00'
+      before: '10:00:00'
       weekday:
         - mon
         - tue
@@ -66,14 +68,13 @@
     - condition: state
       entity_id: group.all_devices
       state: "home"
-    - condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
   action: &going_down_actions
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
         message: We are going downstairs, AC downstairs is on, AC upstairs is off
+    - service: switch.turn_off
+      entity_id: switch.ac
 
 - alias: We are heading down on holidays
   id: moved_downstairs_holiday
@@ -85,15 +86,12 @@
       at: '09:30:00'
   condition:
     - condition: time
-      after: '07:30:00'
-      before: '09:30:00'
+      after: '07:00:00'
+      before: '10:00:00'
       weekday:
         - sun
         - sat
     - condition: state
       entity_id: group.all_devices
       state: "home"
-    - condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'off'
   action: *going_down_actions
