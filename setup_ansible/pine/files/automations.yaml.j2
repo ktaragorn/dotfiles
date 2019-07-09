@@ -37,8 +37,8 @@
     - condition: state
       entity_id: group.all_devices
       state: "home"
-    - condition: time
-      after: '20:00:00'
+    # - condition: time
+    #   after: '20:00:00'
     - condition: state
       entity_id: input_boolean.we_are_in_bed
       state: 'off'
@@ -64,7 +64,7 @@
   condition:
     - condition: time
       after: '07:00:00'
-      before: '10:00:00'
+      # before: '10:00:00'
       weekday:
         - mon
         - tue
@@ -99,7 +99,7 @@
   condition:
     - condition: time
       after: '07:00:00'
-      before: '10:30:00'
+      # before: '10:30:00'
       weekday:
         - sun
         - sat
