@@ -32,13 +32,16 @@
       entity_id: binary_sensor.phone_charging
       to: "on"
     - platform: time
-      at: '23:00:00'
+      at: '23:30:00'
   condition:
     - condition: state
       entity_id: group.all_devices
       state: "home"
     - condition: time
       after: '20:00:00'
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: 'off'
   action:
     - service: notify.pushbullet
       data:
@@ -46,6 +49,9 @@
         message: We have come to bed, AC downstairs is off, AC upstairs is on
     - service: switch.turn_off
       entity_id: switch.ac
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.we_are_in_bed
 
 - alias: We are heading down on workdays
   id: moved_downstairs_work
@@ -54,7 +60,7 @@
       entity_id: binary_sensor.phone_charging
       to: "off"
     - platform: time
-      at: '07:30:00'
+      at: '08:00:00'
   condition:
     - condition: time
       after: '07:00:00'
@@ -68,6 +74,9 @@
     - condition: state
       entity_id: group.all_devices
       state: "home"
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: 'on'
   action: &going_down_actions
     - service: notify.pushbullet
       data:
@@ -75,6 +84,9 @@
         message: We are going downstairs, AC downstairs is on, AC upstairs is off
     - service: switch.turn_off
       entity_id: switch.ac
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.we_are_in_bed
 
 - alias: We are heading down on holidays
   id: moved_downstairs_holiday
@@ -83,15 +95,18 @@
       entity_id: binary_sensor.phone_charging
       to: "off"
     - platform: time
-      at: '09:30:00'
+      at: '10:00:00'
   condition:
     - condition: time
       after: '07:00:00'
-      before: '10:00:00'
+      before: '10:30:00'
       weekday:
         - sun
         - sat
     - condition: state
       entity_id: group.all_devices
       state: "home"
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: 'on'
   action: *going_down_actions
