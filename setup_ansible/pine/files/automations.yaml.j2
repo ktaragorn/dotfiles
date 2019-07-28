@@ -23,7 +23,9 @@
         title: Gondor Home Assistant
         message: All have left the house, Both ACs have been switched off
     - service: switch.turn_off
-      entity_id: switch.ac
+      entity_id: switch.downstairs_ac
+    - service: switch.turn_off
+      entity_id: switch.upstairs_ac
 
 - alias: We are in bed
   id: moved_upstairs
@@ -47,8 +49,10 @@
       data:
         title: Gondor Home Assistant
         message: We have come to bed, AC downstairs is off, AC upstairs is on
+    - service: switch.turn_on
+      entity_id: switch.upstairs_ac
     - service: switch.turn_off
-      entity_id: switch.ac
+      entity_id: switch.downstairs_ac
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
@@ -83,7 +87,9 @@
         title: Gondor Home Assistant
         message: We are going downstairs, AC downstairs is on, AC upstairs is off
     - service: switch.turn_off
-      entity_id: switch.ac
+      entity_id: switch.upstairs_ac
+    - service: switch.turn_on
+      entity_id: switch.downstairs_ac
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.we_are_in_bed
