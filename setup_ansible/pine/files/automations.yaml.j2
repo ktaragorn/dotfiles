@@ -13,6 +13,17 @@
     - service: switch.turn_on
       entity_id: switch.downstairs_ac
 
+- alias: Test TV Remote
+  id: tv_remote_test
+  trigger:
+    - platform: webhook
+      webhook_id: tv_remote_detected
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: TV Remote signal received.
+
 - alias: All left home
   id: all_leave_house
   trigger:

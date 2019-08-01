@@ -43,6 +43,9 @@
 #include <IRsend.h>
 #include <WiFiClient.h>
 #include <ir_Daikin.h>
+#include <IRrecv.h>
+#include <IRutils.h>
+#include <ESP8266HTTPClient.h>
 
 const char* kSsid = "ironforge";
 const char* kPassword = "speakfriendandenter";
@@ -60,6 +63,12 @@ WebServer server(80);
 #endif  // ESP32
 
 const uint16_t kIrLed = 4;  // ESP GPIO pin to use. Recommended: 4 (D2).
+
+// An IR detector/demodulator is connected to GPIO pin 14(D5 on a NodeMCU
+// board).
+const uint16_t kRecvPin = 14;
+
+IRrecv irrecv(kRecvPin);
 
 void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = 3){
   IRDaikinESP ac(kIrLed);
@@ -131,19 +140,6 @@ void handleRoot() {
               "</html>");
 }
 
-//
-//void handleIr() {
-//  for (uint8_t i = 0; i < server.args(); i++) {
-//    if (server.argName(i) == "code") {
-//      uint32_t code = strtoul(server.arg(i).c_str(), NULL, 10);
-//#if SEND_NEC
-//      irsend.sendNEC(code, 32);
-//#endif  // SEND_NEC
-//    }
-//  }
-//  handleRoot();
-//}
-
 void handleNotFound() {
   String message = "File Not Found\n\n";
   message += "URI: ";
@@ -195,8 +191,52 @@ void web_server_setup(){
   Serial.println("HTTP server started");
 }
 
+void ir_receive(){
+  decode_results results;
+
+  if (irrecv.decode(&results)) {
+    // print() & println() can't handle printing long longs. (uint64_t)
+    serialPrintUint64(results.value, HEX);
+    Serial.println("");
+    trigger_homeassistant_webhook(uint64ToString(results.value, HEX));
+    irrecv.resume();  // Receive the next value
+  }
+  delay(100);
+}
+
+void trigger_homeassistant_webhook(String value){
+  WiFiClient client;
+  HTTPClient http;
+
+  if (http.begin(client, "http://hass.middle.earth/api/webhook/tv_remote_detected")) {  // HTTP
+    Serial.print("[HTTP] GET...\n");
+    // start connection and send HTTP header
+    int httpCode = http.POST(value);
+
+    // httpCode will be negative on error
+    if (httpCode > 0) {
+      // HTTP header has been send and Server response header has been handled
+      Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+
+      // file found at server
+      if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
+        String payload = http.getString();
+        Serial.println(payload);
+      }
+    } else {
+      Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+    }
+
+    http.end();
+  } else {
+    Serial.printf("[HTTP} Unable to connect\n");
+  }
+}
+
 void setup(void) {
   Serial.begin(115200);
+
+  irrecv.enableIRIn();  // Start the receiver
 
   wifi_setup();
 
@@ -204,5 +244,6 @@ void setup(void) {
 }
 
 void loop(void) {
+  ir_receive();
   server.handleClient();
 }
