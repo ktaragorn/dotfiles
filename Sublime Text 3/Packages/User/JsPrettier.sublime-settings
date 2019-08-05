@@ -1,5 +1,8 @@
 {
 	"prettier_cli_path": "/usr/local/bin/prettier",
 
-	"auto_format_on_save": true
+	"auto_format_on_save": true,
+	"custom_file_extensions": ["md"],
+	"prettier_options":{
+		"useTabs": false}
 }

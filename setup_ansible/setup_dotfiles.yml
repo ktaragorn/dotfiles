@@ -62,6 +62,12 @@
     with_items:
     - rowanj-gitx
     - iterm2
+    - slack
+    - caffeine
+    - itsycal
+    - dbeaver-community
+    - postman
+    - firefox
     - karabiner-elements
 
   - name: Checkout/update dotfiles on target machine
