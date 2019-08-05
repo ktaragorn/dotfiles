@@ -4,7 +4,7 @@
   become: yes
   gather_facts: no
   pre_tasks:
-    - name: 'install python2' #https://stackoverflow.com/a/34402816 ansible still needs python 2
+    - name: "install python2" #https://stackoverflow.com/a/34402816 ansible still needs python 2
       raw: sudo apt-get -y install python
       register: command_result
       changed_when: '"is already the newest version" not in command_result.stdout'
@@ -16,7 +16,7 @@
     - name: Create ubuntu user
       user:
         name: ubuntu
-        group : ubuntu
+        group: ubuntu
         groups: ssh,sudo,ubuntu
         password: $6$yoQLH9hmeyaC.$J0otiqXkgN9kUQwnRqE7L9eyuOpuOJl8dEFNAFseMLaUHS2Mn1SBYgtcGEE5gGk.b02t2om0c4pZRHXMg4NrR0
         append: yes
