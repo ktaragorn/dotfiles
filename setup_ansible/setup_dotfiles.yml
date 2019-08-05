@@ -3,142 +3,140 @@
 ---
 - hosts: localhost
   tasks:
-  - name: Add byobu PPA on debian machines
-    apt_repository: repo='ppa:byobu/ppa' update_cache=yes
-    when: ansible_os_family != 'Darwin'
-    become: yes
+    - name: Add byobu PPA on debian machines
+      apt_repository: repo='ppa:byobu/ppa' update_cache=yes
+      when: ansible_os_family != 'Darwin'
+      become: yes
 
-  - name: Install nice CLI packages on Debian systems
-    apt: pkg={{item}} state=present
-    with_items:
-      - htop
-      - byobu
-      - git
-      - vim
-      - ncdu
-      - guake
-      - git-gui
-      - net-tools
-    when: ansible_os_family != 'Darwin'
-    become: yes
+    - name: Install nice CLI packages on Debian systems
+      apt: pkg={{item}} state=present
+      with_items:
+        - htop
+        - byobu
+        - git
+        - vim
+        - ncdu
+        - guake
+        - git-gui
+        - net-tools
+      when: ansible_os_family != 'Darwin'
+      become: yes
 
-  - name: Start guake on startup with byobu
-    cron:
-      special_time: reboot
-      user: karthikt
-      name: Start guake with byobu
-      job: guake -e byobu
-    when: ansible_os_family == 'Darwin'
-    # unnecessary since need to install homebrew to install ansible in the first place..
-  # - name: Install Homebrew on osx
-  #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
+    - name: Start guake on startup with byobu
+      cron:
+        special_time: reboot
+        user: karthikt
+        name: Start guake with byobu
+        job: guake -e byobu
+      when: ansible_os_family == 'Darwin'
+      # unnecessary since need to install homebrew to install ansible in the first place..
+    # - name: Install Homebrew on osx
+    #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
 
-  - name: Install nice CLI packages on OSX systems
-    homebrew: pkg={{item}} state=present
-    with_items:
-      - htop
-      - byobu
-      - reattach-to-user-namespace # needed for http://superuser.com/questions/834525/unable-to-launch-application-in-tmux
-      - git
-      - vim
-      - ncdu
-      - wget
-      - direnv
-    when: ansible_os_family == 'Darwin'
+    - name: Install nice CLI packages on OSX systems
+      homebrew: pkg={{item}} state=present
+      with_items:
+        - htop
+        - byobu
+        - reattach-to-user-namespace # needed for http://superuser.com/questions/834525/unable-to-launch-application-in-tmux
+        - git
+        - vim
+        - ncdu
+        - wget
+        - direnv
+      when: ansible_os_family == 'Darwin'
 
-  #http://superuser.com/a/373448/160502
-  - name: Fix htop for osx
-    file: name=/usr/local/bin/htop mode=6555 owner=root follow=yes
-    become: yes
-    when: ansible_os_family == 'Darwin'
+    #http://superuser.com/a/373448/160502
+    - name: Fix htop for osx
+      file: name=/usr/local/bin/htop mode=6555 owner=root follow=yes
+      become: yes
+      when: ansible_os_family == 'Darwin'
 
-    #  - name: Install brew cask
-    #homebrew: pkg=caskroom/cask/brew-cask
-    #when: ansible_os_family == 'Darwin'
+      #  - name: Install brew cask
+      #homebrew: pkg=caskroom/cask/brew-cask
+      #when: ansible_os_family == 'Darwin'
+    - name: Install casks
+      homebrew_cask: name={{item}}
+      when: ansible_os_family == 'Darwin'
+      with_items:
+        - google-chrome
+        - rowanj-gitx
+        - iterm2
+        - slack
+        - caffeine
+        - itsycal
+        - dbeaver-community
+        - postman
+        - firefox
+        - karabiner-elements
 
-  - name: Install casks
-    homebrew_cask: name={{item}}
-    when: ansible_os_family == 'Darwin'
-    with_items:
-    - rowanj-gitx
-    - iterm2
-    - slack
-    - caffeine
-    - itsycal
-    - dbeaver-community
-    - postman
-    - firefox
-    - karabiner-elements
+    - name: Checkout/update dotfiles on target machine
+      git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
+      # Assuming localhost is always updated
+      when: ansible_connection != "local"
 
-  - name: Checkout/update dotfiles on target machine
-    git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
-    # Assuming localhost is always updated
-    when: ansible_connection != "local"
+    - name: Ensure bash files exist
+      command: touch ~/.{{item}} creates=~/.{{item}}
+      with_items:
+        - bashrc
+        - bash_profile
 
-  - name: Ensure bash files exist
-    command: touch ~/.{{item}} creates=~/.{{item}}
-    with_items:
-    - bashrc
-    - bash_profile
+    - name: Ensure bash_profile sources bashrc
+      lineinfile: dest=~/.bash_profile line=". ~/.bashrc"
 
-  - name: Ensure bash_profile sources bashrc
-    lineinfile: dest=~/.bash_profile line=". ~/.bashrc"
+    - name: Add source line for bashrc
+      lineinfile: dest=~/.bashrc line=". ~/dotfiles/bashrc.d/source_all"
 
-  - name: Add source line for bashrc
-    lineinfile: dest=~/.bashrc line=". ~/dotfiles/bashrc.d/source_all"
+    - name: Link the basic dotfiles which are linked to .file in home
+      file: src=dotfiles/{{item}} dest=~/.{{item}} state=link
+      with_items:
+        - vimrc
+        - ngrok
+        - rdebugrc
+        - gitconfig
+        - pryrc
+        - gemrc
+        - bcrc
+        - Xmodmap # only used in linux though
+        - tmuxinator
 
-  - name: Link the basic dotfiles which are linked to .file in home
-    file: src=dotfiles/{{item}} dest=~/.{{item}} state=link
-    with_items:
-      - vimrc
-      - ngrok
-      - rdebugrc
-      - gitconfig
-      - pryrc
-      - gemrc
-      - bcrc
-      - Xmodmap # only used in linux though
-      - tmuxinator
+    - name: Link inputrc
+      file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
 
-  - name: Link inputrc
-    file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
+    #https://github.com/Russell91/sshrc
+    - name: Link sshrc file and folder
+      file: src=dotfiles/sshrc/{{item}} dest=~/.{{item}} state=link
+      with_items:
+        - sshrc
+        - sshrc.d
 
-  #https://github.com/Russell91/sshrc
-  - name: Link sshrc file and folder
-    file: src=dotfiles/sshrc/{{item}} dest=~/.{{item}} state=link
-    with_items:
-      - sshrc
-      - sshrc.d
+    #https://askubuntu.com/questions/7190/why-wont-my-xmodmap-file-load-on-login
+    - name: Autostart Xmodmap in linux
+      when: ansible_os_family != 'Darwin' #gnome only??
+      file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
 
-  #https://askubuntu.com/questions/7190/why-wont-my-xmodmap-file-load-on-login
-  - name: Autostart Xmodmap in linux
-    when: ansible_os_family != 'Darwin' #gnome only??
-    file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
+    - name: Create byobu config folder
+      file: dest=~/.config/byobu state=directory
+      when: ansible_os_family != 'Darwin'
 
-  - name: Create byobu config folder
-    file: dest=~/.config/byobu state=directory
-    when: ansible_os_family != 'Darwin'
+    - name: Link tmux.conf in debian systems
+      file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
+      when: ansible_os_family != 'Darwin'
 
-  - name: Link tmux.conf in debian systems
-    file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
-    when: ansible_os_family != 'Darwin'
+    - name: Create byobu folder in case it doesnt exist
+      file: path=~/.byobu state=directory
+      when: ansible_os_family == 'Darwin'
 
-  - name: Create byobu folder in case it doesnt exist
-    file: path=~/.byobu state=directory
-    when: ansible_os_family == 'Darwin'
+    - name: Link tmux.conf in osx systems
+      file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
+      when: ansible_os_family == 'Darwin'
 
-  - name: Link tmux.conf in osx systems
-    file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
-    when: ansible_os_family == 'Darwin'
+    - name: Link karabiner.json in osx systems
+      file: src=~/dotfiles/karabiner dest=~/.config/karabiner state=link force=yes
+      when: ansible_os_family == 'Darwin'
 
-  - name: Link karabiner.json in osx systems
-    file: src=~/dotfiles/karabiner dest=~/.config/karabiner state=link force=yes
-    when: ansible_os_family == 'Darwin'
-
-    # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
-  - name: Fix key repeat on osx
-    command: defaults write -g ApplePressAndHoldEnabled -bool false
-    when: ansible_os_family == 'Darwin'
-
-
-    # TODO RVM? Brew, tmuxinator tmux config
+      # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
+    - name: Fix key repeat on osx
+      command: defaults write -g ApplePressAndHoldEnabled -bool false
+      when: ansible_os_family == 'Darwin'
+      # TODO RVM? Brew, tmuxinator tmux config
