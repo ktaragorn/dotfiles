@@ -9,16 +9,18 @@
       become: yes
 
     - name: Install nice CLI packages on Debian systems
-      apt: pkg={{item}} state=present
-      with_items:
-        - htop
-        - byobu
-        - git
-        - vim
-        - ncdu
-        - guake
-        - git-gui
-        - net-tools
+      apt:
+        pkg:
+          - htop
+          - byobu
+          - git
+          - vim
+          - ncdu
+          - guake
+          - git-gui
+          - net-tools
+        state: present
+
       when: ansible_os_family != 'Darwin'
       become: yes
 
@@ -34,16 +36,17 @@
     #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
 
     - name: Install nice CLI packages on OSX systems
-      homebrew: pkg={{item}} state=present
-      with_items:
-        - htop
-        - byobu
-        - reattach-to-user-namespace # needed for http://superuser.com/questions/834525/unable-to-launch-application-in-tmux
-        - git
-        - vim
-        - ncdu
-        - wget
-        - direnv
+      homebrew:
+        state: present
+        pkg:
+          - htop
+          - byobu
+          - reattach-to-user-namespace # needed for http://superuser.com/questions/834525/unable-to-launch-application-in-tmux
+          - git
+          - vim
+          - ncdu
+          - wget
+          - direnv
       when: ansible_os_family == 'Darwin'
 
     #http://superuser.com/a/373448/160502
@@ -56,20 +59,20 @@
       #homebrew: pkg=caskroom/cask/brew-cask
       #when: ansible_os_family == 'Darwin'
     - name: Install casks
-      homebrew_cask: name={{item}}
       when: ansible_os_family == 'Darwin'
       ignore_errors: True
-      with_items:
-        - google-chrome
-        - rowanj-gitx
-        - iterm2
-        - slack
-        - caffeine
-        - itsycal
-        - dbeaver-community
-        - postman
-        - firefox
-        - karabiner-elements
+      homebrew_cask:
+        name:
+          - google-chrome
+          - rowanj-gitx
+          - iterm2
+          - slack
+          - caffeine
+          - itsycal
+          - dbeaver-community
+          - postman
+          - firefox
+          - karabiner-elements
 
     - name: Checkout/update dotfiles on target machine
       git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -107,6 +110,14 @@
         repo: https://github.com/asdf-vm/asdf.git
         dest: ~/.asdf
         version: v0.7.3
+
+    - name: Install ruby and node plugins
+      shell: asdf plugin-add {{item}}
+      args:
+        creates: ~/.asdf/plugins/{{item}}
+      with_items:
+        - ruby
+        - nodejs
 
     - name: Link inputrc
       file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
