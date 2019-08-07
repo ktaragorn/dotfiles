@@ -47,7 +47,7 @@
       entity_id: binary_sensor.phone_charging
       to: "on"
     - platform: time
-      at: "23:30:00"
+      at: "23:59:00"
   condition:
     - condition: state
       entity_id: group.all_devices
@@ -64,6 +64,8 @@
         message: We have come to bed, AC downstairs is off, AC upstairs is on
     - service: switch.turn_on
       entity_id: switch.upstairs_ac
+    - service: light.turn_off
+      entity_id: light.bedroom_light
     - service: switch.turn_on
       entity_id: switch.upstairs_tv
     - service: switch.turn_on
