@@ -58,6 +58,7 @@
     - name: Install casks
       homebrew_cask: name={{item}}
       when: ansible_os_family == 'Darwin'
+      ignore_errors: True
       with_items:
         - google-chrome
         - rowanj-gitx
@@ -99,6 +100,13 @@
         - bcrc
         - Xmodmap # only used in linux though
         - tmuxinator
+        - asdfrc
+
+    - name: Install asdf version 0.7.3
+      git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: ~/.asdf
+        version: v0.7.3
 
     - name: Link inputrc
       file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link

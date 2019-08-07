@@ -11,3 +11,4 @@ fi
 . $d/os_specific
 . $d/misc
 . $d/rvm
+. $d/asdf
