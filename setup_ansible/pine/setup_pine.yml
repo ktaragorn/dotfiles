@@ -69,10 +69,10 @@
   gather_facts: no
   tasks:
     - name: Install ntfs-3g and cifs-utils
-      apt: pkg={{item}} state=present
-      with_items:
-        - ntfs-3g
-        - cifs-utils
+      apt:
+        pkg:
+          - ntfs-3g
+          - cifs-utils
     - name: Fix permissions of /media/ubuntu to be open to all
       file: path=/media/ubuntu/ state=directory mode=755
     - name: Create mount points
@@ -129,6 +129,13 @@
           writable: yes
         - name: Chest
           path: /media/ubuntu/Chest
+          public: yes
+          writable: yes
+        - name: Vault
+          path: /media/ubuntu/Vault
+          owner: root
+          group: root
+          directory_mode: 0777
           public: yes
           writable: yes
 
