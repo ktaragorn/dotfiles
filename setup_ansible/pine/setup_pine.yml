@@ -293,6 +293,10 @@
         port: 80
         link_to: /munin
         icon: https://avatars2.githubusercontent.com/u/909917?s=400&v=4
+      - name: DBAdmin
+        icon: https://upload.wikimedia.org/wikipedia/en/thumb/6/62/MySQL.svg/136px-MySQL.svg.png
+        port: 80
+        link_to: /dbadmin
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -337,6 +341,16 @@
         mode: 0640
     - name: Setup index page
       template: src=files/index.html.j2 dest=/var/www/html/index.html
+    # need a folder here cuz everything else is configured as a folder in nginx and the index page also implcitly adds a trailing / at the end of the link_to
+    # Ideally dont need the trailing / since nginx tries both as file and folder. But when using local tunnel from outside, the port number of the tunnel is lost.
+    - name: Create db admin folder
+      file:
+        path: /var/www/html/dbadmin/
+        state: directory
+    - name: Install phpMiniAdmin
+      copy:
+        src: files/phpminiadmin.php
+        dest: /var/www/html/dbadmin/index.php
   handlers:
     - name: Validate nginx
       shell: nginx -t -c /etc/nginx/nginx.conf
@@ -461,7 +475,6 @@
           priv: "*.*:ALL"
       mysql_packages: [mariadb-server]
       mysql_bind_address: "192.168.1.222" # update if ipaddress changes
-      mysql_databases: [{ name: 1channel }]
     - role: guisea.automysqlbackup
       automysqlbackup_cron:
         minute: 30
