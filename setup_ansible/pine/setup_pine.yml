@@ -846,11 +846,34 @@
     - geerlingguy.munin
     - geerlingguy.munin-node
   tasks:
+    - name: Install extra plugins and dependencies
+      apt:
+        name:
+          - munin-plugins-extra
+          - libcache-cache-perl
     - name: Link the munin/www folder to nginx www folder
       file:
         state: link
         src: /var/cache/munin/www
         dest: /var/www/html/munin
+    - name: Enable Mysql Plugins
+      file:
+        state: link
+        src: /usr/share/munin/plugins/{{item}}
+        dest: /etc/munin/plugins/{{item}}
+      with_items:
+        - mysql_
+        - mysql_queries
+        - mysql_slowqueries
+        - mysql_threads
+        - mysql_innodb
+        - mysql_bytes
+        - samba
+      notify:
+        - Restart node
+  handlers:
+    - name: Restart node
+      systemd: name=munin-node state=restarted
 
 - name: Install progress cli tool
   hosts: all
