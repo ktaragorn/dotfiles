@@ -40,8 +40,11 @@ check system pine64.middle.earth
   if cpu usage (system) > 95% for 2 cycles then {{alert_succeeded}}
   if cpu usage (wait) > 95% for 2 cycles then {{alert_succeeded}}
 
-# I think content does not support "succeeded check".. makes sense..
 check file flexget.log with path /home/ubuntu/.config/flexget/flexget.log
+    if content = ".*CRITICAL.*" then {{alert}}
+    if content = ".*ERROR.*" then {{alert}}
+
+check file home-assistant.log with path /home/ubuntu/homeassistant_config/home-assistant.log
     if content = ".*CRITICAL.*" then {{alert}}
     if content = ".*ERROR.*" then {{alert}}
 
