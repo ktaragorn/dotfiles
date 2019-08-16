@@ -70,3 +70,19 @@ server {
         proxy_set_header Connection "upgrade";
     }
 }
+
+server {
+	server_name firefly.middle.earth;
+	allow 192.168.1.0/24;
+	allow 127.0.0.1;
+	deny all;
+	listen [::]:80;
+
+    proxy_buffering off;
+	location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+	    proxy_pass http://localhost:8008;
+	    proxy_redirect http://localhost:8008/ $host:$server_port/;
+	}
+}

@@ -289,6 +289,10 @@
         icon: https://binarymist.files.wordpress.com/2015/06/monit.png?w=450
         link_to: /monit
         port: 2812
+      - name: firefly
+        icon: https://camo.githubusercontent.com/729d179402476b1dd9de4ec9f5fa5910e6bf56aa/68747470733a2f2f66697265666c792d6969692e6f72672f7374617469632f696d672f6c6f676f2d736d616c6c2d6e65772e706e67
+        port: 80
+        link_to: http://firefly.middle.earth
       - name: Munin
         port: 80
         link_to: /munin
@@ -473,8 +477,13 @@
           password: kodi
           host: "%"
           priv: "*.*:ALL"
+        - name: "{{firefly_db_username}}"
+          password: "{{firefly_db_password}}"
+          host: "%"
+          priv: "*.*:ALL"
       mysql_packages: [mariadb-server]
       mysql_bind_address: "192.168.1.222" # update if ipaddress changes
+      mysql_databases: [{ name: firefly }]
     - role: guisea.automysqlbackup
       automysqlbackup_cron:
         minute: 30
@@ -714,6 +723,27 @@
         name: kodi-headless
         restart: yes
 
+- name: Install and run shadowsocks proxy
+  tags: shadowsocks
+  hosts: all
+  gather_facts: no
+  vars:
+    shadowsocks_password: just_trying
+    shadowsocks_port: 8388
+  tasks:
+    - name: Download docker image
+      docker_image: name=shadowsocks/shadowsocks-libev
+    - name: Run docker image
+      docker_container:
+        name: shadowsocks
+        image: shadowsocks/shadowsocks-libev
+        env:
+          PASSWORD: "{{shadowsocks_password}}"
+        published_ports:
+          - "{{shadowsocks_port}}:8388"
+          - "{{shadowsocks_port}}:8388/udb"
+        restart_policy: unless-stopped
+
 #https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
 #https://hub.docker.com/r/linuxserver/jackett/
 # - name: Jackett setup via docker
@@ -901,3 +931,37 @@
       make:
         chdir: /home/ubuntu/Documents/progress
         target: install
+
+- name: Install Firefly III financial tracking system
+  hosts: all
+  tags: firefly
+  gather_facts: no
+  vars_files: [vars/all.yml]
+  tasks:
+    - name: Download Firefly docker image
+      docker_image:
+        name: jc5x/firefly-iii:latest-arm
+    - name: Create required volumes
+      docker_volume: name={{item}}
+      with_items:
+        - firefly_iii_export
+        - firefly_iii_upload
+    - name: Start Firefly III container
+      docker_container:
+        name: firefly
+        image: jc5x/firefly-iii:latest-arm
+        volumes:
+          - firefly_iii_export:/var/www/firefly-iii/storage/export
+          - firefly_iii_upload:/var/www/firefly-iii/storage/upload
+        env:
+          PGID: 1000
+          PUID: 1000
+          FF_APP_ENV: local
+          FF_APP_KEY: S0m3R@nd0mString0f32Ch@rsEx@ct1y
+          FF_DB_HOST: pine64.middle.earth
+          FF_DB_NAME: firefly
+          FF_DB_USER: "{{firefly_db_username}}"
+          FF_DB_PASSWORD: "{{firefly_db_password}}"
+        published_ports:
+          - 8008:80
+        restart_policy: unless-stopped
