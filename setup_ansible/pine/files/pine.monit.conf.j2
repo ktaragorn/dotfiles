@@ -57,3 +57,11 @@ check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.
   if does not exist then
     {{alert_succeeded}}
 {% endfor %}
+
+{% for host in smart_home_controllers %}
+check host {{host.name}} with address {{host.name}}.middle.earth
+  if failed port {{host.port | default (80)}} type {{host.port_type}} then
+    {{alert_succeeded}}
+  if failed ping then
+    {{alert_succeeded}}
+{% endfor %}
