@@ -653,7 +653,7 @@
         state: directory
     - name: Copy config files to server
       template:
-        src: files/{{item}}.j2
+        src: home_assistant/{{item}}.j2
         dest: /home/ubuntu/homeassistant_config/{{item}}
       with_items:
         - configuration.yaml
@@ -723,26 +723,26 @@
         name: kodi-headless
         restart: yes
 
-- name: Install and run shadowsocks proxy
-  tags: shadowsocks
-  hosts: all
-  gather_facts: no
-  vars:
-    shadowsocks_password: just_trying
-    shadowsocks_port: 8388
-  tasks:
-    - name: Download docker image
-      docker_image: name=shadowsocks/shadowsocks-libev
-    - name: Run docker image
-      docker_container:
-        name: shadowsocks
-        image: shadowsocks/shadowsocks-libev
-        env:
-          PASSWORD: "{{shadowsocks_password}}"
-        published_ports:
-          - "{{shadowsocks_port}}:8388"
-          - "{{shadowsocks_port}}:8388/udb"
-        restart_policy: unless-stopped
+# - name: Install and run shadowsocks proxy
+#   tags: shadowsocks
+#   hosts: all
+#   gather_facts: no
+#   vars:
+#     shadowsocks_password: just_trying
+#     shadowsocks_port: 8388
+#   tasks:
+#     - name: Download docker image
+#       docker_image: name=shadowsocks/shadowsocks-libev
+#     - name: Run docker image
+#       docker_container:
+#         name: shadowsocks
+#         image: shadowsocks/shadowsocks-libev
+#         env:
+#           PASSWORD: "{{shadowsocks_password}}"
+#         published_ports:
+#           - "{{shadowsocks_port}}:8388"
+#           - "{{shadowsocks_port}}:8388/udb"
+#         restart_policy: unless-stopped
 
 #https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
 #https://hub.docker.com/r/linuxserver/jackett/
