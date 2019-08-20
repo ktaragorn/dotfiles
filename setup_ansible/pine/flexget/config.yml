@@ -1,16 +1,26 @@
 #{{ansible_managed}}
 #prettier-ignore
 schedules:
-  - tasks: [get_subtitles,showrss-dload]
+  - tasks: [showrss-dload]
     interval:
       hours: 1
-  - tasks: [move-to-archive]
+  - tasks: [move-to-archive, get_subs]
     interval:
       hours: 4
 web_server:
   port: 5050
   base_url: /flexget
 templates:
+  subliminal:
+    subliminal:
+      exact_match: no
+      languages:
+        - eng
+      providers: [opensubtitles,thesubdb,tvsubtitles]
+      authentication:
+        opensubtitles:
+          username: {{opensubtitles_username}}
+          password: {{opensubtitles_password}}
   notify_pushbullet:
     notify:
       entries:
@@ -93,16 +103,22 @@ tasks:
       - work_on_downloaded_files
       - fix_title_filename
       - fix_riverdale_detection
+      - subliminal
       # - notify_pushbullet
-    subliminal:
-      exact_match: no
-      languages:
-        - eng
-      providers: [opensubtitles,thesubdb,tvsubtitles]
-      authentication:
-        opensubtitles:
-          username: {{opensubtitles_username}}
-          password: {{opensubtitles_password}}
+
+  # from https://flexget.com/Plugins/List/subtitle_list
+  get_subs:
+    no_entries_ok: yes
+    subtitle_list:
+      list: subtitles
+      recursion_depth: 3
+    list_match:
+      from:
+        - subtitle_list:
+            list: subtitles
+    template:
+      - subliminal
+      - notify_pushbullet
 
   move-to-archive:
     template:
@@ -123,6 +139,11 @@ tasks:
       reject:
         - sample
     pathscrub: windows
+    list_add:
+      - subtitle_list:
+          list: subtitles
+          languages:
+            - en
     move:
       to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50
@@ -133,42 +154,3 @@ tasks:
           - srt
           - sub
           - sbv
-
-  search-missing:
-    manual: yes
-    discover:
-      what:
-        - next_series_episodes:
-            from_start: yes
-            backfill: yes
-      from:
-        - search_rss: https://www.skytorrents.in/rss/all/ad/1/{{ '{{ search_term }}' }}
-    torrent_alive: 10
-    quality: 480p-720p
-    exists_series: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}'}}
-    domain_delay:
-      skytorrents.in: 2 seconds
-    series:
-      settings:
-        shows:
-          identified_by: ep
-          tracking: backfill
-      shows:
-        - The Walking Dead
-        - Elementary
-    template:
-      - deluge-tv-download
-      - notify_pushbullet
-
-  #https://flexget.com/Cookbook/Series/SeedDB
-  seed_series_db:
-    # The find plugin will find all of your existing episodes
-    filesystem:
-      regexp: .*(avi|mkv|mp4|m4v|mpg|wmv|srt|sub|sbv)$
-      path:
-        - /media/ubuntu/Archive/TV Shows/The Walking Dead
-        - /media/ubuntu/Archive/TV Shows/Elementary
-      recursive: yes
-    # We use the manual plugin so that this task only runs when explicitly called
-    manual: yes
-

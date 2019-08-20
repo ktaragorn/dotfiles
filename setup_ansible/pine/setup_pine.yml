@@ -875,6 +875,7 @@
   hosts: all
   become: yes
   tags: munin
+  gather_facts: no
   roles:
     - geerlingguy.munin
     - geerlingguy.munin-node
@@ -911,6 +912,7 @@
 - name: Install progress cli tool
   hosts: all
   become: no
+  gather_facts: no
   tags: progress-cli
   tasks:
     - name: Install prerequisites
