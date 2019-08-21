@@ -28,6 +28,7 @@
  *   * ESP-01 modules are tricky. We suggest you use a module with more GPIOs
  *     for your first time. e.g. ESP-12 etc.
  */
+
 #include <Arduino.h>
 #if defined(ESP8266)
 #include <ESP8266WiFi.h>
@@ -46,6 +47,7 @@
 #include <IRrecv.h>
 #include <IRutils.h>
 #include <ESP8266HTTPClient.h>
+#include <pins_arduino.h>
 
 const char* kSsid = "ironforge";
 const char* kPassword = "speakfriendandenter";
@@ -62,11 +64,9 @@ WebServer server(80);
 #define HOSTNAME "esp32"
 #endif  // ESP32
 
-const uint16_t kIrLed = 4;  // ESP GPIO pin to use. Recommended: 4 (D2).
-
-// An IR detector/demodulator is connected to GPIO pin 14(D5 on a NodeMCU
-// board).
-const uint16_t kRecvPin = 14;
+const uint16_t kIrLed = D8; // actually D3.. dunno why the pinouts are wrong..
+const uint16_t kRecvPin = D5;
+const int buttonPin = D7;
 
 IRrecv irrecv(kRecvPin);
 
@@ -198,17 +198,17 @@ void ir_receive(){
     // print() & println() can't handle printing long longs. (uint64_t)
     serialPrintUint64(results.value, HEX);
     Serial.println("");
-    trigger_homeassistant_webhook(uint64ToString(results.value, HEX));
+    trigger_homeassistant_webhook("tv_remote_detected", uint64ToString(results.value, HEX));
     irrecv.resume();  // Receive the next value
   }
   delay(100);
 }
 
-void trigger_homeassistant_webhook(String value){
+void trigger_homeassistant_webhook(String webhook, String value){
   WiFiClient client;
   HTTPClient http;
 
-  if (http.begin(client, "http://hass.middle.earth/api/webhook/tv_remote_detected")) {  // HTTP
+  if (http.begin(client, "http://hass.middle.earth/api/webhook/" + webhook)) {  // HTTP
     Serial.print("[HTTP] GET...\n");
     // start connection and send HTTP header
     int httpCode = http.POST(value);
@@ -239,11 +239,34 @@ void setup(void) {
   irrecv.enableIRIn();  // Start the receiver
 
   wifi_setup();
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT);
 
   web_server_setup();
 }
 
+void triggerButtonPress(){
+   Serial.println("Button Pressed");
+   trigger_homeassistant_webhook("button_pressed", "on");
+}
+
+void handleButton(){
+  static int prevButtonState = LOW;
+    // read the state of the pushbutton value:
+  int buttonState = digitalRead(buttonPin);
+
+  if(buttonState == prevButtonState){
+    return;
+  }
+  prevButtonState = buttonState;
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if (buttonState == HIGH) {
+    triggerButtonPress();
+  }
+}
+
 void loop(void) {
+  handleButton();
   ir_receive();
   server.handleClient();
 }

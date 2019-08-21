@@ -10,6 +10,7 @@ schedules:
 web_server:
   port: 5050
   base_url: /flexget
+  api: yes
 templates:
   subliminal:
     subliminal:

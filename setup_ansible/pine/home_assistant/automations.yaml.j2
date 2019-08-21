@@ -23,6 +23,14 @@
       data:
         title: Gondor Home Assistant
         message: TV Remote signal received.
+- alias: Downstairs Button Pressed
+  id: button_pressed
+  trigger:
+    - platform: webhook
+      webhook_id: button_pressed
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_light
 
 - alias: All left home
   id: all_leave_house
