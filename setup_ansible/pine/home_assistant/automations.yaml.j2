@@ -32,6 +32,15 @@
     - service: light.turn_on
       entity_id: light.bedroom_light
 
+- alias: Downstairs Button double Pressed
+  id: button_pressed
+  trigger:
+    - platform: webhook
+      webhook_id: button_double_pressed
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_light
+
 - alias: All left home
   id: all_leave_house
   trigger:
@@ -56,6 +65,8 @@
       to: "on"
     - platform: time
       at: "23:59:00"
+    - platform: webhook
+      webhook_id: button_long_pressed
   condition:
     - condition: state
       entity_id: group.all_devices

@@ -48,6 +48,7 @@
 #include <IRutils.h>
 #include <ESP8266HTTPClient.h>
 #include <pins_arduino.h>
+#include <OneButton.h>
 
 const char* kSsid = "ironforge";
 const char* kPassword = "speakfriendandenter";
@@ -67,6 +68,7 @@ WebServer server(80);
 const uint16_t kIrLed = D8; // actually D3.. dunno why the pinouts are wrong..
 const uint16_t kRecvPin = D5;
 const int buttonPin = D7;
+OneButton button(buttonPin, false);
 
 IRrecv irrecv(kRecvPin);
 
@@ -233,6 +235,27 @@ void trigger_homeassistant_webhook(String webhook, String value){
   }
 }
 
+void on_click(){
+   Serial.println("Button Pressed");
+   trigger_homeassistant_webhook("button_pressed", "on");
+}
+
+void on_double_click(){
+   Serial.println("Button double Pressed");
+   trigger_homeassistant_webhook("button_double_pressed", "on");
+}
+
+void on_long_press(){
+   Serial.println("Button long Pressed");
+   trigger_homeassistant_webhook("button_long_pressed", "on");
+}
+
+void setup_buttons(){
+  button.attachClick(on_click);
+  button.attachDoubleClick(on_double_click);
+  button.attachLongPressStop(on_long_press);
+}
+
 void setup(void) {
   Serial.begin(115200);
 
@@ -243,30 +266,12 @@ void setup(void) {
   pinMode(buttonPin, INPUT);
 
   web_server_setup();
-}
 
-void triggerButtonPress(){
-   Serial.println("Button Pressed");
-   trigger_homeassistant_webhook("button_pressed", "on");
-}
-
-void handleButton(){
-  static int prevButtonState = LOW;
-    // read the state of the pushbutton value:
-  int buttonState = digitalRead(buttonPin);
-
-  if(buttonState == prevButtonState){
-    return;
-  }
-  prevButtonState = buttonState;
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-  if (buttonState == HIGH) {
-    triggerButtonPress();
-  }
+  setup_buttons();
 }
 
 void loop(void) {
-  handleButton();
+  button.tick();
   ir_receive();
   server.handleClient();
 }
