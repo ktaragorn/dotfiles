@@ -147,10 +147,11 @@
   tasks:
     - name: Cron to curl privatedns
       cron:
-        name: "Update dyndns for black-gate.privatedns.org"
+        name: "Update dyndns for {{item.name}}"
         user: ubuntu
         special_time: hourly
-        job: curl -s http://sync.afraid.org/u/{{freedns_token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
+        job: curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
+      with_items: "{{ freedns_tokens }}"
 
 - name: Deluge installation and setup with systemd
   become: yes
@@ -301,6 +302,9 @@
         icon: https://upload.wikimedia.org/wikipedia/en/thumb/6/62/MySQL.svg/136px-MySQL.svg.png
         port: 80
         link_to: /dbadmin
+      - name: Uptime (external)
+        icon: https://superbig.co/uploads/images/icons/icon-uptimerobot.svg
+        link_to: https://stats.uptimerobot.com/Z6QJGu5Xg0
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -345,6 +349,7 @@
         mode: 0640
     - name: Setup index page
       template: src=files/index.html.j2 dest=/var/www/html/index.html
+      tags: index_page
     # need a folder here cuz everything else is configured as a folder in nginx and the index page also implcitly adds a trailing / at the end of the link_to
     # Ideally dont need the trailing / since nginx tries both as file and folder. But when using local tunnel from outside, the port number of the tunnel is lost.
     - name: Create db admin folder
