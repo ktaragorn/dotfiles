@@ -856,6 +856,7 @@
     smart_home_controllers:
       - { name: nodemcu, port_type: tcp }
       - { name: blackbean1, port_type: udp }
+      - { name: smart_light, port_type: udp }
   tasks:
     # monit was already setup by OMV, so this may not be complete
     - name: Install monit server

@@ -1,2 +1,2 @@
 #!/bin/bash
-/home/ubuntu/pushbullet "[$MONIT_HOST] $MONIT_SERVICE - $MONIT_EVENT" $MONIT_DESCRIPTION
+/home/ubuntu/pushbullet "[Monit-$MONIT_HOST] $MONIT_SERVICE - $MONIT_EVENT" $MONIT_DESCRIPTION
