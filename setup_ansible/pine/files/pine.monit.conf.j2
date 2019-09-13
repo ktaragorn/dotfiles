@@ -52,16 +52,16 @@ check file home-assistant.log with path /home/ubuntu/homeassistant_config/home-a
 check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
   # if the server is down, it gets stuck in an infinite restart loop rather than triggering this alert
   # So have added a does not exist check which does what is expected in that case
-	if failed host {{service.host|default("localhost")}} port {{service.port}} then
+	if failed host {{service.host|default("localhost")}} port {{service.port}} {{fault_tolerance}} then
 		{{alert_succeeded}}
-  if does not exist then
+  if does not exist {{fault_tolerance}} then
     {{alert_succeeded}}
 {% endfor %}
 
 {% for host in smart_home_controllers %}
 check host {{host.name}} with address {{host.name}}.middle.earth
-  if failed port {{host.port | default (80)}} type {{host.port_type}} then
+  if failed port {{host.port | default (80)}} type {{host.port_type}} {{fault_tolerance}} then
     {{alert_succeeded}}
-  if failed ping then
+  if failed ping {{fault_tolerance}} then
     {{alert_succeeded}}
 {% endfor %}
