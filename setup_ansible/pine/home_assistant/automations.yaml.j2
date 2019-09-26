@@ -13,33 +13,34 @@
     - service: switch.turn_on
       entity_id: switch.downstairs_ac
 
-- alias: Test TV Remote
-  id: tv_remote_test
-  trigger:
-    - platform: webhook
-      webhook_id: tv_remote_detected
-  action:
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: TV Remote signal received.
+# - alias: Test TV Remote
+#   id: tv_remote_test
+#   trigger:
+#     - platform: webhook
+#       webhook_id: tv_remote_detected
+#   action:
+#     - service: notify.pushbullet
+#       data:
+#         title: Gondor Home Assistant
+#         message: TV Remote signal received.
+
 - alias: Downstairs Button Pressed
   id: button_pressed
   trigger:
     - platform: webhook
       webhook_id: button_pressed
   action:
-    - service: light.turn_on
+    - service: light.toggle
       entity_id: light.bedroom_light
 
-- alias: Downstairs Button double Pressed
-  id: button_pressed
-  trigger:
-    - platform: webhook
-      webhook_id: button_double_pressed
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_light
+# - alias: Downstairs Button double Pressed
+#   id: button_pressed
+#   trigger:
+#     - platform: webhook
+#       webhook_id: button_double_pressed
+#   action:
+#     - service: light.turn_off
+#       entity_id: light.bedroom_light
 
 - alias: All left home
   id: all_leave_house

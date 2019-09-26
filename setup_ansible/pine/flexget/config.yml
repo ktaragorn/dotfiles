@@ -108,6 +108,7 @@ tasks:
 
   # from https://flexget.com/Plugins/List/subtitle_list
   get_subs:
+    all_series: yes
     no_entries_ok: yes
     subtitle_list:
       list: subtitles
