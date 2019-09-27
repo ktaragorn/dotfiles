@@ -75,7 +75,7 @@ IRrecv irrecv(kRecvPin);
 void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = 3){
   IRDaikinESP ac(kIrLed);
   ac.begin();
-
+  
   if(on){
     ac.on();
   }else{
@@ -93,7 +93,7 @@ void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = 3){
 void sendAcOn(){
   const String temp = server.hasArg("temperature") ? server.arg("temperature") : "25";
   const String fan = server.hasArg("fan") ? server.arg("fan") : "3";
-
+  
   sendDaikinOnOffCommand(true, temp.toInt(), fan.toInt());
   Serial.println("Sent turn on command with temperature = " + temp + " and fan = " + fan);
 }
@@ -235,17 +235,17 @@ void trigger_homeassistant_webhook(String webhook, String value){
   }
 }
 
-void on_click(){
+void on_click(){  
    Serial.println("Button Pressed");
    trigger_homeassistant_webhook("button_pressed", "on");
 }
 
-void on_double_click(){
+void on_double_click(){  
    Serial.println("Button double Pressed");
    trigger_homeassistant_webhook("button_double_pressed", "on");
 }
 
-void on_long_press(){
+void on_long_press(){  
    Serial.println("Button long Pressed");
    trigger_homeassistant_webhook("button_long_pressed", "on");
 }
@@ -256,11 +256,24 @@ void setup_buttons(){
   button.attachLongPressStop(on_long_press);
 }
 
+//https://lowvoltage.github.io/2017/07/09/Onboard-LEDs-NodeMCU-Got-Two
+void blink_led(){
+  pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
+
+  digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on by making the voltage LOW
+  delay(1000);                      // Wait for a second
+  digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
+  delay(2000);                      // Wait for two seconds
+  digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on by making the voltage LOW
+  delay(1000);                      // Wait for a second
+  digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
+}
+
 void setup(void) {
   Serial.begin(115200);
 
   irrecv.enableIRIn();  // Start the receiver
-
+  
   wifi_setup();
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);
@@ -268,6 +281,8 @@ void setup(void) {
   web_server_setup();
 
   setup_buttons();
+
+  blink_led();
 }
 
 void loop(void) {
