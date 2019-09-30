@@ -678,6 +678,15 @@
         published_ports:
           - 8123:8123
         restart_policy: unless-stopped
+    - name: Checkout SmartIR repo
+      git:
+        repo: https://github.com/smartHomeHub/SmartIR.git
+        dest: /tmp/smartir/
+      delegate_to: localhost
+    - name: Copy smart IR component
+      copy:
+        src: /tmp/smartir/custom_components/smartir
+        dest: /home/ubuntu/homeassistant_config/custom_components/
   handlers:
     - name: Validate config
       command: docker exec hass bash -l -c '/usr/local/bin/hass --script check_config -c /config'

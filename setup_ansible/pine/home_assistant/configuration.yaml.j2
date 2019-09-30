@@ -101,6 +101,15 @@ switch:
     resource: http://nodemcu.middle.earth/ac
     name: Downstairs AC
 
+smartir:
+
+climate:
+  - platform: smartir
+    name: Upstairs AC
+    unique_id: upstairs_ac
+    device_code: 1101
+    controller_data: blackbean1
+
 device_tracker:
   - platform: ping
     consider_home: 1200 # 20 min
