@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Gondor
   # Location required to calculate the time the sun rises and sets
-  latitude: 0
-  longitude: 0
+  latitude: {{home_lat}}
+  longitude: {{home_long}}
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -37,7 +37,7 @@ logger:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
+  include_used_components: true
 
 # Discover some devices automatically
 discovery:
@@ -161,6 +161,15 @@ mqtt:
   password: {{mqtt_broker_password}}
 
 owntracks:
+
+
+zone:
+  # This will override the default home zone
+  - name: Home
+    latitude: {{home_lat}}
+    longitude: {{home_long}}
+    radius: 200
+    icon: mdi:home
 
 # group: !include groups.yaml
 automation: !include automations.yaml
