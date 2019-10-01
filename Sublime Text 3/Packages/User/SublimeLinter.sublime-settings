@@ -1,10 +1,9 @@
 // SublimeLinter Settings - User
 {
-	"linters": {
-		"eslint": {
-			"env": {
-				"PATH": "/Users/karthikt/.nvm/versions/node/v10.15.3/bin/"
-			}
-		}
+	"paths": {
+		"linux": [],
+        "osx": ["~/.asdf/shims"],
+        "windows": []
 	}
 }
+

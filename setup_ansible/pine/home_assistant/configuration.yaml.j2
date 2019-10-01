@@ -145,6 +145,14 @@ recorder:
   purge_keep_days: 14
   purge_interval: 1
 
+mqtt:
+  broker: {{mqtt_broker_host}}
+  port: {{mqtt_broker_port}}
+  username: {{mqtt_broker_username}}
+  password: {{mqtt_broker_password}}
+
+owntracks:
+
 # group: !include groups.yaml
 automation: !include automations.yaml
 # script: !include scripts.yaml
