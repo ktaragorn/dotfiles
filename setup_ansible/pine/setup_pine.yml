@@ -417,10 +417,10 @@
   tasks:
     - name: Install flexget and subliminal
       become: yes
-      pip: name={{item}}
-      with_items:
-        - flexget
-        - subliminal
+      pip:
+        name:
+          - flexget
+          - subliminal
     - name: Create flexget config folder
       file:
         dest: ~/.config/flexget

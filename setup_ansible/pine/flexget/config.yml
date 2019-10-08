@@ -7,6 +7,9 @@ schedules:
   - tasks: [move-to-archive, get_subs]
     interval:
       hours: 4
+  - tasks: [trakt_movie_list]
+    interval:
+      hours: 24
 web_server:
   port: 5050
   base_url: /flexget
@@ -91,6 +94,22 @@ tasks:
 
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
+
+  # prerequisite https://flexget.com/Trakt_Authentication
+  trakt_movie_list:
+    trakt_list: &trakt_list
+      username: {{trakt_username}}
+      account: {{trakt_username}}
+      list: movies_to_get
+      type: movies
+    accept_all: yes
+    seen: local
+    list_add:
+      - movie_list: movies_download
+    list_remove:
+      - trakt_list: *trakt_list
+    template:
+      - notify_pushbullet
 
   get_subtitles:
     disable:
