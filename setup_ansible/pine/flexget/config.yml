@@ -7,7 +7,7 @@ schedules:
   - tasks: [move-to-archive, get_subs]
     interval:
       hours: 4
-  - tasks: [trakt_movie_list]
+  - tasks: [trakt_movie_list, movies_search]
     interval:
       hours: 24
 web_server:
@@ -97,6 +97,8 @@ tasks:
 
   # prerequisite https://flexget.com/Trakt_Authentication
   trakt_movie_list:
+    priority: 1
+    no_entries_ok: yes
     trakt_list: &trakt_list
       username: {{trakt_username}}
       account: {{trakt_username}}
@@ -110,6 +112,32 @@ tasks:
       - trakt_list: *trakt_list
     template:
       - notify_pushbullet
+
+  # task that automatically downloads movies from the movie_list
+  movies_search:
+    priority: 10 # run after the movie queue fill task
+    trakt_lookup: yes  # can also use imdb_lookup or tmdb_lookup
+    no_entries_ok: yes
+    discover:
+      what:
+        - movie_list: movies_download
+      from:
+        - piratebay: yes
+      interval: 7 days
+    torrent_alive: 3 # Will reject results with less than 3 seeds
+    quality: 720p webrip+ # Make sure no screeners or cams are downloaded
+    list_match:
+      from:
+        - movie_list: movies_download
+    convert_magnet: yes
+    thetvdb_lookup: yes
+    deluge:
+      path: /media/ubuntu/Chest/Torrent/
+      main_file_only: yes
+      ratio: 0.1
+      remove_at_ratio: yes
+      magnetization_timeout: 100
+      keep_subs: yes
 
   get_subtitles:
     disable:
