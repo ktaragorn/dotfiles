@@ -139,23 +139,12 @@ tasks:
       magnetization_timeout: 100
       keep_subs: yes
 
-  get_subtitles:
-    disable:
-      - seen
-      - retry_failed
-    accept_all: yes
-    # seen: local                     # seen shouldn't interfer with anything outside this subtitles task
-    template:
-      - configure_series_from_downloaded
-      - work_on_downloaded_files
-      - fix_title_filename
-      - fix_riverdale_detection
-      - subliminal
-      # - notify_pushbullet
-
   # from https://flexget.com/Plugins/List/subtitle_list
   get_subs:
-    all_series: yes
+    disable:
+      - seen
+    all_series:
+      parse_only: yes
     no_entries_ok: yes
     subtitle_list:
       list: subtitles
