@@ -24,15 +24,22 @@ templates:
         opensubtitles:
           username: {{opensubtitles_username}}
           password: {{opensubtitles_password}}
-  notify_pushbullet:
+  notify_tv:
     notify:
-      entries:
+      entries: &notify-entries
         title: "{{ '{{task}}'}}"
-        message: "{{ '{{series_name}} - {{series_id}}' }}"
         what: accepted
+        message: "{{ '{{series_name}} - {{series_id}}' }}"
         via:
           - pushbullet:
               api_key: {{pushbullet_access_token}}
+  notify_movie:
+    imdb_lookup: yes
+    notify:
+      entries:
+        <<: *notify-entries
+        message: "{{ '{{movie_name}} ({{movie_year}})'}}"
+
   fix_title_filename:
     manipulate:
       - filename:
@@ -68,17 +75,19 @@ templates:
       port: {{kodi_main_host_port}}
       username: {{kodi_username}}
       password: {{kodi_password}}
-  deluge-tv-download:
+  deluge_download:
     convert_magnet: yes
-    thetvdb_lookup: yes
     deluge:
-      move_completed_path: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
       path: /media/ubuntu/Chest/Torrent/
       main_file_only: yes
       ratio: 0.1
       remove_at_ratio: yes
       magnetization_timeout: 100
       keep_subs: yes
+  deluge_tv:
+    thetvdb_lookup: yes
+    deluge:
+      move_completed_path: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
       content_filename: >
         {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
 tasks:
@@ -89,8 +98,9 @@ tasks:
       propers: 1 hour
     template:
       - fix_riverdale_detection
-      - deluge-tv-download
-      - notify_pushbullet
+      - deluge_download
+      - deluge_tv
+      - notify_tv
 
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
@@ -111,12 +121,11 @@ tasks:
     list_remove:
       - trakt_list: *trakt_list
     template:
-      - notify_pushbullet
+      - notify_movie
 
   # task that automatically downloads movies from the movie_list
   movies_search:
     priority: 10 # run after the movie queue fill task
-    trakt_lookup: yes  # can also use imdb_lookup or tmdb_lookup
     no_entries_ok: yes
     discover:
       what:
@@ -131,13 +140,9 @@ tasks:
         - movie_list: movies_download
     convert_magnet: yes
     thetvdb_lookup: yes
-    deluge:
-      path: /media/ubuntu/Chest/Torrent/
-      main_file_only: yes
-      ratio: 0.1
-      remove_at_ratio: yes
-      magnetization_timeout: 100
-      keep_subs: yes
+    template:
+      - deluge_download
+      - notify_movie
 
   # from https://flexget.com/Plugins/List/subtitle_list
   get_subs:
@@ -155,14 +160,14 @@ tasks:
             list: subtitles
     template:
       - subliminal
-      - notify_pushbullet
+      - notify_tv
 
   move-to-archive:
     template:
       - configure_series_from_downloaded
       - fix_title_filename
       - fix_riverdale_detection
-      - notify_pushbullet
+      - notify_tv
       - work_on_downloaded_files
       - kodi_scan
     no_entries_ok: yes
