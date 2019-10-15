@@ -43,6 +43,7 @@
 #include <IRrecv.h>
 #include <IRutils.h>
 #include <pins_arduino.h>
+#include "ota.h"
 #include "buttons.h"
 #include "wifi.h"
 #include "homeassistant_webhook.h"
@@ -184,6 +185,7 @@ void blink_led(){
 void setup(void) {
   Serial.begin(115200);
   wifi_setup();
+  ota_setup();
 
   irrecv.enableIRIn();  // Start the receiver
 
@@ -195,6 +197,7 @@ void setup(void) {
 }
 
 void loop(void) {
+  ota_loop();
   buttons_loop();
   ir_receive();
   server.handleClient();
