@@ -49,9 +49,8 @@
 #include <ESP8266HTTPClient.h>
 #include <pins_arduino.h>
 #include <OneButton.h>
+#include "secrets.h"
 
-const char* kSsid = {{wifi_ssid}};
-const char* kPassword = {{wifi_password}};
 MDNSResponder mdns;
 
 #if defined(ESP8266)
@@ -157,7 +156,7 @@ void handleNotFound() {
 }
 
 void wifi_setup(void){
-  WiFi.begin(kSsid, kPassword);
+  WiFi.begin(wifi_ssid, wifi_password);
   WiFi.hostname(HOSTNAME);
   Serial.println("");
 
@@ -168,7 +167,7 @@ void wifi_setup(void){
   }
   Serial.println("");
   Serial.print("Connected to ");
-  Serial.println(kSsid);
+  Serial.println(wifi_ssid);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP().toString());
 
