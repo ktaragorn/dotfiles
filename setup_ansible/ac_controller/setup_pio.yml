@@ -1,0 +1,24 @@
+# Prerequisites
+# http://joequery.me/guides/arduino-ubuntu-virtualbox-windows-host/
+# to forward serial port if not using OTA
+# install python via asdf
+---
+- name: Setup Platform IO to build and deploy stuff
+  hosts: localhost
+  tasks:
+    - name: Install PlatformIO
+      pip: name=platformio
+    - name: Setup Udev rules
+      become: yes
+      get_url:
+        url: https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules
+        dest: /etc/udev/rules.d/99-platformio-udev.rules
+      notify: Restart Udev
+    - name: Decrypt secrets
+      copy:
+        src: include/secrets.h.enc
+        dest: include/secrets.h
+  handlers:
+    - name: Restart Udev
+      service: name=udev state=restarted
+# should just work with `pio run`
