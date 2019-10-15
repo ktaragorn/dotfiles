@@ -1,6 +1,6 @@
 #include "buttons.h"
 #include <OneButton.h>
-#include <pins_arduino.h>
+#include "common.h"
 #include "homeassistant_webhook.h"
 
 const int buttonPin = D7;
