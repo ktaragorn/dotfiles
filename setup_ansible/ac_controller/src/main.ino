@@ -51,13 +51,21 @@ void blink_led(){
 
 void setup(void) {
   Serial.begin(115200);
+
   wifi_setup();
+  Serial.println("Wifi Setup Complete");
+
   ota_setup();
+  Serial.println("OTA setup Complete");
 
   ir_receive_setup();
+  Serial.println("IR Receiver setup Complete");
+
   web_server_setup();
+  Serial.println("Web Server setup Complete");
 
   buttons_setup();
+  Serial.println("Buttons setup Complete");
 
   blink_led();
 }
