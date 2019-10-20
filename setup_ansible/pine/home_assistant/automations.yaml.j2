@@ -104,6 +104,8 @@
       to: "off"
     - platform: time
       at: "08:00:00"
+    - platform: webhook
+      webhook_id: button_long_pressed
   condition:
     - condition: time
       after: "07:00:00"
