@@ -305,6 +305,7 @@
       - name: Uptime (external)
         icon: https://superbig.co/uploads/images/icons/icon-uptimerobot.svg
         link_to: https://stats.uptimerobot.com/Z6QJGu5Xg0
+        port: 80
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -318,6 +319,7 @@
         }
       - { name: Deluged, port: 58846, proc: deluged }
       - { name: Home Assistant, port: 8123, proc: homeassistant }
+      - { name: MQTT Broker, port: 1883, proc: mosquitto }
   tasks:
     - name: Install nginx and php
       package: name={{item}}
@@ -983,3 +985,40 @@
         published_ports:
           - 8008:80
         restart_policy: unless-stopped
+
+- name: Setup Mosquitto MQTT broker
+  hosts: all
+  tags: mqtt
+  vars_files: [vars/all.yml]
+  tasks:
+    - name: Download Image
+      docker_image:
+        name: eclipse-mosquitto
+    - name: Make required folders
+      file:
+        state: directory
+        dest: ~/mosquitto/{{item}}
+      with_items:
+        - config
+        - data
+        - log
+    - name: Copy config file
+      template:
+        src: files/mosquitto.conf
+        dest: ~/mosquitto/config/
+      notify: Restart MQTT
+    - name: Start mosquitto container
+      docker_container:
+        name: mqtt
+        image: eclipse-mosquitto
+        volumes:
+          - ~/mosquitto/config:/mosquitto/config
+        published_ports:
+          - 1883:1883
+          - 9001:9001
+        restart_policy: unless-stopped
+  handlers:
+    - name: Restart MQTT
+      docker_container:
+        name: mqtt
+        restart: yes
