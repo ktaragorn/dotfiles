@@ -302,6 +302,10 @@
         icon: https://upload.wikimedia.org/wikipedia/en/thumb/6/62/MySQL.svg/136px-MySQL.svg.png
         port: 80
         link_to: /dbadmin
+      - name: MQTTAdmin
+        icon: https://hackaday.com/wp-content/uploads/2016/05/mqtt_dash.png
+        port: 80
+        link_to: /mqtt-admin
       - name: Uptime (external)
         icon: https://superbig.co/uploads/images/icons/icon-uptimerobot.svg
         link_to: https://stats.uptimerobot.com/Z6QJGu5Xg0
@@ -362,6 +366,11 @@
       copy:
         src: files/phpminiadmin.php
         dest: /var/www/html/dbadmin/index.php
+    - name: Install mqtt-admin
+      unarchive:
+        src: https://github.com/hobbyquaker/mqtt-admin/releases/download/v1.0.0/mqtt-admin_1.0.0.zip
+        remote_src: yes
+        dest: /var/www/html/
   handlers:
     - name: Validate nginx
       shell: nginx -t -c /etc/nginx/nginx.conf
