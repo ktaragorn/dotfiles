@@ -7,17 +7,17 @@ const int buttonPin = D7;
 OneButton button(buttonPin, false);
 
 void on_click(){
-   Serial.println("Button Pressed");
+   log("Button Pressed");
    trigger_homeassistant_webhook("button_pressed", "on");
 }
 
 void on_double_click(){
-   Serial.println("Button double Pressed");
+   log("Button double Pressed");
    trigger_homeassistant_webhook("button_double_pressed", "on");
 }
 
 void on_long_press(){
-   Serial.println("Button long Pressed");
+   log("Button long Pressed");
    trigger_homeassistant_webhook("button_long_pressed", "on");
 }
 

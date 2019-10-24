@@ -35,6 +35,12 @@
 #include "homeassistant_webhook.h"
 #include "ir_receive.h"
 #include "web_server.h"
+#include "mqtt.h"
+
+void log(String &log_message){
+  Serial.println(log_message);
+  mqtt_log(log_message)
+}
 
 //https://lowvoltage.github.io/2017/07/09/Onboard-LEDs-NodeMCU-Got-Two
 void blink_led(){
@@ -55,17 +61,20 @@ void setup(void) {
   wifi_setup();
   Serial.println("Wifi Setup Complete");
 
+  mqtt_setup();
+  log("MQTT setup completed");
+
   ota_setup();
-  Serial.println("OTA setup Complete");
+  log("OTA setup Complete");
 
   ir_receive_setup();
-  Serial.println("IR Receiver setup Complete");
+  log("IR Receiver setup Complete");
 
   web_server_setup();
-  Serial.println("Web Server setup Complete");
+  log("Web Server setup Complete");
 
   buttons_setup();
-  Serial.println("Buttons setup Complete");
+  log("Buttons setup Complete");
 
   blink_led();
 }
