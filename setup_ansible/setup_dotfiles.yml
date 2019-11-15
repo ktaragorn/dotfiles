@@ -79,6 +79,23 @@
       # Assuming localhost is always updated
       when: ansible_connection != "local"
 
+    - name: Copy pine SSH key
+      copy:
+        mode: 0600
+        src: pine/files/pine.key
+        dest: ~/.ssh/pine.key
+
+    - name: Pine ssh config section
+      blockinfile:
+        create: yes
+        path: ~/.ssh/config
+        block: |
+          host pine
+            hostname black-gate.privatedns.org
+            user ubuntu
+            port 2222
+            identityfile ~/.ssh/pine.key
+
     - name: Ensure bash files exist
       command: touch ~/.{{item}} creates=~/.{{item}}
       with_items:
