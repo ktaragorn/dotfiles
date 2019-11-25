@@ -4,6 +4,13 @@
 		"linux": [],
         "osx": ["~/.asdf/shims"],
         "windows": []
-	}
+	},
+	"linters":{
+		"eslint":{
+			"selector": "source.js, source.ts"
+		}
+	},
+	"lint_mode": "save",
+	 "show_panel_on_save": "view"
 }
 
