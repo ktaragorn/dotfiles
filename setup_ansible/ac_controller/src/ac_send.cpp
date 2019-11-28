@@ -28,10 +28,10 @@ void sendAcOn(String tempArg = "25", String fanArg = "3"){
   const String fan = fanArg ? fanArg : "3";
 
   sendDaikinOnOffCommand(true, temp.toInt(), fan.toInt());
-  log("Sent turn on command with temperature = " + temp + " and fan = " + fan);
+  util_log("Sent turn on command with temperature = " + temp + " and fan = " + fan);
 }
 
 void sendAcOff(){
   sendDaikinOnOffCommand(false);
-  log("Sent turn off command");
+  util_log("Sent turn off command");
 }

@@ -39,6 +39,7 @@
 		"SublimeLinter",
 		"SublimeLinter-annotations",
 		"SublimeLinter-coffee",
+		"SublimeLinter-contrib-ansible-lint",
 		"SublimeLinter-contrib-scss-lint",
 		"SublimeLinter-eslint",
 		"SublimeLinter-lua",

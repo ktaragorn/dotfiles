@@ -37,9 +37,9 @@
 #include "web_server.h"
 #include "mqtt.h"
 
-void log(String &log_message){
+void util_log(String log_message){
   Serial.println(log_message);
-  mqtt_log(log_message)
+  mqtt_log(log_message);
 }
 
 //https://lowvoltage.github.io/2017/07/09/Onboard-LEDs-NodeMCU-Got-Two
@@ -62,19 +62,19 @@ void setup(void) {
   Serial.println("Wifi Setup Complete");
 
   mqtt_setup();
-  log("MQTT setup completed");
+  util_log("MQTT setup completed");
 
   ota_setup();
-  log("OTA setup Complete");
+  util_log("OTA setup Complete");
 
   ir_receive_setup();
-  log("IR Receiver setup Complete");
+  util_log("IR Receiver setup Complete");
 
   web_server_setup();
-  log("Web Server setup Complete");
+  util_log("Web Server setup Complete");
 
   buttons_setup();
-  log("Buttons setup Complete");
+  util_log("Buttons setup Complete");
 
   blink_led();
 }

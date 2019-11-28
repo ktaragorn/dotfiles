@@ -1,4 +1,4 @@
-#include "mqtt"
+#include "mqtt.h"
 #include <MQTT.h>
 #include <WiFiClient.h>
 
@@ -9,7 +9,7 @@ void mqtt_connect(){
 	Serial.print("\nconnecting to mqtt...");
 	// choosing not to loop since it is in the loop function anyway, and it isnt as importent yet.
 	// while (!
-	client.connect("nodemcu")
+	client.connect("nodemcu");
 	// 	) {
 	// 	Serial.print(".");
 	// 	delay(1000);
@@ -28,7 +28,7 @@ void mqtt_loop() {
   	if(!client.connected()) mqtt_connect();
 }
 
-void mqtt_publish(String &topic, String &message){
+void mqtt_publish(String topic, String &message){
 	client.publish(topic, message);
 }
 
