@@ -12,7 +12,10 @@
 
 MDNSResponder mdns;
 void wifi_setup(void){
-  WiFi.begin(wifi_ssid, wifi_password);  WiFi.hostname(HOSTNAME);
+  WiFi.disconnect();
+  WiFi.begin(wifi_ssid, wifi_password);
+  WiFi.hostname(HOSTNAME);
+  WiFi.setAutoConnect ( true );
   Serial.println("");
 
   // Wait for connection
@@ -33,4 +36,15 @@ void wifi_setup(void){
 #endif  // ESP8266
     Serial.println("MDNS responder started");
   }
+}
+
+void wifi_loop(){
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    WiFi.reconnect();
+  }
+}
+
+bool wifi_connected(){
+  return WiFi.status() == WL_CONNECTED;
 }

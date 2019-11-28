@@ -80,6 +80,7 @@ void setup(void) {
 }
 
 void loop(void) {
+  if(!wifi_connected()) return;
   ota_loop();
   buttons_loop();
   ir_receive_loop();
