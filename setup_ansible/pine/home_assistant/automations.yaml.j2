@@ -13,35 +13,6 @@
     - service: switch.turn_on
       entity_id: switch.downstairs_ac
 
-# - alias: Test TV Remote
-#   id: tv_remote_test
-#   trigger:
-#     - platform: webhook
-#       webhook_id: tv_remote_detected
-#   action:
-#     - service: notify.pushbullet
-#       data:
-#         title: Gondor Home Assistant
-#         message: TV Remote signal received.
-
-- alias: Downstairs Button Pressed
-  id: button_pressed
-  trigger:
-    - platform: webhook
-      webhook_id: button_pressed
-  action:
-    - service: light.toggle
-      entity_id: light.bedroom_light
-
-# - alias: Downstairs Button double Pressed
-#   id: button_pressed
-#   trigger:
-#     - platform: webhook
-#       webhook_id: button_double_pressed
-#   action:
-#     - service: light.turn_off
-#       entity_id: light.bedroom_light
-
 - alias: All left home
   id: all_leave_house
   trigger:
@@ -58,7 +29,25 @@
     - service: switch.turn_off
       entity_id: switch.upstairs_ac
 
-- alias: We are in bed
+- alias: Downstairs Button Pressed
+  id: button_pressed
+  trigger:
+    - platform: webhook
+      webhook_id: button_pressed
+  action:
+    - service: light.toggle
+      entity_id: light.bedroom_light
+
+- alias: Downstairs Button double Pressed
+  id: button_pressed
+  trigger:
+    - platform: webhook
+      webhook_id: button_double_pressed
+  action:
+    - service: switch.toggle
+      entity_id: switch.upstairs_ac
+
+- alias: We are going to bed
   id: moved_upstairs
   trigger:
     - platform: state
@@ -82,8 +71,18 @@
       data:
         title: Gondor Home Assistant
         message: We have come to bed, AC downstairs is off, AC upstairs is on
-    - service: switch.turn_on
-      entity_id: switch.upstairs_ac
+    # - service: switch.turn_on
+    #   entity_id: switch.upstairs_ac
+    - service: climate.turn_on
+      entity_id: climate.upstairs_ac
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.upstairs_ac
+        preset_mode: cool
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.upstairs_ac
+        temperature: 23
     - service: light.turn_off
       entity_id: light.bedroom_light
     - service: switch.turn_on
@@ -95,6 +94,67 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
+
+- alias: We are in bed, increase temperature 1
+  id: upstairs_ac_temp_up_1
+  trigger:
+    - platform: time
+      at: "1:30:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: "on"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: Upstairs temperature at 24
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.upstairs_ac
+        temperature: 24
+
+- alias: We are in bed, increase temperature 2
+  id: upstairs_ac_temp_up_2
+  trigger:
+    - platform: time
+      at: "3:30:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: "on"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: Upstairs temperature at 25
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.upstairs_ac
+        temperature: 25
+
+- alias: We are in bed, set fan mode
+  id: upstairs_ac_fan
+  trigger:
+    - platform: time
+      at: "6:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.we_are_in_bed
+      state: "on"
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: Upstairs AC on fan
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.upstairs_ac
+        preset_mode: fan_only
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.upstairs_ac
+        fan_mode: lowMedium
 
 - alias: We are heading down on workdays
   id: moved_downstairs_work
