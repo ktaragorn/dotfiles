@@ -45,7 +45,7 @@
       webhook_id: button_double_pressed
   action:
     - service: switch.toggle
-      entity_id: switch.upstairs_ac
+      entity_id: switch.downstairs_ac
 
 - alias: We are going to bed
   id: moved_upstairs
@@ -75,14 +75,11 @@
     #   entity_id: switch.upstairs_ac
     - service: climate.turn_on
       entity_id: climate.upstairs_ac
-    - service: climate.set_preset_mode
-      data:
-        entity_id: climate.upstairs_ac
-        preset_mode: cool
     - service: climate.set_temperature
       data:
         entity_id: climate.upstairs_ac
         temperature: 23
+        hvac_mode: cool
     - service: light.turn_off
       entity_id: light.bedroom_light
     - service: switch.turn_on
@@ -147,7 +144,7 @@
       data:
         title: Gondor Home Assistant
         message: Upstairs AC on fan
-    - service: climate.set_preset_mode
+    - service: climate.set_hvac_mode
       data:
         entity_id: climate.upstairs_ac
         preset_mode: fan_only
