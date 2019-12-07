@@ -11,7 +11,7 @@ check filesystem Chest with path /media/ubuntu/Chest
 
 check file Chest_drive with path /media/ubuntu/Chest/this_is_chest_drive
   if does not exist
-  then exec "/home/ubuntu/remount_chest_drive.sh"
+  then exec "/home/ubuntu/remount_drive.sh Chest"
   else if succeeded
   then {{alert_and_start_deluged}}
   if does not exist for 2 cycles
@@ -19,11 +19,17 @@ check file Chest_drive with path /media/ubuntu/Chest/this_is_chest_drive
   else if succeeded
   then {{alert_and_start_deluged}}
 
-check file Vault_drive with path /media/ubuntu/Vault/this_is_vault_drive
-  if does not exist then
-    {{alert_succeeded}}
-
 check file Archive_drive with path /media/ubuntu/Archive/this_is_archive_drive
+  if does not exist
+  then exec "/home/ubuntu/remount_drive.sh Archive"
+  else if succeeded
+  then {{alert_and_start_deluged}}
+  if does not exist for 2 cycles
+  then {{alert_and_stop_deluged}}
+  else if succeeded
+  then {{alert_and_start_deluged}}
+
+check file Vault_drive with path /media/ubuntu/Vault/this_is_vault_drive
   if does not exist then
     {{alert_succeeded}}
 
