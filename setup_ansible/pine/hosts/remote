@@ -1,1 +1,1 @@
-black-gate.privatedns.org ansible_user=ubuntu ansible_ssh_port=2222
+black-gate.privatedns.org ansible_user=ubuntu

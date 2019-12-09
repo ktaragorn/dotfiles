@@ -93,7 +93,7 @@
           host pine
             hostname black-gate.privatedns.org
             user ubuntu
-            port 2222
+            port 22
             identityfile ~/.ssh/pine.key
 
     - name: Ensure bash files exist
@@ -175,4 +175,3 @@
     - name: Fix key repeat on osx
       command: defaults write -g ApplePressAndHoldEnabled -bool false
       when: ansible_os_family == 'Darwin'
-      # TODO RVM? Brew, tmuxinator tmux config
