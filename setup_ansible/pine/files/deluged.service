@@ -4,9 +4,9 @@ After=network-online.target
 Wants=deluge-web.service
 
 # Unit starts after the following mounts are available.
-RequiresMountsFor=/media/ubuntu/Archive
+RequiresMountsFor=/media/ubuntu/Archive /media/ubuntu/Chest
 # Unit is stopped when any of these mounts disappear.
-BindsTo=media-ubuntu-Archive.mount
+BindsTo=media-ubuntu-Archive.mount media-ubuntu-Chest.mount
 
 [Service]
 Type=simple
