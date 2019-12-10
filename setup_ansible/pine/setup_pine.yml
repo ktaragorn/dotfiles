@@ -814,7 +814,7 @@
         - monitor_chest_drive.sh
         - speed_test.sh
         - monit_pushbullet
-        - remount_chest_drive.sh
+        - remount_drive.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
