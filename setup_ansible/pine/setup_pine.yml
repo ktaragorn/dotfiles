@@ -310,6 +310,12 @@
         icon: https://superbig.co/uploads/images/icons/icon-uptimerobot.svg
         link_to: https://stats.uptimerobot.com/Z6QJGu5Xg0
         port: 80
+      - name: syncthing
+        icon: https://pled.fr/wp-content/uploads/2015/04/syncthing.png
+        port: 8384
+        link_to: /syncthing
+        proc: syncthing
+        terminate: "/"
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -994,6 +1000,48 @@
         published_ports:
           - 8008:80
         restart_policy: unless-stopped
+
+- name: Setup Syncthing
+  hosts: all
+  tags: syncthing
+  become: yes
+  tasks:
+    - name: Add PPA key
+      apt_key:
+        url: https://syncthing.net/release-key.txt
+    - name: Add repository
+      apt_repository:
+        repo: deb https://apt.syncthing.net/ syncthing stable
+    - name: Install Syncthing
+      apt:
+        name: syncthing
+    - name: Copy Systemd service
+      copy:
+        src: files/syncthing@.service
+        dest: /etc/systemd/system/syncthing@.service
+      notify: Restart Syncthing
+    - name: Start and enable syncthing
+      systemd:
+        name: syncthing@ubuntu
+        state: started
+        enabled: yes
+    # throws host check error without this, safe since NGINX is only accessible with password from outside
+    # https://f-a.nz/dev/setup-syncthing-on-debian-server-with-nginx-reverse-proxy/
+    - name: Install lxml
+      apt: name=python-lxml
+    - name: Configure Syncthing to disable insecure host checking
+      become: no
+      xml:
+        path: .config/syncthing/config.xml
+        xpath: /configuration/gui/insecureSkipHostcheck
+        value: "true"
+      notify: Restart Syncthing
+  handlers:
+    - name: Restart Syncthing
+      systemd:
+        name: syncthing@ubuntu
+        state: restarted
+        daemon-reload: yes
 
 - name: Setup Mosquitto MQTT broker
   hosts: all
