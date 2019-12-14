@@ -109,6 +109,12 @@ climate:
     unique_id: upstairs_ac
     device_code: 1101
     controller_data: blackbean1
+    #smart IR only supports broadlink on this AC
+  # - platform: smartir
+  #   name: Downstairs AC
+  #   unique_id: downstairs_ac
+  #   device_code: 1101
+  #   controller_data: ac/command/nodemcu
 
 device_tracker:
   - platform: ping

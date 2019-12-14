@@ -33,9 +33,9 @@ void mqtt_publish(String topic, String &message){
 }
 
 void mqtt_log(String &message) {
-	mqtt_publish("/log/nodemcu", message);
+	mqtt_publish("log/nodemcu", message);
 }
 
 void mqtt_received(String &topic, String &payload){
-
+	mqtt_log("Message Recieved on topic " + topic +", message - " + payload);
 }
