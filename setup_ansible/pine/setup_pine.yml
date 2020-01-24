@@ -1046,6 +1046,7 @@
 - name: Setup Mosquitto MQTT broker
   hosts: all
   tags: mqtt
+  gather_facts: no
   vars_files: [vars/all.yml]
   tasks:
     - name: Download Image
@@ -1079,3 +1080,39 @@
       docker_container:
         name: mqtt
         restart: yes
+
+- name: Owntracks Recorder
+  hosts: all
+  tags: otrecorder
+  gather_facts: no
+  tasks:
+    - name: Create folders
+      file:
+        dest: ~/otrecorder/{{item}}/
+        state: directory
+      with_items:
+        - docker
+        - store
+    - name: Download otrecorder docker repo
+      git:
+        repo: https://github.com/owntracks/docker-recorder.git
+        dest: ~/otrecorder/docker/
+    - name: Build docker image
+      docker_image:
+        name: otrecorder
+        build:
+          path: "/home/{{ansible_ssh_user}}/otrecorder/docker/" # relative path not working
+        source: build
+    - name: Start otrecorder container
+      docker_container:
+        name: otrecorder
+        image: otrecorder
+        network_mode: host
+        env:
+          OTR_HOST: 127.0.0.1
+        volumes:
+          - ~/otrecorder/config:/store
+        published_ports:
+          - 8083:8083
+        restart_policy: unless-stopped
+    # - name: Start docker container
