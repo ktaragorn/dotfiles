@@ -134,7 +134,7 @@ tasks:
         - piratebay: yes
       interval: 7 days
     torrent_alive: 3 # Will reject results with less than 3 seeds
-    quality: 720p webrip+ # Make sure no screeners or cams are downloaded
+    quality: 720p # Make sure no screeners or cams are downloaded
     list_match:
       from:
         - movie_list: movies_download

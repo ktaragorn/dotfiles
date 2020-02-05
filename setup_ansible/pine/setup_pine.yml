@@ -316,6 +316,11 @@
         link_to: /syncthing
         proc: syncthing
         terminate: "/"
+      - name: owntracks
+        icon: https://avatars1.githubusercontent.com/u/6574523?s=200&v=4
+        port: 8083
+        link_to: /owntracks
+        terminate: "/"
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -509,7 +514,6 @@
     - role: guisea.automysqlbackup
       automysqlbackup_cron:
         minute: 30
-        hour: 2
         day: "*"
         month: "*"
         weekday: "*"
@@ -1093,6 +1097,7 @@
       with_items:
         - docker
         - store
+        - views
     - name: Download otrecorder docker repo
       git:
         repo: https://github.com/owntracks/docker-recorder.git
@@ -1101,6 +1106,7 @@
       docker_image:
         name: otrecorder
         build:
+          pull: yes
           path: "/home/{{ansible_ssh_user}}/otrecorder/docker/" # relative path not working
         source: build
     - name: Start otrecorder container
@@ -1111,8 +1117,28 @@
         env:
           OTR_HOST: 127.0.0.1
         volumes:
-          - ~/otrecorder/config:/store
+          - ~/otrecorder/store:/store
+          - ~/otrecorder/views:/htdocs/views
         published_ports:
           - 8083:8083
         restart_policy: unless-stopped
-    # - name: Start docker container
+    - name: Setup views folder
+      get_url:
+        url: https://raw.githubusercontent.com/owntracks/recorder/master/docroot/views/{{item}}.html
+        dest: ~/otrecorder/views/
+      with_items:
+        - leafletmap
+        - vmap
+    - name: Create views
+      copy:
+        dest: ~/otrecorder/views/{{item.name}}.json
+        content: "{{item.content|to_json}}"
+      with_items:
+        - name: nz2020
+          content:
+            label: New Zealand
+            user: wionacmx
+            device: mia2lite
+            from: 2020-01-25
+            to: 2020-02-02
+            page: leafletmap.html
