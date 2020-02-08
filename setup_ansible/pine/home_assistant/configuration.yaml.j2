@@ -121,7 +121,7 @@ climate:
 
 device_tracker:
   - platform: ping
-    consider_home: 1200 # 20 min
+    consider_home: 300 # 20 min
     hosts:
       anu: Redmi4X-Redmi
       kt: mia2lite
@@ -142,6 +142,11 @@ light:
       smart_light.middle.earth:
         name: Bedroom Light
 group:
+  all_people:
+    name: Both of us
+    entities:
+      - person.anu
+      - person.kt
   upstairs:
     name: Upstairs
     entities:
