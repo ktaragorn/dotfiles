@@ -114,26 +114,36 @@
         message: Sleep Timer - TV will be turned off in 20 min
     - service: timer.cancel
       entity_id: timer.tv_sleep_timer
+    - service: switch.turn_off
+      entity_id: switch.downstairs_ac
     - service: timer.start
       data:
         entity_id: timer.tv_sleep_timer
         duration: 00:20:00
 
+# Home assistant cannot use the same trigger with multiple automations
 - alias: Sleep timer triggered
   trigger:
     - platform: event
       event_type: timer.finished
       event_data:
         entity_id: timer.tv_sleep_timer
+    - platform: webhook
+      webhook_id: tv_sleep_timer_trigger
   condition:
     - condition: state
       entity_id: input_boolean.we_are_in_bed
       state: "on"
+    - condition: state
+      entity_id: timer.tv_sleep_timer
+      state: active
   action:
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
         message: Sleep Timer - TV turned off
+    - service: timer.cancel
+      entity_id: timer.tv_sleep_timer
     - service: switch.turn_off
       entity_id: switch.upstairs_tv
     - service: switch.turn_off
@@ -162,7 +172,7 @@
   id: upstairs_ac_temp_up_2
   trigger:
     - platform: time
-      at: "3:30:00"
+      at: "4:30:00"
   condition:
     - condition: state
       entity_id: input_boolean.we_are_in_bed
