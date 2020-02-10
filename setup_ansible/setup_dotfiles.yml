@@ -71,13 +71,17 @@
           - itsycal
           - dbeaver-community
           - postman
-          - firefox
           - karabiner-elements
 
     - name: Checkout/update dotfiles on target machine
       git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
       # Assuming localhost is always updated
       when: ansible_connection != "local"
+
+    - name: Create .ssh folder
+      file:
+        dest: ~/.ssh
+        state: directory
 
     - name: Copy pine SSH key
       copy:
