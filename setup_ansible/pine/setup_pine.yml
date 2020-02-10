@@ -496,6 +496,15 @@
   hosts: all
   become: yes
   vars_files: [vars/all.yml]
+  # needed because the role include below needs ansible_os_family to be defined
+  # at some point ansible stopped gathering facts for plays not tagged to be run
+  # but they still include the roles, so it fails here
+  # when tagged with always, it runs.. always
+  pre_tasks:
+    - name: Gather facts
+      setup:
+        gather_subset: min
+      tags: always
   roles:
     - role: geerlingguy.mysql
       mysql_root_password: "{{my_mysql_root_password}}"
