@@ -1,0 +1,6 @@
+if [ `uname` = "Darwin" ]
+then
+	source /usr/local/Cellar/git/*/etc/bash_completion.d/git-prompt.sh
+else
+	source /etc/bash_completion.d/git-prompt
+fi

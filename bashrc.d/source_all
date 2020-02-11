@@ -6,6 +6,7 @@ d=~/dotfiles/bashrc.d
 if [ -n "$BASH_VERSION" ]; then
 	#only for bash. This is already in zshrc as theme
    . $d/z.sh
+   . $d/load_completion
    . $d/scm_ps1
 fi
 . $d/os_specific
