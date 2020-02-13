@@ -335,6 +335,7 @@
       - { name: Deluged, port: 58846, proc: deluged }
       - { name: Home Assistant, port: 8123, proc: homeassistant }
       - { name: MQTT Broker, port: 1883, proc: mosquitto }
+      - { name: Supervisor, port: 1883, proc: supervisor }
   tasks:
     - name: Install nginx and php
       package: name={{item}}
@@ -1151,3 +1152,27 @@
             from: 2020-01-25
             to: 2020-02-02
             page: leafletmap.html
+
+- name: Install and setup supervisord
+  hosts: all
+  gather_facts: no
+  become: yes
+  tags: supervisor
+  tasks:
+    - name: Install Supervisord
+      apt: name=supervisor
+    - name: Start and enable Supervisord
+      service:
+        name: supervisor
+        state: started
+        enabled: yes
+    - name: Configure Supervisord
+      copy:
+        src: files/supervisord.conf
+        dest: /etc/supervisor/conf.d/pine.conf
+      notify: Restart Supervisord
+  handlers:
+    - name: Restart Supervisord
+      service:
+        name: supervisor
+        state: restarted

@@ -3,7 +3,7 @@
 #include <IRsend.h>
 #include "common.h"
 
-const uint16_t kIrLed = D1; // actually D3.. dunno why the pinouts are wrong..
+const uint16_t kIrLed = D1;
 
 void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = 3){
   IRDaikinESP ac(kIrLed);
