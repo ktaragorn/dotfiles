@@ -19,6 +19,7 @@
           - guake
           - git-gui
           - net-tools
+          - gitg
         state: present
 
       when: ansible_os_family != 'Darwin'

@@ -7,10 +7,11 @@
     - include: sublime/deb.yml
       when: ansible_os_family != 'Darwin'
 
+# had to install package control manually. - cntr shift p -> install package control
 - name: Setup user preferences folder
   hosts: localhost
   tags: link
-  vars: #potentially can clean this up by moving this to files and loading with `include_vars`
+  vars:
     all_paths:
       osx:
         src: ~/dotfiles/Sublime Text 3/Packages/User
