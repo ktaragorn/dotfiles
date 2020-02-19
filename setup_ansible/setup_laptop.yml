@@ -1,0 +1,31 @@
+---
+- name: setup things specific to the laptop
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: add user to input group
+      user:
+        groups:
+          - input
+        name: '{{ansible_user}}'
+    - name: Install libinput dependancies
+      apt:
+        name:
+          - xdotool
+          - wmctrl
+          - libinput-tools
+    - name: Download source code
+      become: no
+      git:
+        repo: git@github.com:bulletmark/libinput-gestures.git
+        dest: /tmp/libinput-gestures
+    - name: Copy config file
+      become: no
+      file:
+        src: ../dotfiles/libinput-gestures.conf
+        path: ~/.config/libinput-gestures.conf
+        state: link
+    - name: Run install
+      shell:
+        chdir: /tmp/libinput-gestures/
+        cmd: ./libinput-gestures-setup install
