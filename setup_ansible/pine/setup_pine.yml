@@ -679,9 +679,6 @@
   gather_facts: no
   vars_files: [vars/all.yml]
   tasks:
-    - name: Download Home assistant
-      docker_image:
-        name: homeassistant/aarch64-homeassistant
     - name: Make folder for Home assistant config
       file:
         path: /home/ubuntu/homeassistant_config
@@ -698,11 +695,11 @@
       notify:
         - Validate config
         - Restart Home assistant
-    - name: Start home assistant container
+    - name: Download and start home assistant container
       docker_container:
         name: hass
         network_mode: host
-        image: homeassistant/aarch64-homeassistant
+        image: homeassistant/aarch64-homeassistant:0.97.1
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /home/ubuntu/homeassistant_config:/config

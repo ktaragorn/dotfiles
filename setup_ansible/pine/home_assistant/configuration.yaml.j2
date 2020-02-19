@@ -29,7 +29,7 @@ http:
   trusted_proxies: 127.0.0.1
 
 logger:
-  default: info
+  default: debug
 # Checks for available updates
 # Note: This component will send some information about your system to
 # the developers to assist with development of Home Assistant.
@@ -189,7 +189,7 @@ zone:
   - name: Home
     latitude: {{home_lat}}
     longitude: {{home_long}}
-    radius: 600
+    radius: 400
     icon: mdi:home
 
 # group: !include groups.yaml
