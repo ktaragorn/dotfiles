@@ -4,7 +4,7 @@
   trigger:
     platform: state
     entity_id: group.all_people
-    to: "home"
+    to: home
   action:
     - service: notify.pushbullet
       data:
@@ -18,7 +18,7 @@
   trigger:
     platform: state
     entity_id: group.all_people
-    to: "not_home"
+    to: not_home
   action:
     - service: notify.pushbullet
       data:
@@ -62,7 +62,7 @@
   condition:
     - condition: state
       entity_id: group.all_people
-      state: "home"
+      state: home
     # - condition: time
     #   after: '20:00:00'
     - condition: state
@@ -230,7 +230,7 @@
         - fri
     - condition: state
       entity_id: group.all_people
-      state: "home"
+      state: home
     - condition: state
       entity_id: input_boolean.we_are_in_bed
       state: "on"
@@ -264,7 +264,7 @@
         - sat
     - condition: state
       entity_id: group.all_people
-      state: "home"
+      state: home
     - condition: state
       entity_id: input_boolean.we_are_in_bed
       state: "on"
