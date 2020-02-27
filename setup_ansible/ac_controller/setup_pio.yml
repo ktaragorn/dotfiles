@@ -20,5 +20,6 @@
         dest: include/secrets.h
   handlers:
     - name: Restart Udev
+      become: yes
       service: name=udev state=restarted
 # should just work with `pio run`

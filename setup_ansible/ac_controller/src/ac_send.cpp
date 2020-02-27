@@ -5,7 +5,7 @@
 
 const uint16_t kIrLed = D1;
 
-void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = 3){
+void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = kDaikinFanAuto){
   IRDaikinESP ac(kIrLed);
   ac.begin();
 
