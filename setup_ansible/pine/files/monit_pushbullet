@@ -1,3 +1,3 @@
 #!/bin/bash
 /home/ubuntu/pushbullet "[Monit-$MONIT_HOST] $MONIT_SERVICE - $MONIT_EVENT" "$MONIT_DESCRIPTION"
-docker exec mqtt mosquitto_pub -t notify/monit/$MONIT_SERVICE -m "$MONIT_EVENT - $MONIT_DESCRIPTION"
+docker exec mqtt mosquitto_pub -r -t notify/monit/$MONIT_SERVICE -m "$MONIT_EVENT - $MONIT_DESCRIPTION"

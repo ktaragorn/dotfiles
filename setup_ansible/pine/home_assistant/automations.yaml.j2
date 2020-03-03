@@ -6,6 +6,10 @@
     entity_id: group.all_people
     to: home
   action:
+    - service: script.notify_mqtt
+      data:
+        target: home_enter
+        message: Someone entered house. Downstairs AC is on.
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -20,6 +24,10 @@
     entity_id: group.all_people
     to: not_home
   action:
+    - service: script.notify_mqtt
+      data:
+        target: home_enter
+        message: All have left the house, Both ACs have been switched off
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -69,6 +77,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "off"
   action:
+    - service: script.notify_mqtt
+      data:
+        target: in_bed
+        message: We have come to bed, AC downstairs is off, AC upstairs is on
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -108,6 +120,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
+    - service: script.notify_mqtt
+      data:
+        target: sleep_timer
+        message: We have come to bed, AC downstairs is off, AC upstairs is on
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -138,6 +154,10 @@
       entity_id: timer.tv_sleep_timer
       state: active
   action:
+    - service: script.notify_mqtt
+      data:
+        target: sleep_timer
+        message: Sleep Timer - TV turned off
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -159,6 +179,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
+    - service: script.notify_mqtt
+      data:
+        target: in_bed
+        message: Upstairs temperature at 24
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -182,6 +206,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
+    - service: script.notify_mqtt
+      data:
+        target: in_bed
+        message: Upstairs temperature at 25
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -201,6 +229,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
+    - service: script.notify_mqtt
+      data:
+        target: in_bed
+        message: Upstairs AC on fan
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -239,6 +271,10 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action: &going_down_actions
+    - service: script.notify_mqtt
+      data:
+        target: in_bed
+        message: We are going downstairs, AC downstairs is on, AC upstairs is off
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant

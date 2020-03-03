@@ -203,6 +203,15 @@ zone:
     radius: 400
     icon: mdi:home
 
+script:
+  notify_mqtt:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          payload: "{{ '{{ message }}' }}"
+          topic: notify/hass/{{ '{{ target }}'}}
+          retain: true
+
 # group: !include groups.yaml
 automation: !include automations.yaml
 # script: !include scripts.yaml
