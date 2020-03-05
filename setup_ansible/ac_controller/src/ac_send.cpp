@@ -5,33 +5,46 @@
 
 const uint16_t kIrLed = D1;
 
-void sendDaikinOnOffCommand(bool on, int temperature = 25, int fan = kDaikinFanAuto){
+struct AcCommand {
+  bool on;
+  int temperature = 25;
+  int fan = kDaikinFanAuto;
+};
+
+void sendDaikinOnOffCommand(AcCommand command){
   IRDaikinESP ac(kIrLed);
   ac.begin();
 
-  if(on){
+  if(command.on){
     ac.on();
   }else{
     ac.off();
   }
-  ac.setFan(fan);
+  ac.setFan(command.fan);
   ac.setMode(kDaikinCool);
-  ac.setTemp(temperature);
+  ac.setTemp(command.temperature);
   ac.setSwingVertical(false);
   ac.setSwingHorizontal(false);
 
   ac.send();
+
+  if(command.on) {
+    util_log("Sent turn on command with temperature = " + String(command.temperature) + " and fan = " + String(command.fan));
+  }else{
+    util_log("Sent off command");
+  }
 }
 
 void sendAcOn(String tempArg = "25", String fanArg = "3"){
-  const String temp = tempArg ? tempArg : "25";
-  const String fan = fanArg ? fanArg : "3";
+  AcCommand command;
+  if(tempArg.length() > 0) command.temperature = tempArg.toInt();
+  if(fanArg.length() > 0) command.fan = fanArg.toInt();
 
-  sendDaikinOnOffCommand(true, temp.toInt(), fan.toInt());
-  util_log("Sent turn on command with temperature = " + temp + " and fan = " + fan);
+  sendDaikinOnOffCommand(command);
 }
 
 void sendAcOff(){
-  sendDaikinOnOffCommand(false);
-  util_log("Sent turn off command");
+  AcCommand command;
+  command.on = false;
+  sendDaikinOnOffCommand(command);
 }

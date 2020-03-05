@@ -85,4 +85,5 @@ void loop(void) {
   buttons_loop();
   ir_receive_loop();
   web_server_loop();
+  mqtt_loop();
 }

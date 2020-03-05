@@ -44,7 +44,7 @@ void handleHomeAssistantAcState(){
 }
 
 void handleHomeAssistantAc(){
-  Serial.println("Received AC command from HA with " + server.argName(0) + ": " + server.arg(0));
+  util_log("Received AC command from HA with " + server.argName(0) + ": " + server.arg(0));
   state = server.arg("plain");
   if(state == "ON"){
     sendAcOn();
@@ -77,7 +77,6 @@ void web_server_setup(){
   server.onNotFound(handleNotFound);
 
   server.begin();
-  Serial.println("HTTP server started");
 }
 
 void web_server_loop() {
