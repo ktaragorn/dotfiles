@@ -1,9 +1,11 @@
-#include "mqtt.h"
 #include <MQTT.h>
 #include <WiFiClient.h>
+#include "ac_send.h"
+#include "mqtt.h"
 
 WiFiClient wifi;
 MQTTClient client;
+struct AcCommand command;
 
 void mqtt_connect(){
 	Serial.print("\nconnecting to mqtt...");
@@ -21,6 +23,8 @@ void mqtt_setup(){
   	client.onMessage(mqtt_received);
 
  	mqtt_connect();
+
+  	client.subscribe("nodemcu/ac/+");
 }
 
 void mqtt_loop() {
@@ -38,4 +42,18 @@ void mqtt_log(String &message) {
 
 void mqtt_received(String &topic, String &payload){
 	mqtt_log("Message Recieved on topic " + topic +", message - " + payload);
+	if(topic.endsWith("power")) {
+		command.on = payload == "ON";
+		return; // we get this on top of another message
+	}else if(topic.endsWith("mode")) {
+		command.setMode(payload);
+	}else if(topic.endsWith("fan")) {
+		command.setFan(payload);
+	}else if(topic.endsWith("temperature")) {
+		command.temperature = payload.toInt();
+	}else{
+		mqtt_log("Unexpected topic " + topic);
+		return;
+	}
+	sendDaikinOnOffCommand(command);
 }

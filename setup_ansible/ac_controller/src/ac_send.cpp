@@ -1,17 +1,39 @@
 #include <IRremoteESP8266.h>
-#include <ir_Daikin.h>
 #include <IRsend.h>
 #include "common.h"
+#include "ac_send.h"
 
 const uint16_t kIrLed = D1;
 
-struct AcCommand {
-  bool on;
-  int temperature = 25;
-  int fan = kDaikinFanAuto;
-};
+void AcCommand::setMode(String mode) {
+  if(mode == "cool") {
+    this->mode = kDaikinCool;
+  } else if(mode == "fan_only") {
+    this->mode = kDaikinFan;
+  } else if(mode == "off") {
+    this->on = false;
+  }
+}
 
-void sendDaikinOnOffCommand(AcCommand command){
+void AcCommand::setFan(String fan) {
+  if(fan == "auto") {
+    this->fan = kDaikinFanAuto;
+  } else {
+    int fanMode = fan.toInt();
+    if(fanMode >=0 && fanMode <= 5){
+      this->fan = fanMode;
+    }
+  }
+}
+
+String AcCommand::toString() {
+  return "Command : state on? = " + String(this->on) +\
+         " temperature = " + String(this->temperature) +\
+         " fan = " + String(this->fan) +\
+         " mode = " + String(this->mode);
+}
+
+void sendDaikinOnOffCommand(struct AcCommand command){
   IRDaikinESP ac(kIrLed);
   ac.begin();
 
@@ -21,24 +43,21 @@ void sendDaikinOnOffCommand(AcCommand command){
     ac.off();
   }
   ac.setFan(command.fan);
-  ac.setMode(kDaikinCool);
+  ac.setMode(command.mode);
   ac.setTemp(command.temperature);
   ac.setSwingVertical(false);
   ac.setSwingHorizontal(false);
 
   ac.send();
 
-  if(command.on) {
-    util_log("Sent turn on command with temperature = " + String(command.temperature) + " and fan = " + String(command.fan));
-  }else{
-    util_log("Sent off command");
-  }
+  util_log("Sent " + command.toString());
 }
 
-void sendAcOn(String tempArg = "25", String fanArg = "3"){
+void sendAcOn(String tempArg, String fanArg){
   AcCommand command;
   if(tempArg.length() > 0) command.temperature = tempArg.toInt();
   if(fanArg.length() > 0) command.fan = fanArg.toInt();
+  command.on = true;
 
   sendDaikinOnOffCommand(command);
 }

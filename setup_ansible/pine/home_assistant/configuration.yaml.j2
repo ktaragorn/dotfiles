@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Gondor
   # Location required to calculate the time the sun rises and sets
-  latitude: {{home_lat}}
-  longitude: {{home_long}}
+  latitude: {{ home_lat }}
+  longitude: {{ home_long }}
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -61,8 +61,8 @@ system_health:
 
 # Sensors
 # sensor:
-  # Weather prediction
-  # - platform: yr
+# Weather prediction
+# - platform: yr
 
 # Text to speech
 tts:
@@ -74,7 +74,7 @@ cloud:
 switch:
   - platform: broadlink
     host: blackbean1
-    mac: '78:0F:77:50:98:D3'
+    mac: "78:0F:77:50:98:D3"
     switches:
       upstairs_ac:
         friendly_name: Aircon
@@ -122,11 +122,18 @@ climate:
     device_code: 1101
     controller_data: blackbean1
     #smart IR only supports broadlink on this AC
-  # - platform: smartir
-  #   name: Downstairs AC
-  #   unique_id: downstairs_ac
-  #   device_code: 1101
-  #   controller_data: ac/command/nodemcu
+  - platform: mqtt
+    name: Downstairs AC
+    unique_id: downstairs_ac
+    fan_mode_command_topic: nodemcu/ac/fan
+    mode_command_topic: nodemcu/ac/mode
+    temperature_command_topic: nodemcu/ac/temperature
+    power_command_topic: nodemcu/ac/power
+    precision: 1.0
+    min_temp: 18
+    max_temp: 26
+    modes: ["cool", "fan_only", "off"]
+    fan_modes: [1, 2, 3, 4, 5, "auto"]
 
 device_tracker:
   - platform: ping
@@ -146,9 +153,9 @@ input_boolean:
     icon: mdi:bed-empty
 
 light:
-   - platform: switch
-     name: Bedroom Light
-     entity_id: switch.bedroom_light
+  - platform: switch
+    name: Bedroom Light
+    entity_id: switch.bedroom_light
 #  - platform: flux_led
 #    devices:
 #      smart_light.middle.earth:
@@ -176,7 +183,7 @@ mobile_app:
 notify:
   - name: pushbullet
     platform: pushbullet
-    api_key: {{pushbullet_access_token}}
+    api_key: {{ pushbullet_access_token }}
 
 recorder:
   purge_keep_days: 14
@@ -202,8 +209,8 @@ person:
 zone:
   # This will override the default home zone
   - name: Home
-    latitude: {{home_lat}}
-    longitude: {{home_long}}
+    latitude: {{ home_lat }}
+    longitude: {{ home_long }}
     radius: 400
     icon: mdi:home
 
