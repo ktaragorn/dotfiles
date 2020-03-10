@@ -66,7 +66,7 @@ check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.
 
 {% for host in smart_home_controllers %}
 check host {{host.name}} with address {{host.name}}.middle.earth
-  if failed port {{host.port | default (80)}} type {{host.port_type}} {{fault_tolerance}} then
+  if failed port {{host.port | default (80)}} type {{host.port_type}} {% if host.protocol is defined %} protocol {{host.protocol}}{% endif %} {{fault_tolerance}} then
     {{alert_succeeded}}
   if failed ping {{fault_tolerance}} then
     {{alert_succeeded}}

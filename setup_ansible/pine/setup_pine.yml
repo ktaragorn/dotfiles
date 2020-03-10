@@ -892,7 +892,7 @@
       else if succeeded then
       {{alert}}
     smart_home_controllers:
-      - { name: nodemcu, port_type: tcp }
+      - { name: nodemcu, port_type: tcp, protocol: http }
       - { name: blackbean1, port_type: udp }
       - { name: smart_light, port_type: udp }
   tasks:
