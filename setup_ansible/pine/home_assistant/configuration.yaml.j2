@@ -221,8 +221,7 @@ script:
         data_template:
           payload: "{{ '{{ message }}' }}"
           topic: notify/hass/{{ '{{ target }}'}}
-          retain: true
-
+          qos: 1
 # group: !include groups.yaml
 automation: !include automations.yaml
 # script: !include scripts.yaml
