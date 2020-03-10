@@ -108,7 +108,7 @@ switch:
 
 fastdotcom:
   scan_interval:
-    days: 1
+    hours: 6
 
 smartir:
 
@@ -194,6 +194,23 @@ mqtt:
   port: 1883
 
 owntracks:
+
+binary_sensor:
+  - platform: ping
+    name: Nodemcu
+    host: nodemcu.middle.earth
+    scan_interval: 60
+    count: 2
+  - platform: ping
+    name: Blackbean
+    host: blackbean1.middle.earth
+    scan_interval: 60
+    count: 2
+  - platform: ping
+    name: Smart Light
+    host: smart_light.middle.earth
+    scan_interval: 60
+    count: 2
 
 person:
   - name: Anu
