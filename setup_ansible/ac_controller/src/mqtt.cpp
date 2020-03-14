@@ -16,15 +16,21 @@ void mqtt_connect(){
 	// 	Serial.print(".");
 	// 	delay(1000);
 	// }
+
+	// moving this to the connect method since persistent sessions doesnt seem to work
+	// and the lib demo does this anyway
+  	client.subscribe("nodemcu/ac/+");
 }
 
 void mqtt_setup(){
   	client.begin("pine64.middle.earth", 1883, wifi);
   	client.onMessage(mqtt_received);
+  	// TODO should be available in the next version after 2.4.7
+  	// client.setCleanSession(false);
+
+  	client.setOptions(10, false, 1000);
 
  	mqtt_connect();
-
-  	client.subscribe("nodemcu/ac/+");
 }
 
 void mqtt_loop() {
