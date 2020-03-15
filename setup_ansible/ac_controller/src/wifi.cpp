@@ -39,9 +39,12 @@ void wifi_setup(void){
 }
 
 void wifi_loop(){
-  if (WiFi.status() != WL_CONNECTED)
+  if (!wifi_connected())
   {
-    WiFi.reconnect();
+    delay(1000);
+    ESP.restart();
+    // wifi_connect();
+    // WiFi.reconnect();
   }
 }
 
