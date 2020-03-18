@@ -102,7 +102,7 @@
       entity_id: light.bedroom_light
     - service: script.toggle_tv
       data:
-        tv_state: on
+        tv_state: "on"
     - service: switch.turn_off
       entity_id: switch.downstairs_ac
     - service: input_boolean.turn_on
@@ -165,7 +165,7 @@
       entity_id: timer.tv_sleep_timer
     - service: script.toggle_tv
       data:
-        tv_state: off
+        tv_state: "off"
 
 - alias: We are in bed, increase temperature 1
   id: upstairs_ac_temp_up_1
