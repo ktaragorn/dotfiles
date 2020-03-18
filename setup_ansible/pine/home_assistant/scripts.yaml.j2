@@ -1,0 +1,21 @@
+---
+notify_mqtt:
+  sequence:
+    - service: mqtt.publish
+      data_template:
+        payload: "{{ '{{ message }}' }}"
+        topic: notify/hass/{{ '{{ target }}'}}
+        qos: 1
+toggle_tv:
+  alias: Toggle TV State
+  # these fields dont seem to be present in 0.97
+  #icon: mdi:youtube-tv
+  # fields:
+  #   tv_state:
+  #     description: "State to set, on or off"
+  #     example: off
+  sequence:
+    - service_template: switch.turn_{{ '{{tv_state| default("off")}}' }}
+      entity_id: switch.upstairs_tv
+    - service_template: switch.turn_{{ '{{tv_state| default("off")}}' }}
+      entity_id: switch.upstairs_speaker

@@ -100,10 +100,9 @@
         fan_mode: medium
     - service: light.turn_off
       entity_id: light.bedroom_light
-    - service: switch.turn_on
-      entity_id: switch.upstairs_tv
-    - service: switch.turn_on
-      entity_id: switch.upstairs_speaker
+    - service: script.toggle_tv
+      data:
+        tv_state: on
     - service: switch.turn_off
       entity_id: switch.downstairs_ac
     - service: input_boolean.turn_on
@@ -131,7 +130,7 @@
     - service: timer.cancel
       entity_id: timer.tv_sleep_timer
     - service: switch.turn_off
-      entity_id: switch.downstairs_ac
+      entity_id: switch.downstairs_ac # audio feedback
     - service: timer.start
       data:
         entity_id: timer.tv_sleep_timer
@@ -164,10 +163,9 @@
         message: Sleep Timer - TV turned off
     - service: timer.cancel
       entity_id: timer.tv_sleep_timer
-    - service: switch.turn_off
-      entity_id: switch.upstairs_tv
-    - service: switch.turn_off
-      entity_id: switch.upstairs_speaker
+    - service: script.toggle_tv
+      data:
+        tv_state: off
 
 - alias: We are in bed, increase temperature 1
   id: upstairs_ac_temp_up_1

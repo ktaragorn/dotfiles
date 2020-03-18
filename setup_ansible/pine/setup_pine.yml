@@ -686,12 +686,13 @@
         state: directory
     - name: Copy config files to server
       template:
-        src: home_assistant/{{item}}.j2
-        dest: /home/ubuntu/homeassistant_config/{{item}}
+        src: home_assistant/{{item}}.yaml.j2
+        dest: /home/ubuntu/homeassistant_config/{{item}}.yaml
       with_items:
-        - configuration.yaml
-        - automations.yaml
-        - known_devices.yaml
+        - configuration
+        - automations
+        - known_devices
+        - scripts
       notify:
         - Validate config
         - Restart Home assistant
