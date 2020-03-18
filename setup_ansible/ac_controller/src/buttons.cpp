@@ -24,10 +24,14 @@ void on_long_press(){
 void buttons_setup() {
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);
+  // Make it harder for a double click to be detected as a click
+  // should be 1 second ish.
+  button.setClickTicks(1000);
+  button.setPressTicks(2000);// just in case it clashes with above
 
   button.attachClick(on_click);
   button.attachDoubleClick(on_double_click);
-  button.attachLongPressStop(on_long_press);
+  button.attachLongPressStart(on_long_press);
 }
 
 void buttons_loop() {
