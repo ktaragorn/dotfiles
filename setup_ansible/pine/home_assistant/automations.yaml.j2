@@ -45,8 +45,8 @@
     - platform: webhook
       webhook_id: button_pressed
   action:
-    - service: light.toggle
-      entity_id: light.bedroom_light
+    - service: switch.toggle
+      entity_id: switch.downstairs_ac
 
 - alias: Downstairs Button double Pressed
   id: button_pressed
@@ -54,8 +54,8 @@
     - platform: webhook
       webhook_id: button_double_pressed
   action:
-    - service: switch.toggle
-      entity_id: switch.downstairs_ac
+    - service: light.toggle
+      entity_id: light.bedroom_light
 
 - alias: We are going to bed
   id: moved_upstairs
