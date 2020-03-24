@@ -6,6 +6,7 @@
 WiFiClient wifi;
 MQTTClient client;
 struct AcCommand command;
+unsigned long syncAt = 0;
 
 void mqtt_connect(){
 	Serial.print("\nconnecting to mqtt...");
@@ -36,6 +37,10 @@ void mqtt_setup(){
 void mqtt_loop() {
   	client.loop();
   	if(!client.connected()) mqtt_connect();
+  	if(syncAt != 0 && millis() > syncAt) {
+  		sendDaikinOnOffCommand(command);
+  		syncAt = 0;
+  	}
 }
 
 void mqtt_publish(String topic, String &message){
@@ -50,7 +55,6 @@ void mqtt_received(String &topic, String &payload){
 	mqtt_log("Message Recieved on topic " + topic +", message - " + payload);
 	if(topic.endsWith("power")) {
 		command.on = payload == "ON";
-		return; // we get this on top of another message
 	}else if(topic.endsWith("mode")) {
 		command.setMode(payload);
 	}else if(topic.endsWith("fan")) {
@@ -61,5 +65,7 @@ void mqtt_received(String &topic, String &payload){
 		mqtt_log("Unexpected topic " + topic);
 		return;
 	}
-	sendDaikinOnOffCommand(command);
+	if(syncAt == 0){
+		syncAt = millis() + 500;
+	}
 }
