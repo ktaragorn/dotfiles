@@ -8,24 +8,15 @@ notify_mqtt:
         qos: 1
 downstairs_ac:
   sequence:
-    - service_template: climate.{{ '{{operation}}' }}
-      entity_id: climate.downstairs_ac
-    - service: scene.apply
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.downstairs_ac
+        temperature: 23
+        hvac_mode: "{{ '{{ mode }}' }}"
+    - service: climate.set_fan_mode
       data:
-        entities:
-          climate.downstairs_ac:
-            temperature: 23
-            fan_mode: auto
-            hvac_mode: cool
-    # - service: climate.set_temperature
-    #   data:
-    #     entity_id: climate.upstairs_ac
-    #     temperature: 23
-    #     hvac_mode: cool
-    # - service: climate.set_fan_mode
-    #   data:
-    #     entity_id: climate.upstairs_ac
-    #     fan_mode: auto
+        entity_id: climate.downstairs_ac
+        fan_mode: auto
 toggle_tv:
   alias: Toggle TV State
   # these fields dont seem to be present in 0.97

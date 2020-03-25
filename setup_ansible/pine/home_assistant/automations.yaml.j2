@@ -16,7 +16,7 @@
         message: Someone entered house. Downstairs AC is on.
     - service: script.downstairs_ac
       data:
-        operation: turn_on
+        mode: cool
 
 - alias: All left home
   id: all_leave_house
@@ -35,7 +35,7 @@
         message: All have left the house, Both ACs have been switched off
     - service: script.downstairs_ac
       data:
-        operation: turn_off
+        mode: "off"
     - service: climate.turn_off
       entity_id: climate.upstairs_ac
     - service: light.turn_off
@@ -49,11 +49,11 @@
   action:
     - service: script.downstairs_ac
       data_template:
-        operation: >
+        mode: >
           {{ '{% if is_state("climate.downstairs_ac", "off") %}
-            turn_on
+            cool
           {% else %}
-            turn_off
+            off
           {% endif %}' }}
 
 - alias: Downstairs Button double Pressed
@@ -93,8 +93,6 @@
       data:
         title: Gondor Home Assistant
         message: We have come to bed, AC downstairs is off, AC upstairs is on
-    - service: climate.turn_on
-      entity_id: climate.upstairs_ac
     - service: climate.set_temperature
       data:
         entity_id: climate.upstairs_ac
@@ -103,7 +101,7 @@
     - service: climate.set_fan_mode
       data:
         entity_id: climate.upstairs_ac
-        fan_mode: medium
+        fan_mode: lowMedium
     - service: light.turn_off
       entity_id: light.bedroom_light
     - service: script.toggle_tv
@@ -111,7 +109,7 @@
         tv_state: "on"
     - service: script.downstairs_ac
       data:
-        operation: turn_off
+        mode: "off"
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
@@ -138,7 +136,7 @@
       entity_id: timer.tv_sleep_timer
     - service: script.downstairs_ac
       data:
-        operation: turn_off # audio feedback
+        mode: "off" # audio feedback
     - service: timer.start
       data:
         entity_id: timer.tv_sleep_timer
@@ -289,7 +287,7 @@
       entity_id: climate.upstairs_ac
     - service: script.downstairs_ac
       data:
-        operation: turn_on
+        mode: cool
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.we_are_in_bed
