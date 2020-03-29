@@ -11,7 +11,7 @@ downstairs_ac:
     - service: climate.set_temperature
       data_template:
         entity_id: climate.downstairs_ac
-        temperature: 23
+        temperature: 25
         hvac_mode: "{{ '{{ mode }}' }}"
     - service: climate.set_fan_mode
       data:
