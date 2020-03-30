@@ -26,11 +26,16 @@ void AcCommand::setFan(String fan) {
   }
 }
 
+void AcCommand::setSwing(String swing) {
+  this->swing = swing == "on" ? kDaikinSwingOn : kDaikinSwingOff;
+}
+
 String AcCommand::toString() {
   return "Command : state on? = " + String(this->on) +\
          " temperature = " + String(this->temperature) +\
          " fan = " + String(this->fan) +\
-         " mode = " + String(this->mode);
+         " mode = " + String(this->mode)+\
+         " swing = " + String(this->swing);
 }
 
 void sendDaikinOnOffCommand(struct AcCommand command){
@@ -45,8 +50,8 @@ void sendDaikinOnOffCommand(struct AcCommand command){
   ac.setFan(command.fan);
   ac.setMode(command.mode);
   ac.setTemp(command.temperature);
-  ac.setSwingVertical(false);
-  ac.setSwingHorizontal(false);
+  ac.setSwingVertical(command.swing);
+  ac.setSwingHorizontal(command.swing);
 
   ac.send();
 

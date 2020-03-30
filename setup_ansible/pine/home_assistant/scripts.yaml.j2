@@ -17,6 +17,10 @@ downstairs_ac:
       data:
         entity_id: climate.downstairs_ac
         fan_mode: auto
+    - service: climate.set_swing_mode
+      data:
+        entity_id: climate.downstairs_ac
+        swing_mode: "on"
 toggle_tv:
   alias: Toggle TV State
   # these fields dont seem to be present in 0.97

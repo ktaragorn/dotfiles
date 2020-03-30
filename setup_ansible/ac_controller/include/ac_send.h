@@ -4,7 +4,9 @@ struct AcCommand {
   int temperature = 25;
   int fan = kDaikinFanAuto;
   int mode = kDaikinCool;
+  int swing = kDaikinSwingOff;
 
+  void setSwing(String swing);
   void setMode(String mode);
   void setFan(String fan);
   String toString();

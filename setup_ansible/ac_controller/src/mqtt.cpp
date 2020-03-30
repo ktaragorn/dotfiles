@@ -61,6 +61,8 @@ void mqtt_received(String &topic, String &payload){
 		command.setFan(payload);
 	}else if(topic.endsWith("temperature")) {
 		command.temperature = payload.toInt();
+	}else if(topic.endsWith("swing")) {
+		command.setSwing(payload);
 	}else{
 		mqtt_log("Unexpected topic " + topic);
 		return;
