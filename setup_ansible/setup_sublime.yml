@@ -20,10 +20,15 @@
         src: ~/dotfiles/Sublime Text 3/Packages/User
         dest: ~/.config/sublime-text-3/Packages/User
     os: '{{(ansible_os_family == "Darwin") | ternary("osx", "linux")}}'
-    paths: '{{all_paths[os]}}'
+    paths: "{{all_paths[os]}}"
   tasks:
     - name: Create user Folder
       file: dest={{paths.dest}} state=directory
     - name: Link user folder
       file: state=link src="{{paths.src}}" dest="{{paths.dest}}" force=yes
       when: ansible_os_family == 'Darwin'
+      # this is to get the fix from https://github.com/xunker/AutoHideSidebar/issues/3, can be removed if released
+    - name: Checkout AutoHideSidebar
+      git:
+        repo: https://github.com/xunker/AutoHideSidebar.git
+        dest: "{{paths.dest}}/../AutoHideSidebar"

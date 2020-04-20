@@ -4,5 +4,6 @@
 
   { "keys": ["ctrl+,"], "command": "jump_back" },
   { "keys": ["ctrl+."], "command": "jump_forward" },
-  { "keys": ["ctrl+\\"], "command": "align_tab","args" : {"live_preview" : true}}
+  { "keys": ["ctrl+\\"], "command": "align_tab","args" : {"live_preview" : true}},
+  { "keys": ["ctrl+f"], "command": "import_js", "args": { "command": "fix" } },
 ]
