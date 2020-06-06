@@ -711,6 +711,7 @@
       git:
         repo: https://github.com/smartHomeHub/SmartIR.git
         dest: /tmp/smartir/
+        version: 1.9.0
       delegate_to: localhost
     - name: Copy smart IR component
       copy:

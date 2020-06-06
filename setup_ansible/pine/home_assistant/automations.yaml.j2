@@ -78,6 +78,9 @@
       at: "23:59:00"
     - platform: webhook
       webhook_id: button_long_pressed
+    - platform: state
+      entity_id: input_boolean.we_are_going_upstairs
+      to: "on"
   condition:
     - condition: state
       entity_id: group.all_people
@@ -116,6 +119,10 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.we_are_going_upstairs
+
 
 - alias: Start Sleep timer
   id: start_sleep_timer
@@ -261,6 +268,9 @@
       to: "off"
     - platform: time
       at: "08:00:00"
+    - platform: state
+      entity_id: input_boolean.we_are_going_upstairs
+      to: "off"
   condition:
     - condition: time
       after: "07:00:00"
@@ -294,6 +304,9 @@
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.we_are_in_bed
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.we_are_going_upstairs
 
 - alias: We are heading down on holidays
   id: moved_downstairs_holiday
