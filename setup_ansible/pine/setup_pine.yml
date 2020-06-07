@@ -834,6 +834,7 @@
         - speed_test.sh
         - monit_pushbullet
         - remount_drive.sh
+        - pushEpicGames.py
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
@@ -858,6 +859,12 @@
         user: ubuntu
         special_time: daily
         job: /home/ubuntu/speed_test.sh >> /tmp/cron.log 2>&1
+    - name: Create cron job to check epic games free game
+      cron:
+        name: Check for free epic games
+        user: ubuntu
+        special_time: daily
+        job: /usr/bin/python /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
 
 - name: Setup NFS
   tags: nfs
