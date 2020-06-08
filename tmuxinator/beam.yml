@@ -34,7 +34,7 @@ windows:
         -
         - cd beam-ops; node --inspect=9111 scripts/start.js
         - cd beam-api; npm run start:debug
-        - cd beam-api;  node --require @babel/register
+        - cd beam-api; ts-node --files
 
   - scooter:
         layout: main-vertical

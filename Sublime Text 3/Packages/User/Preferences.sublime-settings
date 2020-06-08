@@ -2,7 +2,10 @@
 	"auto_complete_commit_on_tab": true,
 	"binary_file_patterns":
 	[
-		"node_modules/"
+		"node_modules/",
+		".gradle/",
+		"vendor/bundle/",
+		"*.jsbundle"
 	],
 	"bold_folder_labels": true,
 	"caret_extra_bottom": 2,
@@ -56,7 +59,7 @@
 		"no_bold",
 		"no_italic"
 	],
-	"font_size": 17,
+	"font_size": 16,
 	"hide_sidebar_change_count_trigger": 5,
 	"highlight_line": true,
 	"highlight_modified_tabs": true,

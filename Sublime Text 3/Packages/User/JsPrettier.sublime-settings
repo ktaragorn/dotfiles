@@ -1,6 +1,7 @@
 {
 	"auto_format_on_save": true,
 	"custom_file_extensions": ["md"],
-	"prettier_options":{
-		"useTabs": false}
+	"prettier_options": {
+		"useTabs": false
+	}
 }
