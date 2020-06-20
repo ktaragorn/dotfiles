@@ -693,6 +693,7 @@
         - automations
         - known_devices
         - scripts
+        # - dashboard
       notify:
         - Validate config
         - Restart Home assistant
