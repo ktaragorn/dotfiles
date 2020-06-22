@@ -9,7 +9,8 @@
 	ci = commit --verbose
 	st = status
 	br = branch
-	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --all
+	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	logall = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --all
 	type = cat-file -t
 	dump = cat-file -p
 	mff = merge --ff-only
