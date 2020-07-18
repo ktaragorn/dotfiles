@@ -316,6 +316,9 @@
       to: "off"
     - platform: time
       at: "10:00:00"
+    - platform: state
+      entity_id: input_boolean.we_are_going_upstairs
+      to: "off"
   condition:
     - condition: time
       after: "07:00:00"
