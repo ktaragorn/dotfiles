@@ -1191,3 +1191,32 @@
       service:
         name: supervisor
         state: restarted
+
+- name: Install and run mqttwarn
+  tags: mqttwarn
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Install mqttwarn
+      pip: name=mqttwarn
+    - name: Configure mqttwarn
+      copy:
+        src: files/mqttwarn.ini
+        dest: /home/ubuntu/mqttwarn.ini
+      notify: Restart mqttwarn
+    - name: Configure supervisord
+      copy:
+        src: files/mqttwarn.supervisord.conf
+        dest: /etc/supervisor/conf.d/mqttwarn.conf
+      notify: Restart Supervisord
+  handlers:
+    # tried to use supervisorctl, cant seem to get it working
+    - name: Restart Supervisord
+      service:
+        name: supervisor
+        state: restarted
+    - name: Restart mqttwarn
+      supervisorctl:
+        name: mqttwarn
+        state: restarted
