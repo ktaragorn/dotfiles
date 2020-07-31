@@ -1207,8 +1207,11 @@
       pip: name=mqttwarn
     - name: Configure mqttwarn
       copy:
-        src: files/mqttwarn.ini
-        dest: /home/ubuntu/mqttwarn.ini
+        src: files/{{item}}
+        dest: /home/ubuntu/{{item}}
+      with_items:
+        - mqttwarn.ini
+        - mqttwarnfunctions.py
       notify: Restart mqttwarn
     - name: Configure supervisord
       copy:
