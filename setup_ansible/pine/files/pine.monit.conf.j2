@@ -29,9 +29,10 @@ check file Archive_drive with path /media/ubuntu/Archive/this_is_archive_drive
   else if succeeded
   then {{alert_and_start_deluged}}
 
-check file Vault_drive with path /media/ubuntu/Vault/this_is_vault_drive
-  if does not exist then
-    {{alert_succeeded}}
+#check file Vault_drive with path /media/ubuntu/Vault/this_is_vault_drive
+#  if does not exist then
+#    \{\{alert_succeeded}}
+
 
 # Alert if disk space of root filesystem gets low
 check filesystem rootfs2 with path /
@@ -53,6 +54,9 @@ check file flexget.log with path /home/ubuntu/.config/flexget/flexget.log
 check file home-assistant.log with path /home/ubuntu/homeassistant_config/home-assistant.log
     if content = ".*CRITICAL.*" then {{alert}}
     if content = ".*ERROR.*" then {{alert}}
+
+check file cloudmqtt_bridge with path /tmp/bridge_connected_log
+    if content = "0" then {{alert}}
 
 {% for service in proxied_services + other_services if "proc" in service %}
 check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
