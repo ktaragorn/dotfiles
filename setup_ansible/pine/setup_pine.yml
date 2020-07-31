@@ -321,6 +321,10 @@
         port: 8083
         link_to: /owntracks
         terminate: "/"
+      - name: Pihole
+        link_to: "http://pihole.middle.earth/admin"
+        port: 80
+        icon: "https://raw.githubusercontent.com/github/explore/d90dc858dc489cd2bc3b3295e71e04b4e2e2db00/topics/pihole/pihole.png"
       # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
@@ -336,6 +340,7 @@
       - { name: Home Assistant, port: 8123, proc: homeassistant }
       - { name: MQTT Broker, port: 1883, proc: mosquitto }
       - { name: Supervisor, port: 1883, proc: supervisor }
+      - { name: Pihole, port: 8888, proc: pihole-FTL }
   tasks:
     - name: Install nginx and php
       package: name={{item}}
@@ -1220,3 +1225,33 @@
       supervisorctl:
         name: mqttwarn
         state: restarted
+
+- name: Install and setup PiHole
+  hosts: all
+  gather_facts: no
+  tags: pihole
+  become: no
+  vars_files: [vars/all.yml]
+  tasks:
+    - name: Run Pi Hole
+      docker_container:
+        name: pihole
+        image: pihole/pihole:latest
+        published_ports:
+          - 53:53/tcp
+          - 53:53/udp
+          - 67:67/udp
+          - 8888:80/tcp
+          - 443:443/tcp
+        volumes:
+          - "./etc-pihole/:/etc/pihole/"
+          - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
+        env:
+          TZ: Asia/Singapore
+          WEBPASSWORD: "{{ pihole_password }}"
+        capabilities:
+          - NET_ADMIN
+        dns_servers:
+          - 127.0.0.1
+          - 1.1.1.1
+        restart_policy: unless-stopped
