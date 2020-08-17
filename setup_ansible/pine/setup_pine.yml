@@ -1258,3 +1258,20 @@
           - 127.0.0.1
           - 1.1.1.1
         restart_policy: unless-stopped
+
+- name: Install grafana
+  tags: grafana
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Install and run grafana
+      docker_container:
+        name: grafana
+        image: grafana/grafana
+        # volumes:
+        #   - /etc/localtime:/etc/localtime:ro
+        #   - /home/ubuntu/homeassistant_config:/config
+        published_ports:
+          - 3000:3000
+        restart_policy: unless-stopped

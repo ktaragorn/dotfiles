@@ -7,7 +7,7 @@ root: ~/Documents/beam
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-on_project_start: redis-server --daemonize yes && pg_ctl -D ~/Documents/beam/data -l logfile start
+#on_project_start: redis-server --daemonize yes && pg_ctl -D ~/Documents/beam/data -l logfile start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -33,6 +33,7 @@ windows:
       panes:
         -
         - cd beam-ops; node --inspect=9111 scripts/start.js
+        - cd beam-api; docker-compose -f docker-compose-without-api.yml up
         - cd beam-api; npm run start:debug
         - cd beam-api; ts-node --files
 
