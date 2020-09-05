@@ -36,7 +36,7 @@
     - name: Create .ssh directory
       file: dest=/home/ubuntu/.ssh state=directory
       become: no
-    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL
       copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
       become: no
     - name: Allow TCP forwarding to allow remote access
