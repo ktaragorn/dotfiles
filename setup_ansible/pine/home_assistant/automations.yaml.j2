@@ -68,6 +68,16 @@
     - service: light.toggle
       entity_id: light.bedroom_light
 
+- alias: Downstairs Button long Pressed
+  id: button_long_pressed
+  trigger:
+    - platform: webhook
+      webhook_id: button_long_pressed
+  action:
+    - service: input_boolean.toggle
+      data:
+        entity_id: input_boolean.we_are_going_upstairs
+
 - alias: We are going to bed
   id: moved_upstairs
   trigger:
@@ -76,8 +86,6 @@
       to: "on"
     - platform: time
       at: "23:59:00"
-    - platform: webhook
-      webhook_id: button_long_pressed
     - platform: state
       entity_id: input_boolean.we_are_going_upstairs
       to: "on"
@@ -267,7 +275,7 @@
       entity_id: binary_sensor.phone_charging
       to: "off"
     - platform: time
-      at: "08:00:00"
+      at: "09:00:00"
     - platform: state
       entity_id: input_boolean.we_are_going_upstairs
       to: "off"
