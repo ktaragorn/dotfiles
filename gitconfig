@@ -7,6 +7,7 @@
 	di = diff
 	co = checkout
 	ci = commit --verbose
+	cp = cherry-pick
 	st = status
 	br = branch
 	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative

@@ -34,8 +34,8 @@ windows:
         -
         - cd beam-ops; node --inspect=9111 scripts/start.js
         - cd beam-api; docker-compose -f docker-compose-without-api.yml up
-        - cd beam-api; npm run start:debug
-        - cd beam-api; ts-node --files
+        - cd beam-api; yarn start:debug
+        - cd beam-api; yarn ts-node --files
 
   - scooter:
         layout: main-vertical
@@ -48,5 +48,5 @@ windows:
       layout: main-vertical
       panes:
         - cd escooterapp
-        - cd escooterapp ; react-native start
+        - cd escooterapp ; yarn react-native start
 
