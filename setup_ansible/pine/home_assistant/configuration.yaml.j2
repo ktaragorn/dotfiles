@@ -121,6 +121,7 @@ climate:
     unique_id: upstairs_ac
     device_code: 1101
     controller_data: blackbean1
+    delay: 1 # add a bit of delay between commands, 2nd command seems to be missed sometimes
     #smart IR only supports broadlink on this AC
   - platform: mqtt
     name: Downstairs AC
