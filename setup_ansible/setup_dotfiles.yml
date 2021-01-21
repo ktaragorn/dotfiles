@@ -102,7 +102,9 @@
             identityfile ~/.ssh/pine.key
 
     - name: Ensure bash files exist
-      command: touch ~/.{{item}} creates=~/.{{item}}
+      file:
+        state: touch
+        path: ~/.{{item}}
       with_items:
         - bashrc
         - bash_profile
@@ -152,6 +154,12 @@
         - sshrc.d
 
     #https://askubuntu.com/questions/7190/why-wont-my-xmodmap-file-load-on-login
+    - name: Autostart Xmodmap in linux
+      when: ansible_os_family != 'Darwin' #gnome only??
+      file:
+        dest: ~/.config/autostart/
+        state: directory
+
     - name: Autostart Xmodmap in linux
       when: ansible_os_family != 'Darwin' #gnome only??
       file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
