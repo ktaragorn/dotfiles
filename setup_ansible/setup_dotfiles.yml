@@ -20,8 +20,10 @@
           - git-gui
           - net-tools
           - gitg
-          - bat
-          - broot
+          - bat # cat replacement
+          - broot # a better tree
+          - exa # cd replacement
+          - tokei # cloc replacement
         state: present
 
       when: ansible_os_family != 'Darwin'
@@ -50,8 +52,10 @@
           - ncdu
           - wget
           - direnv
-          - bat
-          - broot
+          - bat # cat replacement
+          - broot # a better tree
+          - exa # cd replacement
+          - tokei # cloc replacement
       when: ansible_os_family == 'Darwin'
 
     #http://superuser.com/a/373448/160502
