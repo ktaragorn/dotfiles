@@ -20,6 +20,8 @@
           - git-gui
           - net-tools
           - gitg
+          - bat
+          - broot
         state: present
 
       when: ansible_os_family != 'Darwin'
@@ -48,6 +50,8 @@
           - ncdu
           - wget
           - direnv
+          - bat
+          - broot
       when: ansible_os_family == 'Darwin'
 
     #http://superuser.com/a/373448/160502
