@@ -698,7 +698,7 @@
         - automations
         - known_devices
         - scripts
-        # - dashboard
+        - ui-lovelace
       notify:
         - Validate config
         - Restart Home assistant

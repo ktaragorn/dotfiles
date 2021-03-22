@@ -142,7 +142,7 @@ device_tracker:
     consider_home: 300 # 5 min
     hosts:
       anu: anu_pixel4a
-      kt: mia2lite
+      kt: mia2lite.middle.earth
   # - platform: nmap_tracker
   #   hosts:
   #     - Redmi4X-Redmi
@@ -241,13 +241,5 @@ zone:
 automation: !include automations.yaml
 script: !include scripts.yaml
 
-#lovelace:
-#  mode: storage
-#  # Add yaml dashboards
-#  dashboards:
-#    test-dashboard:
-#      mode: yaml
-#      title: Dashboard
-#      icon: mdi:script
-#      show_in_sidebar: true
-#      filename: dashboard.yaml
+lovelace:
+  mode: yaml

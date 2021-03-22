@@ -1,0 +1,37 @@
+title: Gondor
+views:
+  - badges:
+      - entity: binary_sensor.blackbean
+      - entity: binary_sensor.nodemcu
+      - entity: binary_sensor.smart_light
+      - entity: person.anu
+      - entity: person.kt
+      - entity: sensor.fast_com_download
+    cards:
+      - entity: climate.bedroom_ac
+        type: thermostat
+      - entity: climate.downstairs_ac
+        type: thermostat
+      - entities:
+          - entity: input_boolean.we_are_going_to_bedroom
+          - entity: input_boolean.we_are_in_bed
+        title: Input boolean
+        type: entities
+      - entities:
+          - switch.bedroom_tv
+          - switch.bedroom_speaker
+        title: Bedroom
+        type: entities
+      - entities:
+          - switch.bedroom_light
+        title: Switch
+        type: entities
+      - entities:
+          - script.downstairs_ac
+          - script.notify_mqtt
+          - script.toggle_tv
+        title: Script
+        type: entities
+    panel: false
+    path: default_view
+    title: Home
