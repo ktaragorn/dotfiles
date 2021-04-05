@@ -235,7 +235,7 @@
     - service: climate.set_fan_mode
       data:
         entity_id: climate.bedroom_ac
-        fan_mode: night
+        fan_mode: low
 
 - alias: We are in bed, increase temperature 2
   id: bedroom_ac_temp_up_2

@@ -31,6 +31,6 @@ toggle_tv:
   #     example: off
   sequence:
     - service_template: switch.turn_{{tv_state| default("off")}}
-      entity_id: switch.upstairs_tv
+      entity_id: switch.bedroom_tv
     - service_template: switch.turn_{{tv_state| default("off")}}
-      entity_id: switch.upstairs_speaker
+      entity_id: switch.bedroom_speaker
