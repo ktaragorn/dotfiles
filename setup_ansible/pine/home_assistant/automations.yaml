@@ -1,4 +1,23 @@
 ---
+- alias: 'Set HA theme for day and night'
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
+  action:
+    - service_template: frontend.set_theme
+      data_template:
+        name: >
+          {% if states.sun.sun.state == "above_horizon" %}
+            default
+          {% else %}
+            BlueNight
+          {% endif %}
 - alias: Any Entered house
   id: any_enter_house
   trigger:
@@ -53,11 +72,11 @@
     - service: script.downstairs_ac
       data_template:
         mode: >
-          {{ '{% if is_state("climate.downstairs_ac", "off") %}
+          {% if is_state("climate.downstairs_ac", "off") %}
             cool
           {% else %}
             off
-          {% endif %}' }}
+          {% endif %}
 
 - alias: Downstairs Button double Pressed
   id: button_double_pressed
@@ -102,7 +121,7 @@
     - service: script.notify_mqtt
       data_template:
         target: in_bed
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ '{{ trigger.platform }}' }} trigger
+        message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ trigger.platform }} trigger
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
@@ -299,7 +318,7 @@
     - service: script.notify_mqtt
       data_template:
         target: in_bed
-        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ '{{ trigger.platform }}' }} trigger
+        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ trigger.platform }} trigger
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant

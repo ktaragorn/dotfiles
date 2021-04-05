@@ -689,13 +689,22 @@
         path: /home/ubuntu/homeassistant_config
         recurse: yes
         state: directory
-    - name: Copy config files to server
+    - name: Generate config files to server
       template:
         src: home_assistant/{{item}}.yaml.j2
         dest: /home/ubuntu/homeassistant_config/{{item}}.yaml
       with_items:
         - configuration
+      notify:
+        - Validate config
+        - Restart Home assistant
+    - name: Copy config files to server
+      copy:
+        src: home_assistant/{{item}}.yaml
+        dest: /home/ubuntu/homeassistant_config/{{item}}.yaml
+      with_items:
         - automations
+        - themes
         - known_devices
         - scripts
         - ui-lovelace

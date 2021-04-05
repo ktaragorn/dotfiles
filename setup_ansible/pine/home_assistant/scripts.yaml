@@ -3,8 +3,8 @@ notify_mqtt:
   sequence:
     - service: mqtt.publish
       data_template:
-        payload: "{{ '{{ message }}' }}"
-        topic: notify/hass/{{ '{{ target }}'}}
+        payload: "{{ message }}"
+        topic: notify/hass/{{ target }}
         qos: 1
 downstairs_ac:
   sequence:
@@ -12,7 +12,7 @@ downstairs_ac:
       data_template:
         entity_id: climate.downstairs_ac
         temperature: 25
-        hvac_mode: "{{ '{{ mode }}' }}"
+        hvac_mode: "{{ mode }}"
     - service: climate.set_fan_mode
       data:
         entity_id: climate.downstairs_ac
@@ -30,7 +30,7 @@ toggle_tv:
   #     description: "State to set, on or off"
   #     example: off
   sequence:
-    - service_template: switch.turn_{{ '{{tv_state| default("off")}}' }}
+    - service_template: switch.turn_{{tv_state| default("off")}}
       entity_id: switch.upstairs_tv
-    - service_template: switch.turn_{{ '{{tv_state| default("off")}}' }}
+    - service_template: switch.turn_{{tv_state| default("off")}}
       entity_id: switch.upstairs_speaker
