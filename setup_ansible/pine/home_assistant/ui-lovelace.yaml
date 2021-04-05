@@ -8,6 +8,15 @@ views:
       - entity: person.kt
       - entity: sensor.fast_com_download
     cards:
+      - type: glance
+        title: Anu & Me
+        entities:
+          - device_tracker.wionacmx_pixel4a
+          - device_tracker.anu
+          - device_tracker.wionacmx_mia2lite
+          - device_tracker.kt
+          - person.kt
+          - person.anu
       - entity: climate.bedroom_ac
         type: thermostat
       - entity: climate.downstairs_ac
@@ -32,6 +41,19 @@ views:
           - script.toggle_tv
         title: Script
         type: entities
+      - type: logbook
+        entities:
+          - switch.bedroom_tv
+          - switch.bedroom_speaker
+          - climate.bedroom_ac
+          - climate.downstairs_ac
+          - person.kt
+          - person.anu
+          - device_tracker.wionacmx_pixel4a
+          - device_tracker.anu
+          - device_tracker.wionacmx_mia2lite
+          - device_tracker.kt
+        hours_to_show: 24
     panel: false
     path: default_view
     title: Home
