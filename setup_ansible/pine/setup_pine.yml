@@ -514,6 +514,7 @@
   roles:
     - role: geerlingguy.mysql
       mysql_root_password: "{{my_mysql_root_password}}"
+      mysql_root_password_update: yes
       mysql_users:
         - name: kodi
           password: kodi
@@ -1283,4 +1284,32 @@
         #   - /home/ubuntu/homeassistant_config:/config
         published_ports:
           - 3000:3000
+        restart_policy: unless-stopped
+
+
+# untested
+- name: Run mysql via docker
+  tags: mysql2
+  hosts: all
+  gather_facts: no
+  become: no
+  vars_files: [vars/all.yml]
+  tasks:
+    - name: Create data folder
+      file:
+        dest: /home/ubuntu/mysql
+        state: directory
+    - name: Run Mysql
+      docker_container:
+        name: mysql
+        image: mariadb:10.5
+        published_ports:
+          - 3307:3306/tcp
+        volumes:
+          - "./mysql/:/var/lib/mysql/"
+        env:
+          MYSQL_ROOT_PASSWORD: "{{my_mysql_root_password}}"
+          MYSQL_DATABASE: MyVideos119
+          MYSQL_USER: kodi
+          MYSQL_PASSWORD: kodi
         restart_policy: unless-stopped
