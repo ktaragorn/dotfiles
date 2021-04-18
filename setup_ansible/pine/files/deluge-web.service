@@ -12,7 +12,7 @@ User=ubuntu
 Group=ubuntu
 UMask=027
 
-ExecStart=/usr/bin/deluge-web
+ExecStart=/usr/bin/deluge-web -d
 
 Restart=on-failure
 

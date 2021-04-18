@@ -1317,7 +1317,7 @@
         name: mysql
         image: mariadb:10.5
         published_ports:
-          - 3307:3306/tcp
+          - 3306:3306/tcp
         volumes:
           - "./mysql/:/var/lib/mysql/"
         env:
