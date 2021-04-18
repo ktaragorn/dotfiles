@@ -65,6 +65,16 @@ system_health:
 # Weather prediction
 # - platform: yr
 
+sensor:
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /media/ubuntu/Chest
+      - type: disk_use_percent
+        arg: /media/ubuntu/Archive
+      - type: memory_use_percent
+      - type: load_1m
+      # - type: processor_temperature
 # Text to speech
 tts:
   - platform: google_translate

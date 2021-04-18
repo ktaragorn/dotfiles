@@ -7,6 +7,9 @@ views:
       - entity: person.anu
       - entity: person.kt
       - entity: sensor.fast_com_download
+      - entity: sensor.load_1m
+      - entity: sensor.memory_use_percent
+      - entity: weather.home
     cards:
       - type: glance
         title: Anu & Me
