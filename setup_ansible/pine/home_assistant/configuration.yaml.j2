@@ -56,7 +56,7 @@ logbook:
 map:
 
 # # Track the sun
-# sun:
+sun:
 
 system_health:
 
@@ -69,13 +69,19 @@ sensor:
   - platform: systemmonitor
     resources:
       - type: disk_use_percent
-        arg: /media/ubuntu/Chest
+        arg: /Chest
       - type: disk_use_percent
-        arg: /media/ubuntu/Archive
+        arg: /Archive
       - type: memory_use_percent
       - type: load_1m
       # - type: processor_temperature
 # Text to speech
+  - platform: openweathermap
+    api_key: {{openweathermap_apikey}}
+    forecast: 0
+    monitored_conditions:
+      - weather
+      - temperature
 tts:
   - platform: google_translate
 

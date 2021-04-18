@@ -716,13 +716,16 @@
     - name: Download and start home assistant container
       docker_container:
         name: hass
-        # network_mode: host
+        # otherwise cant make outgoing calls, or talk to mqtt, lazy way out
+        network_mode: host
         image: homeassistant/home-assistant:0.111.4
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /home/ubuntu/homeassistant_config:/config
-        published_ports:
-          - 8123:8123
+          - /media/ubuntu/Archive:/Archive
+          - /media/ubuntu/Chest:/Chest
+        # published_ports:
+        #   - 8123:8123
         restart_policy: unless-stopped
     - name: Checkout SmartIR repo
       git:
