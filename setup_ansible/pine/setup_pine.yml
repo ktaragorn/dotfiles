@@ -3,27 +3,23 @@
 #TODO - configure openmediavault from scratch?
 # create ubuntu user and home dir
 # install plugins
+# Atleast once need sudo password - use -K to request it
 ---
 - name: Generic server setup and harden ssh
   tags: basic
   hosts: all
   gather_facts: no
   become: yes
-  pre_tasks:
-    - name: "install python2" #https://stackoverflow.com/a/34402816 ansible still needs python 2
-      raw: sudo apt-get -y install python
-      register: command_result
-      changed_when: '"is already the newest version" not in command_result.stdout'
   tasks:
     - name: Install pip and other tools required
-      apt: pkg={{item}} state=present
-      with_items:
-        - python-pip
-        - htop
-        - git
-        - jq
-        - unattended-upgrades
-        - ncdu
+      apt:
+        pkg:
+          - python3-pip
+          - htop
+          - git
+          - jq
+          - unattended-upgrades
+          - ncdu
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -80,7 +76,7 @@
       with_items:
         - Archive
         - Chest
-        - Vault
+        # - Vault
     - name: Mount the disks
       mount:
         name: /media/ubuntu/{{item.name}}
@@ -131,13 +127,14 @@
           path: /media/ubuntu/Chest
           public: yes
           writable: yes
-        - name: Vault
-          path: /media/ubuntu/Vault
-          owner: root
-          group: root
-          directory_mode: 0777
-          public: yes
-          writable: yes
+        # Failing for now, and no vault anyway
+        # - name: Vault
+        #   path: /media/ubuntu/Vault
+        #   owner: root
+        #   group: root
+        #   directory_mode: 0777
+        #   public: yes
+        #   writable: yes
 
 - name: Dynamic dns for black-gate.
   tags: dyndns
@@ -165,8 +162,7 @@
       - deluge-web
   tasks:
     - name: Install deluged and deluged-web
-      apt: pkg={{item}} state=present
-      with_items: "{{items}}"
+      apt: pkg={{items}} state=present
     # - name: Config if any
     - name: Delete the default service files
       file: path=/lib/systemd/system/{{item}}.service state=absent
@@ -184,13 +180,14 @@
     - name: Add deluge thin client user to auth file
       become: no
       lineinfile: dest=~/.config/deluge/auth line={{deluge_thin_auth_line}} create=yes
-      # this file is only created after first launch
+      # this file is only created after first launch - for this the disks have to be mounted
     - name: Configure to allow remote access
       become: no
       lineinfile:
         dest: ~/.config/deluge/core.conf
         regexp: '"allow_remote":'
         line: '  "allow_remote": true,'
+      # similarly needs deluge-web to be started once
     - name: Configure to connect to default daemon
       become: no
       lineinfile:
@@ -346,7 +343,7 @@
       package: name={{item}}
       with_items:
         - nginx
-        - php7.0-fpm
+        - php7.4-fpm
         - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
     - name: Configure site
       template:
@@ -443,6 +440,10 @@
   vars:
     web_root: /var/www/html/
   tasks:
+    - name: Install python3-dev
+      become: yes
+      package:
+        name: python3-dev
     - name: Install flexget and subliminal
       become: yes
       pip:
@@ -497,45 +498,45 @@
 #   </videolibrary>
 # </advancedsettings>
 
-- name: Install & Configure mysql server
-  tags: mysql
-  hosts: all
-  become: yes
-  vars_files: [vars/all.yml]
-  # needed because the role include below needs ansible_os_family to be defined
-  # at some point ansible stopped gathering facts for plays not tagged to be run
-  # but they still include the roles, so it fails here
-  # when tagged with always, it runs.. always
-  pre_tasks:
-    - name: Gather facts
-      setup:
-        gather_subset: min
-      tags: always
-  roles:
-    - role: geerlingguy.mysql
-      mysql_root_password: "{{my_mysql_root_password}}"
-      mysql_root_password_update: yes
-      mysql_users:
-        - name: kodi
-          password: kodi
-          host: "%"
-          priv: "*.*:ALL"
-        - name: "{{firefly_db_username}}"
-          password: "{{firefly_db_password}}"
-          host: "%"
-          priv: "*.*:ALL"
-      mysql_packages: [mariadb-server]
-      mysql_bind_address: "192.168.1.222" # update if ipaddress changes
-      mysql_databases: [{ name: firefly }]
-    - role: guisea.automysqlbackup
-      automysqlbackup_cron:
-        minute: 30
-        day: "*"
-        month: "*"
-        weekday: "*"
-      automysqlbackup_backup_directory: /var/lib/automysqlbackup
-      automysqlbackup_username: kodi
-      automysqlbackup_password: kodi
+# - name: Install & Configure mysql server
+#   tags: mysql
+#   hosts: all
+#   become: yes
+#   vars_files: [vars/all.yml]
+#   # needed because the role include below needs ansible_os_family to be defined
+#   # at some point ansible stopped gathering facts for plays not tagged to be run
+#   # but they still include the roles, so it fails here
+#   # when tagged with always, it runs.. always
+#   pre_tasks:
+#     - name: Gather facts
+#       setup:
+#         gather_subset: min
+#       tags: always
+#   roles:
+#     - role: geerlingguy.mysql
+#       mysql_root_password: "{{my_mysql_root_password}}"
+#       mysql_root_password_update: yes
+#       mysql_users:
+#         - name: kodi
+#           password: kodi
+#           host: "%"
+#           priv: "*.*:ALL"
+#         - name: "{{firefly_db_username}}"
+#           password: "{{firefly_db_password}}"
+#           host: "%"
+#           priv: "*.*:ALL"
+#       mysql_packages: [mariadb-server]
+#       mysql_bind_address: "192.168.1.222" # update if ipaddress changes
+#       mysql_databases: [{ name: firefly }]
+#     - role: guisea.automysqlbackup
+#       automysqlbackup_cron:
+#         minute: 30
+#         day: "*"
+#         month: "*"
+#         weekday: "*"
+#       automysqlbackup_backup_directory: /var/lib/automysqlbackup
+#       automysqlbackup_username: kodi
+#       automysqlbackup_password: kodi
 
 - name: HTPC Manager
   tags: htpc
@@ -652,11 +653,11 @@
   become: yes
   tasks:
     - name: Install requirements/dependencies to access repo
-      apt: name={{item}}
-      with_items:
-        - apt-transport-https
-        - ca-certificates
-        - software-properties-common
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
     - name: Install docker GPG key
       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
     - name: Install Docker repo
@@ -715,7 +716,7 @@
     - name: Download and start home assistant container
       docker_container:
         name: hass
-        network_mode: host
+        # network_mode: host
         image: homeassistant/home-assistant:0.111.4
         volumes:
           - /etc/localtime:/etc/localtime:ro
@@ -741,47 +742,47 @@
         name: hass
         restart: yes
 
-- name: Headless Kodi vs Docker
-  tags: headless
-  hosts: all
-  gather_facts: no
-  tasks:
-    - name: Download Headless Kodi
-      docker_image:
-        name: lsioarmhf/kodi-headless-aarch64
-    - name: Make folder for headless kodi config, and userdata below it
-      file:
-        path: /home/ubuntu/kodi.d/headless/userdata
-        recurse: yes
-        state: directory
-    - name: Copy advancedsettings and sources from kodi.d folder - externally managed
-      copy:
-        src: ../kodi/files/{{item}}
-        dest: /home/ubuntu/kodi.d/headless/userdata
-      with_items:
-        - advancedsettings.xml
-        - sources.xml
-      notify:
-        - Restart Kodi
-    - name: Start headless kodi container
-      docker_container:
-        name: kodi-headless
-        image: lsioarmhf/kodi-headless-aarch64
-        volumes:
-          - /home/ubuntu/kodi.d/headless:/config/.kodi
-        env:
-          PGID: 1000
-          PUID: 1000
-        published_ports:
-          - 8080:8080
-          - 9090:9090
-          - 9777:9777/udp
-        restart_policy: unless-stopped
-  handlers:
-    - name: Restart Kodi
-      docker_container:
-        name: kodi-headless
-        restart: yes
+# - name: Headless Kodi vs Docker
+#   tags: headless
+#   hosts: all
+#   gather_facts: no
+#   tasks:
+#     - name: Download Headless Kodi
+#       docker_image:
+#         name: lsioarmhf/kodi-headless-aarch64
+#     - name: Make folder for headless kodi config, and userdata below it
+#       file:
+#         path: /home/ubuntu/kodi.d/headless/userdata
+#         recurse: yes
+#         state: directory
+#     - name: Copy advancedsettings and sources from kodi.d folder - externally managed
+#       copy:
+#         src: ../kodi/files/{{item}}
+#         dest: /home/ubuntu/kodi.d/headless/userdata
+#       with_items:
+#         - advancedsettings.xml
+#         - sources.xml
+#       notify:
+#         - Restart Kodi
+#     - name: Start headless kodi container
+#       docker_container:
+#         name: kodi-headless
+#         image: lsioarmhf/kodi-headless-aarch64
+#         volumes:
+#           - /home/ubuntu/kodi.d/headless:/config/.kodi
+#         env:
+#           PGID: 1000
+#           PUID: 1000
+#         published_ports:
+#           - 8080:8080
+#           - 9090:9090
+#           - 9777:9777/udp
+#         restart_policy: unless-stopped
+#   handlers:
+#     - name: Restart Kodi
+#       docker_container:
+#         name: kodi-headless
+#         restart: yes
 
 # - name: Install and run shadowsocks proxy
 #   tags: shadowsocks
@@ -889,6 +890,9 @@
   vars_files: [vars/all.yml]
   gather_facts: no
   tasks:
+    - name: Make test folder
+      file: dest=/home/ubuntu/nfstest state=directory
+      notify: Restart NFS server
     - name: Install NFS Server
       apt: package=nfs-kernel-server
     - name: Start and enable NFS Server
@@ -948,6 +952,15 @@
   roles:
     - geerlingguy.munin
     - geerlingguy.munin-node
+  # needed because the role include below needs ansible_os_family to be defined
+  # at some point ansible stopped gathering facts for plays not tagged to be run
+  # but they still include the roles, so it fails here
+  # when tagged with always, it runs.. always
+  pre_tasks:
+    - name: Gather facts
+      setup:
+        gather_subset: min
+      tags: always
   tasks:
     - name: Install extra plugins and dependencies
       apt:
@@ -1064,7 +1077,7 @@
     # throws host check error without this, safe since NGINX is only accessible with password from outside
     # https://f-a.nz/dev/setup-syncthing-on-debian-server-with-nginx-reverse-proxy/
     - name: Install lxml
-      apt: name=python-lxml
+      pip: name=lxml
     - name: Configure Syncthing to disable insecure host checking
       become: no
       xml:
@@ -1151,8 +1164,8 @@
         volumes:
           - ~/otrecorder/store:/store
           - ~/otrecorder/views:/htdocs/views
-        published_ports:
-          - 8083:8083
+        # published_ports:
+        #   - 8083:8083
         restart_policy: unless-stopped
     - name: Setup views folder
       get_url:
@@ -1312,4 +1325,28 @@
           MYSQL_DATABASE: MyVideos119
           MYSQL_USER: kodi
           MYSQL_PASSWORD: kodi
+        restart_policy: unless-stopped
+
+- name: Install Jellyfin
+  tags: jellyfin
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Create volumes
+      docker_volume:
+        name: "{{item}}"
+      with_items:
+        - jellyfin-config
+        - jellyfin-cache
+    - name: Run jellyfin
+      docker_container:
+        name: jellyfin
+        image: jellyfin/jellyfin
+        published_ports:
+          - 8096:8096/tcp
+        volumes:
+          - jellyfin-config:/config
+          - jellyfin-cache:/cache
+          - /media/ubuntu/Archive/TV Shows:/Archive
         restart_policy: unless-stopped
