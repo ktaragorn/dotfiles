@@ -1121,11 +1121,12 @@
       docker_container:
         name: mqtt
         image: eclipse-mosquitto
+        network_mode: host # because published ports didnt seem to be working
         volumes:
           - ~/mosquitto/config:/mosquitto/config
-        published_ports:
-          - 1883:1883
-          - 9001:9001
+        # published_ports:
+        #   - 1883:1883
+        #   - 9001:9001
         restart_policy: unless-stopped
   handlers:
     - name: Restart MQTT
