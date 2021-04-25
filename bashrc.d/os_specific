@@ -4,6 +4,7 @@ then
 	alias gitx="reattach-to-user-namespace gitx"
 	alias gitk="wish $(which gitk)"
 	alias open="reattach-to-user-namespace open"
+	alias ls=exa
 else
 	echo ""
 fi

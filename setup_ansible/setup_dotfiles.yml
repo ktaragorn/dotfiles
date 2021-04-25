@@ -21,9 +21,9 @@
           - net-tools
           - gitg
           - bat # cat replacement
-          - broot # a better tree
-          - exa # cd replacement
-          - tokei # cloc replacement
+          #- broot # a better tree
+          #- exa # cd replacement
+          #- tokei # cloc replacement
         state: present
 
       when: ansible_os_family != 'Darwin'

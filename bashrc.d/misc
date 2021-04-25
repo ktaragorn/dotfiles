@@ -8,4 +8,3 @@ pathprepend /usr/local/heroku/bin
 pathprepend /usr/local/bin
 
 alias cat=bat
-alias ls=exa
