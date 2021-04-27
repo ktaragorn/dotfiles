@@ -5,6 +5,7 @@ then
 	alias gitk="wish $(which gitk)"
 	alias open="reattach-to-user-namespace open"
 	alias ls=exa
+	alias cat=bat
 else
-	echo ""
+	alias cat=batcat
 fi
