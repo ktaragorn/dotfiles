@@ -1304,7 +1304,6 @@
         restart_policy: unless-stopped
 
 
-# untested
 - name: Run mysql via docker
   tags: mysql2
   hosts: all
@@ -1319,6 +1318,7 @@
     - name: Run Mysql
       docker_container:
         name: mysql
+        user: 1000:1000
         image: mariadb:10.5
         published_ports:
           - 3306:3306/tcp
