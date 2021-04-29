@@ -187,6 +187,12 @@
         dest: ~/.config/deluge/core.conf
         regexp: '"allow_remote":'
         line: '  "allow_remote": true,'
+    - name: Configure to set default download location
+      become: no
+      lineinfile:
+        dest: ~/.config/deluge/core.conf
+        regexp: '"download_location":'
+        line: '  "download_location": "/media/ubuntu/Chest/Torrent",'
       # similarly needs deluge-web to be started once
     - name: Configure to connect to default daemon
       become: no
