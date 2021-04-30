@@ -29,17 +29,6 @@
       when: ansible_os_family != 'Darwin'
       become: yes
 
-    - name: Start guake on startup with byobu
-      cron:
-        special_time: reboot
-        user: karthikt
-        name: Start guake with byobu
-        job: guake -e byobu
-      when: ansible_os_family == 'Darwin'
-      # unnecessary since need to install homebrew to install ansible in the first place..
-    # - name: Install Homebrew on osx
-    #   shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" creates=/usr/local/Cellar
-
     - name: Install nice CLI packages on OSX systems
       homebrew:
         state: present
@@ -168,9 +157,12 @@
         dest: ~/.config/autostart/
         state: directory
 
-    - name: Autostart Xmodmap in linux
+    - name: Autostart Xmodmap and guake in linux
       when: ansible_os_family != 'Darwin' #gnome only??
-      file: src=~/dotfiles/my-xmodmap.desktop dest=~/.config/autostart/my-xmodmap.desktop state=link force=yes mode=u+x
+      file: src=~/dotfiles/{{item}}.desktop dest=~/.config/autostart/{{item}}.desktop state=link force=yes mode=u+x
+      with_items:
+        - my-xmodmap
+        - guake
 
     - name: Create byobu config folder
       file: dest=~/.config/byobu state=directory

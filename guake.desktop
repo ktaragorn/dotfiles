@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Guake
+Exec=guake -e byobu
+Icon=guake
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
