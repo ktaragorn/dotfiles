@@ -8,6 +8,8 @@
         groups:
           - input
         name: '{{ansible_user}}'
+        # if not user is removed from all other users, including the one that gives root access
+        append: yes  
     - name: Install libinput dependancies
       apt:
         name:
