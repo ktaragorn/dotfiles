@@ -31,3 +31,7 @@
       shell:
         chdir: /tmp/libinput-gestures/
         cmd: ./libinput-gestures-setup install
+    - name: Auto start libinput-gestures
+      command: libinput-gestures-setup autostart
+    - name: Start libinput gestures
+      command: libinput-gestures-setup start
