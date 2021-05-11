@@ -137,12 +137,12 @@
         fan_mode: lowMedium
     - service: light.turn_off
       entity_id: light.bedroom_light
-    - service: script.toggle_tv
-      data:
-        tv_state: "on"
-    # - service: script.downstairs_ac
+    # - service: script.toggle_tv
     #   data:
-    #     mode: "off"
+    #     tv_state: "on"
+    # # - service: script.downstairs_ac
+    # #   data:
+    # #     mode: "off"
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
