@@ -8,4 +8,5 @@ then
 	alias cat=bat
 else
 	alias cat=batcat
+	pathappend ~/.local/bin
 fi

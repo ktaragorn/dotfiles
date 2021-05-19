@@ -12,7 +12,7 @@ void mqtt_connect(){
 	Serial.print("\nconnecting to mqtt...");
 	// choosing not to loop since it is in the loop function anyway, and it isnt as importent yet.
 	// while (!
-	client.connect("nodemcu");
+	client.connect(HOSTNAME);
 	// 	) {
 	// 	Serial.print(".");
 	// 	delay(1000);
@@ -20,7 +20,7 @@ void mqtt_connect(){
 
 	// moving this to the connect method since persistent sessions doesnt seem to work
 	// and the lib demo does this anyway
-  	client.subscribe("nodemcu/ac/+");
+  	client.subscribe(HOSTNAME + String("/ac/+"));
 }
 
 void mqtt_setup(){
