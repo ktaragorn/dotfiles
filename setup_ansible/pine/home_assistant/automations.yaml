@@ -66,8 +66,8 @@
 - alias: Downstairs Button Pressed
   id: button_pressed
   trigger:
-    - platform: webhook
-      webhook_id: button_pressed
+    - platform: mqtt
+      topic: trigger/nodemcu/button_pressed
   action:
     - service: script.downstairs_ac
       data_template:
@@ -81,8 +81,8 @@
 - alias: Downstairs Button double Pressed
   id: button_double_pressed
   trigger:
-    - platform: webhook
-      webhook_id: button_double_pressed
+    - platform: mqtt
+      topic: trigger/nodemcu/button_double_pressed
   action:
     - service: light.toggle
       entity_id: light.bedroom_light
@@ -90,8 +90,8 @@
 - alias: Downstairs Button long Pressed
   id: button_long_pressed
   trigger:
-    - platform: webhook
-      webhook_id: button_long_pressed
+    - platform: mqtt
+      topic: trigger/nodemcu/button_long_pressed
   action:
     - service: input_boolean.toggle
       data:
