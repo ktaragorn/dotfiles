@@ -1,5 +1,5 @@
 #include "ir_receive.h"
-#include "homeassistant_webhook.h"
+#include "homeassistant_mqtt_trigger.h"
 #include <pins_arduino.h>
 #include <IRrecv.h>
 #include <IRutils.h>
@@ -18,7 +18,7 @@ void ir_receive_loop(){
     // print() & println() can't handle printing long longs. (uint64_t)
     serialPrintUint64(results.value, HEX);
     Serial.println("");
-    trigger_homeassistant_webhook("tv_remote_detected", uint64ToString(results.value, HEX));
+    trigger_homeassistant_mqtt("tv_remote_detected", uint64ToString(results.value, HEX));
     irrecv.resume();  // Receive the next value
   }
   delay(100);

@@ -43,12 +43,12 @@ void mqtt_loop() {
   	}
 }
 
-void mqtt_publish(String topic, String &message){
+void mqtt_publish(String &topic, String &message){
 	client.publish(topic, message);
 }
 
 void mqtt_log(String &message) {
-	mqtt_publish("log/nodemcu", message);
+	mqtt_publish("log/" + String(HOSTNAME), message);
 }
 
 void mqtt_received(String &topic, String &payload){

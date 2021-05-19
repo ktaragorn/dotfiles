@@ -32,7 +32,6 @@
 #include "ota.h"
 #include "buttons.h"
 #include "wifi.h"
-#include "homeassistant_webhook.h"
 #include "ir_receive.h"
 #include "web_server.h"
 #include "mqtt.h"
