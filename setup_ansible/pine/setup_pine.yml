@@ -1125,6 +1125,7 @@
       notify: Restart MQTT
     - name: Start mosquitto container
       docker_container:
+        user: 1000:1000  # otherwise config folder is owned by 1883
         name: mqtt
         image: eclipse-mosquitto
         network_mode: host # because published ports didnt seem to be working
