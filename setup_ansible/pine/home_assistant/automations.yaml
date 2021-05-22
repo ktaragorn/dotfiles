@@ -25,17 +25,13 @@
     entity_id: group.all_people
     to: home
   action:
-    - service: script.notify_mqtt
-      data:
-        target: home_enter
-        message: Someone entered house. Downstairs AC is on.
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Someone entered house. Downstairs AC is on.
     - service: script.downstairs_ac
       data:
         mode: cool
+    - service: script.notify
+      data:
+        target: home_enter
+        message: Someone entered house. Downstairs AC is on.
 
 - alias: All left home
   id: all_leave_house
@@ -44,14 +40,6 @@
     entity_id: group.all_people
     to: not_home
   action:
-    - service: script.notify_mqtt
-      data:
-        target: home_enter
-        message: All have left the house, Both ACs have been switched off
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: All have left the house, Both ACs have been switched off
     - service: script.downstairs_ac
       data:
         mode: "off"
@@ -62,6 +50,10 @@
     - service: input_boolean.turn_off # cleanup, just in case
       data:
         entity_id: input_boolean.we_are_in_bed
+    - service: script.notify
+      data:
+        target: home_enter
+        message: All have left the house, Both ACs have been switched off
 
 - alias: Downstairs Button Pressed
   id: button_pressed
@@ -118,14 +110,6 @@
       entity_id: input_boolean.we_are_in_bed
       state: "off"
   action:
-    - service: script.notify_mqtt
-      data_template:
-        target: in_bed
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ trigger.platform }} trigger
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on
     - service: climate.set_temperature
       data:
         entity_id: climate.bedroom_ac
@@ -149,6 +133,10 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_going_to_bedroom
+    - service: script.notify
+      data_template:
+        target: in_bed
+        message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ trigger.platform }} trigger
 
 
 - alias: Start Sleep timer
@@ -161,14 +149,6 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
-    - service: script.notify_mqtt
-      data:
-        target: sleep_timer
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Sleep Timer - TV will be turned off in 20 min
     - service: timer.cancel
       entity_id: timer.tv_sleep_timer
     - service: script.downstairs_ac
@@ -178,6 +158,10 @@
       data:
         entity_id: timer.tv_sleep_timer
         duration: 00:20:00
+    - service: script.notify
+      data:
+        target: sleep_timer
+        message: We have come to bed, AC downstairs is off, AC in the bedroom is on
 
 # Home assistant cannot use the same trigger with multiple automations
 - alias: Sleep timer triggered
@@ -196,19 +180,15 @@
       entity_id: timer.tv_sleep_timer
       state: active
   action:
-    - service: script.notify_mqtt
-      data:
-        target: sleep_timer
-        message: Sleep Timer - TV turned off
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Sleep Timer - TV turned off
     - service: timer.cancel
       entity_id: timer.tv_sleep_timer
     - service: script.toggle_tv
       data:
         tv_state: "off"
+    - service: script.notify
+      data:
+        target: sleep_timer
+        message: Sleep Timer - TV turned off
 
 - alias: We are in bed, increase temperature 1
   id: bedroom_ac_temp_up_1
@@ -220,14 +200,6 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
-    - service: script.notify_mqtt
-      data:
-        target: in_bed
-        message: Bedroom temperature at 24
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Bedroom temperature at 24
     - service: climate.set_temperature
       data:
         entity_id: climate.bedroom_ac
@@ -236,6 +208,10 @@
       data:
         entity_id: climate.bedroom_ac
         fan_mode: low
+    - service: script.notify
+      data:
+        target: in_bed
+        message: Bedroom temperature at 24
 
 - alias: We are in bed, increase temperature 2
   id: bedroom_ac_temp_up_2
@@ -247,18 +223,14 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
-    - service: script.notify_mqtt
-      data:
-        target: in_bed
-        message: Bedroom temperature at 25
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Bedroom temperature at 25
     - service: climate.set_temperature
       data:
         entity_id: climate.bedroom_ac
         temperature: 25
+    - service: script.notify
+      data:
+        target: in_bed
+        message: Bedroom temperature at 25
 
 - alias: We are in bed, set fan mode
   id: bedroom_ac_fan
@@ -270,14 +242,6 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action:
-    - service: script.notify_mqtt
-      data:
-        target: in_bed
-        message: Bedroom AC on fan
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: Bedroom AC on fan
     - service: climate.set_hvac_mode
       data:
         entity_id: climate.bedroom_ac
@@ -286,6 +250,10 @@
       data:
         entity_id: climate.bedroom_ac
         fan_mode: lowMedium
+    - service: script.notify
+      data:
+        target: in_bed
+        message: Bedroom AC on fan
 
 - alias: We are heading down on workdays
   id: moved_downstairs_work
@@ -315,14 +283,6 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action: &going_down_actions
-    - service: script.notify_mqtt
-      data_template:
-        target: in_bed
-        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ trigger.platform }} trigger
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off
     - service: climate.turn_off
       entity_id: climate.bedroom_ac
     # - service: script.downstairs_ac
@@ -334,6 +294,10 @@
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.we_are_going_to_bedroom
+    - service: script.notify
+      data_template:
+        target: in_bed
+        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ trigger.platform }} trigger
 
 - alias: We are heading down on holidays
   id: moved_downstairs_holiday

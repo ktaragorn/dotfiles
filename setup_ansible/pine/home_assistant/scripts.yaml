@@ -1,11 +1,15 @@
 ---
-notify_mqtt:
+notify:
   sequence:
     - service: mqtt.publish
       data_template:
         payload: "{{ message }}"
         topic: notify/hass/{{ target }}
         qos: 1
+    - service: notify.pushbullet
+      data:
+        title: Gondor Home Assistant
+        message: "{{message}}"
 downstairs_ac:
   sequence:
     - service: climate.set_temperature
