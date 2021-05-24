@@ -262,7 +262,7 @@
       entity_id: binary_sensor.phone_charging
       to: "off"
     - platform: time
-      at: "09:00:00"
+      at: "10:00:00"
     - platform: state
       entity_id: input_boolean.we_are_going_to_bedroom
       to: "off"
