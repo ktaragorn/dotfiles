@@ -201,10 +201,19 @@ group:
 
 mobile_app:
 
+telegram_bot:
+  - platform: broadcast
+    api_key: {{ telegram_bot_api_key }}
+    allowed_chat_ids:
+      - {{telegram_chat_id}}
+
 notify:
   - name: pushbullet
     platform: pushbullet
     api_key: {{ pushbullet_access_token }}
+  - platform: telegram
+    name: telegram
+    chat_id: {{telegram_chat_id}}
 
 recorder:
   purge_keep_days: 14

@@ -10,6 +10,10 @@ notify:
       data:
         title: Gondor Home Assistant
         message: "{{message}}"
+    - service: notify.telegram
+      data:
+        title: Gondor Home Assistant
+        message: "{{message}}"
 downstairs_ac:
   sequence:
     - service: climate.set_temperature
