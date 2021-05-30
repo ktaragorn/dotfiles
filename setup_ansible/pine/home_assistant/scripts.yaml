@@ -9,11 +9,11 @@ notify:
     - service: notify.pushbullet
       data:
         title: Gondor Home Assistant
-        message: "{{message}}"
+        message: "{{ message }}"
     - service: notify.telegram
-      data:
+      data_template:
         title: Gondor Home Assistant
-        message: "{{message}}"
+        message: "{{ message }}"
 downstairs_ac:
   sequence:
     - service: climate.set_temperature
