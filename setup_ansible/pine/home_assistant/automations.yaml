@@ -124,9 +124,9 @@
     # - service: script.toggle_tv
     #   data:
     #     tv_state: "on"
-    # # - service: script.downstairs_ac
-    # #   data:
-    # #     mode: "off"
+    - service: script.downstairs_ac
+      data:
+        mode: "off"
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.we_are_in_bed
@@ -207,7 +207,7 @@
     - service: climate.set_fan_mode
       data:
         entity_id: climate.bedroom_ac
-        fan_mode: low
+        fan_mode: night
     - service: script.notify
       data:
         target: in_bed
