@@ -32,3 +32,5 @@
       git:
         repo: https://github.com/xunker/AutoHideSidebar.git
         dest: "{{paths.dest}}/../AutoHideSidebar"
+    - name: Alert to install package control
+      debug: msg=Install Package control from ctrl+shift+p menu

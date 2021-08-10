@@ -2,6 +2,12 @@
 - hosts: localhost
   connection: local
   tasks:
+    # for FB need to use non standard prefix
+    - name: Find brew prefix
+      shell: brew --prefix
+      register: brew_prefix
+      when: ansible_os_family == 'Darwin'
+
     - name: Install zsh
       apt: pkg=zsh state=present
       when: ansible_os_family != "Darwin"
@@ -14,12 +20,12 @@
 
     #http://zanshin.net/2013/09/03/how-to-use-homebrew-zsh-instead-of-max-os-x-default/
     - name: Add to /etc/shells
-      lineinfile: dest=/etc/shells line=/usr/local/bin/zsh
+      lineinfile: dest=/etc/shells line={{brew_prefix.stdout}}/bin/zsh
       become: yes #needs --ask-sudo-pass
       when: ansible_os_family == "Darwin"
 
     - name: Change shell to homebrew version
-      command: chsh -s /usr/local/bin/zsh
+      command: chsh -s {{brew_prefix.stdout}}/bin/zsh
       when: ansible_os_family == "Darwin"
 
     - name: Set shell for linux
@@ -37,9 +43,6 @@
 
     - name: Remove the zsh-installer.sh
       file: path=/tmp/zsh-installer.sh state=absent
-
-    # - name: Install Oh-My-Zsh
-    #   shell: curl -L http://install.ohmyz.sh | sh creates=~/.oh-my-zsh
 
     - name: Link zshrc
       file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one

@@ -3,7 +3,7 @@
 #   homebrew: pkg=caskroom/cask/brew-cask
 
 - name: Tap caskroom versions
-  homebrew_tap: tap=caskroom/versions
+  homebrew_tap: tap=homebrew/cask-versions
 
 - name: Install sublime text 3
   homebrew_cask: name=sublime-text

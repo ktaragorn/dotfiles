@@ -47,9 +47,15 @@
           - tokei # cloc replacement
       when: ansible_os_family == 'Darwin'
 
+    # for FB need to use non standard prefix
+    - name: Find brew prefix
+      shell: brew --prefix
+      register: brew_prefix
+      when: ansible_os_family == 'Darwin'
+
     #http://superuser.com/a/373448/160502
     - name: Fix htop for osx
-      file: name=/usr/local/bin/htop mode=6555 owner=root follow=yes
+      file: name={{brew_prefix.stdout}}/bin/htop mode=6555 owner=root follow=yes
       become: yes
       when: ansible_os_family == 'Darwin'
 
@@ -61,15 +67,26 @@
       ignore_errors: True
       homebrew_cask:
         name:
-          - google-chrome
+          - Alfred 4 # disable spotlight, set alfreds keybinds
           - rowanj-gitx
           - iterm2
-          - slack
           - caffeine
-          - itsycal
-          - dbeaver-community
-          - postman
+          - itsycal # E MMM d h:mm a
           - karabiner-elements
+          - sensiblesidebuttons
+          - firefox
+          - google-chrome
+
+    - name: Add casks to login
+      when: ansible_os_family == 'Darwin'
+      tags: login
+      shell: osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/{{item}}.app", hidden:false}'
+      with_items:
+        - Itsycal
+        - iTerm
+        - Caffeine
+        - Alfred 4
+        - SensibleSideButtons
 
     - name: Checkout/update dotfiles on target machine
       git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -181,7 +198,7 @@
       when: ansible_os_family == 'Darwin'
 
     - name: Link karabiner.json in osx systems
-      file: src=~/dotfiles/karabiner dest=~/.config/karabiner state=link force=yes
+      file: src=~/dotfiles/karabiner/karabiner.json dest=~/.config/karabiner/karabiner.json state=link force=yes
       when: ansible_os_family == 'Darwin'
 
       # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
