@@ -37,11 +37,24 @@ ZSH_THEME_GIT_PROMPT_MODIFIED=" %{$YELLOW%}modified"
 ZSH_THEME_GIT_PROMPT_ADDED=" %{$GREEN%}added"
 ZSH_THEME_GIT_PROMPT_UNTRACKED=" %{$WHITE%}untracked"
 
+
+hg_dirty() {
+    hg status --no-color 2 2> /dev/null \
+    | awk '$1 == "?" { unknown = 1 }
+           $1 != "?" { changed = 1 }
+           END {
+             if (changed) printf "!"
+             else if (unknown) printf "?"
+           }'
+}
+
 scm_ps1() {
     local s=
     local u=
     if [[ -d ".svn" ]] ; then
         s=\(r$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )\)
+    elif [[ -d ".hg" ]] ; then
+        s=$(hg_dirty )
     else
         s=$(__git_ps1 "(%s)")
         #status=$(git status 2>/dev/null | tail -n 1)

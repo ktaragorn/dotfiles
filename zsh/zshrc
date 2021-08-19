@@ -71,7 +71,7 @@ bindkey '\e[B' down-line-or-beginning-search
 export TERM="xterm-256color"
 
 if which direnv > /dev/null 2>&1; then
-    eval "$(direnv hook $0)"
+    eval "$(direnv hook zsh)"
 fi
 
 

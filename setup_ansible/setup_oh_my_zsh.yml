@@ -35,6 +35,14 @@
       when: ansible_os_family != "Darwin"
       become: yes
 
+    - name: Ensure zshrc file exists
+      file:
+        state: touch
+        path: ~/.zshrc
+
+    - name: Ensure zshrc sources dotfiles/zshrc
+      lineinfile: dest=~/.zshrc line=". ~/dotfiles/zsh/zshrc"
+
     - name: Download Oh-My-Zsh
       get_url: url=http://install.ohmyz.sh dest=/tmp/zsh-installer.sh
 
@@ -44,8 +52,8 @@
     - name: Remove the zsh-installer.sh
       file: path=/tmp/zsh-installer.sh state=absent
 
-    - name: Link zshrc
-      file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one
+    # - name: Link zshrc
+    #   file: src=dotfiles/zsh/zshrc dest=~/.zshrc state=link force=yes # force cuz oh-my-zsh creates one
 
     - name: Delete custom themes folder
       file: dest=~/.oh-my-zsh/custom/themes state=absent force=yes
