@@ -23,29 +23,34 @@ views:
           - device_tracker.kt
           - person.kt
           - person.anu
-      - entity: climate.bedroom_ac
-        type: thermostat
-      - entity: climate.downstairs_ac
-        type: thermostat
+      # - entity: climate.bedroom_ac
+      #   type: thermostat
+      # - entity: climate.downstairs_ac
+      #   type: thermostat
+      # - entities:
+      #     - entity: input_boolean.we_are_going_to_bedroom
+      #     - entity: input_boolean.we_are_in_bed
+      #   title: Input boolean
+      #   type: entities
+      # - entities:
+      #     - switch.bedroom_tv
+      #     - switch.bedroom_speaker
+      #   title: Bedroom
+      #   type: entities
+      # - entities:
+      #     - switch.bedroom_light
+      #   title: Switch
+      #   type: entities
+
       - entities:
-          - entity: input_boolean.we_are_going_to_bedroom
-          - entity: input_boolean.we_are_in_bed
-        title: Input boolean
+          - light.bedroom_light
+        title: Light
         type: entities
-      - entities:
-          - switch.bedroom_tv
-          - switch.bedroom_speaker
-        title: Bedroom
-        type: entities
-      - entities:
-          - switch.bedroom_light
-        title: Switch
-        type: entities
-      - entities:
-          - script.downstairs_ac
-          - script.toggle_tv
-        title: Script
-        type: entities
+      # - entities:
+      #     - script.downstairs_ac
+      #     - script.toggle_tv
+      #   title: Script
+      #   type: entities
       # this version of HA doesnt have it
       # - type: logbook
       #   entities:
