@@ -35,6 +35,7 @@
 #include "ir_receive.h"
 #include "web_server.h"
 #include "mqtt.h"
+#include "clap_detector.h"
 
 void util_log(String log_message){
   Serial.println(log_message);
@@ -75,6 +76,9 @@ void setup(void) {
   buttons_setup();
   util_log("Buttons setup Complete");
 
+  clap_setup();
+  util_log("Clap detector setup complete");
+
   blink_led();
 }
 
@@ -85,4 +89,5 @@ void loop(void) {
   ir_receive_loop();
   web_server_loop();
   mqtt_loop();
+  clap_loop();
 }

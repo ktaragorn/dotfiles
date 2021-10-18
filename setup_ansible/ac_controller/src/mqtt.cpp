@@ -47,7 +47,7 @@ void mqtt_publish(String &topic, String &message){
 	client.publish(topic, message);
 }
 
-void mqtt_log(String &message) {
+void mqtt_log(String message) {
 	mqtt_publish("log/" + String(HOSTNAME), message);
 }
 
