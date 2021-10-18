@@ -10,6 +10,7 @@
   hosts: all
   gather_facts: no
   become: yes
+  vars_files: vars/all.yml
   tasks:
     - name: Install pip and other tools required
       apt:
@@ -23,6 +24,10 @@
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
+    - name: set timezone to {{timezone}}
+      # timezone: # doesnt work..
+      #   name: '{{timezone}}'
+      command: timedatectl set-timezone {{timezone}}
     - name: Download z.sh
       get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/z.sh
       become: no
@@ -32,7 +37,7 @@
     - name: Create .ssh directory
       file: dest=/home/ubuntu/.ssh state=directory
       become: no
-    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
       copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
       become: no
     - name: Allow TCP forwarding to allow remote access
@@ -50,8 +55,6 @@
       copy:
         src: files/resolv.conf
         dest: /etc/resolv.conf
-    - name: Set timezone
-      timezone: name=Asia/Singapore
   handlers:
     - name: updatedb
       command: updatedb
@@ -343,7 +346,7 @@
       - { name: Home Assistant, port: 8123, proc: homeassistant }
       - { name: MQTT Broker, port: 1883, proc: mosquitto }
       - { name: Supervisor, port: 1883, proc: supervisor }
-      - { name: Pihole, port: 8888, proc: pihole-FTL }
+      # - { name: Pihole, port: 8888, proc: pihole-FTL } # not currently using
   tasks:
     - name: Install nginx and php
       package: name={{item}}
@@ -931,7 +934,7 @@
       {{alert}}
     smart_home_controllers:
       - { name: nodemcu, port_type: tcp, protocol: http }
-      - { name: blackbean1, port_type: udp }
+      # - { name: blackbean1, port_type: udp } # currently not using
       - { name: smart_light, port_type: udp }
   tasks:
     # monit was already setup by OMV, so this may not be complete
@@ -1284,7 +1287,7 @@
           - "./etc-pihole/:/etc/pihole/"
           - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
         env:
-          TZ: Asia/Singapore
+          TZ: '{{timezone}}'
           WEBPASSWORD: "{{ pihole_password }}"
         capabilities:
           - NET_ADMIN
