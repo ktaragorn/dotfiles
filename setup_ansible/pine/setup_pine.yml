@@ -265,12 +265,12 @@
         port: 8085
         icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
         proc: htpc
-      - name: kodi
-        link_to: /kodi
-        terminate: "/"
-        port: 8080
-        icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
-        proc: kodi --headless
+      # - name: kodi
+      #   link_to: /kodi
+      #   terminate: "/"
+      #   port: 8080
+      #   icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
+      #   proc: kodi --headless
       - name: flexget
         link_to: /flexget
         port: 5050
@@ -795,6 +795,43 @@
 #       docker_container:
 #         name: kodi-headless
 #         restart: yes
+
+- name: Headless Kodi vs Docker
+  tags: headless
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Make folder for headless kodi config, and userdata below it
+      file:
+        path: /home/ubuntu/kodi.d/headless/userdata
+        recurse: yes
+        state: directory
+    - name: Copy advancedsettings and sources from kodi.d folder - externally managed
+      copy:
+        src: ../kodi/files/{{item}}
+        dest: /home/ubuntu/kodi.d/headless/userdata
+      with_items:
+        - advancedsettings.xml
+        - sources.xml
+      notify:
+        - Restart Kodi
+    - name: Start headless kodi container
+      docker_container:
+        name: kodi-headless
+        image: celedhrim/kodi-server:matrix
+        volumes:
+          - /home/ubuntu/kodi.d/headless:/usr/share/kodi/portable_data
+        published_ports:
+          - 8080:8089
+          - 9090:9090
+          - 9777:9777/udp
+        restart_policy: unless-stopped
+  handlers:
+    - name: Restart Kodi
+      docker_container:
+        name: kodi-headless
+        restart: yes
+
 
 # - name: Install and run shadowsocks proxy
 #   tags: shadowsocks

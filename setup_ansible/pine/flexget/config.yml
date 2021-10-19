@@ -4,7 +4,7 @@ schedules:
   - tasks: [showrss-dload]
     interval:
       hours: 1
-  - tasks: [move-to-archive, get_subs]
+  - tasks: [move-to-chest, get_subs]
     interval:
       hours: 4
   - tasks: [trakt_movie_list, movies_search]
@@ -60,10 +60,10 @@ templates:
         identified_by: ep
       from:
         filesystem:
-          path: /media/ubuntu/Archive/Torrent/TV Shows/
+          path: /media/ubuntu/Chest/Torrent/TV Shows/
   work_on_downloaded_files:
     filesystem:
-      path: /media/ubuntu/Archive/Torrent/TV Shows/
+      path: /media/ubuntu/Chest/Torrent/TV Shows/
       recursive: yes
       retrieve: files
       regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
@@ -87,7 +87,7 @@ templates:
   deluge_tv:
     thetvdb_lookup: yes
     deluge:
-      move_completed_path: {{'/media/ubuntu/Archive/Torrent/TV Shows/{{series_name}}/'}}
+      move_completed_path: {{'/media/ubuntu/Chest/Torrent/TV Shows/{{series_name}}/'}}
       content_filename: >
         {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
 tasks:
@@ -162,7 +162,7 @@ tasks:
       - subliminal
       - notify_tv
 
-  move-to-archive:
+  move-to-chest:
     template:
       - configure_series_from_downloaded
       - fix_title_filename
@@ -187,7 +187,7 @@ tasks:
           languages:
             - en
     move:
-      to: {{'/media/ubuntu/Archive/TV Shows/{{series_name}}/Season {{series_season}}/'}}
+      to: {{'/media/ubuntu/Chest/TV Shows/{{series_name}}/Season {{series_season}}/'}}
       clean_source: 50
       rename: >
         {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
