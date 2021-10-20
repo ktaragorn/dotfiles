@@ -4,9 +4,9 @@ set httpd
      allow admin:monit
 
 # Alert if disk space of root filesystem gets low
-check filesystem Archive with path /media/ubuntu/Archive
-  if space free < 10 GB for 5 times within 15 cycles
-    then {{alert}} else if succeeded for 10 cycles then {{alert}}
+#check filesystem Archive with path /media/ubuntu/Archive
+#  if space free < 10 GB for 5 times within 15 cycles
+#    then {{alert}} else if succeeded for 10 cycles then {{alert}}
 # Alert if disk space of root filesystem gets low
 check filesystem Chest with path /media/ubuntu/Chest
   if space usage > 99% for 5 times within 15 cycles
@@ -22,15 +22,15 @@ check file Chest_drive with path /media/ubuntu/Chest/this_is_chest_drive
   else if succeeded
   then {{alert_and_start_deluged}}
 
-check file Archive_drive with path /media/ubuntu/Archive/this_is_archive_drive
-  if does not exist
-  then exec "/home/ubuntu/remount_drive.sh Archive"
-  else if succeeded
-  then {{alert_and_start_deluged}}
-  if does not exist for 2 cycles
-  then {{alert_and_stop_deluged}}
-  else if succeeded
-  then {{alert_and_start_deluged}}
+#check file Archive_drive with path /media/ubuntu/Archive/this_is_archive_drive
+#  if does not exist
+#  then exec "/home/ubuntu/remount_drive.sh Archive"
+#  else if succeeded
+#  then {{alert_and_start_deluged}}
+#  if does not exist for 2 cycles
+#  then {{alert_and_stop_deluged}}
+#  else if succeeded
+#  then {{alert_and_start_deluged}}
 
 #check file Vault_drive with path /media/ubuntu/Vault/this_is_vault_drive
 #  if does not exist then
