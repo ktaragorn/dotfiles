@@ -1,0 +1,75 @@
+esphome:
+  name: esp32
+  platform: ESP32
+  board: esp32dev
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: "ironforge"
+  password: !secret ap_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32 Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: pvvx_mithermometer
+    mac_address: "A4:C1:38:82:D7:E3"
+    temperature:
+      name: "A Temperature"
+    humidity:
+      name: "A Humidity"
+    battery_level:
+      name: "A Battery-Level"
+    battery_voltage:
+      name: "A Battery-Voltage"
+  - platform: pvvx_mithermometer
+    mac_address: "A4:C1:38:E7:2F:24"
+    temperature:
+      name: "B Temperature"
+    humidity:
+      name: "B Humidity"
+    battery_level:
+      name: "B Battery-Level"
+    battery_voltage:
+      name: "B Battery-Voltage"
+  - platform: pvvx_mithermometer
+    mac_address: "A4:C1:38:30:19:01"
+    temperature:
+      name: "C Temperature"
+    humidity:
+      name: "C Humidity"
+    battery_level:
+      name: "C Battery-Level"
+    battery_voltage:
+      name: "C Battery-Voltage"
+  - platform: pvvx_mithermometer
+    mac_address: "A4:C1:38:61:7C:38"
+    temperature:
+      name: "D Temperature"
+    humidity:
+      name: "D Humidity"
+    battery_level:
+      name: "D Battery-Level"
+    battery_voltage:
+      name: "D Battery-Voltage"
+
+captive_portal:
+
+
+# A4:C1:38:82:D7:E3 - A
+# A4:C1:38:E7:2F:24 - B
+# A4:C1:38:30:19:01 - C
+# A4:C1:38:61:7C:38 - D

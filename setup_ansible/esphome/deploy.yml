@@ -1,0 +1,10 @@
+---
+- name: Deploy esphome
+  hosts: localhost
+  tasks:
+    - name: Install esphome
+      pip: name=esphome
+    - name: Decrypt secrets
+      copy: src=secrets.vault dest=secrets.yaml
+    # - name: Deploy to esp32
+    #   shell: esphome run livingroom.yaml --device esp32
