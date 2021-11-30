@@ -22,8 +22,10 @@ wifi:
     ssid: "Esp32 Fallback Hotspot"
     password: !secret fallback_ap_password
 
-mqtt:
-  broker: pine64.middle.earth
+# mqtt:
+#   broker: pine64.middle.earth
+
+web_server:
 
 esp32_ble_tracker:
 
