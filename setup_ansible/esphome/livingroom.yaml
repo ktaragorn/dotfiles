@@ -22,6 +22,9 @@ wifi:
     ssid: "Esp32 Fallback Hotspot"
     password: !secret fallback_ap_password
 
+mqtt:
+  broker: pine64.middle.earth
+
 esp32_ble_tracker:
 
 sensor:
@@ -69,7 +72,7 @@ sensor:
 captive_portal:
 
 
-# A4:C1:38:82:D7:E3 - A
-# A4:C1:38:E7:2F:24 - B
-# A4:C1:38:30:19:01 - C
-# A4:C1:38:61:7C:38 - D
+# A4:C1:38:82:D7:E3 - A - My room
+# A4:C1:38:E7:2F:24 - B - bathroom
+# A4:C1:38:30:19:01 - C - bedroom
+# A4:C1:38:61:7C:38 - D - Balcony
