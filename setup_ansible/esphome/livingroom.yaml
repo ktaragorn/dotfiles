@@ -14,6 +14,7 @@ ota:
   password: ""
 
 wifi:
+  use_address: esp32.middle.earth
   ssid: "ironforge"
   password: !secret ap_password
 
@@ -30,6 +31,9 @@ web_server:
 esp32_ble_tracker:
 
 sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
   - platform: pvvx_mithermometer
     mac_address: "A4:C1:38:82:D7:E3"
     temperature:

@@ -111,6 +111,8 @@
         block: |
           host pine
             hostname black-gate.privatedns.org
+
+          match host black-gate.privatedns.org
             user ubuntu
             port 22
             identityfile ~/.ssh/pine.key

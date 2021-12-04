@@ -21,6 +21,7 @@
           - jq
           - unattended-upgrades
           - ncdu
+          - lm-sensors
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -731,7 +732,7 @@
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /home/ubuntu/homeassistant_config:/config
-          - /media/ubuntu/Archive:/Archive
+          # - /media/ubuntu/Archive:/Archive
           - /media/ubuntu/Chest:/Chest
         # published_ports:
         #   - 8123:8123

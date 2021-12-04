@@ -11,7 +11,7 @@ views:
       - entity: sensor.memory_use_percent
       - entity: sensor.owm_condition
       - entity: sensor.owm_temperature
-      - entity: sensor.disk_use_percent_archive
+      # - entity: sensor.disk_use_percent_archive
       - entity: sensor.disk_use_percent_chest
     cards:
       - type: glance
@@ -46,6 +46,17 @@ views:
           - light.bedroom_light
         title: Light
         type: entities
+      - entities:
+          - entity: sensor.a_temperature
+            name: Office
+          - entity: sensor.c_temperature
+            name: Bedroom
+          - entity: sensor.b_temperature
+            name: Toilet
+          - entity: sensor.d_temperature
+            name: Outside
+        type: glance
+        title: Temperature
       # - entities:
       #     - script.downstairs_ac
       #     - script.toggle_tv
