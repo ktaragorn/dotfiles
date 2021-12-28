@@ -27,18 +27,19 @@ templates:
   notify_tv:
     notify:
       entries: &notify-entries
-        title: "{{ '{{task}}'}}"
         what: accepted
-        message: "{{ '{{series_name}} - {{series_id}}' }}"
+        message: "{{ '[{{task}}] {{series_name}} - {{series_id}}' }}"
         via:
-          - pushbullet:
-              api_key: {{pushbullet_access_token}}
+          - telegram:
+              bot_token: {{flexget_telegram_bot_token}}
+              recipients:
+                - username: ktaragorn
   notify_movie:
     imdb_lookup: yes
     notify:
       entries:
         <<: *notify-entries
-        message: "{{ '{{movie_name}} ({{movie_year}})'}}"
+        message: "{{ '[{{task}}] {{movie_name}} ({{movie_year}})'}}"
 
   fix_title_filename:
     manipulate:
@@ -169,13 +170,14 @@ tasks:
       - fix_riverdale_detection
       - notify_tv
       - work_on_downloaded_files
-      - kodi_scan
+      # - kodi_scan
     no_entries_ok: yes
     accept_all: yes
     #seen: local # also from below link, but makes sense i think, so that downloaded files dont get rejected.. maybe redundant with accept_all..
     disable: # redownloads and propers etc should go through
       - seen
       - retry_failed # fails due to failures in other tasks (subtitles)
+      - backlog # kodi scan fails fail to clear backlog, and it repeats.. also we dont need this since we operate on exisiting files only
     thetvdb_lookup: yes
     regexp:
       reject:

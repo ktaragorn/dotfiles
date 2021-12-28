@@ -460,6 +460,11 @@
         name:
           - flexget
           - subliminal
+    - name: Install telegram bot
+      become: yes
+      pip:
+        name: python-telegram-bot
+        version: 12.8
     - name: Create flexget config folder
       file:
         dest: ~/.config/flexget
