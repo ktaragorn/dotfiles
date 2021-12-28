@@ -901,6 +901,7 @@
       with_items:
         - kodi
         - pushbullet
+        - telegram
         - monitor_free_disk_space.sh
         - monitor_chest_drive.sh
         - speed_test.sh
@@ -936,7 +937,7 @@
         name: Check for free epic games
         user: ubuntu
         special_time: daily
-        job: /usr/bin/python /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
+        job: /usr/bin/python3 /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
 
 - name: Setup NFS
   tags: nfs

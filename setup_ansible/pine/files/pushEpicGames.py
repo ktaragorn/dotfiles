@@ -12,11 +12,14 @@ def report_free_game(gameName):
 	report_cmd = pwd + 'pushbullet "Epic Games Free game" ' + '"' + gameName + '"' + ' "-d channel_tag=epicgamesfree"'
 	subprocess.check_call(report_cmd, shell=True)
 
-currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US | jq '[.data.Catalog.searchStore.elements[]  | {name: .title,date: .promotions.promotionalOffers[0].promotionalOffers[0].startDate}] | .[] |  select(.date != null)'"
+currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US | jq '[.data.Catalog.searchStore.elements[]  | {name: .title,date: .promotions.promotionalOffers[0].promotionalOffers[0].startDate, percent: .promotions.promotionalOffers[0].promotionalOffers[0].discountSetting.discountPercentage}] | .[] |  select(.date != null) | select(.percent == 0)'"
 
 try:
 	gameData = json.loads(subprocess.check_output(currentFreeGameCmd, shell=True))
-	lastReportedGame = open(pwd + "lastEpicFreeGame").read()
+	try: 
+		lastReportedGame = open(pwd + "lastEpicFreeGame").read()
+	except FileNotFoundError:
+		lastReportedGame = ""
 	if(gameData['name'] != lastReportedGame):
 		open(pwd + "lastEpicFreeGame", 'w').write(gameData['name'])
 		report_free_game(gameData['name'])
