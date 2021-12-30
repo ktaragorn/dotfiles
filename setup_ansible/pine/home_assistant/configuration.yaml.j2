@@ -30,7 +30,9 @@ config:
 http:
   base_url: http://hass.middle.earth
   use_x_forwarded_for: true
-  trusted_proxies: 127.0.0.1
+  trusted_proxies: 
+    - 127.0.0.1
+    - ::1
 
 logger:
   default: info
@@ -70,19 +72,20 @@ sensor:
     resources:
       - type: disk_use_percent
         arg: /Chest
-      - type: disk_use_percent
-        arg: /Archive
+      #- type: disk_use_percent
+      #  arg: /Archive
       - type: memory_use_percent
       - type: load_1m
       - type: processor_use     
-      # - type: processor_temperature # not supported at current version of hass
-# Text to speech
+      - type: processor_temperature # not supported at current version of hass
   - platform: openweathermap
     api_key: {{openweathermap_apikey}}
     forecast: 0
     monitored_conditions:
       - weather
       - temperature
+
+# Text to speech
 tts:
   - platform: google_translate
 

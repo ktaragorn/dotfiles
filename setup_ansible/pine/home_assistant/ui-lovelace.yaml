@@ -14,6 +14,7 @@ views:
       # - entity: sensor.disk_use_percent_archive
       - entity: sensor.disk_use_percent_chest
       - entity: sensor.processor_use
+      - entity: sensor.processor_temperature
     cards:
       - type: glance
         title: Anu & Me
