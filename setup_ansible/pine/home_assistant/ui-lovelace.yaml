@@ -50,15 +50,18 @@ views:
         type: entities
       - entities:
           - entity: sensor.a_temperature
-            name: Office
           - entity: sensor.c_temperature
-            name: Bedroom
           - entity: sensor.b_temperature
-            name: Toilet
           - entity: sensor.d_temperature
-            name: Outside
         type: glance
         title: Temperature
+      - entities:
+          - entity: sensor.a_battery_level
+          - entity: sensor.c_battery_level
+          - entity: sensor.b_battery_level
+          - entity: sensor.d_battery_level
+        type: glance
+        title: Thermometer Battery
       # - entities:
       #     - script.downstairs_ac
       #     - script.toggle_tv

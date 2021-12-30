@@ -11,7 +11,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: {{ timezone }}
   # Customization file
-  # customize: !include customize.yaml
+  customize: !include customize.yaml
   # customize_domain:
   #   automation:
   #     hidden: true
@@ -79,7 +79,7 @@ sensor:
       - type: processor_use     
       - type: processor_temperature # not supported at current version of hass
 
-  # configured as an integration via UI :()
+  # configured as an integration via UI :(
   # - platform: openweathermap
   #   api_key: {{openweathermap_apikey}}
   #   forecast: 0
