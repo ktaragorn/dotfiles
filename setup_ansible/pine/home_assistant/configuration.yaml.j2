@@ -78,12 +78,14 @@ sensor:
       - type: load_1m
       - type: processor_use     
       - type: processor_temperature # not supported at current version of hass
-  - platform: openweathermap
-    api_key: {{openweathermap_apikey}}
-    forecast: 0
-    monitored_conditions:
-      - weather
-      - temperature
+
+  # configured as an integration via UI :()
+  # - platform: openweathermap
+  #   api_key: {{openweathermap_apikey}}
+  #   forecast: 0
+  #   monitored_conditions:
+  #     - weather
+  #     - temperature
 
 # Text to speech
 tts:

@@ -9,8 +9,8 @@ views:
       - entity: sensor.fast_com_download
       - entity: sensor.load_1m
       - entity: sensor.memory_use_percent
-      - entity: sensor.owm_condition
-      - entity: sensor.owm_temperature
+      - entity: sensor.openweathermap_condition
+      - entity: sensor.openweathermap_temperature
       # - entity: sensor.disk_use_percent_archive
       - entity: sensor.disk_use_percent_chest
       - entity: sensor.processor_use
