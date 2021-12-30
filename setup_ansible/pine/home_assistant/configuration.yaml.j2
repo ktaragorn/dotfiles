@@ -74,7 +74,8 @@ sensor:
         arg: /Archive
       - type: memory_use_percent
       - type: load_1m
-      # - type: processor_temperature
+      - type: processor_use     
+      # - type: processor_temperature # not supported at current version of hass
 # Text to speech
   - platform: openweathermap
     api_key: {{openweathermap_apikey}}

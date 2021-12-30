@@ -123,10 +123,10 @@
     - role: bertvv.samba
       samba_guest_account: ubuntu
       samba_shares:
-        - name: Archive
-          path: /media/ubuntu/Archive
-          public: yes
-          writable: yes
+        # - name: Archive
+        #   path: /media/ubuntu/Archive
+        #   public: yes
+        #   writable: yes
         - name: Chest
           path: /media/ubuntu/Chest
           public: yes
