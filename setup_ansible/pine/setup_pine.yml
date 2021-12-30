@@ -346,7 +346,7 @@
       - { name: Deluged, port: 58846, proc: deluged }
       - { name: Home Assistant, port: 8123, proc: homeassistant }
       - { name: MQTT Broker, port: 1883, proc: mosquitto }
-      - { name: Supervisor, port: 1883, proc: supervisor }
+      - { name: Supervisor, port: 1883, proc: supervisor } # the port here is wrong, but not sure what is the right one..
       # - { name: Pihole, port: 8888, proc: pihole-FTL } # not currently using
   tasks:
     - name: Install nginx and php
