@@ -14,6 +14,6 @@
       delegate_to: localhost
       with_items: '{{config_files}}'
     - name: local scp — copy config files to the correct directory
-      shell: scp /tmp/{{item}} {{ansible_user}}@{{inventory_hostname}}:{{target_kodi_config_folder}}/{{item}}
+      shell: scp -P{{ansible_port}} /tmp/{{item}} {{ansible_user}}@{{inventory_hostname}}:{{target_kodi_config_folder}}/{{item}} 
       delegate_to: localhost
       with_items: '{{config_files}}'
