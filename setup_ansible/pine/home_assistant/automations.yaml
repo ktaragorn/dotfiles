@@ -55,6 +55,28 @@
         target: home_enter
         message: All have left the house, Both ACs have been switched off
 
+- alias: Smart Light Connected
+  id: light_connected
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.smart_light
+      from: "off"
+      to: "on"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.bedroom_light
+
+- alias: Smart Light Disconnected
+  id: light_disconnected
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.smart_light
+      from: "on"
+      to: "off"
+  action:
+    - service: switch.turn_off
+      entity_id: switch.bedroom_light
+
 - alias: Downstairs Button Pressed
   id: button_pressed
   trigger:

@@ -8,13 +8,13 @@ views:
       - entity: person.kt
       - entity: sensor.fast_com_download
       - entity: sensor.load_1m
-      - entity: sensor.memory_use_percent
-      - entity: sensor.openweathermap_condition
-      - entity: sensor.openweathermap_temperature
-      # - entity: sensor.disk_use_percent_archive
-      - entity: sensor.disk_use_percent_chest
       - entity: sensor.processor_use
       - entity: sensor.processor_temperature
+      - entity: sensor.memory_use_percent
+      # - entity: sensor.disk_use_percent_archive
+      - entity: sensor.disk_use_percent_chest
+      - entity: sensor.openweathermap_condition
+      - entity: sensor.openweathermap_temperature
     cards:
       - type: glance
         title: Anu & Me
