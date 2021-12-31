@@ -1,0 +1,17 @@
+---
+sensor.a_temperature:
+  friendly_name: Office
+sensor.b_temperature:
+  friendly_name: Toilet
+sensor.c_temperature:
+  friendly_name: Bedroom
+sensor.d_temperature:
+  friendly_name: Outside
+sensor.a_battery_level:
+  friendly_name: Office
+sensor.b_battery_level:
+  friendly_name: Toilet
+sensor.c_battery_level:
+  friendly_name: Bedroom
+sensor.d_battery_level:
+  friendly_name: Outside

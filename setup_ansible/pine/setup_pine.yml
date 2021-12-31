@@ -1408,3 +1408,23 @@
           - jellyfin-cache:/cache
           - /media/ubuntu/Archive/TV Shows:/Archive
         restart_policy: unless-stopped
+
+- name: Install gerbera
+  tags: gerbera
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Copy config
+      copy: 
+        src: files/gerbera.xml
+        dest: gerbera/
+    - name: Run gerbera
+      docker_container:
+        name: gerbera
+        image: gerbera/gerbera
+        network_mode: host
+        volumes:
+          - /media/ubuntu/Archive/TV Shows:/content
+          - ~/gerbera/gerbera.xml:/var/run/gerbera/.config/gerbera/config.xml
+        restart_policy: unless-stopped
