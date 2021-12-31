@@ -1,7 +1,7 @@
 <?php
 /*
  PHP Mini MySQL Admin
- (c) 2004-2017 Oleg Savchuk <osalabs@gmail.com> http://osalabs.com
+ (c) 2004-2021 Oleg Savchuk <osalabs@gmail.com> http://osalabs.com
 
  Light standalone PHP script for quick and easy access MySQL databases.
  http://phpminiadmin.sourceforge.net
@@ -16,10 +16,16 @@ $ACCESS_PWD=''; #!!!IMPORTANT!!! this is script access password, SET IT if you w
 $DBDEF=array(
 'user'=>"",#required
 'pwd'=>"", #required
-'db'=>"",  #optional, default DB
-'host'=>"",#optional
-'port'=>"",#optional
-'chset'=>"utf8",#optional, default charset
+#optional:
+'db'=>"",  #default DB
+'host'=>"",
+'port'=>"",
+'socket'=>"",
+'chset'=>"utf8mb4",#optional, default charset
+#optional paths for ssl
+'ssl_key'=>NULL,
+'ssl_cert'=>NULL,
+'ssl_ca'=>'',#minimum this is required for ssl connections, if set - ssl connection will try to be established. Example: /path/to/cacert.pem
 );
 $IS_COUNT=false; #set to true if you want to see Total records when pagination occurs (SLOWS down all select queries!)
 $DUMP_FILE=dirname(__FILE__).'/pmadump'; #path to file without extension used for server-side exports (timestamp, .sql/.csv/.gz extension added) or imports(.sql)
@@ -27,7 +33,7 @@ file_exists($f=dirname(__FILE__) . '/phpminiconfig.php')&&require($f); // Read f
 if (function_exists('date_default_timezone_set')) date_default_timezone_set('UTC');#required by PHP 5.1+
 
 //constants
-$VERSION='1.9.170730';
+$VERSION='1.9.210705';
 $MAX_ROWS_PER_PAGE=50; #max number of rows in select per one page
 $D="\r\n"; #default delimiter for export
 $BOM=chr(239).chr(187).chr(191);
@@ -44,12 +50,6 @@ $xurl='XSS='.$_SESSION['XSS'];
 
 ini_set('display_errors',0);  #turn on to debug db or script issues
 error_reporting(E_ALL ^ E_NOTICE);
-
-//strip quotes if they set
-if (get_magic_quotes_gpc()){
-  $_COOKIE=array_map('killmq',$_COOKIE);
-  $_REQUEST=array_map('killmq',$_REQUEST);
-}
 
 if ($_REQUEST['login']){
   if ($_REQUEST['pwd']!=$ACCESS_PWD){
@@ -79,8 +79,8 @@ if (!$_SESSION['is_logged']){
     print_login();
     exit;
   }
-}
 
+}
 if ($_REQUEST['savecfg']){
   check_xss();
   savecfg();
@@ -95,7 +95,7 @@ if ($_REQUEST['showcfg']){
 
 //get initial values
 $SQLq=trim(b64d($_REQUEST['q']));
-$page=$_REQUEST['p']+0;
+$page=intval($_REQUEST['p']);
 if ($_REQUEST['refresh'] && $DB['db'] && preg_match('/^show/',$SQLq) ) $SQLq=$SHOW_T;
 
 if (db_connect('nodie')){
@@ -191,6 +191,7 @@ function display_select($sth,$q){
    if ($is_sht) $sqldr.="Database: &#183; <a href='$url&q=".b64u("show table status")."'>Show Table Status</a>";
    $sqldr.="</div>";
  }
+ $abtn='';
  if ($is_sht){
    $abtn="<div><input type='submit' value='Export' onclick=\"sht('exp')\">
  <input type='submit' value='Drop' onclick=\"if(ays()){sht('drop')}else{return false}\">
@@ -213,6 +214,7 @@ function display_select($sth,$q){
  $headers.="</tr>\n";
  $sqldr.=$headers;
  $swapper=false;
+ $swp=0;
  while($row=mysqli_fetch_row($sth)){
    $sqldr.="<tr class='".$rc[$swp=!$swp]."' onclick='tc(this)'>";
    $v=$row[0];
@@ -293,7 +295,7 @@ tr.e:hover, tr.o:hover{background-color:#FF9}
 tr.h{background-color:#99C}
 tr.s{background-color:#FF9}
 .err{color:#F33;font-weight:bold;text-align:center}
-.frm{width:400px;border:1px solid #999;background-color:#eee;text-align:left}
+.frm{width:460px;border:1px solid #999;background-color:#eee;text-align:left}
 .frm label .l{width:100px;float:left}
 .dot{border-bottom:1px dotted #000}
 .ajax{text-decoration:none;border-bottom: 1px dashed}
@@ -506,7 +508,7 @@ Records: <b><?php eo($reccount); if(!is_null($last_count) && $reccount<$last_cou
 function print_footer(){
 ?>
 </form>
-<div class="ft">&copy; 2004-2017 <a href="http://osalabs.com" target="_blank">Oleg Savchuk</a></div>
+<div class="ft">&copy; 2004-2021 <a href="http://osalabs.com" target="_blank">Oleg Savchuk</a></div>
 </body></html>
 <?php
 }
@@ -539,7 +541,7 @@ function print_cfg(){
 <div style="text-align:right"><a href="#" class="ajax" onclick="cfg_toggle()">advanced settings</a></div>
 <div id="cfg-adv" style="display:none;">
 <label><div class="l">DB name:</div><input type="text" name="v[db]" value="<?php eo($DB['db'])?>"></label><br>
-<label><div class="l">MySQL host:</div><input type="text" name="v[host]" value="<?php eo($DB['host'])?>"></label> <label>port: <input type="text" name="v[port]" value="<?php eo($DB['port'])?>" size="4"></label><br>
+<label><div class="l">MySQL host:</div><input type="text" name="v[host]" value="<?php eo($DB['host'])?>"></label> <label>port: <input type="text" name="v[port]" value="<?php eo($DB['port'])?>" size="4"></label> <label>socket: <input type="text" name="v[socket]" value="<?php eo($DB['socket'])?>" size="4"></label><br>
 <label><div class="l">Charset:</div><select name="v[chset]"><option value="">- default -</option><?php echo chset_select($DB['chset'])?></select></label><br>
 <br><label for ="rmb"><input type="checkbox" name="rmb" id="rmb" value="1" checked> Remember in cookies for 30 days or until Logoff</label>
 </div>
@@ -558,24 +560,21 @@ function print_cfg(){
 function db_connect($nodie=0){
  global $dbh,$DB,$err_msg;
 
- if ($DB['port']) {
-    $dbh=mysqli_connect($DB['host'],$DB['user'],$DB['pwd'],'',(int)$DB['port']);
- } else {
-    $dbh=mysqli_connect($DB['host'],$DB['user'],$DB['pwd']);
+ $po=$DB['port'];if(!$po) $po=ini_get("mysqli.default_port");
+ $so=$DB['socket'];if(!$so) $so=ini_get("mysqli.default_socket");
+ if ($DB['ssl_ca']){#ssl connection
+  $dbh=mysqli_init();
+  mysqli_options($dbh,MYSQLI_OPT_SSL_VERIFY_SERVER_CERT,true);
+  mysqli_ssl_set($dbh,$DB['ssl_key'],$DB['ssl_cert'],$DB['ssl_ca'],NULL,NULL);
+  if (!mysqli_real_connect($dbh,$DB['host'],$DB['user'],$DB['pwd'],$DB['db'],$po,$so,MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT)) $dbh=null;
+ }else{#non-ssl
+  $dbh=mysqli_connect($DB['host'],$DB['user'],$DB['pwd'],$DB['db'],$po,$so);
  }
  if (!$dbh) {
     $err_msg='Cannot connect to the database because: '.mysqli_connect_error();
     if (!$nodie) die($err_msg);
- }
-
- if ($dbh && $DB['db']) {
-  $res=mysqli_select_db($dbh, $DB['db']);
-  if (!$res) {
-     $err_msg='Cannot select db because: '.mysqli_error($dbh);
-     if (!$nodie) die($err_msg);
-  }else{
-     if ($DB['chset']) db_query("SET NAMES ".$DB['chset']);
-  }
+ }else{
+  if ($DB['chset']) db_query("SET NAMES ".$DB['chset']);
  }
 
  return $dbh;
@@ -604,9 +603,9 @@ function dbq($s){
 
 function db_query($sql, $dbh1=NULL, $skiperr=0, $resmod=MYSQLI_STORE_RESULT){
  $dbh1=db_checkconnect($dbh1, $skiperr);
- $sth=mysqli_query($dbh1, $sql, $resmod);
- if (!$sth && $skiperr) return;
- if (!$sth) die("Error in DB operation:<br>\n".mysqli_error($dbh1)."<br>\n$sql");
+ if($dbh1) $sth=mysqli_query($dbh1, $sql, $resmod);
+ if(!$sth && $skiperr) return;
+ if(!$sth) die("Error in DB operation:<br>\n".mysqli_error($dbh1)."<br>\n$sql");
  return $sth;
 }
 
@@ -750,13 +749,12 @@ function pen($p,$np=''){
  return str_replace('%p%',$p, $np);
 }
 
-function killmq($value){
- return is_array($value)?array_map('killmq',$value):stripslashes($value);
-}
-
 function savecfg(){
+ global $DBDEF;
  $v=$_REQUEST['v'];
- $_SESSION['DB']=$v;
+ if(!is_array($v))$v=array();
+ unset($v['ssl_ca']);unset($v['ssl_key']);unset($v['ssl_cert']);#don't allow override ssl paths from web
+ $_SESSION['DB']=array_merge($DBDEF,$v);
  unset($_SESSION['sql_sd']);
 
  if ($_REQUEST['rmb']){
@@ -766,6 +764,7 @@ function savecfg(){
     newcookie("conn[pwd]", $v['pwd'],$tm);
     newcookie("conn[host]",$v['host'],$tm);
     newcookie("conn[port]",$v['port'],$tm);
+    newcookie("conn[socket]",$v['socket'],$tm);
     newcookie("conn[chset]",$v['chset'],$tm);
  }else{
     newcookie("conn[db]",  FALSE,-1);
@@ -773,19 +772,20 @@ function savecfg(){
     newcookie("conn[pwd]", FALSE,-1);
     newcookie("conn[host]",FALSE,-1);
     newcookie("conn[port]",FALSE,-1);
+    newcookie("conn[socket]",FALSE,-1);
     newcookie("conn[chset]",FALSE,-1);
  }
 }
 
 // Allow httponly cookies, or the password is stored plain text in a cookie
-function newcookie($n,$v,$e){$x;return setcookie($n,$v,$e,$x,$x,!!$x,!$x);}
+function newcookie($n,$v,$e){$x='';return setcookie($n,$v,$e,$x,$x,!!$x,!$x);}
 
 //during login only - from cookies or use defaults;
 function loadcfg(){
  global $DBDEF;
 
  if( isset($_COOKIE['conn']) ){
-    $_SESSION['DB']=$_COOKIE['conn'];
+    $_SESSION['DB']=array_merge($DBDEF,$_COOKIE['conn']);
  }else{
     $_SESSION['DB']=$DBDEF;
  }
@@ -857,6 +857,7 @@ function do_export(){
  $z=db_row("show variables like 'max_allowed_packet'");
  $MAXI=floor($z['Value']*0.8);
  if(!$MAXI)$MAXI=838860;
+ $MAXI=min($MAXI,16777216);
  $aext='';$ctp='';
 
  $ex_super=($_REQUEST['sp'])?1:0;
@@ -869,7 +870,7 @@ function do_export(){
  if ($ct==1&&$_REQUEST['et']=='csv'){
   ex_start('.csv');
   ex_hdr($ctp?$ctp:'text/csv',"$t[0].csv$aext");
-  if ($DB['chset']=='utf8') ex_w($BOM);
+  if ($DB['chset']=='utf8mb4') ex_w($BOM);
 
   $sth=db_query("select * from `$t[0]`",NULL,0,MYSQLI_USE_RESULT);
   $fn=mysqli_field_count($dbh);
@@ -997,7 +998,7 @@ function print_import(){
 .csv file (Excel style): <input type="file" name="file2" value="" size=40><br>
 <input type="checkbox" name="r1" value="1" checked> first row contain field names<br>
 <small>(note: for success, field names should be exactly the same as in DB)</small><br>
-Character set of the file: <select name="chset"><?php echo chset_select('utf8')?></select>
+Character set of the file: <select name="chset"><?php echo chset_select('utf8mb4')?></select>
 <br><br>
 Import into:<br>
 <input type="radio" name="tt" value="1" checked="checked"> existing table:
@@ -1137,6 +1138,7 @@ function get_next_chunk($insql, $fname){
 }
 
 function get_open_char($str, $pos){
+ $ochar='';$opos='';
  if ( preg_match("/(\/\*|^--|(?<=\s)--|#|'|\"|;)/", $str, $m, PREG_OFFSET_CAPTURE, $pos) ) {
     $ochar=$m[1][0];
     $opos=$m[1][1];

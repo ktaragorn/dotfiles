@@ -351,6 +351,7 @@
         - nginx
         - php7.4-fpm
         - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
+        - php7.4-mysql # https://stackoverflow.com/a/47960896
     - name: Configure site
       template:
         src: files/pine.j2
