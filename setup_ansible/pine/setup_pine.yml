@@ -346,7 +346,7 @@
       - { name: Deluged, port: 58846, proc: deluged }
       - { name: Home Assistant, port: 8123, proc: homeassistant }
       - { name: MQTT Broker, port: 1883, proc: mosquitto }
-      - { name: Supervisor, port: 1883, proc: supervisor } # the port here is wrong, but not sure what is the right one..
+      - { name: Supervisor, proc: supervisor }
       # - { name: Pihole, port: 8888, proc: pihole-FTL } # not currently using
   tasks:
     - name: Install nginx and php
@@ -1407,24 +1407,4 @@
           - jellyfin-config:/config
           - jellyfin-cache:/cache
           - /media/ubuntu/Archive/TV Shows:/Archive
-        restart_policy: unless-stopped
-
-- name: Install gerbera
-  tags: gerbera
-  hosts: all
-  gather_facts: no
-  become: no
-  tasks:
-    - name: Copy config
-      copy: 
-        src: files/gerbera.xml
-        dest: gerbera/
-    - name: Run gerbera
-      docker_container:
-        name: gerbera
-        image: gerbera/gerbera
-        network_mode: host
-        volumes:
-          - /media/ubuntu/Archive/TV Shows:/content
-          - ~/gerbera/gerbera.xml:/var/run/gerbera/.config/gerbera/config.xml
         restart_policy: unless-stopped

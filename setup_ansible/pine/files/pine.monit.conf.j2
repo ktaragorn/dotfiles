@@ -65,8 +65,10 @@ check file cloudmqtt_bridge with path /tmp/bridge_connected_log
 check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
   # if the server is down, it gets stuck in an infinite restart loop rather than triggering this alert
   # So have added a does not exist check which does what is expected in that case
+  {% if service.port is defined %}
 	if failed host {{service.host|default("localhost")}} port {{service.port}} {{fault_tolerance}} then
 		{{alert_succeeded}}
+  {% endif %}
   if does not exist {{fault_tolerance}} then
     {{alert_succeeded}}
 {% endfor %}
