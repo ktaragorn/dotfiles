@@ -123,11 +123,11 @@ switch:
   # - platform: rest
   #   resource: http://nodemcu.middle.earth/ac
   #   name: Downstairs AC
-  - platform: command_line
-    switches:
-      bedroom_light:
-        command_on: flux_led -1 smart_light.middle.earth
-        command_off: flux_led -0 smart_light.middle.earth
+  # - platform: command_line
+  #   switches:
+  #     bedroom_light:
+  #       command_on: flux_led -1 smart_light.middle.earth
+  #       command_off: flux_led -0 smart_light.middle.earth
 
 fastdotcom:
   scan_interval:
@@ -180,13 +180,15 @@ input_boolean:
     icon: mdi:stairs
 
 light:
-  - platform: switch
-    name: Bedroom Light
-    entity_id: switch.bedroom_light
- # - platform: flux_led
- #   devices:
- #     smart_light.middle.earth:
- #       name: Bedroom Light
+  # - platform: switch
+  #   name: Bedroom Light
+  #   entity_id: switch.bedroom_light
+
+  # Yaml not supported any longer for flux_led.. gonna leave it here in protest.. 
+ - platform: flux_led
+   devices:
+     smart_light.middle.earth:
+       name: Bedroom Light
 group:
   all_people:
     name: Both of us
