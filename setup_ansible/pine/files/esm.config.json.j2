@@ -40,7 +40,7 @@
                 {
                     "name": "{{service.name}}",
                     "host": "{{ service.host |default("localhost")}}",
-                    "port": {{service.port}},
+                    "port": {{service.port|default(80)}},
                     "protocol": "tcp"
                 }
                 {% if not loop.last %}

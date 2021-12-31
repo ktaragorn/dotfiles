@@ -281,10 +281,6 @@
         link_to: /status
         port: 80
         icon: "https://www.ezservermonitor.com/themes/main/images/logo200.png"
-      - name: OMV
-        link_to: "http://omv.middle.earth"
-        port: 80
-        icon: "https://27jts3o00yy49vo2y30wem91-wpengine.netdna-ssl.com/wp-content/uploads/2018/06/openmediavault-300x300.png"
       - name: Hass
         link_to: "http://hass.middle.earth"
         port: 80
@@ -297,10 +293,10 @@
         icon: https://binarymist.files.wordpress.com/2015/06/monit.png?w=450
         link_to: /monit
         port: 2812
-      - name: firefly
-        icon: https://camo.githubusercontent.com/729d179402476b1dd9de4ec9f5fa5910e6bf56aa/68747470733a2f2f66697265666c792d6969692e6f72672f7374617469632f696d672f6c6f676f2d736d616c6c2d6e65772e706e67
-        port: 80
-        link_to: http://firefly.middle.earth
+      # - name: firefly
+      #   icon: https://camo.githubusercontent.com/729d179402476b1dd9de4ec9f5fa5910e6bf56aa/68747470733a2f2f66697265666c792d6969692e6f72672f7374617469632f696d672f6c6f676f2d736d616c6c2d6e65772e706e67
+      #   port: 80
+      #   link_to: http://firefly.middle.earth
       - name: Munin
         port: 80
         link_to: /munin
