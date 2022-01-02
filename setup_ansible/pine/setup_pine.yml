@@ -902,7 +902,7 @@
       cron:
         name: Check for free epic games
         user: ubuntu
-        special_time: daily
+        hour: "*/4"
         job: /usr/bin/python3 /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
 
 - name: Setup NFS
