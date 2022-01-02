@@ -305,6 +305,12 @@
         icon: https://upload.wikimedia.org/wikipedia/en/thumb/6/62/MySQL.svg/136px-MySQL.svg.png
         port: 80
         link_to: /dbadmin
+
+      # need to also configure jellyfin https://jellyfin.org/docs/general/networking/nginx.html#nginx-with-subpath-exampleorgjellyfin
+      - name: jellyfin
+        icon: https://www.saashub.com/images/app/service_logos/65/4165b157fc06/large.png?1578446181
+        port: 8096
+        proc: jellyfin
       - name: MQTTAdmin
         icon: https://hackaday.com/wp-content/uploads/2016/05/mqtt_dash.png
         port: 80
