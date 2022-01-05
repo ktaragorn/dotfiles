@@ -52,6 +52,10 @@ templates:
     series:
       - Riverdale:
           alternate_name: Riverdale US
+      - Blackish:
+          # sadly doesnt work
+          set:
+            tvdb_id: 281511
   configure_series_from_downloaded:
     require_field: series_name # otherwise i think some entries have http://discuss.flexget.com/t/copy-plugin-says-series-name-is-undefined/1185/10 - on elementary specifically
     metainfo_series: yes
@@ -90,7 +94,7 @@ templates:
     deluge:
       move_completed_path: {{'/media/ubuntu/Chest/Torrent/TV Shows/{{series_name}}/'}}
       content_filename: >
-        {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+        {{'{{ series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
 tasks:
   showrss-dload:
     rss:
