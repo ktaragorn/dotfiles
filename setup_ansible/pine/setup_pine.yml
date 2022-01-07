@@ -1372,5 +1372,5 @@
         volumes:
           - jellyfin-config:/config
           - jellyfin-cache:/cache
-          - /media/ubuntu/Archive/TV Shows:/Archive
+          - /media/ubuntu/Chest/TV Shows:/Chest
         restart_policy: unless-stopped
