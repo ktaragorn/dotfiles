@@ -48,7 +48,8 @@ void mqtt_publish(String &topic, String &message){
 }
 
 void mqtt_log(String message) {
-	mqtt_publish("log/" + String(HOSTNAME), message);
+	String topic = "log/" + String(HOSTNAME);
+	mqtt_publish(topic, message);
 }
 
 void mqtt_received(String &topic, String &payload){
