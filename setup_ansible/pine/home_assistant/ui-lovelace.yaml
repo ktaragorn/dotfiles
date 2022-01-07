@@ -53,6 +53,7 @@ views:
           - entity: sensor.c_temperature
           - entity: sensor.b_temperature
           - entity: sensor.d_temperature
+          - entity: sensor.living_room_temperature
         type: glance
         title: Temperature
       - entities:

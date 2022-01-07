@@ -74,6 +74,12 @@ sensor:
       name: "D Battery-Level"
     battery_voltage:
       name: "D Battery-Voltage"
+  - platform: dht
+    pin: GPIO23
+    temperature:
+      name: "Living Room Temperature"
+    humidity:
+      name: "Living Room Humidity"
 
 captive_portal:
 
