@@ -711,7 +711,7 @@
         state: directory
     - name: Generate config files to server
       template:
-        src: home_assistant/{{item}}.yaml.j2
+        src: home_assistant/{{item}}.yaml
         dest: /home/ubuntu/homeassistant_config/{{item}}.yaml
       with_items:
         - configuration

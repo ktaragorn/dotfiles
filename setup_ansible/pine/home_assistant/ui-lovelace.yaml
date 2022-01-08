@@ -15,6 +15,7 @@ views:
       - entity: sensor.disk_use_percent_chest
       - entity: sensor.openweathermap_condition
       - entity: sensor.openweathermap_temperature
+      - entity: sensor.bedroom_movement
     cards:
       - type: glance
         title: Anu & Me
