@@ -36,6 +36,7 @@
 #include "web_server.h"
 #include "mqtt.h"
 #include "clap_detector.h"
+#include "pir.h"
 
 void util_log(String log_message){
   Serial.println(log_message);
@@ -79,6 +80,9 @@ void setup(void) {
   clap_setup();
   util_log("Clap detector setup complete");
 
+  pir_setup();
+  util_log("PIR setup complete");
+
   blink_led();
 }
 
@@ -90,4 +94,5 @@ void loop(void) {
   web_server_loop();
   mqtt_loop();
   clap_loop();
+  pir_loop();
 }

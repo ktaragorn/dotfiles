@@ -63,8 +63,8 @@
       from: "off"
       to: "on"
   action:
-    - service: switch.turn_on
-      entity_id: switch.bedroom_light
+    - service: light.turn_on
+      entity_id: light.bedroom_light
 
 - alias: Smart Light Disconnected
   id: light_disconnected
@@ -74,8 +74,8 @@
       from: "on"
       to: "off"
   action:
-    - service: switch.turn_off
-      entity_id: switch.bedroom_light
+    - service: light.turn_off
+      entity_id: light.bedroom_light
 
 - alias: Downstairs Button Pressed
   id: button_pressed
@@ -346,3 +346,31 @@
       entity_id: input_boolean.we_are_in_bed
       state: "on"
   action: *going_down_actions
+
+- alias: Someone in bedroom
+  id: movement_bedroom
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_movement
+      from: "off"
+      to: "on"
+  condition: &only_in_daytime
+    # to make sure movements during sleep dont set it off
+    - condition: time
+      after: "09:00:00"
+      before: '23:00:00'
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_light
+
+- alias: Noone in bedroom
+  id: no_movement_bedroom
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_movement
+      from: "on"
+      to: "off"
+  condition: *only_in_daytime
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_light

@@ -68,6 +68,9 @@ system_health:
 # - platform: yr
 
 sensor:
+  - platform: mqtt
+    state_topic: trigger/nodemcu/pir_sensor
+    name: Bedroom Movement
   - platform: systemmonitor
     resources:
       - type: disk_use_percent

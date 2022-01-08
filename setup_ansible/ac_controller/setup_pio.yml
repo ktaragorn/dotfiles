@@ -22,4 +22,4 @@
     - name: Restart Udev
       become: yes
       service: name=udev state=restarted
-# should just work with `pio run`
+# should just work with `pio run -e nodemcu`
