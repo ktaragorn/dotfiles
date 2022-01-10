@@ -9,7 +9,7 @@ anu:
 
 kt:
   hide_if_away: false
-  icon: mdi:face
+  icon: mdi:face-man
   mac: "A4:50:46:2E:1D:AF"
   name: kt
   picture:
