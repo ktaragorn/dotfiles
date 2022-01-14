@@ -944,6 +944,7 @@
       {{alert}}
     smart_home_controllers:
       - { name: nodemcu, port_type: tcp, protocol: http }
+      - { name: esp32, port_type: tcp, protocol: http }
       # - { name: blackbean1, port_type: udp } # currently not using
       - { name: smart_light, port: 5577, port_type: tcp }
   tasks:
