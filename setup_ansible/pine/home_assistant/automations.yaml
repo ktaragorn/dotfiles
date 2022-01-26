@@ -77,17 +77,6 @@
     - service: light.turn_off
       entity_id: light.bedroom_light
 
-- alias: Bedroom Button Pressed
-  id: button_pressed
-  trigger:
-    - platform: mqtt
-      topic: trigger/nodemcu/button_pressed
-  action:
-    - service: light.toggle
-      entity_id: light.bedroom_light
-    - service: timer.start
-      entity_id: timer.manual_bedroom_light
-
 - alias: Downstairs Button double Pressed
   id: button_double_pressed
   trigger:
@@ -349,6 +338,37 @@
       state: "on"
   action: *going_down_actions
 
+
+- alias: Bedroom Button Pressed before 11pm
+  id: button_pressed_before
+  trigger:
+    - &button_pressed
+        platform: mqtt
+        topic: trigger/nodemcu/button_pressed 
+  condition: 
+    - condition: time
+      before: "23:00:00"
+  action:
+    - &light_toggle
+        service: light.toggle
+        entity_id: light.bedroom_light
+    - service: timer.start
+      entity_id: timer.manual_bedroom_light
+      duration: "01:00:00"
+
+
+- alias: Bedroom Button Pressed after 11pm
+  id: button_pressed_after
+  trigger:
+    - <<: *button_pressed
+    - condition: time
+      after: "23:00:00"
+  action:
+    - <<: *light_toggle
+    - service: timer.start
+      entity_id: timer.manual_bedroom_light
+      duration: "12:00:00"
+
 - alias: Someone in bedroom
   id: movement_bedroom
   trigger:
@@ -361,7 +381,6 @@
     - &only_in_daytime
         condition: time
         after: "11:00:00"
-        before: '23:00:00'
     - &not_manually_controlled
         condition: state
         entity_id: timer.manual_bedroom_light
@@ -383,7 +402,7 @@
         entity_id: timer.manual_bedroom_light
   condition: 
     - <<: *only_in_daytime
-    - <<: *not_manually_controlled
+    - <<: *not_manually_controlled 
     - condition: state
       entity_id: sensor.bedroom_movement
       state: "off"

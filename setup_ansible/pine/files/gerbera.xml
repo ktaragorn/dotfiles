@@ -1,0 +1,9 @@
+<config>
+  <server>
+    <ui enabled="no" show-tooltips="yes">
+      <accounts enabled="no" session-timeout="30">
+        <account user="x" password="x"/>
+      </accounts>
+    </ui>
+  </server>
+</config>
