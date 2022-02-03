@@ -92,15 +92,15 @@
             off
           {% endif %}
 
-- alias: Downstairs Button long Pressed
-  id: button_long_pressed
-  trigger:
-    - platform: mqtt
-      topic: trigger/nodemcu/button_long_pressed
-  action:
-    - service: input_boolean.toggle
-      data:
-        entity_id: input_boolean.we_are_going_to_bedroom
+# - alias: Downstairs Button long Pressed
+#   id: button_long_pressed
+#   trigger:
+#     - platform: mqtt
+#       topic: trigger/nodemcu/button_long_pressed
+#   action:
+#     - service: input_boolean.toggle
+#       data:
+#         entity_id: input_boolean.we_are_going_to_bedroom
 
 - alias: We are going to bed
   id: moved_to_bedroom
@@ -339,6 +339,18 @@
   action: *going_down_actions
 
 
+- alias: Downstairs Button long Pressed
+  id: button_long_pressed
+  trigger:
+    - platform: mqtt
+      topic: trigger/nodemcu/button_long_pressed
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_light
+      data:
+        brightness_pct: 70
+
+
 - alias: Bedroom Button Pressed before 11pm
   id: button_pressed_before
   trigger:
@@ -352,22 +364,26 @@
     - &light_toggle
         service: light.toggle
         entity_id: light.bedroom_light
+        data:
+          brightness_pct: 15
     - service: timer.start
       entity_id: timer.manual_bedroom_light
-      duration: "01:00:00"
-
+      data:
+        duration: "01:00:00"
 
 - alias: Bedroom Button Pressed after 11pm
   id: button_pressed_after
   trigger:
     - <<: *button_pressed
+  condition:
     - condition: time
       after: "23:00:00"
   action:
     - <<: *light_toggle
     - service: timer.start
       entity_id: timer.manual_bedroom_light
-      duration: "12:00:00"
+      data:
+        duration: "12:00:00"
 
 - alias: Someone in bedroom
   id: movement_bedroom
