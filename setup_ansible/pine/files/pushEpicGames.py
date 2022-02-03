@@ -4,6 +4,8 @@ import logging
 
 pwd = '/home/ubuntu/'
 
+logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s')
+
 def report_error(error):
 	report_cmd = pwd + 'pushbullet "Error with epic games publisher" ' + '"'+str(error)+ '"'
 	subprocess.check_call(report_cmd, shell=True)
@@ -21,14 +23,20 @@ currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/fr
 
 try:
 	# assuming that if multiple games are offered, all are offered and removed at the same time, so treating as one game.
-	games = ",".join(json.loads(subprocess.check_output(currentFreeGameCmd, shell=True)))
+	games = json.loads(subprocess.check_output(currentFreeGameCmd, shell=True))
+	if(len(games) == 0):
+		logging.info("No games returned")
+		quit()
+
+	gamesStr = ",".join(games)
+	logging.info("Games - " + gamesStr)
 	try: 
 		lastReportedGame = open(pwd + "lastEpicFreeGame").read()
 	except FileNotFoundError:
 		lastReportedGame = ""
-	if(games != lastReportedGame):
-		open(pwd + "lastEpicFreeGame", 'w').write(games)
-		report_free_game(games)
+	if(gamesStr != lastReportedGame):
+		open(pwd + "lastEpicFreeGame", 'w').write(gamesStr)
+		report_free_game(gamesStr)
 
 except Exception as e:
 	logging.info('Error ', exc_info=True)
