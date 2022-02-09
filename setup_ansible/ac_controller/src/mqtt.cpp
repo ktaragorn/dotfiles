@@ -43,8 +43,8 @@ void mqtt_loop() {
   	}
 }
 
-void mqtt_publish(String &topic, String &message){
-	client.publish(topic, message);
+void mqtt_publish(String &topic, String &message, bool retained){
+	client.publish(topic, message, retained, 0);
 }
 
 void mqtt_log(String message) {

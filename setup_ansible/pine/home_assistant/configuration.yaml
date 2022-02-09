@@ -69,7 +69,7 @@ system_health:
 
 sensor:
   - platform: mqtt
-    state_topic: trigger/nodemcu/pir_sensor
+    state_topic: state/nodemcu/pir_sensor
     name: Bedroom Movement
   - platform: systemmonitor
     resources:

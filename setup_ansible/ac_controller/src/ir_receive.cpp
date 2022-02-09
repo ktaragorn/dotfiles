@@ -1,5 +1,5 @@
 #include "ir_receive.h"
-#include "homeassistant_mqtt_trigger.h"
+#include "homeassistant_mqtt.h"
 #include <pins_arduino.h>
 #include <IRrecv.h>
 #include <IRutils.h>

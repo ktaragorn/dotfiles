@@ -1,5 +1,5 @@
 #include "mqtt.h"
-#include "homeassistant_mqtt_trigger.h"
+#include "homeassistant_mqtt.h"
 #include "pir.h"
 
 bool current_state = false;
@@ -15,7 +15,7 @@ void pir_loop(){
  	// digitalWrite(LED_BUILTIN, !new_state? HIGH : LOW);
 
 	if(new_state != current_state){
-		trigger_homeassistant_mqtt("pir_sensor", pir_state);
+		state_homeassistant_mqtt("pir_sensor", pir_state);
 		current_state = new_state;
 		mqtt_log("Pir state = " + pir_state);
 	}

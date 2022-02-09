@@ -1,7 +1,7 @@
 #include "buttons.h"
 #include <OneButton.h>
 #include "common.h"
-#include "homeassistant_mqtt_trigger.h"
+#include "homeassistant_mqtt.h"
 
 const int buttonPin = D7;
 OneButton button(buttonPin, false);
