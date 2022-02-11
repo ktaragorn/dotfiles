@@ -9,7 +9,7 @@ const uint16_t pirPin = D2;
 String getPirState() {
 	const bool new_state = digitalRead(pirPin) == 1;
 	const String pir_state = new_state? "on" : "off";
- 	digitalWrite(LED_BUILTIN, !new_state? HIGH : LOW);
+ 	// digitalWrite(LED_BUILTIN, !new_state? HIGH : LOW);
 	return pir_state;
 }
 
