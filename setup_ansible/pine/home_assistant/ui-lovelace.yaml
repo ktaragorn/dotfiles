@@ -16,6 +16,7 @@ views:
       - entity: sensor.openweathermap_condition
       - entity: sensor.openweathermap_temperature
       - entity: sensor.bedroom_movement
+      - entity: timer.manual_bedroom_light
     cards:
       - type: glance
         title: Anu & Me
