@@ -1,0 +1,44 @@
+esphome:
+  name: d1_mini
+  platform: ESP8266
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  use_address: d1_mini.middle.earth
+  ssid: "ironforge"
+  password: !secret ap_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "D1 Mini Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+# mqtt:
+#   broker: pine64.middle.earth
+
+web_server:
+
+
+
+captive_portal:
+
+light:
+  - platform: binary
+    name: "Notification Light"
+    output: light_output
+
+output:
+  - id: light_output
+    platform: gpio
+    pin: GPIO2
+    inverted: true
