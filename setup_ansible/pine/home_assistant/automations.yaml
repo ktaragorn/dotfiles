@@ -404,6 +404,8 @@
   action:
     - service: light.turn_on
       entity_id: light.bedroom_light
+      data:
+        brightness_pct: 15
 
 - alias: Noone in bedroom
   id: no_movement_bedroom

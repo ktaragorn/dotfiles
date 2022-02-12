@@ -28,17 +28,26 @@ wifi:
 
 web_server:
 
-
-
 captive_portal:
 
 light:
   - platform: binary
     name: "Notification Light"
     output: light_output
+    effects:
+      strobe:
 
 output:
   - id: light_output
     platform: gpio
     pin: GPIO2
     inverted: true
+
+# output:
+#   - platform: slow_pwm
+#     pin: GPIO2
+#     id: slow_light_pwm
+#     period: 1000ms    
+#     # inverted: true
+#     # min_power: 0.01
+#     # max_power: 1.00
