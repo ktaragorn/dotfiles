@@ -18,6 +18,8 @@ views:
       - entity: sensor.bedroom_movement
       - entity: timer.manual_bedroom_light
     cards:
+      - type: entity
+        entity: sensor.date_time
       - type: glance
         title: Anu & Me
         entities:
@@ -45,8 +47,11 @@ views:
       #     - switch.bedroom_light
       #   title: Switch
       #   type: entities
+      - type: light
+        entity: light.bedroom_light
 
       - entities:
+          - light.notification_light
           - light.bedroom_light
         title: Light
         type: entities

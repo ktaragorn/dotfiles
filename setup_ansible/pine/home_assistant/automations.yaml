@@ -358,8 +358,10 @@
         platform: mqtt
         topic: trigger/nodemcu/button_pressed 
   condition: 
-    - condition: time
-      before: "23:00:00"
+    - &only_in_daytime 
+        condition: time
+        before: "23:00:00"
+        after: "11:00:00"
   action:
     - &light_toggle
         service: light.toggle
@@ -378,6 +380,7 @@
   condition:
     - condition: time
       after: "23:00:00"
+      before: "11:00:00"
   action:
     - <<: *light_toggle
     - service: timer.start
@@ -393,10 +396,6 @@
       from: "off"
       to: "on"
   condition: 
-    # to make sure movements during sleep dont set it off
-    - &only_in_daytime
-        condition: time
-        after: "11:00:00"
     - &not_manually_controlled
         condition: state
         entity_id: timer.manual_bedroom_light
@@ -419,7 +418,6 @@
       event_data:
         entity_id: timer.manual_bedroom_light
   condition: 
-    - <<: *only_in_daytime
     - <<: *not_manually_controlled 
     - condition: state
       entity_id: sensor.bedroom_movement

@@ -68,6 +68,9 @@ system_health:
 # - platform: yr
 
 sensor:
+  - platform: time_date
+    display_options: 
+      - date_time
   - platform: mqtt
     state_topic: state/nodemcu/pir_sensor
     name: Bedroom Movement
