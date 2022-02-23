@@ -1,11 +1,18 @@
 #!/bin/bash
 
-path=$(readlink -f $*);
-cwd=$(pwd);
-winpath=$(wslpath -w $path);
+if command -v wslpath &> /dev/null
+then
+    
+	path=$(readlink -f $*);
+	cwd=$(pwd);
+	winpath=$(wslpath -w $path);
 
-echo "Editing ${path}"
-echo "Windows path is ${winpath}"
+	echo "Editing ${path}"
+	echo "Windows path is ${winpath}"
 
 
-/mnt/c/Program\ Files/Sublime\ Text\ 3/subl.exe $winpath
+	/mnt/c/Program\ Files/Sublime\ Text\ 3/subl.exe $winpath
+else
+	/usr/bin/subl $@ # how to just call earlier version??
+fi
+

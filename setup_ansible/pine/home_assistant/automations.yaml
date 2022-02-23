@@ -400,6 +400,9 @@
         condition: state
         entity_id: timer.manual_bedroom_light
         state: idle
+    - condition: state
+      entity_id: person.kt
+      state: home
   action:
     - service: light.turn_on
       entity_id: light.bedroom_light
