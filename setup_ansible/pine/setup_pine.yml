@@ -266,12 +266,12 @@
         port: 8085
         icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
         proc: htpc
-      - name: kodi
-        link_to: /kodi
-        terminate: "/"
-        port: 8080
-        icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
-        proc: kodi --headless
+      # - name: kodi
+      #   link_to: /kodi
+      #   terminate: "/"
+      #   port: 8080
+      #   icon: "https://lh6.ggpht.com/RQvf62YkkS_hpGAfP2iBoT2yf7b0oohFQHhBB8Chp8nHNPSqmZgEkwwpKtqdtqQ_ZvM=w300"
+      #   proc: kodi --headless
       - name: flexget
         link_to: /flexget
         port: 5050
@@ -556,46 +556,46 @@
 #       automysqlbackup_username: kodi
 #       automysqlbackup_password: kodi
 
-- name: HTPC Manager
-  tags: htpc
-  hosts: all
-  gather_facts: no
-  become: yes
-  vars:
-    htpc_path: /home/ubuntu/Documents/HTPC-Manager
-  tasks:
-    - name: Get latest htpc manager code
-      git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
-      notify: restart htpc manager
-      become: no
-    - name: Install stuff to compile pillow
-      apt:
-        package:
-          - libjpeg-dev
-          - libfreetype6
-          - libfreetype6-dev
-          - zlib1g-dev
-          - python-dev
-    - name: Install psutil for system info and pillow for images
-      pip:
-        name:
-          - psutil
-          - pillow
-    - name: It needs smartmontools installed
-      apt: name=smartmontools
-    - name: Push systemd service file
-      template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
-    - name: Start and enable htpc
-      service: name=htpc state=started enabled=true #daemon-reload=true
+# - name: HTPC Manager
+#   tags: htpc
+#   hosts: all
+#   gather_facts: no
+#   become: yes
+#   vars:
+#     htpc_path: /home/ubuntu/Documents/HTPC-Manager
+#   tasks:
+#     - name: Get latest htpc manager code
+#       git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
+#       notify: restart htpc manager
+#       become: no
+#     - name: Install stuff to compile pillow
+#       apt:
+#         package:
+#           - libjpeg-dev
+#           - libfreetype6
+#           - libfreetype6-dev
+#           - zlib1g-dev
+#           - python-dev
+#     - name: Install psutil for system info and pillow for images
+#       pip:
+#         name:
+#           - psutil
+#           - pillow
+#     - name: It needs smartmontools installed
+#       apt: name=smartmontools
+#     - name: Push systemd service file
+#       template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
+#     - name: Start and enable htpc
+#       service: name=htpc state=started enabled=true #daemon-reload=true
   # config
   # path to /htpc
   # enable kodi and deluge and add webmin and systeminfo
   # theme to atmosphere
   # dashboard latest tv shows, system info, disks info
 
-  handlers:
-    - name: restart htpc manager
-      service: name=htpc state=restarted
+  # handlers:
+  #   - name: restart htpc manager
+  #     service: name=htpc state=restarted
 
 # TODO undo this if needed..
 # #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta
