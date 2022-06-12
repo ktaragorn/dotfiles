@@ -1,0 +1,50 @@
+esphome:
+  name: d1_mini
+  platform: ESP8266
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  use_address: d1_mini.middle.earth
+  ssid: "ironforge"
+  password: !secret ap_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "D1 Mini Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+# mqtt:
+#   broker: pine64.middle.earth
+
+web_server:
+
+captive_portal:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: D4
+      mode:
+        input: true
+        pulldown: true
+      # inverted: true
+    name: "Light button"
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - logger.log: "Button Pressed"
+      - min_length: 750ms
+        max_length: 2000ms
+        then:          
+          - logger.log: "Button Long pressed"
