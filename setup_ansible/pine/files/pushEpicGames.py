@@ -14,9 +14,9 @@ def report_error(error):
 
 
 def report_free_game(gameName):
-	report_cmd = pwd + 'pushbullet "Epic Games Free game(s) " ' + '"' + gameName + '"' + ' "-d channel_tag=epicgamesfree"'
+	report_cmd = pwd + 'pushbullet "Epic Games Free game(s) " ' + '"' + gameName + '"' + ' "-d channel_tag=epicgamesfree -d type=link -d url=https://www.epicgames.com/store/en-US/free-games"'
 	subprocess.check_call(report_cmd, shell=True)
-	report_cmd = pwd + 'telegram "Epic Games Free game(s) : '  + gameName + '"'
+	report_cmd = pwd + 'telegram "Epic Games Free game(s) : '  + gameName + ' at https://www.epicgames.com/store/en-US/free-games"'
 	subprocess.check_call(report_cmd, shell=True)
 
 currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US | jq '[[.data.Catalog.searchStore.elements[]  | {name: .title,date: .promotions.promotionalOffers[0].promotionalOffers[0].startDate, percent: .promotions.promotionalOffers[0].promotionalOffers[0].discountSetting.discountPercentage}] | .[] |  select(.date != null) | select(.percent == 0) |.name]'"

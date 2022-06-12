@@ -763,47 +763,47 @@
         name: hass
         restart: yes
 
-- name: Headless Kodi vs Docker
-  tags: headless
-  hosts: all
-  gather_facts: no
-  tasks:
-    - name: Download Headless Kodi
-      docker_image:
-        name: matthuisman/kodi-headless:Matrix
-    - name: Make folder for headless kodi config, and userdata below it
-      file:
-        path: /home/ubuntu/kodi.d/headless/userdata
-        recurse: yes
-        state: directory
-    - name: Copy advancedsettings and sources from kodi.d folder - externally managed
-      copy:
-        src: ../kodi/files/{{item}}
-        dest: /home/ubuntu/kodi.d/headless/userdata
-      with_items:
-        - advancedsettings.xml
-        - sources.xml
-      notify:
-        - Restart Kodi
-    - name: Start headless kodi container
-      docker_container:
-        name: kodi-headless
-        image: matthuisman/kodi-headless:Matrix
-        volumes:
-          - /home/ubuntu/kodi.d/headless:/config/.kodi
-        env:
-          PGID: "1000"
-          PUID: "1000"
-        published_ports:
-          - 8080:8080
-          - 9090:9090
-          - 9777:9777/udp
-        restart_policy: unless-stopped
-  handlers:
-    - name: Restart Kodi
-      docker_container:
-        name: kodi-headless
-        restart: yes
+# - name: Headless Kodi vs Docker
+#   tags: headless
+#   hosts: all
+#   gather_facts: no
+#   tasks:
+#     - name: Download Headless Kodi
+#       docker_image:
+#         name: matthuisman/kodi-headless:Matrix
+#     - name: Make folder for headless kodi config, and userdata below it
+#       file:
+#         path: /home/ubuntu/kodi.d/headless/userdata
+#         recurse: yes
+#         state: directory
+#     - name: Copy advancedsettings and sources from kodi.d folder - externally managed
+#       copy:
+#         src: ../kodi/files/{{item}}
+#         dest: /home/ubuntu/kodi.d/headless/userdata
+#       with_items:
+#         - advancedsettings.xml
+#         - sources.xml
+#       notify:
+#         - Restart Kodi
+#     - name: Start headless kodi container
+#       docker_container:
+#         name: kodi-headless
+#         image: matthuisman/kodi-headless:Matrix
+#         volumes:
+#           - /home/ubuntu/kodi.d/headless:/config/.kodi
+#         env:
+#           PGID: "1000"
+#           PUID: "1000"
+#         published_ports:
+#           - 8080:8080
+#           - 9090:9090
+#           - 9777:9777/udp
+#         restart_policy: unless-stopped
+#   handlers:
+#     - name: Restart Kodi
+#       docker_container:
+#         name: kodi-headless
+#         restart: yes
 
 # - name: Install and run shadowsocks proxy
 #   tags: shadowsocks
@@ -905,6 +905,18 @@
         minute: '0'
         hour: "*/4"
         job: /usr/bin/python3 /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
+    # to check ` cat /proc/sys/net/netfilter/nf_conntrack_count` and `sudo conntrack -L` after installing conntrack
+    # to mitigate sudo sysctl -w net.netfilter.nf_conntrack_max=8388608 (otherwise packets dropped, things slow and monit sad)
+    - name: Create cron job block outbound to subnet {{item}} because they were overloading nf_conntrack (hack?)
+      become: yes
+      cron:
+        name: block outbound to subnet {{item}}
+        user: root
+        special_time: reboot
+        job: /sbin/iptables -A OUTPUT -d {{item}}  -j DROP >> /tmp/epic.log 2>&1
+      with_items:
+        - 197.253.87.0/255.255.255.0
+        - 197.253.66.0/255.255.255.0
 
 - name: Setup NFS
   tags: nfs
