@@ -343,7 +343,7 @@
   id: button_long_pressed
   trigger:
     - platform: mqtt
-      topic: trigger/nodemcu/button_long_pressed
+      topic: trigger/+/button_long_pressed
   action:
     - service: light.turn_on
       entity_id: light.bedroom_light
@@ -356,7 +356,7 @@
   trigger:
     - &button_pressed
         platform: mqtt
-        topic: trigger/nodemcu/button_pressed 
+        topic: trigger/+/button_pressed 
   condition: 
     - &only_in_daytime 
         condition: time

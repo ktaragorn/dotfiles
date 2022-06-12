@@ -23,8 +23,8 @@ wifi:
     ssid: "D1 Mini Fallback Hotspot"
     password: !secret fallback_ap_password
 
-# mqtt:
-#   broker: pine64.middle.earth
+mqtt:
+  broker: pine64.middle.earth
 
 web_server:
 
@@ -36,15 +36,23 @@ binary_sensor:
       number: D4
       mode:
         input: true
-        pulldown: true
-      # inverted: true
+        # pulldown: true
+      # have to invert here and connect the wrong way around.. essentially making the switch pull up instead of down
+      # I think the pull down resistor was not pulling the pin low enough, so it was always on. Inverted means it is considered on when low
+      inverted: true
     name: "Light button"
     on_click:
       - min_length: 50ms
         max_length: 500ms
         then:
           - logger.log: "Button Pressed"
+          - mqtt.publish: 
+              topic: trigger/d1_mini/button_pressed 
+              payload: 'on'
       - min_length: 750ms
         max_length: 2000ms
         then:          
           - logger.log: "Button Long pressed"
+          - mqtt.publish: 
+              topic: trigger/d1_mini/button_long_pressed
+              payload: 'on'
