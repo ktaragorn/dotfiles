@@ -1,0 +1,6 @@
+substitutions:
+  name: d1_mini
+  pin: D4
+  inverted: true
+
+<<: !include light_button.yaml
