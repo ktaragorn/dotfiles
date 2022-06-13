@@ -1,6 +1,6 @@
 substitutions:
   name: nodemcu
-  pin: D4
-  inverted: 'true'
+  pin: D7
+  inverted: 'false'
 
 <<: !include light_button.yaml
