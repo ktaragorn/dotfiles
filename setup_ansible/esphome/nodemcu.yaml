@@ -1,5 +1,5 @@
 substitutions:
-  name: d1_mini
+  name: nodemcu
   pin: D4
   inverted: 'true'
 
