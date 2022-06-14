@@ -1,0 +1,31 @@
+esphome:
+  name: $name
+  platform: ESP8266
+  board: $name
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  use_address: $name.middle.earth
+  ssid: "ironforge"
+  password: !secret ap_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "$name Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+mqtt:
+  broker: pine64.middle.earth
+
+web_server:
+
+captive_portal:

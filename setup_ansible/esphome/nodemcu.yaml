@@ -3,4 +3,11 @@ substitutions:
   pin: D7
   inverted: 'false'
 
-<<: !include light_button.yaml
+<<: !include base.yaml
+
+binary_sensor:
+  - <<: !include light_button.yaml
+  - platform: gpio
+    pin: D2
+    name: "Bedroom Motion"
+    device_class: motion

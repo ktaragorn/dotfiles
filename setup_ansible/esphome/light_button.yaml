@@ -1,58 +1,25 @@
-esphome:
-  name: $name
-  platform: ESP8266
-  board: $name
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: ""
-
-ota:
-  password: ""
-
-wifi:
-  use_address: $name.middle.earth
-  ssid: "ironforge"
-  password: !secret ap_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "$name Fallback Hotspot"
-    password: !secret fallback_ap_password
-
-mqtt:
-  broker: pine64.middle.earth
-
-web_server:
-
-captive_portal:
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: $pin
-      mode:
-        input: true
-        # pulldown: true
-      # have to invert here and connect the wrong way around.. essentially making the switch pull up instead of down
-      # I think the pull down resistor was not pulling the pin low enough, so it was always on. Inverted means it is considered on when low
-      inverted: $inverted
-    name: "Light button - $name"
-    on_click:
-      - min_length: 50ms
-        max_length: 500ms
-        then:
-          - logger.log: "Button Pressed"
-          - mqtt.publish: 
-              topic: trigger/$name/button_pressed
-              payload: 'on'
-      - min_length: 750ms
-        max_length: 2000ms
-        then:          
-          - logger.log: "Button Long pressed"
-          - mqtt.publish: 
-              topic: trigger/$name/button_long_pressed
-              payload: 'on'
+platform: gpio
+pin:
+  number: $pin
+  mode:
+    input: true
+    # pulldown: true
+  # have to invert here and connect the wrong way around.. essentially making the switch pull up instead of down
+  # I think the pull down resistor was not pulling the pin low enough, so it was always on. Inverted means it is considered on when low
+  inverted: $inverted
+name: "Light button - $name"
+on_click:
+  - min_length: 50ms
+    max_length: 500ms
+    then:
+      - logger.log: "Button Pressed"
+      - mqtt.publish: 
+          topic: trigger/$name/button_pressed
+          payload: 'on'
+  - min_length: 750ms
+    max_length: 2000ms
+    then:          
+      - logger.log: "Button Long pressed"
+      - mqtt.publish: 
+          topic: trigger/$name/button_long_pressed
+          payload: 'on'

@@ -3,4 +3,7 @@ substitutions:
   pin: D4
   inverted: 'true'
 
-<<: !include light_button.yaml
+<<: !include base.yaml
+
+binary_sensor:
+  - <<: !include light_button.yaml
