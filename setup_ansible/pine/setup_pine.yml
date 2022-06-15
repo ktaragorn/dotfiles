@@ -959,6 +959,7 @@
       - { name: nodemcu, port_type: tcp, protocol: http }
       - { name: esp32, port_type: tcp, protocol: http }
       # - { name: blackbean1, port_type: udp } # currently not using
+      - { name: d1_mini, port_type: tcp, protocol: http }
       - { name: smart_light, port: 5577, port_type: tcp }
   tasks:
     # monit was already setup by OMV, so this may not be complete
@@ -1387,4 +1388,8 @@
           - jellyfin-config:/config
           - jellyfin-cache:/cache
           - /media/ubuntu/Chest/TV Shows:/Chest
+        devices: # https://jellyfin.org/docs/general/administration/hardware-acceleration.html
+          # VAAPI Devices
+          - /dev/dri/renderD128:/dev/dri/renderD128
+          - /dev/dri/card0:/dev/dri/card0
         restart_policy: unless-stopped
