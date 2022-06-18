@@ -1,5 +1,7 @@
 substitutions:
   name: nodemcu
+  platform: ESP8266
+  board: nodemcu
   pin: D7
   inverted: 'false'
 

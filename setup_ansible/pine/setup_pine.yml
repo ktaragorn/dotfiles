@@ -868,6 +868,8 @@
         - kodi
         - pushbullet
         - telegram
+        - mqtt_sub
+        - mqtt_pub
         - monitor_free_disk_space.sh
         - monitor_chest_drive.sh
         - speed_test.sh
