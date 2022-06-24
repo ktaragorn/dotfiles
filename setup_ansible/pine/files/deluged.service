@@ -2,6 +2,7 @@
 Description=Deluge Bittorrent Client Daemon
 After=network-online.target
 Wants=deluge-web.service
+Wants=flexget.service
 
 # Unit starts after the following mounts are available.
 RequiresMountsFor=/media/ubuntu/Chest

@@ -2,10 +2,9 @@
 Description=Flexget Daemon
 After=network.target
 
-# Unit starts after the following mounts are available.
-RequiresMountsFor=/media/ubuntu/Chest
-# Unit is stopped when any of these mounts disappear.
-BindsTo=media-ubuntu-Chest.mount
+After=deluged.service
+Requires=deluged.service
+
 
 [Service]
 Type=simple
