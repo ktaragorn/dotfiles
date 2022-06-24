@@ -863,7 +863,7 @@
   gather_facts: no
   tasks:
     - name: Create command line kodi, pushbullet file, monitor file
-      template: src=files/{{item}} dest=~/{{item}} mode=u+rwx
+      template: src=scripts/{{item}} dest=~/{{item}} mode=u+rwx
       with_items:
         - kodi
         - pushbullet
@@ -876,6 +876,7 @@
         - monit_pushbullet
         - remount_drive.sh
         - pushEpicGames.py
+        - monitor_conntrack.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
@@ -911,14 +912,21 @@
     # to mitigate sudo sysctl -w net.netfilter.nf_conntrack_max=8388608 (otherwise packets dropped, things slow and monit sad)
     - name: Create cron job block outbound to subnet {{item}} because they were overloading nf_conntrack (hack?)
       become: yes
-      cron:
-        name: block outbound to subnet {{item}}
-        user: root
-        special_time: reboot
-        job: /sbin/iptables -A OUTPUT -d {{item}}  -j DROP >> /tmp/epic.log 2>&1
+      lineinfile:
+        dest: /etc/rc.local
+        line: /sbin/iptables -A OUTPUT -d {{item}}  -j DROP
+        insertbefore: exit 0
       with_items:
         - 197.253.87.0/255.255.255.0
         - 197.253.66.0/255.255.255.0
+    - name: Create cron job to check conntrack count
+      become: yes
+      cron:
+        name: Check for abnormally high conntrack count
+        user: root
+        minute: '0'
+        hour: "*/4"
+        job: /home/ubuntu/monitor_conntrack.sh >> /tmp/cron.log 2>&1
 
 - name: Setup NFS
   tags: nfs
