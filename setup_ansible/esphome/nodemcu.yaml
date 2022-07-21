@@ -9,7 +9,11 @@ substitutions:
 
 binary_sensor:
   - <<: !include light_button.yaml
-  - platform: gpio
+
+sensor:
+  - platform: dht
     pin: D2
-    name: "Bedroom Motion"
-    device_class: motion
+    temperature:
+      name: "Bed Room Temperature"
+    humidity:
+      name: "Bed Room Humidity"

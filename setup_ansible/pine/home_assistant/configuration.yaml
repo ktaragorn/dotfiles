@@ -258,6 +258,11 @@ binary_sensor:
     host: smart_light.middle.earth
     scan_interval: 60
     count: 2
+  - platform: ping
+    name: D1 Mini
+    host: d1_mini.middle.earth
+    scan_interval: 60
+    count: 2
 
 person:
   - name: Anu
