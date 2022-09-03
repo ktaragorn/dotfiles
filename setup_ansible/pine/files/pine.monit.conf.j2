@@ -62,6 +62,7 @@ check file cloudmqtt_bridge with path /tmp/bridge_connected_log
     if content = "0" then {{alert}}
 
 {% for service in proxied_services + other_services if "proc" in service %}
+
 check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
   # if the server is down, it gets stuck in an infinite restart loop rather than triggering this alert
   # So have added a does not exist check which does what is expected in that case
@@ -71,12 +72,19 @@ check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.
   {% endif %}
   if does not exist {{fault_tolerance}} then
     {{alert_succeeded}}
+  {% if service.restart is defined %}
+    restart = "{{service.restart}}"
+    if does not exist {{fault_tolerance}} then restart
+  {% endif %}
+
 {% endfor %}
 
 {% for host in smart_home_controllers %}
+
 check host {{host.name}} with address {{host.name}}.middle.earth
   if failed port {{host.port | default (80)}} type {{host.port_type}} {% if host.protocol is defined %} protocol {{host.protocol}}{% endif %} {{fault_tolerance}} then
     {{alert_succeeded}}
   if failed ping {{fault_tolerance}} then
     {{alert_succeeded}}
+
 {% endfor %}

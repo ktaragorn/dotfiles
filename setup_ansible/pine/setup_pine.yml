@@ -311,6 +311,7 @@
         icon: https://www.saashub.com/images/app/service_logos/65/4165b157fc06/large.png?1578446181
         port: 8096
         proc: jellyfin
+        restart: /usr/bin/sudo -u ubuntu docker restart jellyfin
       - name: MQTTAdmin
         icon: https://hackaday.com/wp-content/uploads/2016/05/mqtt_dash.png
         port: 80
@@ -1403,4 +1404,4 @@
           # VAAPI Devices
           - /dev/dri/renderD128:/dev/dri/renderD128
           - /dev/dri/card0:/dev/dri/card0
-        restart_policy: unless-stopped
+        restart_policy: on-failure
