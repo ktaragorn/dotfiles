@@ -22,6 +22,7 @@
           - unattended-upgrades
           - ncdu
           - lm-sensors
+          - pkg-config
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -971,7 +972,7 @@
       - { name: esp32, port_type: tcp, protocol: http }
       # - { name: blackbean1, port_type: udp } # currently not using
       - { name: d1_mini, port_type: tcp, protocol: http }
-      - { name: smart_light, port: 5577, port_type: tcp }
+      # - { name: smart_light, port: 5577, port_type: tcp }
   tasks:
     # monit was already setup by OMV, so this may not be complete
     - name: Install monit server
@@ -1405,3 +1406,34 @@
           - /dev/dri/renderD128:/dev/dri/renderD128
           - /dev/dri/card0:/dev/dri/card0
         restart_policy: on-failure
+        # restart_policy: unless-stopped
+
+- name: Setup borg and borgmatic backups
+  tags: backup
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Install libacl headers
+      apt: 
+        name: libacl1-dev
+      become: yes
+    - name: Install borg and borgmatic
+      pip:
+        name:
+          - borgbackup
+          - borgmatic
+    - name: Create borgmatic folder
+      file:
+        dest: ~/.config/borgmatic
+        state: directory
+    - name: Copy borgmatic config
+      copy:
+        src: files/borgmatic.yml
+        dest: ~/.config/borgmatic/config.yaml
+    - name: Cron job to run backup job
+      cron:
+        name: Run borgmatic backup
+        user: ubuntu
+        special_time: hourly
+        job: ~/.local/bin/borgmatic --verbosity 2
