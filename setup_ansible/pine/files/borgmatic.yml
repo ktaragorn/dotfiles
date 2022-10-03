@@ -1,6 +1,7 @@
 location:
     source_directories:
         - /var/lib/munin/localhost
+        - /home/ubuntu/actual
 
     one_file_system: true
 

@@ -1410,12 +1410,13 @@
 
 - name: Setup borg and borgmatic backups
   tags: backup
+
   hosts: all
   gather_facts: no
   become: no
   tasks:
     - name: Install libacl headers
-      apt: 
+      apt:
         name: libacl1-dev
       become: yes
     - name: Install borg and borgmatic
@@ -1437,3 +1438,24 @@
         user: ubuntu
         special_time: hourly
         job: ~/.local/bin/borgmatic --verbosity 2
+
+- name: Install Actual-server
+  tags: actual
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Create data folder
+      file:
+        dest: /home/ubuntu/actual
+        state: directory
+    - name: Run container
+      docker_container:
+        name: actual
+        image: jlongster/actual-server
+        volumes:
+          - /home/ubuntu/actual:/data
+        published_ports:
+          - 5006:5006
+        restart_policy: on-failure
+
