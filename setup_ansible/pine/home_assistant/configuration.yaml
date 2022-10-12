@@ -263,6 +263,11 @@ binary_sensor:
     host: d1_mini.middle.earth
     scan_interval: 60
     count: 2
+  - platform: ping
+    name: Esp32
+    host: esp32.middle.earth
+    scan_interval: 60
+    count: 2
 
 person:
   - name: Anu

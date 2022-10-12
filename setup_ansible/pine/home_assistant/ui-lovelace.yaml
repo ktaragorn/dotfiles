@@ -71,6 +71,8 @@ views:
           - entity: sensor.d_battery_level
         type: glance
         title: Thermometer Battery
+      - type: media-control
+        entity: media_player.bedroom_tv
       # - entities:
       #     - script.downstairs_ac
       #     - script.toggle_tv

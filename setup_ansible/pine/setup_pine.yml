@@ -63,6 +63,16 @@
     - name: Restart ssh
       service: name=ssh state=restarted
 
+- name: Setup swapfile
+  hosts: all
+  become: yes
+  tags: swap
+  gather_facts: no
+  vars:
+    swap_file_size_mb: '1024'
+  roles:
+    - geerlingguy.swap
+
 - name: Harddisks setup - ntfs and fstab
   become: yes
   tags: hdd

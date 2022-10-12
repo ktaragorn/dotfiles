@@ -3,3 +3,4 @@
 - src: guisea.automysqlbackup
 - src: geerlingguy.munin
 - src: geerlingguy.munin-node
+- src: geerlingguy.swap
