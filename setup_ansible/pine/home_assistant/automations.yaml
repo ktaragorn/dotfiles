@@ -383,6 +383,8 @@
       before: "11:00:00"
   action:
     - <<: *light_toggle
+      data:
+        brightness_pct: 5
     - service: timer.start
       entity_id: timer.manual_bedroom_light
       data:
