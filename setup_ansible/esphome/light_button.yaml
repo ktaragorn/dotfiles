@@ -20,3 +20,11 @@ on_click:
       - mqtt.publish: 
           topic: trigger/$name/button_long_pressed
           payload: 'on'
+  - min_length: 2050ms
+    max_length: 10000ms
+    then:
+      - logger.log: "Button super Long pressed"
+      - mqtt.publish:
+          topic: trigger/$name/button_super_long_pressed
+          payload: 'on'
+

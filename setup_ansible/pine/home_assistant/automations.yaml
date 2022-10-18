@@ -345,10 +345,11 @@
     - platform: mqtt
       topic: trigger/+/button_long_pressed
   action:
-    - service: light.turn_on
-      entity_id: light.bedroom_light
-      data:
-        brightness_pct: 70
+    - &light_on
+        service: light.turn_on
+        entity_id: light.bedroom_light
+        data:
+          brightness_pct: 70
 
 
 - alias: Bedroom Button Pressed before 11pm
@@ -372,6 +373,16 @@
       entity_id: timer.manual_bedroom_light
       data:
         duration: "01:00:00"
+
+- alias: Downstairs Button super long Pressed
+  id: button_super_long_pressed
+  trigger:
+    - platform: mqtt
+      topic: trigger/+/button_super_long_pressed
+  action:
+    - <<: *light_on
+      data:
+        brightness_pct: 1
 
 - alias: Bedroom Button Pressed after 11pm
   id: button_pressed_after
