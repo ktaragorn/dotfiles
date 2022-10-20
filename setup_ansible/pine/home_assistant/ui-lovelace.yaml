@@ -18,6 +18,8 @@ views:
       - entity: sensor.bedroom_movement
       - entity: timer.manual_bedroom_light
     cards:
+      - type: weather-forecast
+        entity: weather.openweathermap
       - type: entity
         entity: sensor.date_time
       - type: glance
