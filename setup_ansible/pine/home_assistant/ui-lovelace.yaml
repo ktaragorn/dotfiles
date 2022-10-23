@@ -67,6 +67,15 @@ views:
         type: glance
         title: Temperature
       - entities:
+          - entity: sensor.a_humidity
+          - entity: sensor.c_humidity
+          - entity: sensor.b_humidity
+          - entity: sensor.d_humidity
+          - entity: sensor.living_room_humidity
+          - entity: sensor.bed_room_humidity
+        type: glance
+        title: Humidity
+      - entities:
           - entity: sensor.a_battery_level
           - entity: sensor.c_battery_level
           - entity: sensor.b_battery_level
