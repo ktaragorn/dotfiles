@@ -174,7 +174,7 @@ device_tracker:
     consider_home: 300 # 5 min
     hosts:
       anu: anu_pixel4a
-      kt: mia2lite.middle.earth
+      kt: mi9tpro.middle.earth
   # - platform: nmap_tracker
   #   hosts:
   #     - Redmi4X-Redmi
@@ -194,6 +194,8 @@ light:
   #   entity_id: switch.bedroom_light
 
   # Yaml not supported any longer for flux_led.. gonna leave it here in protest.. 
+  # this stopped working. Auto discovered light has a different name, need to change its entity id to match light.bedroom_light\
+  # cant discover smart_light.. not sure why..
  - platform: flux_led
    devices:
      smart_light.middle.earth:
