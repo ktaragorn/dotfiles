@@ -11,3 +11,39 @@ substitutions:
 
 binary_sensor:
   - <<: !include light_button.yaml
+
+switch:
+  - platform: gpio
+    pin:
+      number: D0
+      inverted: false
+    name: Ground pin
+    restore_mode: ALWAYS_OFF
+
+# remote_receiver:
+#   pin:
+#     number: D5
+#     inverted: false
+#   dump: all
+
+remote_transmitter:
+  pin:
+    number: D5
+    inverted: false
+  # RF uses a 100% carrier signal
+  carrier_duty_percent: 100%
+
+button:
+  - platform: template
+    name: Bedroom TV toggle
+    on_press:
+      # - remote_transmitter.transmit_sony:
+      #     data: 0x00000A90
+      #     nbits: 12
+      - remote_transmitter.transmit_pronto:
+          data: "0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3"
+
+# from https://www.remotecentral.com/cgi-bin/codes/sony/tv_generic_driver/page-2/ 0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3
+# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005C 0018 002F 001A 0017 0017 0030 0018 001A 0016 0030 0018 0018 0019 0019 0016 0030 0017 0019 0019 0019 0016 0019 0017 0019 06C3
+# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3
+# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005D 0019 002E 001A 0017 001A 002D 001A 0016 0018 0030 0018 001A 0017 0017 0018 0030 001A 0018 0016 0018 0018 0019 001A 0016 06C3

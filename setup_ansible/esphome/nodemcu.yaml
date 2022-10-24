@@ -17,3 +17,18 @@ sensor:
       name: "Bed Room Temperature"
     humidity:
       name: "Bed Room Humidity"
+
+# remote_transmitter:
+#   pin:
+#     number: D5
+#     inverted: false
+#   # RF uses a 100% carrier signal
+#   carrier_duty_percent: 100%
+
+# button:
+#   - platform: template
+#     name: Bedroom TV toggle
+#     on_press:
+#       - remote_transmitter.transmit_sony:
+#           data: 0x00000A90
+#           nbits: 12
