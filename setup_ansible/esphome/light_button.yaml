@@ -1,30 +1,31 @@
-platform: gpio
-pin:
-  number: $pin
-  mode:
-    input: true
-  inverted: $inverted
-name: "Light button - $name"
-on_click:
-  - min_length: 50ms
-    max_length: 500ms
-    then:
-      - logger.log: "Button Pressed"
-      - mqtt.publish: 
-          topic: trigger/$name/button_pressed
-          payload: 'on'
-  - min_length: 750ms
-    max_length: 2000ms
-    then:          
-      - logger.log: "Button Long pressed"
-      - mqtt.publish: 
-          topic: trigger/$name/button_long_pressed
-          payload: 'on'
-  - min_length: 2050ms
-    max_length: 10000ms
-    then:
-      - logger.log: "Button super Long pressed"
-      - mqtt.publish:
-          topic: trigger/$name/button_super_long_pressed
-          payload: 'on'
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: $pin
+      mode:
+        input: true
+      inverted: $inverted
+    name: "Light button - $name"
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - logger.log: "Button Pressed"
+          - mqtt.publish:
+              topic: trigger/$name/button_pressed
+              payload: 'on'
+      - min_length: 750ms
+        max_length: 2000ms
+        then:
+          - logger.log: "Button Long pressed"
+          - mqtt.publish:
+              topic: trigger/$name/button_long_pressed
+              payload: 'on'
+      - min_length: 2050ms
+        max_length: 10000ms
+        then:
+          - logger.log: "Button super Long pressed"
+          - mqtt.publish:
+              topic: trigger/$name/button_super_long_pressed
+              payload: 'on'
 

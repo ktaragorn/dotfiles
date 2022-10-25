@@ -3,7 +3,8 @@ substitutions:
   platform: ESP32
   board: esp32dev
 
-<<: !include base.yaml
+packages:
+  base: !include base.yaml
 
 esp32_ble_tracker:
 

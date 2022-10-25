@@ -5,10 +5,9 @@ substitutions:
   pin: D7
   inverted: 'false'
 
-<<: !include base.yaml
-
-binary_sensor:
-  - <<: !include light_button.yaml
+packages:
+  base: !include base.yaml
+  light_button: !include light_button.yaml
 
 sensor:
   - platform: dht

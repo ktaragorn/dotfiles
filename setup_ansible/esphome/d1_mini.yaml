@@ -7,10 +7,9 @@ substitutions:
   # I think the pull down resistor was not pulling the pin low enough, so it was always on. Inverted means it is considered on when low
   inverted: 'true'
 
-<<: !include base.yaml
-
-binary_sensor:
-  - <<: !include light_button.yaml
+packages:
+  base: !include base.yaml
+  light_button: !include light_button.yaml
 
 switch:
   - platform: gpio

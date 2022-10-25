@@ -1,0 +1,7 @@
+substitutions:
+  name: esp32_b
+  platform: ESP32
+  board: esp32dev
+
+packages:
+  base: !include base.yaml
