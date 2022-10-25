@@ -34,20 +34,20 @@ captive_portal:
 # uptime human readable
 text_sensor:
   - platform: template
-    name: Uptime Human Readable
-    id: uptime_human
+    name: Uptime Human Readable - $name
+    id: uptime_human_$name
     icon: mdi:clock-start
 sensor:
   - platform: uptime
-    name: Uptime Sensor
-    id: uptime_sensor
+    name: Uptime Sensor - $name
+    id: uptime_sensor_$name
     update_interval: 20s
     on_raw_value:
       then:
         - text_sensor.template.publish:
-            id: uptime_human
+            id: uptime_human_$name
             state: !lambda |-
-              int seconds = round(id(uptime_sensor).raw_state);
+              int seconds = round(id(uptime_sensor_$name).raw_state);
               int days = seconds / (24 * 3600);
               seconds = seconds % (24 * 3600);
               int hours = seconds / 3600;
@@ -60,3 +60,6 @@ sensor:
                 (minutes ? to_string(minutes) + "m " : "") +
                 (to_string(seconds) + "s")
               ).c_str();
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor - $name"
+    update_interval: 60s
