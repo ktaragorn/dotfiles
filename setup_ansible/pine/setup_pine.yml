@@ -749,7 +749,7 @@
         name: hass
         # otherwise cant make outgoing calls, or talk to mqtt, lazy way out
         network_mode: host
-        image: homeassistant/home-assistant:2021.12.0
+        image: homeassistant/home-assistant:2022.4.0
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /home/ubuntu/homeassistant_config:/config
