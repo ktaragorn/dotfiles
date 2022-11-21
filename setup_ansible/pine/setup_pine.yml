@@ -1388,6 +1388,23 @@
           MYSQL_USER: kodi
           MYSQL_PASSWORD: kodi
         restart_policy: unless-stopped
+    - name: Install pymysql
+      become: yes
+      pip:
+        name: pymysql
+    - name: Create hass db
+      become: yes
+      mysql_db:
+        login_user: root
+        login_password: "{{my_mysql_root_password}}"
+        name: hass
+    - name: Create hass username, password
+      become: yes
+      mysql_user:
+        login_user: root
+        login_password: "{{my_mysql_root_password}}"
+        name: hass
+        password: hass
 
 - name: Install Jellyfin
   tags: jellyfin

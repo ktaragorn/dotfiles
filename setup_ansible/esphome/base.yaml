@@ -6,9 +6,9 @@ esphome:
 # Enable logging
 logger:
 
-# Enable Home Assistant API
-api:
-  password: ""
+# Disable Home Assistant API as we use MQTT
+# api:
+#   password: ""
 
 ota:
   password: ""

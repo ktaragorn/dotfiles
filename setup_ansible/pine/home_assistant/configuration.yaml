@@ -54,6 +54,19 @@ history:
 # View all events in a logbook
 logbook:
 
+# improvements for SD card from https://community.home-assistant.io/t/how-to-keep-your-recorder-database-size-under-control/295795
+# exclude bad entities consuming too much space
+# store for fewer days, write less frequently
+recorder:
+  purge_keep_days: 5
+  commit_interval: 30
+  exclude:
+    entities:
+      - light.bedroom_light_2
+      - weather.openweathermap
+      - media_player.bedroom_tv
+      - number.bedroom_light_effect_speed
+
 # Enables a map showing the location of tracked devices
 map:
 
@@ -233,10 +246,6 @@ notify:
   - platform: telegram
     name: telegram
     chat_id: {{telegram_chat_id}}
-
-recorder:
-  purge_keep_days: 14
-  purge_interval: 1
 
 mqtt:
   broker: localhost
