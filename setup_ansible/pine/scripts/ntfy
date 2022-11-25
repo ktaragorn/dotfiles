@@ -1,0 +1,9 @@
+#!/bin/bash
+# example ./ntfy test hi hello -H "TAGS: skull" to topic ktaragorn_test
+
+topic=$1
+title=$2
+body=$3
+shift 3
+
+curl -d $body  -H "Title: $title" "$@"  ntfy.sh/ktaragorn_$topic

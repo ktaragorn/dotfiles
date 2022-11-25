@@ -888,6 +888,7 @@
         - remount_drive.sh
         - pushEpicGames.py
         - monitor_conntrack.sh
+        - ntfy
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
