@@ -1,6 +1,5 @@
 # before this, setup as a server and install SSH
 #http://askubuntu.com/questions/511463/can-i-convert-ubuntu-desktop-14-04-to-server
-#TODO - configure openmediavault from scratch?
 # create ubuntu user and home dir
 # install plugins
 # Atleast once need sudo password - use -K to request it
@@ -1010,7 +1009,21 @@
   gather_facts: no
   roles:
     - geerlingguy.munin
-    - geerlingguy.munin-node
+    - role: geerlingguy.munin-node
+      munin_node_plugins:
+        - name: smart_sda
+          plugin: smart_
+        - mysql_
+        - mysql_queries
+        - mysql_slowqueries
+        - mysql_threads
+        - mysql_innodb
+        - mysql_bytes
+        - samba
+      munin_node_config:
+        smart_*:
+          user: root
+          group: disk
   # needed because the role include below needs ansible_os_family to be defined
   # at some point ansible stopped gathering facts for plays not tagged to be run
   # but they still include the roles, so it fails here
@@ -1031,22 +1044,6 @@
         state: link
         src: /var/cache/munin/www
         dest: /var/www/html/munin
-    - name: Enable Mysql Plugins
-      file:
-        state: link
-        src: /usr/share/munin/plugins/{{item}}
-        dest: /etc/munin/plugins/{{item}}
-      with_items:
-        - mysql_
-        - mysql_queries
-        - mysql_slowqueries
-        - mysql_threads
-        - mysql_innodb
-        - mysql_bytes
-        - samba
-        - ping_
-      notify:
-        - Restart node
   handlers:
     - name: Restart node
       systemd: name=munin-node state=restarted
