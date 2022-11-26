@@ -1,0 +1,59 @@
+#!/bin/sh
+# -*- sh -*-
+
+: << =cut
+
+=head1 NAME
+
+uptime - Plugin to measure uptime.
+
+=head1 NOTES
+
+Especially the average and max values on the bigger graphs (yearly) can be interesting.
+
+=head1 AUTHOR
+
+Contributed by Nicolas Salles
+
+=head1 LICENSE
+
+GPLv2
+
+=head1 MAGIC MARKERS
+
+ #%# family=auto
+ #%# capabilities=autoconf
+
+=cut
+
+. "$MUNIN_LIBDIR/plugins/plugin.sh"
+
+if [ "$1" = "autoconf" ]; then
+        echo yes
+        exit 0
+fi
+
+if [ "$1" = "config" ]; then
+
+        echo 'graph_title Ping Smart home controllers'
+        echo 'graph_args --base 1000 -l 0 '
+        echo 'graph_scale no'
+        echo 'graph_vlabel ping to controller'
+        echo 'graph_category custom'
+        echo 'esp32.label esp32'
+	echo 'd1_mini.label d1_mini'
+	echo 'nodemcu.label nodemcu'
+        print_warning esp32
+        print_critical esp32
+        exit 0
+fi
+
+ping=$(ping esp32 -c 1| cut -d '=' -f 4 | head -2 | tail -1 | cut -d " " -f 1)
+
+echo esp32.value $ping 
+
+ping=$(ping d1_mini -c 1| cut -d '=' -f 4 | head -2 | tail -1 | cut -d " " -f 1)
+echo d1_mini.value $ping
+
+ping=$(ping nodemcu -c 1| cut -d '=' -f 4 | head -2 | tail -1 | cut -d " " -f 1)
+echo nodemcu.value $ping

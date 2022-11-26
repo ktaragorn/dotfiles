@@ -1014,17 +1014,20 @@
       munin_node_plugins:
         - name: smart_sda
           plugin: smart_
-        - mysql_
-        - mysql_queries
-        - mysql_slowqueries
-        - mysql_threads
-        - mysql_innodb
-        - mysql_bytes
-        - samba
+        - name: mysql_
+        - name: mysql_queries
+        - name: mysql_slowqueries
+        - name: mysql_threads
+        - name: mysql_innodb
+        - name: mysql_bytes
+        - name: samba
       munin_node_config:
         smart_*:
           user: root
           group: disk
+        du_pattern:
+          env.DIR: /home/ubuntu/homeassistant_config
+          env.PATTERN: home-assistant_v2.db
   # needed because the role include below needs ansible_os_family to be defined
   # at some point ansible stopped gathering facts for plays not tagged to be run
   # but they still include the roles, so it fails here
@@ -1045,6 +1048,13 @@
         state: link
         src: /var/cache/munin/www
         dest: /var/www/html/munin
+    - name: Copy custom plugins
+      copy:
+        src: files/{{item}}
+        dest: /etc/munin/plugins/{{item}}
+      with_items:
+        - ping_smart
+        - du_pattern
   handlers:
     - name: Restart node
       systemd: name=munin-node state=restarted
