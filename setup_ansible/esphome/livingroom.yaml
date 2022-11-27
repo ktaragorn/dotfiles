@@ -15,42 +15,60 @@ sensor:
     mac_address: "A4:C1:38:82:D7:E3"
     temperature:
       name: "A Temperature"
+      filters: &filters
+        - throttle_average: 60s
+        - filter_out: nan
     humidity:
       name: "A Humidity"
+      filters: *filters
     battery_level:
       name: "A Battery-Level"
+      filters: *filters
     battery_voltage:
       name: "A Battery-Voltage"
+      filters: *filters
   - platform: pvvx_mithermometer
     mac_address: "A4:C1:38:E7:2F:24"
     temperature:
       name: "B Temperature"
+      filters: *filters
     humidity:
       name: "B Humidity"
+      filters: *filters
     battery_level:
       name: "B Battery-Level"
+      filters: *filters
     battery_voltage:
       name: "B Battery-Voltage"
+      filters: *filters
   - platform: pvvx_mithermometer
     mac_address: "A4:C1:38:30:19:01"
     temperature:
       name: "C Temperature"
+      filters: *filters
     humidity:
       name: "C Humidity"
+      filters: *filters
     battery_level:
       name: "C Battery-Level"
+      filters: *filters
     battery_voltage:
       name: "C Battery-Voltage"
+      filters: *filters
   - platform: pvvx_mithermometer
     mac_address: "A4:C1:38:61:7C:38"
     temperature:
       name: "D Temperature"
+      filters: *filters
     humidity:
       name: "D Humidity"
+      filters: *filters
     battery_level:
       name: "D Battery-Level"
+      filters: *filters
     battery_voltage:
       name: "D Battery-Voltage"
+      filters: *filters
   - platform: dht
     pin: GPIO23
     temperature:
