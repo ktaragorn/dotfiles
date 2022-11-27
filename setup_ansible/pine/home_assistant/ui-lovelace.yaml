@@ -1,7 +1,7 @@
 title: Gondor
 views:
   - badges:
-      - entity: binary_sensor.blackbean
+      # - entity: binary_sensor.blackbean
       - entity: binary_sensor.nodemcu
       - entity: binary_sensor.smart_light
       - entity: person.anu
@@ -17,6 +17,7 @@ views:
       - entity: sensor.openweathermap_temperature
       - entity: sensor.bedroom_movement
       - entity: timer.manual_bedroom_light
+      - entity: sensor.home_assistant_v2_db_size
     cards:
       - type: weather-forecast
         entity: weather.openweathermap
@@ -82,8 +83,8 @@ views:
           - entity: sensor.d_battery_level
         type: glance
         title: Thermometer Battery
-      - type: media-control
-        entity: media_player.bedroom_tv
+      # - type: media-control
+      #   entity: media_player.bedroom_tv
       # - entities:
       #     - script.downstairs_ac
       #     - script.toggle_tv
