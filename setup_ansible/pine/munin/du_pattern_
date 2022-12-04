@@ -55,7 +55,7 @@ if [ "$1" = "config" ]; then
     FIRST=1
     for i in ${PATTERN}
     do
-        CLEAN=${i//\./_}
+        CLEAN=${i//[\.-]/_}
         echo "$CLEAN.label $CLEAN"
         if [[ $FIRST -eq 1 ]]
     then
@@ -70,7 +70,7 @@ fi
 
 for i in ${PATTERN}
 do
-    CLEAN=${i//\./_}
+    CLEAN=${i//[\.-]/_}
     FILES="${DIR}/${i}*"
     echo -n "$CLEAN.value "
     echo $(du -cbs ${FILES} | grep total | cut -f 1)
