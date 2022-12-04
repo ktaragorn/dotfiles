@@ -68,7 +68,7 @@ recorder:
       - weather.openweathermap
       - media_player.bedroom_tv
       - number.bedroom_light_effect_speed
-      - sensor.home_assistant_v2_db_size
+      # - sensor.home_assistant_v2_db_size
 
 # Enables a map showing the location of tracked devices
 map:
