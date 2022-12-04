@@ -1026,8 +1026,13 @@
           user: root
           group: disk
         du_pattern:
+          user: root
+          group: disk
           env.DIR: /home/ubuntu/homeassistant_config
           env.PATTERN: home-assistant_v2.db
+        du_hass_db:
+          user: root
+          group: disk
   # needed because the role include below needs ansible_os_family to be defined
   # at some point ansible stopped gathering facts for plays not tagged to be run
   # but they still include the roles, so it fails here
@@ -1050,12 +1055,25 @@
         dest: /var/www/html/munin
     - name: Copy custom plugins
       copy:
-        src: files/{{item}}
+        src: munin/{{item}}
         dest: /etc/munin/plugins/{{item}}
       with_items:
         - ping_smart
-        - du_pattern
+        - du_pattern_
+        - du_hass_db
+      notify: Restart node
+    #https://serverfault.com/a/1005404/139750
+    - name: Fix munin-node for home dir access
+      lineinfile:
+        dest: /lib/systemd/system/munin-node.service
+        line: ProtectHome=read-only
+        regexp: ProtectHome=
+      notify:
+        - Reload daemon
+        - Restart node
   handlers:
+    - name: Reload daemon
+      systemd: daemon_reload=true
     - name: Restart node
       systemd: name=munin-node state=restarted
 
