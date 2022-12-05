@@ -1025,7 +1025,7 @@
         smart_*:
           user: root
           group: disk
-        du_pattern:
+        du_pattern_:
           user: root
           group: disk
           env.DIR: /home/ubuntu/homeassistant_config

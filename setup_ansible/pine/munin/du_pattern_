@@ -73,7 +73,7 @@ do
     CLEAN=${i//[\.-]/_}
     FILES="${DIR}/${i}*"
     echo -n "$CLEAN.value "
-    echo $(du -cbs ${FILES} | grep total | cut -f 1)
+    echo $(du -cks ${FILES} | grep total | cut -f 1)
 done
 exit 0
 
