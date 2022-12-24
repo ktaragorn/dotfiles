@@ -22,6 +22,7 @@
           - ncdu
           - lm-sensors
           - pkg-config
+        update_cache: yes
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
@@ -271,11 +272,11 @@
         terminate: "/"
         icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"
         proc: deluge-web
-      - name: htpc
-        link_to: /htpc
-        port: 8085
-        icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
-        proc: htpc
+      # - name: htpc
+      #   link_to: /htpc
+      #   port: 8085
+      #   icon: "https://raw.githubusercontent.com/styxit/HTPC-Manager/master/interfaces/default/img/xbmc-logo.png"
+      #   proc: htpc
       # - name: kodi
       #   link_to: /kodi
       #   terminate: "/"
@@ -366,9 +367,9 @@
       package: name={{item}}
       with_items:
         - nginx
-        - php7.4-fpm
+        - php-fpm
         - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
-        - php7.4-mysql # https://stackoverflow.com/a/47960896
+        - php-mysql # https://stackoverflow.com/a/47960896
     - name: Configure site
       template:
         src: files/pine.j2
@@ -1042,12 +1043,12 @@
       setup:
         gather_subset: min
       tags: always
-  tasks:
     - name: Install extra plugins and dependencies
       apt:
         name:
-          - munin-plugins-extra
+          - munin-plugins-extra # in pre tasks as this is needed for samba plugin
           - libcache-cache-perl
+  tasks:
     - name: Link the munin/www folder to nginx www folder
       file:
         state: link
@@ -1102,39 +1103,39 @@
         chdir: /home/ubuntu/Documents/progress
         target: install
 
-- name: Install Firefly III financial tracking system
-  hosts: all
-  tags: firefly
-  gather_facts: no
-  vars_files: [vars/all.yml]
-  tasks:
-    - name: Download Firefly docker image
-      docker_image:
-        name: jc5x/firefly-iii:latest-arm
-    - name: Create required volumes
-      docker_volume: name={{item}}
-      with_items:
-        - firefly_iii_export
-        - firefly_iii_upload
-    - name: Start Firefly III container
-      docker_container:
-        name: firefly
-        image: jc5x/firefly-iii:latest-arm
-        volumes:
-          - firefly_iii_export:/var/www/firefly-iii/storage/export
-          - firefly_iii_upload:/var/www/firefly-iii/storage/upload
-        env:
-          PGID: 1000
-          PUID: 1000
-          FF_APP_ENV: local
-          FF_APP_KEY: S0m3R@nd0mString0f32Ch@rsEx@ct1y
-          FF_DB_HOST: pine64.middle.earth
-          FF_DB_NAME: firefly
-          FF_DB_USER: "{{firefly_db_username}}"
-          FF_DB_PASSWORD: "{{firefly_db_password}}"
-        published_ports:
-          - 8008:80
-        restart_policy: unless-stopped
+# - name: Install Firefly III financial tracking system
+#   hosts: all
+#   tags: firefly
+#   gather_facts: no
+#   vars_files: [vars/all.yml]
+#   tasks:
+#     - name: Download Firefly docker image
+#       docker_image:
+#         name: jc5x/firefly-iii:latest-arm
+#     - name: Create required volumes
+#       docker_volume: name={{item}}
+#       with_items:
+#         - firefly_iii_export
+#         - firefly_iii_upload
+#     - name: Start Firefly III container
+#       docker_container:
+#         name: firefly
+#         image: jc5x/firefly-iii:latest-arm
+#         volumes:
+#           - firefly_iii_export:/var/www/firefly-iii/storage/export
+#           - firefly_iii_upload:/var/www/firefly-iii/storage/upload
+#         env:
+#           PGID: 1000
+#           PUID: 1000
+#           FF_APP_ENV: local
+#           FF_APP_KEY: S0m3R@nd0mString0f32Ch@rsEx@ct1y
+#           FF_DB_HOST: pine64.middle.earth
+#           FF_DB_NAME: firefly
+#           FF_DB_USER: "{{firefly_db_username}}"
+#           FF_DB_PASSWORD: "{{firefly_db_password}}"
+#         published_ports:
+#           - 8008:80
+#         restart_policy: unless-stopped
 
 - name: Setup Syncthing
   hosts: all
@@ -1340,52 +1341,52 @@
         name: mqttwarn
         state: restarted
 
-- name: Install and setup PiHole
-  hosts: all
-  gather_facts: no
-  tags: pihole
-  become: no
-  vars_files: [vars/all.yml]
-  tasks:
-    - name: Run Pi Hole
-      docker_container:
-        name: pihole
-        image: pihole/pihole:latest
-        published_ports:
-          - 53:53/tcp
-          - 53:53/udp
-          - 67:67/udp
-          - 8888:80/tcp
-          - 443:443/tcp
-        volumes:
-          - "./etc-pihole/:/etc/pihole/"
-          - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
-        env:
-          TZ: '{{timezone}}'
-          WEBPASSWORD: "{{ pihole_password }}"
-        capabilities:
-          - NET_ADMIN
-        dns_servers:
-          - 127.0.0.1
-          - 1.1.1.1
-        restart_policy: unless-stopped
+# - name: Install and setup PiHole
+#   hosts: all
+#   gather_facts: no
+#   tags: pihole
+#   become: no
+#   vars_files: [vars/all.yml]
+#   tasks:
+#     - name: Run Pi Hole
+#       docker_container:
+#         name: pihole
+#         image: pihole/pihole:latest
+#         published_ports:
+#           - 53:53/tcp
+#           - 53:53/udp
+#           - 67:67/udp
+#           - 8888:80/tcp
+#           - 443:443/tcp
+#         volumes:
+#           - "./etc-pihole/:/etc/pihole/"
+#           - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
+#         env:
+#           TZ: '{{timezone}}'
+#           WEBPASSWORD: "{{ pihole_password }}"
+#         capabilities:
+#           - NET_ADMIN
+#         dns_servers:
+#           - 127.0.0.1
+#           - 1.1.1.1
+#         restart_policy: unless-stopped
 
-- name: Install grafana
-  tags: grafana
-  hosts: all
-  gather_facts: no
-  become: no
-  tasks:
-    - name: Install and run grafana
-      docker_container:
-        name: grafana
-        image: grafana/grafana
-        # volumes:
-        #   - /etc/localtime:/etc/localtime:ro
-        #   - /home/ubuntu/homeassistant_config:/config
-        published_ports:
-          - 3000:3000
-        restart_policy: unless-stopped
+# - name: Install grafana
+#   tags: grafana
+#   hosts: all
+#   gather_facts: no
+#   become: no
+#   tasks:
+#     - name: Install and run grafana
+#       docker_container:
+#         name: grafana
+#         image: grafana/grafana
+#         # volumes:
+#         #   - /etc/localtime:/etc/localtime:ro
+#         #   - /home/ubuntu/homeassistant_config:/config
+#         published_ports:
+#           - 3000:3000
+#         restart_policy: unless-stopped
 
 
 - name: Run mysql via docker
@@ -1463,7 +1464,6 @@
 
 - name: Setup borg and borgmatic backups
   tags: backup
-
   hosts: all
   gather_facts: no
   become: no

@@ -215,10 +215,14 @@ light:
   # Yaml not supported any longer for flux_led.. gonna leave it here in protest.. 
   # this stopped working. Auto discovered light has a different name, need to change its entity id to match light.bedroom_light\
   # cant discover smart_light.. not sure why..
- - platform: flux_led
-   devices:
-     smart_light.middle.earth:
-       name: Bedroom Light
+ # - platform: flux_led
+ #   devices:
+ #     smart_light.middle.earth:
+ #       name: Bedroom Light
+  - platform: group
+    name: Bedroom Light
+    entities:
+      - light.bulb_rgbw_cfc9e
 group:
   all_people:
     name: Both of us
