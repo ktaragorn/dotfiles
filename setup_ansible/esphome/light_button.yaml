@@ -7,8 +7,7 @@ binary_sensor:
       inverted: $inverted
     name: "Light button - $name"
     on_click:
-      - min_length: 50ms
-        max_length: 200ms
+      - max_length: 275ms
         then:
           - logger.log: "Button Pressed"
           - mqtt.publish:
