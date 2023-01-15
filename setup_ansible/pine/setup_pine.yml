@@ -1015,12 +1015,12 @@
       munin_node_plugins:
         - name: smart_sda
           plugin: smart_
-        - name: mysql_
-        - name: mysql_queries
-        - name: mysql_slowqueries
-        - name: mysql_threads
-        - name: mysql_innodb
-        - name: mysql_bytes
+        # - name: mysql_
+        # - name: mysql_queries
+        # - name: mysql_slowqueries
+        # - name: mysql_threads
+        # - name: mysql_innodb
+        # - name: mysql_bytes
         - name: samba
       munin_node_config:
         smart_*:
@@ -1058,6 +1058,9 @@
       copy:
         src: munin/{{item}}
         dest: /etc/munin/plugins/{{item}}
+        # should not be needed.. the files are already +x, but this suddenly doesnt seem to work
+        # after the reflash of the OS, now it copies as -x
+        mode: a+x
       with_items:
         - ping_smart
         - du_pattern_

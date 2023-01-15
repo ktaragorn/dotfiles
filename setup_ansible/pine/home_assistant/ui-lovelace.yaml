@@ -3,6 +3,8 @@ views:
   - badges:
       # - entity: binary_sensor.blackbean
       - entity: binary_sensor.nodemcu
+      - entity: binary_sensor.esp32
+      - entity: binary_sensor.d1_mini
       - entity: binary_sensor.smart_light
       - entity: person.anu
       - entity: person.kt
