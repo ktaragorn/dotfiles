@@ -53,8 +53,8 @@ scm_ps1() {
     local u=
     if [[ -d ".svn" ]] ; then
         s=\(r$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )\)
-    elif [[ -d ".hg" ]] ; then
-        s=$(hg_dirty )
+#    elif [[ -d ".hg" ]] ; then
+#        s=$(hg_dirty )
     else
         s=$(__git_ps1 "(%s)")
         #status=$(git status 2>/dev/null | tail -n 1)
