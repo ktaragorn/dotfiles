@@ -209,12 +209,22 @@
         regexp: '"download_location":'
         line: '  "download_location": "/media/ubuntu/Chest/Torrent",'
       # similarly needs deluge-web to be started once
+
+    # https://forum.deluge-torrent.org/viewtopic.php?t=36737
+    - name: Read hostlists.conf
+      shell: cat ~/.config/deluge/hostlist.conf | jq 'select(.hosts)'
+      register: hostlists_txt
+      become: no
+    - name: save the Json data to a Variable as a Fact
+      become: no
+      set_fact:
+        hostslist: "{{ hostlists_txt.stdout | from_json }}"
     - name: Configure to connect to default daemon
       become: no
       lineinfile:
         dest: ~/.config/deluge/web.conf
         regexp: '"default_daemon":'
-        line: '  "default_daemon": "127.0.0.1:58846",'
+        line: '  "default_daemon": "{{hostslist.hosts[0][0]}}",'
     - name: Start deluged and deluge-web again
       service: name={{item}} state=started
       with_items: "{{items}}"
