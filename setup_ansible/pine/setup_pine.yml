@@ -23,6 +23,9 @@
           - lm-sensors
           - pkg-config
         update_cache: yes
+    - name: Add .local/bin to PATH for regular user
+      become: no
+      lineinfile: dest=~/.bashrc line="export PATH=$PATH:.local/bin/" create=yes
     - name: Install locate if needed
       apt: pkg=locate state=present
       notify: updatedb
