@@ -107,6 +107,18 @@ tasks:
       - deluge_tv
       - notify_tv
 
+  showrss-dload-adhoc:
+    rss:
+      url: file:///tmp/adhoc.rss
+    manual: yes
+    all_series:
+      propers: 1 hour
+    template:
+      - fix_riverdale_detection
+      - deluge_download
+      - deluge_tv
+      - notify_tv
+
   # http://discuss.flexget.com/t/cleanup-on-move-deletes-top-level-folder/491/3
   #problems a) season was wrong b) didnt rename at all..
 

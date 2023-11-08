@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curl $1 > /tmp/adhoc.rss
+flexget execute --tasks showrss-dload-adhoc
