@@ -16,6 +16,27 @@ sensor:
       name: "Bed Room Temperature"
     humidity:
       name: "Bed Room Humidity"
+  - platform: ccs811
+    eco2:
+      name: "Bedroom eCO2 Value"
+    tvoc:
+      name: "Bedroom Total Volatile Organic Compound"
+    address: 0x5A
+    update_interval: 60s
+
+i2c:
+  scl: D5
+  sda: D6
+
+light:
+  - platform: binary
+    name: "Bedroom Night Light"
+    output: light_output
+
+output:
+  - id: light_output
+    platform: gpio
+    pin: D8
 
 # remote_transmitter:
 #   pin:

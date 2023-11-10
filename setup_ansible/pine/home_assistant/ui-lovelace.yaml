@@ -20,6 +20,8 @@ views:
       - entity: sensor.bedroom_movement
       - entity: timer.manual_bedroom_light
       - entity: sensor.home_assistant_v2_db_size
+      - entity: sensor.bedroom_eco2_value
+      - entity: sensor.bedroom_total_volatile_organic_compound
     cards:
       - type: weather-forecast
         entity: weather.openweathermap
@@ -56,7 +58,7 @@ views:
         entity: light.bedroom_light
 
       - entities:
-          - light.notification_light
+          - light.bedroom_night_light
           - light.bedroom_light
         title: Light
         type: entities
