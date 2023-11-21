@@ -2,7 +2,7 @@ import subprocess
 import json
 import logging
 
-pwd = '/home/ubuntu/'
+pwd = '/Users/karthik1/'
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s')
 
@@ -21,6 +21,8 @@ def report_free_game(gameName):
 
 currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US | jq '[[.data.Catalog.searchStore.elements[]  | {name: .title,date: .promotions.promotionalOffers[0].promotionalOffers[0].startDate, percent: .promotions.promotionalOffers[0].promotionalOffers[0].discountSetting.discountPercentage}] | .[] |  select(.date != null) | select(.percent == 0) |.name]'"
 
+def asStr(list):
+	return ",".join(list)
 try:
 	# assuming that if multiple games are offered, all are offered and removed at the same time, so treating as one game.
 	games = json.loads(subprocess.check_output(currentFreeGameCmd, shell=True))
@@ -28,15 +30,24 @@ try:
 		logging.info("No games returned")
 		quit()
 
-	gamesStr = ",".join(games)
-	logging.info("Games - " + gamesStr)
+	logging.info("Games - " + asStr(games))
 	try: 
-		lastReportedGame = open(pwd + "lastEpicFreeGame").read()
+		lastReportedGames = open(pwd + "lastEpicFreeGame").read().split(",")
 	except FileNotFoundError:
-		lastReportedGame = ""
-	if(gamesStr != lastReportedGame):
-		open(pwd + "lastEpicFreeGame", 'w').write(gamesStr)
-		report_free_game(gamesStr)
+		lastReportedGames = []
+
+	newFreeGames = []
+	for game in games:
+		if(game not in lastReportedGames):
+			logging.info("New Game - " + game)
+			newFreeGames += [game]
+			lastReportedGames+=[game]
+	if(newFreeGames):
+		open(pwd + "lastEpicFreeGame", 'w').write(asStr(lastReportedGames))
+		report_free_game(asStr(newFreeGames))
+		logging.info("New Games reported - " + asStr(newFreeGames))
+	else:
+		logging.info("No New Games")
 
 except Exception as e:
 	logging.info('Error ', exc_info=True)
