@@ -41,9 +41,8 @@ try:
 		if(game not in lastReportedGames):
 			logging.info("New Game - " + game)
 			newFreeGames += [game]
-			lastReportedGames+=[game]
 	if(newFreeGames):
-		open(pwd + "lastEpicFreeGame", 'w').write(asStr(lastReportedGames))
+		open(pwd + "lastEpicFreeGame", 'w').write(asStr(lastReportedGames + newFreeGames))
 		report_free_game(asStr(newFreeGames))
 		logging.info("New Games reported - " + asStr(newFreeGames))
 	else:
