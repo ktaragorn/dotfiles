@@ -2,7 +2,7 @@ import subprocess
 import json
 import logging
 
-pwd = '/Users/karthik1/'
+pwd = '/home/ubuntu/'
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s')
 
