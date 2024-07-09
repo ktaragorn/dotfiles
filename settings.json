@@ -6,17 +6,17 @@
         {
             "command": 
             {
-                "action": "moveTab",
-                "direction": "forward"
-            }
-        },
-        {
-            "command": 
-            {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
+        },
+        {
+            "command": 
+            {
+                "action": "moveTab",
+                "direction": "forward"
+            }
         },
         {
             "command": "paste",
@@ -38,30 +38,24 @@
         {
             "command": 
             {
-                "action": "quakeMode"
+                "action": "newTab"
             },
-            "keys": "f12"
+            "keys": "f2"
         },
-        {
+        {// Need to do regedit to enable f12 https://wtq.flyingpie.nl/v2/settings/hot-keys/#windows-key-tilde-as-a-hot-key
             "command": 
             {
                 "action": "quakeMode"
             },
-            "keys": "f10"
+            "keys": "f12"
         },
+
         {
             "command": 
             {
                 "action": "quakeMode"
             },
             "keys": "ctrl+`"
-        },
-        {
-            "command": 
-            {
-                "action": "newTab"
-            },
-            "keys": "f2"
         },
         {
             "command": 
