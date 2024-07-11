@@ -44,7 +44,7 @@
       lineinfile: dest=~/.zshrc line=". ~/dotfiles/zsh/zshrc"
 
     - name: Download Oh-My-Zsh
-      get_url: url=http://install.ohmyz.sh dest=/tmp/zsh-installer.sh
+      get_url: url=https://install.ohmyz.sh dest=/tmp/zsh-installer.sh
 
     - name: Execute Oh-My-Zshinstaller.sh
       shell: sh /tmp/zsh-installer.sh creates=~/.oh-my-zsh
