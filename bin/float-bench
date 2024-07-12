@@ -1,2 +1,5 @@
-# 24 seconds on macbook pro 39 seconds on numenor 37 on ec2 large (abacus worker) 47 on home desktop
+#!/bin/bash
+
+# 24 seconds on macbook pro 39 seconds on numenor 37 on ec2 large (abacus worker) 47 on home desktop 
+# 2024 11 on TTD windows 95 on pine64 18 on home aftershock laptop
 time -p echo "scale=5000; a(1)*4" | bc -l >/dev/null

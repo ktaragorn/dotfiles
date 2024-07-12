@@ -1,2 +1,3 @@
 # 30 seconds on macbook pro 49 on numenor 45 on ec2 large (abacus_worker) 55 sec on home desktop
+# 2024 16 on TTD laptop
 echo '2^2^22' | time -p bc > /dev/null
