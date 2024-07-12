@@ -43,6 +43,7 @@
             "keys": "f2"
         },
         {// Need to do regedit to enable f12 https://wtq.flyingpie.nl/v2/settings/hot-keys/#windows-key-tilde-as-a-hot-key
+        // In admin PS and reboot  -  Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug' -Name UserDebuggerHotKey -Value 19
             "command": 
             {
                 "action": "quakeMode"
