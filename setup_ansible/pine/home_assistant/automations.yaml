@@ -457,6 +457,7 @@
       state: "off"
     - condition: time
       after: "22:00:00"
+      before: "06:00:00"
   action:
     - service: light.turn_on
       entity_id: light.bedroom_night_light
@@ -470,7 +471,6 @@
       entity_id: light.bedroom_light
       from: "off"
       to: "on"
-  condition:
   action:
     - service: light.turn_off
       entity_id: light.bedroom_night_light
