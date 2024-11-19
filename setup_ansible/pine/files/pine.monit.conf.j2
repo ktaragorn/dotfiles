@@ -3,6 +3,8 @@ set httpd
      port 2812
      allow admin:monit
 
+set daemon  120             # check services at 120 seconds intervals
+
 # Alert if disk space of root filesystem gets low
 #check filesystem Archive with path /media/ubuntu/Archive
 #  if space free < 10 GB for 5 times within 15 cycles
@@ -45,7 +47,7 @@ check filesystem rootfs2 with path /
 check system pine64.middle.earth
   if loadavg (1min) > 12 for 6 cycles then {{alert_succeeded}}
   if loadavg (5min) > 8 for 12 cycles then {{alert_succeeded}}
-  if memory usage > 90% then {{alert_succeeded}}
+  if memory usage > 90% for 4 cycles then {{alert_succeeded}}
   if cpu usage (user) > 95% for 2 cycles then {{alert_succeeded}}
   if cpu usage (system) > 95% for 2 cycles then {{alert_succeeded}}
   if cpu usage (wait) > 95% for 2 cycles then {{alert_succeeded}}
