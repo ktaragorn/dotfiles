@@ -1,0 +1,5 @@
+1. Flux LED for smart light
+2. MQTT
+3. openweathermap
+4. Filesize for db file
+5. Mqtt config for IR blaster

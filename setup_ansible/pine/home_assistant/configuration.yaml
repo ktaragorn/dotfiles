@@ -43,9 +43,9 @@ logger:
 # the developers to assist with development of Home Assistant.
 # For more information, please see:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
-updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
-  include_used_components: true
+# updater:
+#   # Optional, allows Home Assistant developers to focus on popular components.
+#   include_used_components: true
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 # conversation:
@@ -84,15 +84,17 @@ system_health:
 # - platform: yr
 
 sensor:
-  - platform: filesize
-    file_paths:
-      - /config/home-assistant_v2.db
+  # no yaml no more
+  # - platform: filesize
+  #   file_paths:
+  #     - /config/home-assistant_v2.db
   - platform: time_date
     display_options: 
       - date_time
-  - platform: mqtt
-    state_topic: state/nodemcu/pir_sensor
-    name: Bedroom Movement
+  # no yaml no more
+  # - platform: mqtt
+  #   state_topic: state/nodemcu/pir_sensor
+  #   name: Bedroom Movement
   - platform: systemmonitor
     resources:
       - type: disk_use_percent
@@ -174,30 +176,34 @@ climate:
     controller_data: blackbean1
     # delay: 1 # add a bit of delay between commands, 2nd command seems to be missed sometimes
     #smart IR only supports broadlink on this AC
-  - platform: mqtt
-    name: Downstairs AC
-    unique_id: downstairs_ac
-    fan_mode_command_topic: nodemcu/ac/fan
-    mode_command_topic: nodemcu/ac/mode
-    temperature_command_topic: nodemcu/ac/temperature
-    power_command_topic: nodemcu/ac/power
-    swing_mode_command_topic: nodemcu/ac/swing
-    precision: 1.0
-    min_temp: 18
-    max_temp: 26
-    modes: ["cool", "fan_only", "off"]
-    fan_modes: [1, 2, 3, 4, 5, "auto"]
+    # no yaml no more
+  # - platform: mqtt
+  #   name: Downstairs AC
+  #   unique_id: downstairs_ac
+  #   fan_mode_command_topic: nodemcu/ac/fan
+  #   mode_command_topic: nodemcu/ac/mode
+  #   temperature_command_topic: nodemcu/ac/temperature
+  #   power_command_topic: nodemcu/ac/power
+  #   swing_mode_command_topic: nodemcu/ac/swing
+  #   precision: 1.0
+  #   min_temp: 18
+  #   max_temp: 26
+  #   modes: ["cool", "fan_only", "off"]
+  #   fan_modes: [1, 2, 3, 4, 5, "auto"]
 
-device_tracker:
-  - platform: ping
-    consider_home: 300 # 5 min
-    hosts:
-      anu: anu_pixel4a
-      kt: mi9tpro.middle.earth
-  # - platform: nmap_tracker
-  #   hosts:
-  #     - Redmi4X-Redmi
-  #     - mia2lite
+# not working, removing to remove errors
+# domain names and mac addresses might need to change.
+# Also owntracks seems broken as well.
+# device_tracker:
+#   - platform: ping
+#     consider_home: 300 # 5 min
+#     hosts:
+#       anu: anu_pixel4a
+#       kt: mi9tpro.middle.earth
+#   # - platform: nmap_tracker
+#   #   hosts:
+#   #     - Redmi4X-Redmi
+#   #     - mia2lite
 
 input_boolean:
   we_are_in_bed:
@@ -250,16 +256,18 @@ telegram_bot:
       - {{telegram_chat_id}}
 
 notify:
-  - name: pushbullet
-    platform: pushbullet
-    api_key: {{ pushbullet_access_token }}
+  # not working
+  # - name: pushbullet
+  #   platform: pushbullet
+  #   api_key: {{ pushbullet_access_token }}
   - platform: telegram
     name: telegram
     chat_id: {{telegram_chat_id}}
 
+# Another piece that cant be configured in yaml...
 mqtt:
-  broker: localhost
-  port: 1883
+  # broker: localhost
+  # port: 1883
 
 owntracks:
 

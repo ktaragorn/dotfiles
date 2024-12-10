@@ -17,7 +17,6 @@ views:
       - entity: sensor.disk_use_percent_chest
       - entity: sensor.openweathermap_condition
       - entity: sensor.openweathermap_temperature
-      - entity: sensor.bedroom_movement
       - entity: timer.manual_bedroom_light
       - entity: sensor.home_assistant_v2_db_size
       - entity: sensor.bedroom_eco2_value
