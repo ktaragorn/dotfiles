@@ -3,3 +3,7 @@
 3. openweathermap
 4. Filesize for db file
 5. Mqtt config for IR blaster
+6. Map
+7. Fast.com
+8. System monitor
+9. ping to phones and esp boards and blackbean and light

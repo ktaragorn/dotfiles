@@ -4,6 +4,7 @@ homeassistant:
   # Location required to calculate the time the sun rises and sets
   latitude: {{ home_lat }}
   longitude: {{ home_long }}
+  country: GB
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -71,7 +72,8 @@ recorder:
       # - sensor.home_assistant_v2_db_size
 
 # Enables a map showing the location of tracked devices
-map:
+# not in YAML now
+# map:
 
 # # Track the sun
 sun:
@@ -95,16 +97,17 @@ sensor:
   # - platform: mqtt
   #   state_topic: state/nodemcu/pir_sensor
   #   name: Bedroom Movement
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /Chest
-      #- type: disk_use_percent
-      #  arg: /Archive
-      - type: memory_use_percent
-      - type: load_1m
-      - type: processor_use     
-      - type: processor_temperature # not supported at current version of hass
+  # not in yaml no more
+  # - platform: systemmonitor
+  #   resources:
+  #     - type: disk_use_percent
+  #       arg: /Chest
+  #     #- type: disk_use_percent
+  #     #  arg: /Archive
+  #     - type: memory_use_percent
+  #     - type: load_1m
+  #     - type: processor_use
+  #     - type: processor_temperature # not supported at current version of hass
 
   # configured as an integration via UI :(
   # - platform: openweathermap
@@ -157,9 +160,10 @@ tts:
   #       command_on: flux_led -1 smart_light.middle.earth
   #       command_off: flux_led -0 smart_light.middle.earth
 
-fastdotcom:
-  scan_interval:
-    hours: 6
+# not in yaml anymore
+# fastdotcom:
+#   scan_interval:
+#     hours: 6
 
 smartir:
 
@@ -271,32 +275,32 @@ mqtt:
 
 owntracks:
 
-binary_sensor:
-  - platform: ping
-    name: Nodemcu
-    host: nodemcu.middle.earth
-    scan_interval: 60
-    count: 2
-  - platform: ping
-    name: Blackbean
-    host: blackbean1.middle.earth
-    scan_interval: 60
-    count: 2
-  - platform: ping
-    name: Smart Light
-    host: smart_light.middle.earth
-    scan_interval: 60
-    count: 2
-  - platform: ping
-    name: D1 Mini
-    host: d1_mini.middle.earth
-    scan_interval: 60
-    count: 2
-  - platform: ping
-    name: Esp32
-    host: esp32.middle.earth
-    scan_interval: 60
-    count: 2
+# binary_sensor:
+#   - platform: ping
+#     name: Nodemcu
+#     host: nodemcu.middle.earth
+#     scan_interval: 60
+#     count: 2
+#   - platform: ping
+#     name: Blackbean
+#     host: blackbean1.middle.earth
+#     scan_interval: 60
+#     count: 2
+#   - platform: ping
+#     name: Smart Light
+#     host: smart_light.middle.earth
+#     scan_interval: 60
+#     count: 2
+#   - platform: ping
+#     name: D1 Mini
+#     host: d1_mini.middle.earth
+#     scan_interval: 60
+#     count: 2
+#   - platform: ping
+#     name: Esp32
+#     host: esp32.middle.earth
+#     scan_interval: 60
+#     count: 2
 
 person:
   - name: Anu
