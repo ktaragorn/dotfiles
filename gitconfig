@@ -41,6 +41,7 @@
 	browser = open
 [push]
 	default = current
+	autoSetupRemote =true
 [core]
 	excludesfile = /Users/kthirugnanam/.gitignore_global
 	commentchar = ";"
