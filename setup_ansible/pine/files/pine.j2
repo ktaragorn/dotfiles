@@ -10,12 +10,12 @@ server {
     satisfy any;
 
     allow 192.168.1.0/24;
+    allow 172.17.0.0/16;
     allow 127.0.0.1;
     deny all;
 
     auth_basic "The Black Gate";
     auth_basic_user_file /etc/nginx/passwdfile;
-
 
 	{% for service in proxied_services if not service.port == 80%}
 	location /{{service.name}}/ {
@@ -49,6 +49,7 @@ server {
 server {
 	server_name hass.middle.earth;
 	allow 192.168.1.0/24;
+	allow 172.17.0.0/16;
 	allow 127.0.0.1;
 	deny all;
 	listen 80;
