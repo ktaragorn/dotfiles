@@ -17,7 +17,7 @@ server {
     auth_basic "The Black Gate";
     auth_basic_user_file /etc/nginx/passwdfile;
 
-	{% for service in proxied_services if not service.port == 80%}
+	{% for service in proxied_services if (not service.port == 80 and not service['subdomain'] is defined) %}
 	location /{{service.name}}/ {
 		proxy_set_header Host      $host:$server_port;
 		proxy_set_header X-Real-IP $remote_addr;
@@ -46,6 +46,26 @@ server {
 	        deny all;
 	}
 }
+
+{% for service in proxied_services if service['subdomain'] is defined %}
+	server {
+		server_name {{service.name}}.middle.earth;
+		allow 192.168.1.0/24;
+		allow 172.17.0.0/16;
+		allow 127.0.0.1;
+		deny all;
+		listen 80;
+
+	    proxy_buffering off;
+		location / {
+	        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	        proxy_set_header Host $host:$server_port;
+		    proxy_pass http://localhost:{{service.port}};
+		    proxy_redirect http://localhost:{{service.port}}/ $host:$server_port/;
+		}
+	}
+{% endfor %}
+
 server {
 	server_name hass.middle.earth;
 	allow 192.168.1.0/24;

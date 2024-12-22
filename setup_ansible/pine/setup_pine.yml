@@ -355,6 +355,11 @@
         port: 8083
         link_to: /owntracks
         terminate: "/"
+      - name: wireguard
+        icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcodingnetworker.com%2Fthumbnails%2Fwireguard.jpeg%23floatright&f=1&nofb=1&ipt=b7ec7d556f8bb5ff65aa13823f70cf34a27d832b62ebbd83f74d49f5b8f53e05&ipo=images
+        port: 51821
+        subdomain: yes
+        proc: wg-crypt-wg0
       - name: Pihole
         link_to: "http://pihole.middle.earth/admin"
         port: 80
@@ -377,12 +382,12 @@
       # - { name: Pihole, port: 8888, proc: pihole-FTL } # not currently using
   tasks:
     - name: Install nginx and php
-      package: name={{item}}
-      with_items:
-        - nginx
-        - php-fpm
-        - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
-        - php-mysql # https://stackoverflow.com/a/47960896
+      package:
+        name:
+          - nginx
+          - php-fpm
+          - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
+          - php-mysql # https://stackoverflow.com/a/47960896
     - name: Configure site
       template:
         src: files/pine.j2
