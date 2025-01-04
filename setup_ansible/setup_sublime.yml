@@ -2,9 +2,9 @@
 - name: Install Sublime text
   hosts: localhost
   tasks:
-    - include: sublime/osx.yml
+    - include_tasks: sublime/osx.yml
       when: ansible_os_family == 'Darwin'
-    - include: sublime/deb.yml
+    - include_tasks: sublime/deb.yml
       when: ansible_os_family != 'Darwin'
 
 # had to install package control manually. - cntr shift p -> install package control
@@ -33,4 +33,5 @@
         repo: https://github.com/xunker/AutoHideSidebar.git
         dest: "{{paths.dest}}/../AutoHideSidebar"
     - name: Alert to install package control
-      debug: msg=Install Package control from ctrl+shift+p menu
+      debug: 
+        msg: Install Package control from ctrl+shift+p menu

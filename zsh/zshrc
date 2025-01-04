@@ -75,3 +75,4 @@ if which direnv > /dev/null 2>&1; then
 fi
 
 
+. ~/dotfiles/zsh/zshrc

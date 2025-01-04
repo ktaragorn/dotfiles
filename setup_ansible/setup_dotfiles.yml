@@ -3,10 +3,10 @@
 ---
 - hosts: localhost
   tasks:
-    - name: Add byobu PPA on debian machines
-      apt_repository: repo='ppa:byobu/ppa' update_cache=yes
-      when: ansible_os_family != 'Darwin'
-      become: yes
+    # - name: Add byobu PPA on debian machines
+    #   apt_repository: repo='ppa:byobu/ppa' update_cache=yes
+    #   when: ansible_os_family != 'Darwin'
+    #   become: yes
 
     - name: Install nice CLI packages on Debian systems
       apt:
