@@ -1,0 +1,5 @@
+---
+- name: updatedb
+  command: updatedb
+- name: Restart ssh
+  service: name=ssh state=restarted

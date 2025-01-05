@@ -4,67 +4,16 @@
 # install plugins
 # Atleast once need sudo password - use -K to request it
 ---
-- name: Generic server setup and harden ssh
-  tags: basic
+- name: Basic stuff
   hosts: all
+  vars_files: vars/all.yml
   gather_facts: no
   become: yes
-  vars_files: vars/all.yml
-  tasks:
-    - name: Install pip and other tools required
-      apt:
-        pkg:
-          - python3-pip
-          - htop
-          - git
-          - jq
-          - unattended-upgrades
-          - ncdu
-          - lm-sensors
-          - pkg-config
-        update_cache: yes
-    - name: Add .local/bin to PATH for regular user
-      become: no
-      lineinfile: dest=~/.bashrc line="export PATH=$PATH:.local/bin/" create=yes
-    - name: Install locate if needed
-      apt: pkg=locate state=present
-      notify: updatedb
-    - name: set timezone to {{timezone}}
-      # timezone: # doesnt work..
-      #   name: '{{timezone}}'
-      command: timedatectl set-timezone {{timezone}}
-    - name: Download z.sh
-      get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/z.sh
-      become: no
-    - name: Activate z.sh
-      lineinfile: dest=~/.bashrc line=". ~/z.sh" create=yes
-      become: no
-    - name: Create .ssh directory
-      file: dest=/home/ubuntu/.ssh state=directory
-      become: no
-    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
-      copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
-      become: no
-    - name: Allow TCP forwarding to allow remote access
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
-      notify: Restart ssh
-    - name: Disallow password authentication
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
-      notify: Restart ssh
-    - name: Disallow root SSH access
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
-      notify: Restart ssh
-    - name: setup no password sudo
-      lineinfile: "dest=/etc/sudoers state=present line='ubuntu    ALL=NOPASSWD: ALL'"
-    - name: Point DNS to router
-      copy:
-        src: files/resolv.conf
-        dest: /etc/resolv.conf
-  handlers:
-    - name: updatedb
-      command: updatedb
-    - name: Restart ssh
-      service: name=ssh state=restarted
+  tags: basic
+  vars:
+    user_name: ubuntu
+  roles:
+    - role: '../my_roles/base_server'
 
 - name: Setup swapfile
   hosts: all
@@ -153,20 +102,6 @@
         #   directory_mode: 0777
         #   public: yes
         #   writable: yes
-
-- name: Dynamic dns for black-gate.
-  tags: dyndns
-  hosts: all
-  gather_facts: no
-  vars_files: [vars/all.yml]
-  tasks:
-    - name: Cron to curl privatedns
-      cron:
-        name: "Update dyndns for {{item.name}}"
-        user: ubuntu
-        special_time: hourly
-        job: curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
-      with_items: "{{ freedns_tokens }}"
 
 - name: Deluge installation and setup with systemd
   become: yes
@@ -1540,10 +1475,6 @@
   gather_facts: no
   become: no
   tasks:
-    - name: Create data folder
-      file:
-        dest: /home/ubuntu/actual
-        state: directory
     - name: Run container
       docker_container:
         name: wireguard
