@@ -2,15 +2,18 @@
 # -K to ask for sudo pass
 ---
 
-- name: Sudo
-  hosts: all
-  tasks:
-    - name: Replace sudo
-      command: sudo apk add sudo !doas-sudo-shim
+# - name: Sudo
+#   hosts: all
+#   # https://stackoverflow.com/a/62349147
+#   connection: paramiko
+#   tasks:
+#     - name: Replace sudo
+#       shell: sudo apk add --no-interactive sudo '!doas-sudo-shim'
 
 - name: Basic and SSH harden
   hosts: all
   become: yes
+  vars_files: [all.yml]
   tasks:
     - name: Create .ssh directory
       file: dest=/home/karthikt/.ssh state=directory
@@ -28,18 +31,25 @@
       lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
       notify: Restart ssh
     - name: setup no password sudo
-      lineinfile: "dest=/etc/sudoers state=present line='{{user_name}}    ALL=NOPASSWD: ALL'"
+      lineinfile: "dest=/etc/sudoers state=present line='karthikt    ALL=NOPASSWD: ALL'"
     - name: Set shell for linux
       user:
         name: karthikt
         shell: /bin/bash
-    # - name: Cron to curl privatedns
-    #   cron:
-    #     name: "Update dyndns for {{item.name}}"
-    #     user: karthikt
-    #     special_time: hourly
-    #     job: sleep 5; curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null
-    #   with_items: "{{ freedns_tokens }}"
+    - name: Cron to curl privatedns
+      cron:
+        name: "Update dyndns for {{item.name}}"
+        user: karthikt
+        special_time: hourly
+        job: sleep 5; curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null
+      with_items: "{{ freedns_tokens }}"
+
+  handlers:
+    - name: updatedb
+      command: updatedb
+    - name: Restart ssh
+      service: name=ssh state=restarted
+
 
 - name: Tailscale
   hosts: all
@@ -55,4 +65,3 @@
     - name: Up connection
       command: tailscale up --advertise-routes "192.168.1.0/24" --advertise-exit-node
 
-- name: Wireguard?
