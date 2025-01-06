@@ -1,0 +1,58 @@
+# First time needs -k to specify password to login
+# -K to ask for sudo pass
+---
+
+- name: Sudo
+  hosts: all
+  tasks:
+    - name: Replace sudo
+      command: sudo apk add sudo !doas-sudo-shim
+
+- name: Basic and SSH harden
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create .ssh directory
+      file: dest=/home/karthikt/.ssh state=directory
+      become: no
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
+      copy: src=../pine/files/authorized_keys dest=~/.ssh/authorized_keys
+      become: no
+    - name: Allow TCP forwarding to allow remote access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
+      notify: Restart ssh
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+      notify: Restart ssh
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+      notify: Restart ssh
+    - name: setup no password sudo
+      lineinfile: "dest=/etc/sudoers state=present line='{{user_name}}    ALL=NOPASSWD: ALL'"
+    - name: Set shell for linux
+      user:
+        name: karthikt
+        shell: /bin/bash
+    # - name: Cron to curl privatedns
+    #   cron:
+    #     name: "Update dyndns for {{item.name}}"
+    #     user: karthikt
+    #     special_time: hourly
+    #     job: sleep 5; curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null
+    #   with_items: "{{ freedns_tokens }}"
+
+- name: Tailscale
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install
+      package: name=tailscale
+    - name: Enable and start
+      service:
+        name: tailscale
+        state: started
+        enabled: true
+    - name: Up connection
+      command: tailscale up --advertise-routes "192.168.1.0/24" --advertise-exit-node
+
+- name: Wireguard?
