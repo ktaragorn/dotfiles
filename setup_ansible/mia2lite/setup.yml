@@ -1,7 +1,8 @@
 # First time needs -k to specify password to login
 # -K to ask for sudo pass
+# PostmarketOs
 ---
-
+# do this manually
 # - name: Sudo
 #   hosts: all
 #   # https://stackoverflow.com/a/62349147
@@ -15,6 +16,10 @@
   become: yes
   vars_files: [all.yml]
   tasks:
+    - name: Install basic tools
+      package:
+        name:
+          - htop
     - name: Create .ssh directory
       file: dest=/home/karthikt/.ssh state=directory
       become: no
@@ -36,6 +41,11 @@
       user:
         name: karthikt
         shell: /bin/bash
+    - name: Enable cron
+      service:
+        name: crond
+        state: started
+        enabled: yes
     - name: Cron to curl privatedns
       cron:
         name: "Update dyndns for {{item.name}}"
@@ -50,7 +60,6 @@
     - name: Restart ssh
       service: name=ssh state=restarted
 
-
 - name: Tailscale
   hosts: all
   become: yes
@@ -64,4 +73,12 @@
         enabled: true
     - name: Up connection
       command: tailscale up --advertise-routes "192.168.1.0/24" --advertise-exit-node
+    - name: Sysctl enable forwarding
+      sysctl:
+        name: '{{item}}'
+        value: 1
+        sysctl_file: /etc/sysctl.d/99-tailscale.conf
+      with_items:
+        - net.ipv4.ip_forward
+        - net.ipv6.conf.all.forwarding
 
