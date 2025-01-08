@@ -63,6 +63,7 @@
 - name: Tailscale
   hosts: all
   become: yes
+  tags: ts
   tasks:
     - name: Install
       package: name=tailscale
@@ -71,8 +72,6 @@
         name: tailscale
         state: started
         enabled: true
-    - name: Up connection
-      command: tailscale up --advertise-routes "192.168.1.0/24" --advertise-exit-node
     - name: Sysctl enable forwarding
       sysctl:
         name: '{{item}}'
@@ -81,4 +80,5 @@
       with_items:
         - net.ipv4.ip_forward
         - net.ipv6.conf.all.forwarding
-
+    - name: Up connection
+      shell: tailscale up --reset --advertise-routes "192.168.1.0/24" --advertise-exit-node --accept-routes
