@@ -80,7 +80,7 @@
       package: name=tailscale
     - name: Enable and start
       service:
-        name: tailscale
+        name: tailscaled
         state: started
         enabled: true
     - name: Sysctl enable forwarding
@@ -100,14 +100,26 @@
   gather_facts: no
   become: yes
   tasks:
-    - name: Install docker
-      package:
+    - name: Install requirements/dependencies to access repo
+      apt:
         name:
-          - docker
-          - py3-docker-py
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+    - name: Install docker GPG key
+      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+    - name: Install Docker repo
+      apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
+        update_cache: yes
+    - name: Install docker-ce
+      apt:
+        name:
+          - docker-ce
+          - python3-docker
     - name: Enable docker to start on boot
-      service: name=docker enabled=yes
-    - name: Add ubuntu user to docker group
+      systemd: name=docker enabled=yes
+    - name: Add karthikt user to docker group
       user:
         name: karthikt
         groups: docker
@@ -116,7 +128,6 @@
   handlers:
     - name: Restart Docker
       systemd: name=docker state=restarted
-
 
 - name: Install Wireguard
   tags: wg
