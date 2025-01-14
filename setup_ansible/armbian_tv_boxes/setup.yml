@@ -118,53 +118,68 @@
     - name: Up connection
       shell: tailscale up --reset --advertise-routes "192.168.1.0/24" --advertise-exit-node --accept-routes=false
 
-- name: Install Docker
-  tags: docker
+- name: Install podman
+  tags: podman
   hosts: all
   gather_facts: no
   become: yes
   tasks:
-    - name: Install requirements/dependencies to access repo
-      apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - software-properties-common
-    - name: Install docker GPG key
-      apt_key: url=https://download.docker.com/linux/debian/gpg
-    - name: Install Docker repo
-      apt_repository:
-        repo: deb [arch=arm64] https://download.docker.com/linux/debian bookworm stable
-        update_cache: yes
-    - name: Install docker-ce
-      apt:
-        name:
-          - docker-ce
-          - python3-docker
-    - name: Enable docker to start on boot
-      systemd: name=docker enabled=yes
-    - name: Add karthikt user to docker group
-      user:
-        name: karthikt
-        groups: docker
-        append: yes
-      notify: Restart Docker
-  handlers:
-    - name: Restart Docker
-      systemd: name=docker state=restarted
+    - name: Install podman
+      package:
+        name: podman
+
+# - name: Install Docker
+#   tags: docker
+#   hosts: all
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     - name: Install requirements/dependencies to access repo
+#       apt:
+#         name:
+#           - apt-transport-https
+#           - ca-certificates
+#           - software-properties-common
+#     - name: Install docker GPG key
+#       apt_key: url=https://download.docker.com/linux/debian/gpg
+#     - name: Install Docker repo
+#       apt_repository:
+#         repo: deb [arch=arm64] https://download.docker.com/linux/debian bookworm stable
+#         update_cache: yes
+#     - name: Install docker-ce
+#       apt:
+#         name:
+#           - docker-ce
+#           - python3-docker
+#     - name: Enable docker to start on boot
+#       systemd: name=docker enabled=yes
+#     - name: Add karthikt user to docker group
+#       user:
+#         name: karthikt
+#         groups: docker
+#         append: yes
+#       notify: Restart Docker
+#   handlers:
+#     - name: Restart Docker
+#       systemd: name=docker state=restarted
 
 - name: Install Wireguard
   tags: wg
   hosts: all
   gather_facts: no
-  become: no
+  become: yes
   tasks:
+    - name: create folder
+      file:
+        name: /home/karthikt/.wg-easy
+        state: directory
+      become: no
     - name: Run container
-      docker_container:
+      containers.podman.podman_container:
         name: wireguard
         image: ghcr.io/wg-easy/wg-easy
         volumes:
-          - ~/.wg-easy:/etc/wireguard
+          - /home/karthikt/.wg-easy:/etc/wireguard
           - /lib/modules:/lib/modules
         env:
           'WG_HOST': 'numenor.privatedns.org'
@@ -177,7 +192,7 @@
         capabilities:
           - NET_ADMIN
           - SYS_MODULE
-        sysctls:
+        sysctl:
           net.ipv4.conf.all.src_valid_mark: 1
           net.ipv4.ip_forward: 1
         restart_policy: unless-stopped
