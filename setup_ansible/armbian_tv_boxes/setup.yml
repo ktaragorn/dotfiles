@@ -62,6 +62,30 @@
     - name: Restart ssh
       service: name=ssh state=restarted
 
+- name: Wifi setup
+  hosts: all
+  become: yes
+  tags: wifi
+  vars_files: all.yml
+  tasks:
+    - name: Install network-manager
+      package:
+        name:
+          - network-manager
+          - openvswitch-switch # https://stackoverflow.com/questions/77352932/ovsdb-server-service-from-no-where
+    - name: Create the wifi connection
+      community.general.nmcli:
+        type: wifi
+        conn_name: '{{item.name}}'
+        ifname: wlan0
+        ssid: '{{item.name}}'
+        wifi_sec:
+          key-mgmt: wpa-psk
+          psk: '{{item.password}}'
+        autoconnect: true
+        state: present
+      with_items: '{{networks}}'
+
 - name: Tailscale
   hosts: all
   become: yes
@@ -107,10 +131,10 @@
           - ca-certificates
           - software-properties-common
     - name: Install docker GPG key
-      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+      apt_key: url=https://download.docker.com/linux/debian/gpg
     - name: Install Docker repo
       apt_repository:
-        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
+        repo: deb [arch=arm64] https://download.docker.com/linux/debian bookworm stable
         update_cache: yes
     - name: Install docker-ce
       apt:
