@@ -20,6 +20,8 @@
       package:
         name:
           - htop
+          - rfkill
+          - bluez # for bluetooth
     - name: Create .ssh directory
       file: dest=/home/karthikt/.ssh state=directory
       become: no
