@@ -1,0 +1,14 @@
+[Unit]
+Description=Beszel Agent Service
+After=network.target
+
+[Service]
+Environment="PORT=45678"
+Environment="KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ"
+# Environment="EXTRA_FILESYSTEMS=sdb"
+Restart=always
+RestartSec=5
+ExecStart=/root/beszel-agent
+
+[Install]
+WantedBy=multi-user.target

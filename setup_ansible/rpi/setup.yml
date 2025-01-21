@@ -1,0 +1,243 @@
+# dietpi - annoyingly attached to its main user, very bloated TUI,
+# and hard to make own user, and very slow apt database performance
+# raspberry pi os lite - refused to boot
+# some OS, maybe raspberryPi debian, kept having CPU locked up, hope doesnt happen though
+# it was raspberrypi debian, tends to hang if kvm is used, seems fine headless
+#
+# raspberry pi debian https://raspi.debian.net/tested-images/
+# default - root and blank pass
+# set root passwd
+# change hostname to raspi with hostnamectl
+# create user with -m for home and passwd to set password
+# add to sudoers list, or to sudo group
+# first run ansible-playbook setup.yml -k -K
+# install python3
+# still slow but works better
+
+- name: Basic and SSH harden
+  hosts: all
+  become: yes
+  vars_files: [all.yml]
+  tags: basic
+  tasks:
+    - name: Install basic tools
+      package:
+        name:
+          - htop
+          - rfkill
+          - bluez # for bluetooth
+          - curl
+          - wget
+    - name: Create .ssh directory
+      file: dest=/home/{{ansible_user}}/.ssh state=directory
+      become: no
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
+      copy: src=../pine/files/authorized_keys dest=~/.ssh/authorized_keys
+      become: no
+    - name: Allow TCP forwarding to allow remote access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
+      notify: Restart ssh
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+      notify: Restart ssh
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+      notify: Restart ssh
+    - name: setup no password sudo
+      lineinfile: "dest=/etc/sudoers state=present line='{{ansible_user}}    ALL=NOPASSWD: ALL'"
+    - name: Set shell for linux
+      user:
+        name: '{{ansible_user}}'
+        shell: /bin/bash
+    - name: Improve history keybinds
+      copy:
+        src: inputrc
+        dest: /home/{{ansible_user}}/.inputrc
+    - name: Enable cron
+      service:
+        name: cron
+        state: started
+        enabled: yes
+    - name: Cron to curl privatedns
+      cron:
+        name: "Update dyndns for {{item.name}}"
+        user: '{{ansible_user}}'
+        special_time: hourly
+        job: sleep 5; curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null
+      with_items: "{{ freedns_tokens }}"
+
+  handlers:
+    - name: updatedb
+      command: updatedb
+    - name: Restart ssh
+      service: name=ssh state=restarted
+
+# - name: Wifi setup
+#   hosts: all
+#   become: yes
+#   tags: wifi
+#   vars_files: all.yml
+#   tasks:
+#     - name: Install network-manager
+#       package:
+#         name:
+#           - network-manager
+#     - name: Create the wifi connection
+#       community.general.nmcli:
+#         type: wifi
+#         conn_name: '{{item.name}}'
+#         ifname: wlan0
+#         ssid: '{{item.name}}'
+#         wifi_sec:
+#           key-mgmt: wpa-psk
+#           psk: '{{item.password}}'
+#         autoconnect: true
+#         state: present
+#       with_items: '{{networks}}'
+
+- name: Tailscale manual install
+  hosts: all
+  become: yes
+  tags: ts
+  # vars:
+  #   versionName: tailscale_1.78.1_arm
+  tasks:
+    # - name: Install tools
+    #   package:
+    #     name:
+    #       - wget
+    #       - curl
+    #       - iptables
+    #       - bind9
+    #       - dnsutils
+    # - name: Tmp Folder
+    #   file:
+    #     dest: /tmp/tailscale/
+    #     state: directory
+    # - name: Download static bin of tailscale
+    #   get_url:
+    #     dest: /tmp/tailscale/tailscale.tgz
+    #     url: https://pkgs.tailscale.com/stable/{{versionName}}.tgz
+    # - name: Extract tailscale.tgz
+    #   unarchive:
+    #     remote_src: true
+    #     src: /tmp/tailscale/tailscale.tgz
+    #     dest: /tmp/tailscale/
+    # - name: Copy Bins
+    #   copy:
+    #     src: /tmp/tailscale/{{versionName}}/{{item}}
+    #     dest: /usr/sbin/
+    #     remote_src: true
+    #     mode: 755
+    #   with_items:
+    #     - tailscale
+    #     - tailscaled
+    # - name: Copy systemd service
+    #   copy:
+    #     remote_src: true
+    #     src: /tmp/tailscale/{{versionName}}/systemd/tailscaled.service
+    #     dest: /etc/systemd/system/
+    # - name: Copy Defaults
+    #   copy:
+    #     remote_src: true
+    #     src: /tmp/tailscale/{{versionName}}/systemd/tailscaled.defaults
+    #     dest: /etc/default/tailscaled
+    # - name: Reload daemon
+    #   systemd_service:
+    #     name: tailscaled.service
+    #     state: started
+    #     enabled: true
+    #     daemon-reload: yes
+    - name: Sysctl enable forwarding
+      sysctl:
+        name: '{{item}}'
+        value: 1
+        sysctl_file: /etc/sysctl.d/99-tailscale.conf
+      with_items:
+        - net.ipv4.ip_forward
+        - net.ipv6.conf.all.forwarding
+    - name: set connection
+      shell: tailscale set --advertise-routes "192.168.1.0/24" --advertise-exit-node --accept-routes=false
+
+# The following software will be installed:                                                                            │
+# │  - MC: Midnight Commander - a powerful file manager                                                                  │
+# │  - iftop: displays bandwidth usage information                                                                       │
+# │  - Iperf: internet protocol bandwidth measuring tool                                                                 │
+# │  - Vim-Tiny: compact release of vim                                                                                  │
+# │  - Tailscale: Zero config VPN                                                                                        │
+# │  - Python 3 RPi.GPIO: Control Raspberry Pi GPIO channels in Python 3                                                 │
+# │  - Fail2Ban: prevents brute-force attacks with ip ban                                                                │
+# │  - OpenSSH Server: Feature-rich SSH server with SFTP and SCP support                                                 │
+# │  - DietPi-Dashboard: Official lightweight DietPi web interface (Rust)
+# |  - Docker                                                │
+# │                                                                                                                      │
+# │ The following software will be uninstalled:                                                                          │
+# │  - Dropbear: Lightweight SSH server
+# also configure both wifi
+- name: Install Wireguard
+  tags: wg
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Add {{ansible_user}} user to docker group
+      become: yes
+      user:
+        name: '{{ansible_user}}'
+        groups: docker
+        append: yes
+      notify: Restart Docker
+    - name: Install requests
+      become: yes
+      package:
+        name: python3-requests
+    - name: Run container
+      docker_container:
+        name: wireguard
+        image: ghcr.io/wg-easy/wg-easy
+        volumes:
+          - ~/.wg-easy:/etc/wireguard
+          - /lib/modules:/lib/modules
+        env:
+          'WG_HOST': 'numenor.privatedns.org'
+          'WG_PORT': '51830'
+          PORT: '51821'
+          WG_DEFAULT_DNS: '192.168.1.1'
+        published_ports:
+          - 51830:51830/udp
+          - 51821:51821/tcp
+        capabilities:
+          - NET_ADMIN
+          - SYS_MODULE
+        sysctls:
+          net.ipv4.conf.all.src_valid_mark: 1
+          net.ipv4.ip_forward: 1
+        restart_policy: unless-stopped
+  handlers:
+    - name: Restart Docker
+      systemd: name=docker state=restarted
+
+- name: install beszel
+  tags: beszel
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Download tgz
+      get_url:
+        url: https://github.com/henrygd/beszel/releases/download/v0.9.1/beszel-agent_linux_arm.tar.gz
+        dest: /tmp/beszel-agent.tgz
+    - name: Unarchive tgz
+      unarchive:
+        remote_src: true
+        src: /tmp/beszel-agent.tgz
+        dest: /root/
+    - name: Copy unit
+      copy:
+        src: beszel-agent.service
+        dest: /etc/systemd/system/
+    - name: Enable and start
+      systemd_service:
+        name: beszel-agent.service
+        state: started
+        enabled: yes
