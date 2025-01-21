@@ -205,7 +205,7 @@
 #     - name: Restart webmin
 #       service: state=restarted name=webmin
 
-- name: Nginx default site for webmin and deluge and others
+- name: Nginx reverse proxy for all services
   become: yes
   tags: nginx
   hosts: all
@@ -295,11 +295,12 @@
         port: 51821
         subdomain: yes
         proc: wg-crypt-wg0
-      - name: Pihole
-        link_to: "http://pihole.middle.earth/admin"
-        port: 80
-        icon: "https://raw.githubusercontent.com/github/explore/d90dc858dc489cd2bc3b3295e71e04b4e2e2db00/topics/pihole/pihole.png"
-      # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
+    linked_services: # homepage but not reverse proxy
+      - name: Beszel
+        icon: http://pine64.middle.earth:8090/static/favicon-green.svg
+        port: 8090
+        link_to: http://pine64.middle.earth:8090
+        proc: beszel
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
       - { name: SSH Server, port: 22, proc: sshd }
@@ -1297,54 +1298,6 @@
       supervisorctl:
         name: mqttwarn
         state: restarted
-
-# - name: Install and setup PiHole
-#   hosts: all
-#   gather_facts: no
-#   tags: pihole
-#   become: no
-#   vars_files: [vars/all.yml]
-#   tasks:
-#     - name: Run Pi Hole
-#       docker_container:
-#         name: pihole
-#         image: pihole/pihole:latest
-#         published_ports:
-#           - 53:53/tcp
-#           - 53:53/udp
-#           - 67:67/udp
-#           - 8888:80/tcp
-#           - 443:443/tcp
-#         volumes:
-#           - "./etc-pihole/:/etc/pihole/"
-#           - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
-#         env:
-#           TZ: '{{timezone}}'
-#           WEBPASSWORD: "{{ pihole_password }}"
-#         capabilities:
-#           - NET_ADMIN
-#         dns_servers:
-#           - 127.0.0.1
-#           - 1.1.1.1
-#         restart_policy: unless-stopped
-
-# - name: Install grafana
-#   tags: grafana
-#   hosts: all
-#   gather_facts: no
-#   become: no
-#   tasks:
-#     - name: Install and run grafana
-#       docker_container:
-#         name: grafana
-#         image: grafana/grafana
-#         # volumes:
-#         #   - /etc/localtime:/etc/localtime:ro
-#         #   - /home/ubuntu/homeassistant_config:/config
-#         published_ports:
-#           - 3000:3000
-#         restart_policy: unless-stopped
-
 
 - name: Run mysql via docker
   tags: mysql2

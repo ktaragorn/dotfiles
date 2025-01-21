@@ -72,82 +72,11 @@
     - name: Restart ssh
       service: name=ssh state=restarted
 
-# - name: Wifi setup
-#   hosts: all
-#   become: yes
-#   tags: wifi
-#   vars_files: all.yml
-#   tasks:
-#     - name: Install network-manager
-#       package:
-#         name:
-#           - network-manager
-#     - name: Create the wifi connection
-#       community.general.nmcli:
-#         type: wifi
-#         conn_name: '{{item.name}}'
-#         ifname: wlan0
-#         ssid: '{{item.name}}'
-#         wifi_sec:
-#           key-mgmt: wpa-psk
-#           psk: '{{item.password}}'
-#         autoconnect: true
-#         state: present
-#       with_items: '{{networks}}'
-
 - name: Tailscale manual install
   hosts: all
   become: yes
   tags: ts
-  # vars:
-  #   versionName: tailscale_1.78.1_arm
   tasks:
-    # - name: Install tools
-    #   package:
-    #     name:
-    #       - wget
-    #       - curl
-    #       - iptables
-    #       - bind9
-    #       - dnsutils
-    # - name: Tmp Folder
-    #   file:
-    #     dest: /tmp/tailscale/
-    #     state: directory
-    # - name: Download static bin of tailscale
-    #   get_url:
-    #     dest: /tmp/tailscale/tailscale.tgz
-    #     url: https://pkgs.tailscale.com/stable/{{versionName}}.tgz
-    # - name: Extract tailscale.tgz
-    #   unarchive:
-    #     remote_src: true
-    #     src: /tmp/tailscale/tailscale.tgz
-    #     dest: /tmp/tailscale/
-    # - name: Copy Bins
-    #   copy:
-    #     src: /tmp/tailscale/{{versionName}}/{{item}}
-    #     dest: /usr/sbin/
-    #     remote_src: true
-    #     mode: 755
-    #   with_items:
-    #     - tailscale
-    #     - tailscaled
-    # - name: Copy systemd service
-    #   copy:
-    #     remote_src: true
-    #     src: /tmp/tailscale/{{versionName}}/systemd/tailscaled.service
-    #     dest: /etc/systemd/system/
-    # - name: Copy Defaults
-    #   copy:
-    #     remote_src: true
-    #     src: /tmp/tailscale/{{versionName}}/systemd/tailscaled.defaults
-    #     dest: /etc/default/tailscaled
-    # - name: Reload daemon
-    #   systemd_service:
-    #     name: tailscaled.service
-    #     state: started
-    #     enabled: true
-    #     daemon-reload: yes
     - name: Sysctl enable forwarding
       sysctl:
         name: '{{item}}'
