@@ -146,3 +146,24 @@
           net.ipv4.conf.all.src_valid_mark: 1
           net.ipv4.ip_forward: 1
         restart_policy: unless-stopped
+
+- name: install beszel
+  tags: beszel
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run agent container
+      docker_container:
+        name: beszel-agent
+        image: henrygd/beszel-agent
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      # monitor other disks / partitions by mounting a folder in /extra-filesystems
+      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
+        network_mode: host
+        restart_policy: unless-stopped
+        env:
+          PORT: '45678'
+          KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'
+
