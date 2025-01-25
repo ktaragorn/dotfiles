@@ -15,6 +15,7 @@
   hosts: all
   become: yes
   vars_files: [all.yml]
+  tags: basic
   tasks:
     - name: Install basic tools
       package:
@@ -43,20 +44,10 @@
       user:
         name: karthikt
         shell: /bin/bash
-    - name: Enable cron
-      service:
-        name: crond
-        state: started
-        enabled: yes
-      when: inventory_hostname == 'mia2lite'
-    - name: Cron to curl privatedns
-      cron:
-        name: "Update dyndns for {{item.name}}"
-        user: karthikt
-        special_time: hourly
-        job: sleep 5; curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_numenor_privatedns_org.log 2>/dev/null
-      with_items: "{{ freedns_tokens }}"
-      when: inventory_hostname == 'mia2lite'
+    - name: Improve history keybinds
+      copy:
+        src: inputrc
+        dest: /home/karthikt/.inputrc
 
   handlers:
     - name: updatedb

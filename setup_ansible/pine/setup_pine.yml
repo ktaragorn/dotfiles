@@ -845,6 +845,8 @@
         - monitor_conntrack.sh
         - ntfy
         - flexget_adhoc
+        - check_wifi.sh
+        - reload_wifi.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"

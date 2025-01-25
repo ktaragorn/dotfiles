@@ -90,3 +90,8 @@ check host {{host.name}} with address {{host.name}}.middle.earth
     {{alert_succeeded}}
 
 {% endfor %}
+
+
+check program ironforge-wifi with path "/home/ubuntu/check_wifi.sh"
+       if CONTENT != "true" then {{alert}}
+       if content != "true" for 5 cycles then exec '/home/ubuntu/reload_wifi.sh'
