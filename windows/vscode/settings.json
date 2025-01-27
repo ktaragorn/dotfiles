@@ -1,0 +1,15 @@
+{
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "vs-code-prettier-eslint.prettierLast": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "omnisharp.organizeImportsOnFormat": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "search.useGlobalIgnoreFiles": true,
+  "editor.formatOnSave": true
+}
