@@ -1,0 +1,1 @@
+ssh root@router "crontab -l | { cat; echo '4 5 * * * wifi'; } | crontab -"
