@@ -7,8 +7,8 @@
       user:
         groups:
           - input
-        name: '{{ansible_user}}'
-        # if not user is removed from all other users, including the one that gives root access
+        name: '{{ansible_user_id}}'
+        # if not user is removed from all other groups, including the one that gives root access
         append: yes  
     - name: Install libinput dependancies
       apt:
@@ -33,5 +33,21 @@
         cmd: ./libinput-gestures-setup install
     - name: Auto start libinput-gestures
       command: libinput-gestures-setup autostart
+      become: no
     - name: Start libinput gestures
       command: libinput-gestures-setup start
+      become: no
+    - name: Add tmp folder and swap file to fstab
+      lineinfile: 
+        path: /etc/fstab
+        line: '{{item}}'
+      with_items:
+        -  /home/tmp  /tmp  none  defaults,bind  0  0
+        -  /home/11gig.swap    none    swap    sw    0    0
+      notify:
+        - Ask to restart
+
+  handlers:
+    - name: Ask to restart
+      debug:
+        msg: Restart the laptop to let changes take effect

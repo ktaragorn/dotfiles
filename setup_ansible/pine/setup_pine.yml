@@ -4,67 +4,16 @@
 # install plugins
 # Atleast once need sudo password - use -K to request it
 ---
-- name: Generic server setup and harden ssh
-  tags: basic
+- name: Basic stuff
   hosts: all
+  vars_files: vars/all.yml
   gather_facts: no
   become: yes
-  vars_files: vars/all.yml
-  tasks:
-    - name: Install pip and other tools required
-      apt:
-        pkg:
-          - python3-pip
-          - htop
-          - git
-          - jq
-          - unattended-upgrades
-          - ncdu
-          - lm-sensors
-          - pkg-config
-        update_cache: yes
-    - name: Add .local/bin to PATH for regular user
-      become: no
-      lineinfile: dest=~/.bashrc line="export PATH=$PATH:.local/bin/" create=yes
-    - name: Install locate if needed
-      apt: pkg=locate state=present
-      notify: updatedb
-    - name: set timezone to {{timezone}}
-      # timezone: # doesnt work..
-      #   name: '{{timezone}}'
-      command: timedatectl set-timezone {{timezone}}
-    - name: Download z.sh
-      get_url: url=https://raw.githubusercontent.com/rupa/z/master/z.sh dest=~/z.sh
-      become: no
-    - name: Activate z.sh
-      lineinfile: dest=~/.bashrc line=". ~/z.sh" create=yes
-      become: no
-    - name: Create .ssh directory
-      file: dest=/home/ubuntu/.ssh state=directory
-      become: no
-    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
-      copy: src=files/authorized_keys dest=~/.ssh/authorized_keys
-      become: no
-    - name: Allow TCP forwarding to allow remote access
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
-      notify: Restart ssh
-    - name: Disallow password authentication
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
-      notify: Restart ssh
-    - name: Disallow root SSH access
-      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
-      notify: Restart ssh
-    - name: setup no password sudo
-      lineinfile: "dest=/etc/sudoers state=present line='ubuntu    ALL=NOPASSWD: ALL'"
-    - name: Point DNS to router
-      copy:
-        src: files/resolv.conf
-        dest: /etc/resolv.conf
-  handlers:
-    - name: updatedb
-      command: updatedb
-    - name: Restart ssh
-      service: name=ssh state=restarted
+  tags: basic
+  vars:
+    user_name: ubuntu
+  roles:
+    - role: '../my_roles/base_server'
 
 - name: Setup swapfile
   hosts: all
@@ -153,20 +102,6 @@
         #   directory_mode: 0777
         #   public: yes
         #   writable: yes
-
-- name: Dynamic dns for black-gate.
-  tags: dyndns
-  hosts: all
-  gather_facts: no
-  vars_files: [vars/all.yml]
-  tasks:
-    - name: Cron to curl privatedns
-      cron:
-        name: "Update dyndns for {{item.name}}"
-        user: ubuntu
-        special_time: hourly
-        job: curl -s http://freedns.afraid.org/dynamic/update.php?{{item.token}}/ >> /tmp/freedns_black-gate_privatedns_org.log 2>/dev/null
-      with_items: "{{ freedns_tokens }}"
 
 - name: Deluge installation and setup with systemd
   become: yes
@@ -270,7 +205,7 @@
 #     - name: Restart webmin
 #       service: state=restarted name=webmin
 
-- name: Nginx default site for webmin and deluge and others
+- name: Nginx reverse proxy for all services
   become: yes
   tags: nginx
   hosts: all
@@ -355,11 +290,17 @@
         port: 8083
         link_to: /owntracks
         terminate: "/"
-      - name: Pihole
-        link_to: "http://pihole.middle.earth/admin"
-        port: 80
-        icon: "https://raw.githubusercontent.com/github/explore/d90dc858dc489cd2bc3b3295e71e04b4e2e2db00/topics/pihole/pihole.png"
-      # changed "server_name" in omv nginx config to omv.middle.earth and also configured the router to point that domain to the same machine
+      - name: wireguard
+        icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcodingnetworker.com%2Fthumbnails%2Fwireguard.jpeg%23floatright&f=1&nofb=1&ipt=b7ec7d556f8bb5ff65aa13823f70cf34a27d832b62ebbd83f74d49f5b8f53e05&ipo=images
+        port: 51821
+        subdomain: yes
+        proc: wg-crypt-wg0
+    linked_services: # homepage but not reverse proxy
+      - name: Beszel
+        icon: http://pine64.middle.earth:8090/static/favicon-green.svg
+        port: 8090
+        link_to: http://pine64.middle.earth:8090
+        proc: beszel
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
       - { name: SSH Server, port: 22, proc: sshd }
@@ -377,12 +318,12 @@
       # - { name: Pihole, port: 8888, proc: pihole-FTL } # not currently using
   tasks:
     - name: Install nginx and php
-      package: name={{item}}
-      with_items:
-        - nginx
-        - php-fpm
-        - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
-        - php-mysql # https://stackoverflow.com/a/47960896
+      package:
+        name:
+          - nginx
+          - php-fpm
+          - php-xml #https://stackoverflow.com/questions/35701730/utf8-endecode-removed-from-php7
+          - php-mysql # https://stackoverflow.com/a/47960896
     - name: Configure site
       template:
         src: files/pine.j2
@@ -699,7 +640,7 @@
       apt:
         name:
           - apt-transport-https
-          - ca-certificates
+          - ca-certificatesf
           - software-properties-common
     - name: Install docker GPG key
       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
@@ -904,6 +845,8 @@
         - monitor_conntrack.sh
         - ntfy
         - flexget_adhoc
+        - check_wifi.sh
+        - reload_wifi.sh
     - name: Create cron job to Monitor disk space and alert if low
       cron:
         name: "Monitor disk space and alert if low"
@@ -1358,54 +1301,6 @@
         name: mqttwarn
         state: restarted
 
-# - name: Install and setup PiHole
-#   hosts: all
-#   gather_facts: no
-#   tags: pihole
-#   become: no
-#   vars_files: [vars/all.yml]
-#   tasks:
-#     - name: Run Pi Hole
-#       docker_container:
-#         name: pihole
-#         image: pihole/pihole:latest
-#         published_ports:
-#           - 53:53/tcp
-#           - 53:53/udp
-#           - 67:67/udp
-#           - 8888:80/tcp
-#           - 443:443/tcp
-#         volumes:
-#           - "./etc-pihole/:/etc/pihole/"
-#           - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
-#         env:
-#           TZ: '{{timezone}}'
-#           WEBPASSWORD: "{{ pihole_password }}"
-#         capabilities:
-#           - NET_ADMIN
-#         dns_servers:
-#           - 127.0.0.1
-#           - 1.1.1.1
-#         restart_policy: unless-stopped
-
-# - name: Install grafana
-#   tags: grafana
-#   hosts: all
-#   gather_facts: no
-#   become: no
-#   tasks:
-#     - name: Install and run grafana
-#       docker_container:
-#         name: grafana
-#         image: grafana/grafana
-#         # volumes:
-#         #   - /etc/localtime:/etc/localtime:ro
-#         #   - /home/ubuntu/homeassistant_config:/config
-#         published_ports:
-#           - 3000:3000
-#         restart_policy: unless-stopped
-
-
 - name: Run mysql via docker
   tags: mysql2
   hosts: all
@@ -1529,3 +1424,61 @@
           - 5006:5006
         restart_policy: on-failure
 
+- name: Install Wireguard
+  tags: wg
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Run container
+      docker_container:
+        name: wireguard
+        image: ghcr.io/wg-easy/wg-easy
+        volumes:
+          - ~/.wg-easy:/etc/wireguard
+        env:
+          'WG_HOST': 'black-gate.privatedns.org'
+          'WG_PORT': '51820'
+          PORT: '51821'
+          WG_DEFAULT_DNS: '192.168.1.1'
+        published_ports:
+          - 51820:51820/udp
+          - 51821:51821/tcp
+        capabilities:
+          - NET_ADMIN
+          - SYS_MODULE
+        sysctls:
+          net.ipv4.conf.all.src_valid_mark: 1
+          net.ipv4.ip_forward: 1
+        restart_policy: unless-stopped
+
+- name: install beszel
+  tags: beszel
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run hub container
+      docker_container:
+        name: beszel
+        image: henrygd/beszel
+        volumes:
+          - ./beszel_data:/beszel_data
+        published_ports:
+          - 8090:8090
+        restart_policy: unless-stopped
+
+    - name: Run agent container
+      docker_container:
+        name: beszel-agent
+        image: henrygd/beszel-agent
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+          - /media/ubuntu/Chest:/extra-filesystems/Chest:ro
+
+      # monitor other disks / partitions by mounting a folder in /extra-filesystems
+      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
+        network_mode: host
+        restart_policy: unless-stopped
+        env:
+          PORT: '45678'
+          KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'

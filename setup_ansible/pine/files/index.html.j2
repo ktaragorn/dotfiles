@@ -7,7 +7,7 @@
             height: 100%;
         }
         body{
-            background-image: url("https://source.unsplash.com/category/technology");
+            background-image: url("https://images.unsplash.com/photo-1737304697097-62a820f71964?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
             background-size: cover;
         }
         div.service-body{
@@ -41,9 +41,9 @@
 <body>
 <div class="service-body">
 <div class="container">
-    {% for service in proxied_services %}
+    {% for service in (proxied_services +linked_services)%}
     <div class="service">
-    <a href="{{service.link_to | default("/" + service.name)}}/">
+    <a href="{{service.link_to | default("http://" + service.name + ".middle.earth" if(service['subdomain'] is defined) else "/" + service.name)}}/">
     	<img src={{service.icon}} style="height:100px">
     	<div class="name">{{service.name |capitalize}}</div>
     <!-- {{(service.name| replace("_"," ")).split(" ")| capitalize | join(" ")}} -->

@@ -1,0 +1,197 @@
+# First time needs -k to specify password to login
+# -K to ask for sudo pass
+# PostmarketOs
+---
+# do this manually
+# - name: Sudo
+#   hosts: all
+#   # https://stackoverflow.com/a/62349147
+#   connection: paramiko
+#   tasks:
+#     - name: Replace sudo
+#       shell: sudo apk add --no-interactive sudo '!doas-sudo-shim'
+
+- name: Basic and SSH harden
+  hosts: all
+  become: yes
+  vars_files: [all.yml]
+  tags: basic
+  tasks:
+    - name: Install basic tools
+      package:
+        name:
+          - htop
+          - rfkill
+          - bluez # for bluetooth
+    - name: Create .ssh directory
+      file: dest=/home/karthikt/.ssh state=directory
+      become: no
+    - name: setup ssh keys - VM, Office, Putty, Phone Juicessh, WSL, linux laptop
+      copy: src=../pine/files/authorized_keys dest=~/.ssh/authorized_keys
+      become: no
+    - name: Allow TCP forwarding to allow remote access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^AllowTcpForwarding" line="AllowTcpForwarding yes" state=present
+      notify: Restart ssh
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+      notify: Restart ssh
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+      notify: Restart ssh
+    - name: setup no password sudo
+      lineinfile: "dest=/etc/sudoers state=present line='karthikt    ALL=NOPASSWD: ALL'"
+    - name: Set shell for linux
+      user:
+        name: karthikt
+        shell: /bin/bash
+    - name: Improve history keybinds
+      copy:
+        src: inputrc
+        dest: /home/karthikt/.inputrc
+
+  handlers:
+    - name: updatedb
+      command: updatedb
+    - name: Restart ssh
+      service: name=ssh state=restarted
+
+- name: Wifi setup
+  hosts: all
+  become: yes
+  tags: wifi
+  vars_files: all.yml
+  tasks:
+    - name: Install network-manager
+      package:
+        name:
+          - network-manager
+          - openvswitch-switch # https://stackoverflow.com/questions/77352932/ovsdb-server-service-from-no-where
+    - name: Create the wifi connection
+      community.general.nmcli:
+        type: wifi
+        conn_name: '{{item.name}}'
+        ifname: wlan0
+        ssid: '{{item.name}}'
+        wifi_sec:
+          key-mgmt: wpa-psk
+          psk: '{{item.password}}'
+        autoconnect: true
+        state: present
+      with_items: '{{networks}}'
+
+- name: Tailscale
+  hosts: all
+  become: yes
+  tags: ts
+  tasks:
+    - name: Add keys
+      get_url:
+        url: https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg
+        dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+      when: inventory_hostname != "mia2lite"
+    - name: Add repo
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian bookworm main
+      when: inventory_hostname != "mia2lite"
+    - name: Install
+      package: name=tailscale
+    - name: Enable and start
+      service:
+        name: tailscaled
+        state: started
+        enabled: true
+    - name: Sysctl enable forwarding
+      sysctl:
+        name: '{{item}}'
+        value: 1
+        sysctl_file: /etc/sysctl.d/99-tailscale.conf
+      with_items:
+        - net.ipv4.ip_forward
+        - net.ipv6.conf.all.forwarding
+    - name: Up connection
+      shell: tailscale up --reset --advertise-routes "192.168.1.0/24" --advertise-exit-node --accept-routes=false
+
+- name: Install Docker
+  tags: docker
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Install requirements/dependencies to access repo
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+    - name: Install docker GPG key
+      apt_key: url=https://download.docker.com/linux/debian/gpg
+    - name: Install Docker repo
+      apt_repository:
+        repo: deb [arch=armhf] https://download.docker.com/linux/debian bookworm test
+        update_cache: yes
+    - name: Install docker-ce
+      apt:
+        name:
+          - docker-ce
+          - python3-docker
+    - name: Enable docker to start on boot
+      systemd: name=docker enabled=yes
+    - name: Add karthikt user to docker group
+      user:
+        name: karthikt
+        groups: docker
+        append: yes
+      notify: Restart Docker
+  handlers:
+    - name: Restart Docker
+      systemd: name=docker state=restarted
+
+- name: Install Wireguard
+  tags: wg
+  hosts: all
+  # gather_facts: no
+  # become: no
+  tasks:
+    - name: Run container
+      docker_container:
+        name: wireguard
+        image: ghcr.io/wg-easy/wg-easy
+        volumes:
+          - ~/.wg-easy:/etc/wireguard
+          - /lib/modules:/lib/modules
+        env:
+          'WG_HOST': 'numenor.privatedns.org'
+          'WG_PORT': '51830'
+          PORT: '51821'
+          WG_DEFAULT_DNS: '192.168.1.1'
+        published_ports:
+          - 51830:51830/udp
+          - 51821:51821/tcp
+        capabilities:
+          - NET_ADMIN
+          - SYS_MODULE
+        sysctls:
+          net.ipv4.conf.all.src_valid_mark: 1
+          net.ipv4.ip_forward: 1
+        restart_policy: unless-stopped
+
+- name: install beszel
+  tags: beszel
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run agent container
+      docker_container:
+        name: beszel-agent
+        image: henrygd/beszel-agent
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+          - /media/ubuntu/Chest:/extra-filesystems/Chest:ro
+
+      # monitor other disks / partitions by mounting a folder in /extra-filesystems
+      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
+        network_mode: host
+        restart_policy: unless-stopped
+        env:
+          PORT: '45678'
+          KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'

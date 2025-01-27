@@ -63,7 +63,7 @@ check file home-assistant.log with path /home/ubuntu/homeassistant_config/home-a
 check file cloudmqtt_bridge with path /tmp/bridge_connected_log
     if content = "0" then {{alert}}
 
-{% for service in proxied_services + other_services if "proc" in service %}
+{% for service in proxied_services + linked_services + other_services if "proc" in service %}
 
 check process pine-{{service.name|lower|replace(" ", "_")}} matching '{{service.proc}}'
   # if the server is down, it gets stuck in an infinite restart loop rather than triggering this alert
@@ -90,3 +90,8 @@ check host {{host.name}} with address {{host.name}}.middle.earth
     {{alert_succeeded}}
 
 {% endfor %}
+
+
+check program ironforge-wifi with path "/home/ubuntu/check_wifi.sh"
+       if CONTENT != "true" then {{alert}}
+       if content != "true" for 5 cycles then exec '/home/ubuntu/reload_wifi.sh'
