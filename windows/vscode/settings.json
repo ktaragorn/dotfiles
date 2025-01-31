@@ -11,5 +11,8 @@
   "eslint.lintTask.enable": true,
   "editor.multiCursorModifier": "ctrlCmd",
   "search.useGlobalIgnoreFiles": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  }
 }
