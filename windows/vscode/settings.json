@@ -9,6 +9,7 @@
   "omnisharp.organizeImportsOnFormat": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
+  //https://stackoverflow.com/a/56024839 and settings says vscode makes sure multi cursor and gotodefinition make sure not to clash, so they are opposites
   "editor.multiCursorModifier": "ctrlCmd",
   "search.useGlobalIgnoreFiles": true,
   "editor.formatOnSave": true,
