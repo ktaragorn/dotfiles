@@ -1345,6 +1345,9 @@
         name: hass
         password: hass
 
+# Jellyfin used to have a feature called "Native mode" where the server served the smb paths directly, rather than transcoding
+# this has now been removed, and has to be done client side https://github.com/jellyfin/jellyfin-kodi/pull/938
+# Addon still needs to be set to Native mode, and path substitutions need to be setup.
 - name: Install Jellyfin
   tags: jellyfin
   hosts: all
@@ -1367,6 +1370,7 @@
           - jellyfin-config:/config
           - jellyfin-cache:/cache
           - /media/ubuntu/Chest/TV Shows:/Chest
+          - /media/ubuntu/Chest/Movies:/Movies
         devices: # https://jellyfin.org/docs/general/administration/hardware-acceleration.html
           # VAAPI Devices
           - /dev/dri/renderD128:/dev/dri/renderD128
