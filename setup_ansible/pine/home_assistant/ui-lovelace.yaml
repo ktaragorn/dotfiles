@@ -86,6 +86,11 @@ views:
           - entity: sensor.d_battery_level
         type: glance
         title: Thermometer Battery
+      - type: glance
+        title: Anu & My Phone battery
+        entities:
+          - entity: sensor.nord_battery_level
+          - entity: sensor.pixel_6_pro_battery_level
       # - type: media-control
       #   entity: media_player.bedroom_tv
       # - entities:

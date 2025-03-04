@@ -168,43 +168,6 @@
       with_items: "{{items}}"
       changed_when: false
 
-# # TODO install webmin tasks
-# - name: Install webmin and configure for reverse proxy
-#   become: yes
-#   hosts: all
-#   tags: webmin
-#   gather_facts: no
-#   tasks:
-#     - name: Configure webmin for reverse proxy
-#       lineinfile: dest=/etc/webmin/config line={{item}}
-#       with_items:
-#         - webprefix=/webmin
-#         - webprefixnoredir=1
-#         - referers=localhost
-#       notify: Restart webmin
-#     - name: Configure webmin's server miniserv for reverse proxy, disable ssl
-#       lineinfile: dest=/etc/webmin/miniserv.conf line={{item.line}} regexp="^{{item.regex}}"
-#       with_items:
-#         - {line: cookiepath=/webmin, regex: cookiepath=}
-#         - {line: bind=127.0.0.1, regex: bind=}
-#         - {line: sockets=, regex: sockets=}
-#         - {line: ssl=0, regex: ssl=\d}
-#       notify: Restart webmin
-#     # TODO fix initial redirect after login as in http://serverfault.com/questions/443482/proxying-webmin-with-nginx
-#     #http://webmin.com/apache.html
-
-#     # try to fix the hdd no spin down problem as per
-#     # https://sourceforge.net/p/webadmin/bugs/3999/
-#     # if this doesnt work, next step is to disable collection all out
-#     # I also reduced the frequency to once in 30 min from once in 5
-#     - name: Disable drive temperature collection in the background
-#       lineinfile: dest=/etc/webmin/system-status/config line={{item}}
-#       with_items:
-#         - collect_notemp=1
-#   handlers:
-#     - name: Restart webmin
-#       service: state=restarted name=webmin
-
 - name: Nginx reverse proxy for all services
   become: yes
   tags: nginx
@@ -301,6 +264,10 @@
         port: 8090
         link_to: http://pine64.middle.earth:8090
         proc: beszel
+      - name: Pihole
+        icon: https://static-00.iconduck.com/assets.00/pihole-icon-174x256-w2exgm2v.png
+        port: 8888
+        proc: pihole-FTL
     other_services:
       - { name: Web Server, port: 80, proc: nginx }
       - { name: SSH Server, port: 22, proc: sshd }
@@ -461,174 +428,6 @@
       service: name=flexget state=restarted
       become: yes
 
-# add this to advancedsettings.xml
-# <advancedsettings>
-#     <network>
-#         <buffermode>1</buffermode>
-#         <cachemembuffersize>41943040</cachemembuffersize>
-#         <readbufferfactor>3</readbufferfactor>
-#     </network>
-#     <skiploopfilter>8</skiploopfilter>
-#   <videodatabase>
-#     <type>mysql</type>
-#     <host>pine64.middle.earth</host>
-#     <port>3306</port>
-#     <user>kodi</user>
-#     <pass>kodi</pass>
-#   </videodatabase>
-#   <videolibrary>
-#     <importwatchedstate>true</importwatchedstate>
-#     <importresumepoint>true</importresumepoint>
-#   </videolibrary>
-# </advancedsettings>
-
-# - name: Install & Configure mysql server
-#   tags: mysql
-#   hosts: all
-#   become: yes
-#   vars_files: [vars/all.yml]
-#   # needed because the role include below needs ansible_os_family to be defined
-#   # at some point ansible stopped gathering facts for plays not tagged to be run
-#   # but they still include the roles, so it fails here
-#   # when tagged with always, it runs.. always
-#   pre_tasks:
-#     - name: Gather facts
-#       setup:
-#         gather_subset: min
-#       tags: always
-#   roles:
-#     - role: geerlingguy.mysql
-#       mysql_root_password: "{{my_mysql_root_password}}"
-#       mysql_root_password_update: yes
-#       mysql_users:
-#         - name: kodi
-#           password: kodi
-#           host: "%"
-#           priv: "*.*:ALL"
-#         - name: "{{firefly_db_username}}"
-#           password: "{{firefly_db_password}}"
-#           host: "%"
-#           priv: "*.*:ALL"
-#       mysql_packages: [mariadb-server]
-#       mysql_bind_address: "192.168.1.222" # update if ipaddress changes
-#       mysql_databases: [{ name: firefly }]
-#     - role: guisea.automysqlbackup
-#       automysqlbackup_cron:
-#         minute: 30
-#         day: "*"
-#         month: "*"
-#         weekday: "*"
-#       automysqlbackup_backup_directory: /var/lib/automysqlbackup
-#       automysqlbackup_username: kodi
-#       automysqlbackup_password: kodi
-
-# - name: HTPC Manager
-#   tags: htpc
-#   hosts: all
-#   gather_facts: no
-#   become: yes
-#   vars:
-#     htpc_path: /home/ubuntu/Documents/HTPC-Manager
-#   tasks:
-#     - name: Get latest htpc manager code
-#       git: repo=https://github.com/Hellowlol/HTPC-Manager.git dest={{htpc_path}}
-#       notify: restart htpc manager
-#       become: no
-#     - name: Install stuff to compile pillow
-#       apt:
-#         package:
-#           - libjpeg-dev
-#           - libfreetype6
-#           - libfreetype6-dev
-#           - zlib1g-dev
-#           - python-dev
-#     - name: Install psutil for system info and pillow for images
-#       pip:
-#         name:
-#           - psutil
-#           - pillow
-#     - name: It needs smartmontools installed
-#       apt: name=smartmontools
-#     - name: Push systemd service file
-#       template: src=files/htpc.service.j2 dest=/lib/systemd/system/htpc.service
-#     - name: Start and enable htpc
-#       service: name=htpc state=started enabled=true #daemon-reload=true
-  # config
-  # path to /htpc
-  # enable kodi and deluge and add webmin and systeminfo
-  # theme to atmosphere
-  # dashboard latest tv shows, system info, disks info
-
-  # handlers:
-  #   - name: restart htpc manager
-  #     service: name=htpc state=restarted
-
-# TODO undo this if needed..
-# #https://software.opensuse.org/download.html?project=home%3Aemby&package=emby-server-beta
-# - name: Install emby server and setup # ubuntu 16.04 method
-#   tags: emby
-#   hosts: all
-#   gather_facts: no
-#   become: yes
-#   tasks:
-#     # unable to install emby without this
-#     - name: Add mono repo key
-#       apt_key: keyserver=keyserver.ubuntu.com id=3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-#     - name: Add repo to apt
-#       apt_repository:
-#         repo: deb http://download.mono-project.com/repo/debian wheezy main
-#         update_cache: yes
-#         filename: mono-xamarin
-#     - name: Add repo key to apt
-#       apt_key: url=http://download.opensuse.org/repositories/home:emby/xUbuntu_16.04/Release.key
-#     - name: Add repo to apt
-#       apt_repository:
-#         repo: deb http://download.opensuse.org/repositories/home:/emby/xUbuntu_16.04/ /
-#         update_cache: yes
-#         filename: emby-server-beta
-#     - name: Install emby-server
-#       apt: name=emby-server-beta
-#     - name: Start and enable the emby server
-#       service: name=emby-server state=started enabled=yes
-
-# from https://github.com/Sonarr/Sonarr/wiki/Installation
-# configuration mostly in GUI
-# - Reverse proxy
-# - Connect to deluge
-# - Setup TV SHows
-# - name: Sonarr Installation/Config
-#   tags: sonarr
-#   hosts: all
-#   gather_facts: no
-#   become: yes
-#   tasks:
-#     - name: Add mono & sonarr PPA key
-#       apt_key:
-#         keyserver: keyserver.ubuntu.com
-#         id: "{{item}}"
-#       with_items:
-#         - FDA5DFFC #sonarr
-#         - 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF #mono
-#     - name: Add mono & sonarr PPA repository
-#       apt_repository:
-#         repo: "{{item.repo}}"
-#         filename: "{{item.file}}"
-#         update_cache: yes
-#       with_items:
-#         - {repo: "deb http://apt.sonarr.tv/ master main", file: sonarr}
-#         - {repo: "deb http://download.mono-project.com/repo/ubuntu xenial main", file: mono-official}
-#     - name: Install mono and Sonarr
-#       apt: name={{item}}
-#       with_items:
-#         - libmono-cil-dev
-#         - nzbdrone
-#     - name: install sonarr systemd unit file
-#       copy: src=files/sonarr.service dest=/etc/systemd/system/sonarr.service
-#     - name: Start and enable the daemon
-#       systemd: name=sonarr enabled=yes daemon_reload=yes state=started
-#     # - name: Configure for reverse proxy
-#     #   lineinfile
-
 #https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 - name: Install Docker
   tags: docker
@@ -640,16 +439,19 @@
       apt:
         name:
           - apt-transport-https
-          - ca-certificatesf
+          - ca-certificates
           - software-properties-common
     - name: Install docker GPG key
       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
     - name: Install Docker repo
       apt_repository:
-        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu xenial stable
+        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu jammy stable
         update_cache: yes
-    - name: Install docker-ce
-      apt: name=docker-ce
+    - name: Install docker and compose
+      package:
+        name:
+          - docker-ce
+          - docker-compose
     - name: Enable docker to start on boot
       systemd: name=docker enabled=yes
     - name: Add ubuntu user to docker group
@@ -728,99 +530,6 @@
       docker_container:
         name: hass
         restart: yes
-
-# - name: Headless Kodi vs Docker
-#   tags: headless
-#   hosts: all
-#   gather_facts: no
-#   tasks:
-#     - name: Download Headless Kodi
-#       docker_image:
-#         name: matthuisman/kodi-headless:Matrix
-#     - name: Make folder for headless kodi config, and userdata below it
-#       file:
-#         path: /home/ubuntu/kodi.d/headless/userdata
-#         recurse: yes
-#         state: directory
-#     - name: Copy advancedsettings and sources from kodi.d folder - externally managed
-#       copy:
-#         src: ../kodi/files/{{item}}
-#         dest: /home/ubuntu/kodi.d/headless/userdata
-#       with_items:
-#         - advancedsettings.xml
-#         - sources.xml
-#       notify:
-#         - Restart Kodi
-#     - name: Start headless kodi container
-#       docker_container:
-#         name: kodi-headless
-#         image: matthuisman/kodi-headless:Matrix
-#         volumes:
-#           - /home/ubuntu/kodi.d/headless:/config/.kodi
-#         env:
-#           PGID: "1000"
-#           PUID: "1000"
-#         published_ports:
-#           - 8080:8080
-#           - 9090:9090
-#           - 9777:9777/udp
-#         restart_policy: unless-stopped
-#   handlers:
-#     - name: Restart Kodi
-#       docker_container:
-#         name: kodi-headless
-#         restart: yes
-
-# - name: Install and run shadowsocks proxy
-#   tags: shadowsocks
-#   hosts: all
-#   gather_facts: no
-#   vars:
-#     shadowsocks_password: just_trying
-#     shadowsocks_port: 8388
-#   tasks:
-#     - name: Download docker image
-#       docker_image: name=shadowsocks/shadowsocks-libev
-#     - name: Run docker image
-#       docker_container:
-#         name: shadowsocks
-#         image: shadowsocks/shadowsocks-libev
-#         env:
-#           PASSWORD: "{{shadowsocks_password}}"
-#         published_ports:
-#           - "{{shadowsocks_port}}:8388"
-#           - "{{shadowsocks_port}}:8388/udb"
-#         restart_policy: unless-stopped
-
-#https://www.htpcguides.com/add-custom-torrent-trackers-in-sonarr-using-jackett-guide/
-#https://hub.docker.com/r/linuxserver/jackett/
-# - name: Jackett setup via docker
-#   tags: jackett
-#   hosts: all
-#   gather_facts: no
-#   tasks:
-#     - name: Download jackett docker image
-#       docker_image:
-#         name: lsioarmhf/jackett
-#     - name: Start jackett container
-#       docker_container:
-#         name: jackett
-#         image: lsioarmhf/jackett
-#         volumes:
-#           - /home/ubuntu/.config/jackett:/config
-#           - /home/ubuntu/Downloads/jackett:/downloads
-#           - /etc/localtime:/etc/localtime:ro
-#         env:
-#           PGID: 1000
-#           PUID: 1000
-#         restart_policy: unless-stopped
-#         published_ports: 9117:9117
-#     - name: Prepare for reverse proxy
-#       lineinfile:
-#         dest: /home/ubuntu/.config/jackett/Jackett/ServerConfig.json
-#         regexp: '^  "BasePathOverride":'
-#         line: '  "BasePathOverride": "/jackett"'
-#         state: present
 
 - name: Misc minor tasks
   tags: misc
@@ -1486,3 +1195,39 @@
         env:
           PORT: '45678'
           KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'
+
+- name: Docker Compose
+  tags: compose
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Copy compose file
+      copy:
+        src: files/pine_docker_compose.yaml
+        dest: ~/docker-compose.yaml
+    #https://askubuntu.com/a/1413726/92812
+    - name: Disable systemd-resolve stub listener
+      become: yes
+      lineinfile:
+        path: /etc/systemd/resolved.conf
+        regexp: 'DNSStubListener='
+        line: 'DNSStubListener=no'
+      notify: Restart systemd-resolve
+    - name: Flush handlers
+      meta: flush_handlers
+      # gonna try without, tailscale messes with this file now that resolved is down
+    # - name: Relink /etc/resolv.conf
+    #   become: yes
+    #   file:
+    #     state: link
+    #     src: /run/systemd/resolve/resolv.conf
+    #     dest: /etc/resolv.conf
+    - name: Run docker compose
+      docker_compose:
+        project_src: ~/
+  handlers:
+    - name: Restart systemd-resolve
+      become: yes
+      systemd:
+        name: systemd-resolved
+        state: restarted

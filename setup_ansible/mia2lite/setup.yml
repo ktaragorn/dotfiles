@@ -10,6 +10,8 @@
 #   tasks:
 #     - name: Replace sudo
 #       shell: sudo apk add --no-interactive sudo '!doas-sudo-shim'
+# uses dropbear rather than openssh presumably, and not clear if ti
+# for some reason "storage filled up" as my storage was only 1.8gb, restart fixed this
 
 - name: Basic and SSH harden
   hosts: all
@@ -56,7 +58,7 @@
     - name: updatedb
       command: updatedb
     - name: Restart ssh
-      service: name=ssh state=restarted
+      service: name=sshd state=restarted
 
 - name: Tailscale
   hosts: all
@@ -81,12 +83,13 @@
         enabled: true
     - name: Sysctl enable forwarding
       sysctl:
-        name: '{{item}}'
+        name: "{{item}}"
         value: 1
         sysctl_file: /etc/sysctl.d/99-tailscale.conf
       with_items:
         - net.ipv4.ip_forward
         - net.ipv6.conf.all.forwarding
+    # need to do sudo tailscale login before this would work
     - name: Up connection
       shell: tailscale up --reset --advertise-routes "192.168.1.0/24" --advertise-exit-node --accept-routes=false
 
@@ -111,8 +114,7 @@
       notify: Restart Docker
   handlers:
     - name: Restart Docker
-      systemd: name=docker state=restarted
-
+      service: name=docker state=restarted
 
 - name: Install Wireguard
   tags: wg
@@ -128,10 +130,10 @@
           - ~/.wg-easy:/etc/wireguard
           - /lib/modules:/lib/modules
         env:
-          'WG_HOST': 'numenor.privatedns.org'
-          'WG_PORT': '51830'
-          PORT: '51821'
-          WG_DEFAULT_DNS: '192.168.1.1'
+          "WG_HOST": "numenor.privatedns.org"
+          "WG_PORT": "51830"
+          PORT: "51821"
+          WG_DEFAULT_DNS: "192.168.1.1"
         published_ports:
           - 51830:51830/udp
           - 51821:51821/tcp
@@ -155,11 +157,10 @@
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock:ro
 
-      # monitor other disks / partitions by mounting a folder in /extra-filesystems
-      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
+        # monitor other disks / partitions by mounting a folder in /extra-filesystems
+        # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
         network_mode: host
         restart_policy: unless-stopped
         env:
-          PORT: '45678'
-          KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'
-
+          PORT: "45678"
+          KEY: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ"

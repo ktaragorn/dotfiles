@@ -1,0 +1,26 @@
+This was an attempt that didnt work https://psabadac.medium.com/running-wireguard-on-postmarketos-on-galaxy-j5-2016-ec70695fb874
+sudo tee -a /etc/nftables.d/53_wireguard.nft <<EOF
+#!/usr/sbin/nft -f
+
+table inet filter {
+  chain input {
+    udp dport 51830 accept
+  }
+
+  chain forward {
+    iifname "wlan0" oifname "wg0" accept;
+    iifname "wg0" oifname "wlan0" accept;
+  }
+}
+
+table ip nat {
+  chain PREROUTING {
+    type nat hook prerouting priority filter; policy accept;
+  }
+
+  chain POSTROUTING {
+    type nat hook postrouting priority srcnat; policy accept;
+    oifname "wlan0" masquerade
+  }
+}
+EOF
