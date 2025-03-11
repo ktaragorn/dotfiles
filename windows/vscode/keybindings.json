@@ -29,5 +29,7 @@
     "key": "ctrl+shift+o",
     "command": "-workbench.action.gotoSymbol",
     "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
-  }
+  },
+  // https://github.com/microsoft/vscode/issues/128858
+  { "key": "ctrl+m", "command": "-editor.action.toggleTabFocusMode" }
 ]

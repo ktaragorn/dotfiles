@@ -169,6 +169,66 @@
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
                 "useAcrylic": false
+            },
+            {
+                "guid": "{c6fd05bb-17ee-55e0-8886-fbf48e477aab}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{06c8a6da-24bb-5ebc-ad1d-ce01acf523f3}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{83b2a046-9c8a-52fd-a944-1ffc752b180d}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{824a6516-63de-5b03-9bb6-2c138176303a}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{f37d559c-f0e4-561a-8736-5c6dec1d6837}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{3701a76c-c21f-553e-a818-5df1a63868ba}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{150fbfec-d803-5152-aaa6-2e0835417f4a}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{563f5a5e-e72b-5df5-8a77-8e669dc56c04}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{2b7529d7-2852-5db6-875e-2b2db4dcffc8}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
             }
         ]
     },

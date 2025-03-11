@@ -6,7 +6,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "diffEditor.ignoreTrimWhitespace": false,
-  "omnisharp.organizeImportsOnFormat": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   //https://stackoverflow.com/a/56024839 and settings says vscode makes sure multi cursor and gotodefinition make sure not to clash, so they are opposites
@@ -15,5 +14,9 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
-  }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "dotnet.formatting.organizeImportsOnFormat": true
 }
