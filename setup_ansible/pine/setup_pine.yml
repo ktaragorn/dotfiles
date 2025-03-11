@@ -258,12 +258,11 @@
         port: 51821
         subdomain: yes
         proc: wg-crypt-wg0
-    linked_services: # homepage but not reverse proxy
-      - name: Beszel
+      - name: beszel
         icon: http://pine64.middle.earth:8090/static/favicon-green.svg
         port: 8090
-        link_to: http://pine64.middle.earth:8090
         proc: beszel
+    linked_services: # homepage but not reverse proxy
       - name: Pihole
         icon: https://static-00.iconduck.com/assets.00/pihole-icon-174x256-w2exgm2v.png
         port: 8888
@@ -1174,6 +1173,8 @@
       docker_container:
         name: beszel
         image: henrygd/beszel
+        env:
+          APP_URL: "/beszel/"
         volumes:
           - ./beszel_data:/beszel_data
         published_ports:
