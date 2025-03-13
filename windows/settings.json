@@ -33,6 +33,16 @@
         {
             "command": 
             {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        },
+        {
+            "command": 
+            {
                 "action": "quakeMode"
             },
             "id": "User.quakeMode.F1E129A4",
@@ -52,16 +62,6 @@
             },
             "id": "User.newTab.5DEADB41",
             "keys": "f2"
-        },
-        {
-            "command": 
-            {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "id": "User.splitPane.A6751878",
-            "keys": "alt+shift+d"
         },
         {
             "command": 
@@ -90,7 +90,7 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
     "firstWindowPreference": "persistedWindowLayout",
     "newTabMenu": 
     [
@@ -102,11 +102,51 @@
     {
         "defaults": 
         {
+            "autoMarkPrompts": true,
+            "bellStyle": 
+            [
+                "window",
+                "taskbar"
+            ],
             "colorScheme": "Ubuntu-ColorScheme",
             "experimental.retroTerminalEffect": false
         },
         "list": 
         [
+            {
+                "bellStyle": "window",
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{c6fd05bb-17ee-55e0-8886-fbf48e477aab}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "closeOnExit": "graceful",
+                "colorScheme": "GitBash",
+                "commandline": "\"%PROGRAMFILES%\\Git\\usr\\bin\\bash.exe\" --login -i",
+                "cursorColor": "#FFFFFF",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Consolas",
+                    "size": 10
+                },
+                "guid": "{00000000-0000-0000-1234-000000000001}",
+                "historySize": 9001,
+                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "name": "GitBash",
+                "opacity": 75,
+                "padding": "0, 0, 0, 0",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "useAcrylic": false
+            },
             {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -138,6 +178,7 @@
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
+                "bellStyle": "window",
                 "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
                 "hidden": false,
                 "name": "Ubuntu",
@@ -148,33 +189,6 @@
                 "hidden": true,
                 "name": "Ubuntu",
                 "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "closeOnExit": "graceful",
-                "colorScheme": "GitBash",
-                "commandline": "\"%PROGRAMFILES%\\Git\\usr\\bin\\bash.exe\" --login -i",
-                "cursorColor": "#FFFFFF",
-                "cursorShape": "bar",
-                "font": 
-                {
-                    "face": "Consolas",
-                    "size": 10
-                },
-                "guid": "{00000000-0000-0000-1234-000000000001}",
-                "historySize": 9001,
-                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
-                "name": "GitBash",
-                "opacity": 75,
-                "padding": "0, 0, 0, 0",
-                "snapOnInput": true,
-                "startingDirectory": "%USERPROFILE%",
-                "useAcrylic": false
-            },
-            {
-                "guid": "{c6fd05bb-17ee-55e0-8886-fbf48e477aab}",
-                "hidden": false,
-                "name": "docker-desktop",
-                "source": "Microsoft.WSL"
             },
             {
                 "guid": "{06c8a6da-24bb-5ebc-ad1d-ce01acf523f3}",
@@ -225,10 +239,10 @@
                 "source": "Microsoft.WSL"
             },
             {
-                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "guid": "{5fa396dc-238d-5fef-94ed-0f2ea003b731}",
                 "hidden": false,
-                "name": "PowerShell",
-                "source": "Windows.Terminal.PowershellCore"
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
             }
         ]
     },
