@@ -21,8 +21,9 @@ def report_free_game(gameName):
 
 currentFreeGameCmd = "curl https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US | jq '[[.data.Catalog.searchStore.elements[]  | {name: .title,date: .promotions.promotionalOffers[0].promotionalOffers[0].startDate, percent: .promotions.promotionalOffers[0].promotionalOffers[0].discountSetting.discountPercentage}] | .[] |  select(.date != null) | select(.percent == 0) |.name]'"
 
+delim = ";"
 def asStr(list):
-	return ",".join(list)
+	return delim.join(list)
 try:
 	# assuming that if multiple games are offered, all are offered and removed at the same time, so treating as one game.
 	games = json.loads(subprocess.check_output(currentFreeGameCmd, shell=True))
@@ -32,7 +33,7 @@ try:
 
 	logging.info("Games - " + asStr(games))
 	try: 
-		lastReportedGames = open(pwd + "lastEpicFreeGame").read().split(",")
+		lastReportedGames = open(pwd + "lastEpicFreeGame").read().split(delim)
 	except FileNotFoundError:
 		lastReportedGames = []
 
