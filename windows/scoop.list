@@ -1,0 +1,54 @@
+{
+    "buckets": [
+        {
+            "Name": "main",
+            "Source": "https://github.com/ScoopInstaller/Main.git",
+            "Updated": "2025-04-29T09:30:34+01:00",
+            "Manifests": 1386
+        }
+    ],
+    "apps": [
+        {
+            "Name": "7zip",
+            "Updated": "2025-04-29T11:25:01.0824955+01:00",
+            "Info": "",
+            "Version": "24.09",
+            "Source": "main"
+        },
+        {
+            "Name": "fzf",
+            "Updated": "2025-04-29T11:08:07.0370061+01:00",
+            "Info": "",
+            "Version": "0.61.3",
+            "Source": "main"
+        },
+        {
+            "Name": "ripgrep",
+            "Updated": "2025-04-29T11:15:59.0165776+01:00",
+            "Info": "",
+            "Version": "14.1.1",
+            "Source": "main"
+        },
+        {
+            "Name": "sort-uniq-wc",
+            "Updated": "2025-04-29T11:33:25.8738347+01:00",
+            "Info": "Install failed",
+            "Version": null,
+            "Source": null
+        },
+        {
+            "Name": "sudo",
+            "Updated": "2025-04-02T22:18:31.019625+01:00",
+            "Info": "",
+            "Version": "0.2020.01.26",
+            "Source": "main"
+        },
+        {
+            "Name": "uutils-coreutils",
+            "Updated": "2025-04-29T11:43:00.4176175+01:00",
+            "Info": "",
+            "Version": "0.0.30",
+            "Source": "main"
+        }
+    ]
+}

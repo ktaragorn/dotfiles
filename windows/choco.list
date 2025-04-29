@@ -1,0 +1,137 @@
+Chocolatey v1.2.0
+2 validations performed. 1 success(es), 1 warning(s), and 0 error(s).
+
+Validation Warnings:
+ - A pending system reboot request has been detected, however, this is
+   being ignored due to the current command being used 'list'.
+   It is recommended that you reboot at your earliest convenience.
+
+7zip 22.1
+7zip.install 22.1
+awscli 2.9.0
+azure-cli 2.42.0
+beyondcompare 4.4.4.27058
+chocolatey 1.2.0
+
+chocolatey-compatibility.extension has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+chocolatey-compatibility.extension 1.0.0
+
+chocolatey-core.extension has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+chocolatey-core.extension 1.4.0
+chocolatey-dotnetfx.extension 1.0.1
+
+chocolatey-windowsupdate.extension has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+chocolatey-windowsupdate.extension 1.0.5
+curl 8.9.1
+docker-compose 1.29.2
+docker-desktop 4.24.1
+dotcover-cli 2022.3
+
+dotnet-6.0-sdk-1xx has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+dotnet-6.0-sdk-1xx 6.0.100
+
+dotnet-6.0-sdk-4xx has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+dotnet-6.0-sdk-4xx 6.0.421
+
+dotnet-6.0-sdk has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+dotnet-6.0-sdk 6.0.421
+
+dotnet-sdk has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+dotnet-sdk 6.0.421
+DotNet3.5 3.5.20160716
+DotNet4.6.1 4.6.01055.20170308
+dotnetcore-3.1-sdk 3.1.426
+dotnetcore-3.1-sdk-4xx 3.1.426
+dotnetcore-sdk 3.1.426
+dotnetfx 4.8.0.20220524
+fluent-terminal 0.7.7.0
+git 2.39.1
+git.install 2.39.1
+grafana 9.1.6
+jdk8 8.0.211
+jetbrainstoolbox 1.22.10774
+jq 1.6
+k9s 0.40.7
+
+KB2919355 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB2919355 1.0.20160915
+
+KB2919442 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB2919442 1.0.20160915
+
+KB2999226 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB2999226 1.0.20181019
+
+KB3033929 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB3033929 1.0.5
+
+KB3035131 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB3035131 1.0.3
+
+KB3063858 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+KB3063858 1.0.0
+KB3118401 1.0.5
+krew 0.4.1
+kubectx 0.9.4
+kubelogin 1.28.1
+kubens 0.9.4
+kubernetes-cli 1.25.2
+kubernetes-helm 3.15.1
+kustomize 3.9.3
+linqpad7 7.8.10
+linqpad7.install 7.8.10
+maven 3.8.3
+microsoft-windows-terminal 1.20.11381
+microsoftazurestorageexplorer 1.22.1.20220127
+mkcert 1.4.4
+nodejs-lts 20.12.0
+notepadplusplus 8.4.7
+notepadplusplus.install 8.4.7
+openlens 6.5.2.3660
+poshgit 0.7.3.1
+powershell-core 7.5.0
+
+python has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+python 3.8.10
+
+python2 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+python2 2.7.18
+
+python3 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+python3 3.8.10
+saml2aws 2.36.10
+sql-server-management-studio 15.0.18390.0
+sublimetext3 3.2.2
+vault 1.11.1
+
+vcredist140 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+vcredist140 14.40.33810
+
+vcredist2015 has been installed as a side by side installation.
+Side by side installations are deprecated and is pending removal in v2.0.0.
+vcredist2015 14.0.24215.20170201
+virtualbox 7.0.20
+vscode 1.90.2
+vscode.install 1.90.2
+wezterm 20240203.110809.0
+wezterm.install 20240203.110809.0
+wixtoolset 3.11.2
+yarn 1.22.5
+74 packages installed.
