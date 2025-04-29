@@ -6,29 +6,40 @@
         {
             "command": 
             {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": 
+            {
                 "action": "moveTab",
                 "direction": "forward"
             },
             "id": "User.moveTab.793E2350"
         },
         {
-            "command": 
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+c"
+            "command": "paste",
+            "id": "User.paste"
         },
         {
-            "command": "paste",
-            "id": "User.paste",
-            "keys": "ctrl+v"
+            "command": 
+            {
+                "action": "newTab"
+            },
+            "id": "User.newTab.5DEADB41"
+        },
+        {
+            "command": 
+            {
+                "action": "quakeMode"
+            },
+            "id": "User.quakeMode.F1E129A4"
         },
         {
             "command": "find",
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
+            "id": "User.find"
         },
         {
             "command": 
@@ -37,31 +48,7 @@
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "id": "User.splitPane.A6751878",
-            "keys": "alt+shift+d"
-        },
-        {
-            "command": 
-            {
-                "action": "quakeMode"
-            },
-            "id": "User.quakeMode.F1E129A4",
-            "keys": "f12"
-        },
-        {
-            "command": 
-            {
-                "action": "quakeMode"
-            },
-            "keys": "ctrl+`"
-        },
-        {
-            "command": 
-            {
-                "action": "newTab"
-            },
-            "id": "User.newTab.5DEADB41",
-            "keys": "f2"
+            "id": "User.splitPane.A6751878"
         },
         {
             "command": 
@@ -76,22 +63,55 @@
             {
                 "action": "prevTab"
             },
-            "id": "User.prevTab.0",
-            "keys": "f3"
+            "id": "User.prevTab.0"
         },
         {
             "command": 
             {
                 "action": "nextTab"
             },
-            "id": "User.nextTab.0",
-            "keys": "f4"
+            "id": "User.nextTab.0"
         }
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
     "firstWindowPreference": "persistedWindowLayout",
+    "keybindings": 
+    [
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "User.newTab.5DEADB41",
+            "keys": "f2"
+        },
+        {
+            "id": "User.quakeMode.F1E129A4",
+            "keys": "f12"
+        },
+        {
+            "id": "User.prevTab.0",
+            "keys": "f3"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.nextTab.0",
+            "keys": "f4"
+        }
+    ],
     "newTabMenu": 
     [
         {
@@ -109,7 +129,8 @@
                 "taskbar"
             ],
             "colorScheme": "Ubuntu-ColorScheme",
-            "experimental.retroTerminalEffect": false
+            // "experimental.retroTerminalEffect": true,
+            // "experimental.pixelShaderPath": "C:\\Users\\karthik.thirugnanam\\dotfiles\\windows\\balatro.hlsl"
         },
         "list": 
         [
@@ -240,6 +261,24 @@
             },
             {
                 "guid": "{5fa396dc-238d-5fef-94ed-0f2ea003b731}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{0f4a40e9-4fb1-5df7-8904-014167bfc270}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{768f0b1e-a208-5e0f-bbee-2e8a97ac8aa3}",
+                "hidden": false,
+                "name": "docker-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{0c663fe2-e072-5958-9e0e-52ea709434c6}",
                 "hidden": false,
                 "name": "docker-desktop",
                 "source": "Microsoft.WSL"

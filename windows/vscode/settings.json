@@ -2,21 +2,23 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "vs-code-prettier-eslint.prettierLast": true,
   "security.workspace.trust.untrustedFiles": "open",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "diffEditor.ignoreTrimWhitespace": false,
-  "eslint.format.enable": true,
+  "eslint.format.enable": false,
   "eslint.lintTask.enable": true,
+  "eslint.debug": true,
   //https://stackoverflow.com/a/56024839 and settings says vscode makes sure multi cursor and gotodefinition make sure not to clash, so they are opposites
   "editor.multiCursorModifier": "ctrlCmd",
   "search.useGlobalIgnoreFiles": true,
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
+  "editor.codeActionsOnSave": {  
     "source.fixAll.eslint": "always"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "dotnet.formatting.organizeImportsOnFormat": true
+  "dotnet.formatting.organizeImportsOnFormat": true,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }

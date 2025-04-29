@@ -23,4 +23,4 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
    
-new-alias grep Select-String
+new-alias grep rg

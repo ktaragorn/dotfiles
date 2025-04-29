@@ -19,6 +19,9 @@
 	commit = commit --verbose
 	d = difftool
 	ignore-io = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
+	# Need fzf https://jordanelver.co.uk/blog/2020/06/04/fixing-commits-with-git-commit-fixup-and-git-rebase-autosquash/
+  	fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+
 [color]
   	ui = auto
 [merge]
@@ -43,18 +46,15 @@
 	default = current
 	autoSetupRemote =true
 [core]
-	excludesfile = /Users/kthirugnanam/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	commentchar = ";"
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Users/kthirugnanam/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[github]
-	user = ktaragorn
-[diff]
-	tool = vimdiff
-	compactionHeuristic = true
-[difftool]
-	prompt = false
+[log]
+	excludeDecoration=refs/tags/*
+[rerere]
+# eliminate repeated conflict resolution on rebase by memorizing it the first time https://git-scm.com/book/en/v2/Git-Tools-Rerere
+	enabled = true
+[rebase]
+# Squash fixup commits created with git commit --fixup SHA
+	autosquash = true
+# Update any other branches that are refering to the same commits - rebase of branch 3 on master will rebase branch 2 and branch one automatically
+	updateRefs = true
