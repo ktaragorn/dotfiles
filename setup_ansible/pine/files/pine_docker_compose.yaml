@@ -19,3 +19,37 @@ services:
     # cap_add:
     #   - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
     restart: always #https://stackoverflow.com/questions/43671482/how-to-run-docker-compose-up-d-at-system-start-up
+
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /home/ubuntu/.config/deluge:/config
+      - /media/ubuntu/Chest/Torrent:/media/ubuntu/Chest/Torrent
+    ports:
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+      - 58846:58846 #optional
+    restart: unless-stopped
+
+  flexget:
+    image: wiserain/flexget:3.5.25
+    container_name: flexget
+    ports:
+      - 5050:5050                   # optional: for webui
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London                # optional: defaults to UTC
+    volumes:
+      - /home/ubuntu/.config/flexget:/config        # required
+      - /media/ubuntu/Chest/Torrent:/media/ubuntu/Chest/Torrent
+      - /media/ubuntu/Chest/TV Shows:/media/ubuntu/Chest/TV Shows
+      - /tmp:/tmp # for config validation
+      - ./files/flexget-init.d:/custom-cont-init.d

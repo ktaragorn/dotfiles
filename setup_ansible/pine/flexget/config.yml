@@ -19,7 +19,7 @@ templates:
       exact_match: no
       languages:
         - eng
-      providers: [opensubtitles,thesubdb,tvsubtitles]
+      providers: [opensubtitles,tvsubtitles]
       authentication:
         opensubtitles:
           username: {{opensubtitles_username}}
@@ -83,6 +83,8 @@ templates:
   deluge_download:
     convert_magnet: yes
     deluge:
+      username: {{deluge_user}}
+      password: {{deluge_password}}
       path: /media/ubuntu/Chest/Torrent/
       main_file_only: yes
       ratio: 0.1
