@@ -1087,11 +1087,18 @@
   tags: compose
   hosts: all
   gather_facts: no
+  vars_files: [vars/all.yml]
   tasks:
     - name: Copy compose file
-      copy:
+      template:
         src: files/pine_docker_compose.yaml
         dest: ~/docker-compose.yaml
+    - name: Copy any files
+      copy:
+        src: '{{item}}'
+        dest: ~/
+      with_items:
+        - files/flexget-init.d
     #https://askubuntu.com/a/1413726/92812
     - name: Disable systemd-resolve stub listener
       become: yes
@@ -1109,12 +1116,6 @@
     #     state: link
     #     src: /run/systemd/resolve/resolv.conf
     #     dest: /etc/resolv.conf
-    - name: Copy any files
-      copy:
-        src: '{{item}}'
-        dest: ~/
-      with_items:
-        - files/flexget-init.d
     - name: Run docker compose
       docker_compose:
         project_src: ~/
@@ -1194,8 +1195,6 @@
         dest: ~/.config/flexget/config.yml
         validate: docker exec flexget flexget -c %s check # may not work.. :shrug:
       notify: Restart Flexget
-    - name: Set web password
-      command: flexget web passwd {{flexget_web_password}}
   handlers:
     - name: Restart Flexget
       docker_container:

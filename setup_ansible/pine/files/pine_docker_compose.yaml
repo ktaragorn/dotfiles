@@ -47,6 +47,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London                # optional: defaults to UTC
+      - FG_WEBUI_PASSWD={{flexget_web_password}}
     volumes:
       - /home/ubuntu/.config/flexget:/config        # required
       - /media/ubuntu/Chest/Torrent:/media/ubuntu/Chest/Torrent

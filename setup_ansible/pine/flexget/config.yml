@@ -83,6 +83,7 @@ templates:
   deluge_download:
     convert_magnet: yes
     deluge:
+      host: deluge # docker name
       username: {{deluge_user}}
       password: {{deluge_password}}
       path: /media/ubuntu/Chest/Torrent/
