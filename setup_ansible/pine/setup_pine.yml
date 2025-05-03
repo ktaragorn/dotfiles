@@ -1109,6 +1109,12 @@
     #     state: link
     #     src: /run/systemd/resolve/resolv.conf
     #     dest: /etc/resolv.conf
+    - name: Copy any files
+      copy:
+        src: '{{item}}'
+        dest: ~/
+      with_items:
+        - files/flexget-init.d
     - name: Run docker compose
       docker_compose:
         project_src: ~/
