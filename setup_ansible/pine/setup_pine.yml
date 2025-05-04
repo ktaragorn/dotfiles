@@ -13,7 +13,7 @@
   vars:
     user_name: ubuntu
   roles:
-    - role: '../my_roles/base_server'
+    - role: "../my_roles/base_server"
 
 - name: Setup swapfile
   hosts: all
@@ -21,7 +21,7 @@
   tags: swap
   gather_facts: no
   vars:
-    swap_file_size_mb: '1024'
+    swap_file_size_mb: "1024"
   roles:
     - geerlingguy.swap
 
@@ -109,7 +109,7 @@
   hosts: all
   gather_facts: no
   vars_files: [vars/all.yml]
-  vars: &nginx_vars
+  vars: &nginx_vars # homepage + proxy + monit
     proxied_services:
       # - {name: webmin, port: 10000, terminate: "/", icon: "https://www.virtualmin.com/images/logos/webmin-logo.svg"}
       - name: deluge
@@ -197,12 +197,14 @@
         icon: http://pine64.middle.earth:8090/static/favicon-green.svg
         port: 8090
         proc: beszel
-    linked_services: # homepage but not reverse proxy
       - name: Pihole
         icon: https://static-00.iconduck.com/assets.00/pihole-icon-174x256-w2exgm2v.png
-        port: 8888
+        port: 8008
+        subdomain: yes
+        link_to: http://pihole.middle.earth/admin
         proc: pihole-FTL
-    other_services:
+    linked_services: [] # homepage + monit but not reverse proxy
+    other_services: # only monit
       - { name: Web Server, port: 80, proc: nginx }
       - { name: SSH Server, port: 22, proc: sshd }
       - { name: Samba Server, port: 445, proc: smbd }
@@ -311,7 +313,6 @@
     - name: Install tvnamer for adhoc tv renaming
       become: yes
       pip: name=tvnamer
-
 
 #https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 - name: Install Docker
@@ -469,7 +470,7 @@
       cron:
         name: Check for free epic games
         user: ubuntu
-        minute: '0'
+        minute: "0"
         hour: "*/4"
         job: /usr/bin/python3 /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
     # to check ` cat /proc/sys/net/netfilter/nf_conntrack_count` and `sudo conntrack -L` after installing conntrack
@@ -488,7 +489,7 @@
       cron:
         name: Check for abnormally high conntrack count
         user: root
-        minute: '0'
+        minute: "0"
         hour: "*/4"
         job: /home/ubuntu/monitor_conntrack.sh >> /tmp/cron.log 2>&1
 
@@ -757,7 +758,7 @@
       notify: Restart MQTT
     - name: Start mosquitto container
       docker_container:
-        user: 1000:1000  # otherwise config folder is owned by 1883
+        user: 1000:1000 # otherwise config folder is owned by 1883
         name: mqtt
         image: eclipse-mosquitto
         network_mode: host # because published ports didnt seem to be working
@@ -1035,10 +1036,10 @@
         volumes:
           - ~/.wg-easy:/etc/wireguard
         env:
-          'WG_HOST': 'black-gate.privatedns.org'
-          'WG_PORT': '51820'
-          PORT: '51821'
-          WG_DEFAULT_DNS: '192.168.1.1'
+          "WG_HOST": "black-gate.privatedns.org"
+          "WG_PORT": "51820"
+          PORT: "51821"
+          WG_DEFAULT_DNS: "192.168.1.1"
         published_ports:
           - 51820:51820/udp
           - 51821:51821/tcp
@@ -1075,13 +1076,13 @@
           - /var/run/docker.sock:/var/run/docker.sock:ro
           - /media/ubuntu/Chest:/extra-filesystems/Chest:ro
 
-      # monitor other disks / partitions by mounting a folder in /extra-filesystems
-      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
+        # monitor other disks / partitions by mounting a folder in /extra-filesystems
+        # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
         network_mode: host
         restart_policy: unless-stopped
         env:
-          PORT: '45678'
-          KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ'
+          PORT: "45678"
+          KEY: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQFtLwFqejo7yh4Ax9/wy4Hr7TVzP84ERpKIEDrSVxJ"
 
 - name: Docker Compose
   tags: compose
@@ -1095,7 +1096,7 @@
         dest: ~/docker-compose.yaml
     - name: Copy any files
       copy:
-        src: '{{item}}'
+        src: "{{item}}"
         dest: ~/
       with_items:
         - files/flexget-init.d
@@ -1104,8 +1105,8 @@
       become: yes
       lineinfile:
         path: /etc/systemd/resolved.conf
-        regexp: 'DNSStubListener='
-        line: 'DNSStubListener=no'
+        regexp: "DNSStubListener="
+        line: "DNSStubListener=no"
       notify: Restart systemd-resolve
     - name: Flush handlers
       meta: flush_handlers
@@ -1133,7 +1134,7 @@
   gather_facts: no
   vars_files: [vars/all.yml]
   vars:
-    deluge_thin_auth_line: '{{deluge_user}}:{{deluge_password}}:10'
+    deluge_thin_auth_line: "{{deluge_user}}:{{deluge_password}}:10"
   tasks:
     - name: Stop running deluge
       docker_container:
