@@ -54,3 +54,4 @@ services:
       - /media/ubuntu/Chest/TV Shows:/media/ubuntu/Chest/TV Shows
       - /tmp:/tmp # for config validation
       - ~/flexget-init.d:/custom-cont-init.d/subliminal # custom script to install subliminal for subtitles
+    restart: unless-stopped
