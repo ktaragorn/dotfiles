@@ -1,6 +1,7 @@
 substitutions:
   name: esp32
-  platform: ESP32
+
+esp32:
   board: esp32dev
 
 packages:

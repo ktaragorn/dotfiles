@@ -1,7 +1,5 @@
 esphome:
   name: $name
-  platform: $platform
-  board: $board
 
 # Enable logging
 logger:
@@ -11,6 +9,7 @@ logger:
 #   password: ""
 
 ota:
+  platform: esphome
   password: ""
 
 wifi:

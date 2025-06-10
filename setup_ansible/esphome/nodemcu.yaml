@@ -1,28 +1,32 @@
 substitutions:
   name: nodemcu
-  platform: ESP8266
+
+esp8266:
   board: nodemcu
-  pin: D7
-  inverted: 'false'
 
 packages:
   base: !include base.yaml
-  light_button: !include light_button.yaml
 
 sensor:
   - platform: dht
     pin: D2
     temperature:
-      name: "Bed Room Temperature"
+      name: "Hall Temperature"
     humidity:
-      name: "Bed Room Humidity"
+      name: "Hall Humidity"
   - platform: ccs811
     eco2:
-      name: "Bedroom eCO2 Value"
+      name: "Hall eCO2 Value"
     tvoc:
-      name: "Bedroom Total Volatile Organic Compound"
+      name: "Hall Total Volatile Organic Compound"
     address: 0x5A
     update_interval: 60s
+
+binary_sensor:
+  - platform: gpio
+    pin: D7
+    name: "Hall Motion Sensor"
+    device_class: motion
 
 i2c:
   scl: D5
@@ -30,7 +34,7 @@ i2c:
 
 light:
   - platform: binary
-    name: "Bedroom Night Light"
+    name: "Hall Night Light"
     output: light_output
 
 output:
