@@ -17,10 +17,9 @@ views:
       - entity: sensor.disk_use_percent_chest
       - entity: sensor.openweathermap_condition
       - entity: sensor.openweathermap_temperature
-      - entity: timer.manual_bedroom_light
       - entity: sensor.home_assistant_v2_db_size
-      - entity: sensor.bedroom_eco2_value
-      - entity: sensor.bedroom_total_volatile_organic_compound
+      - entity: sensor.nodemcu_hall_eco2_value
+      - entity: sensor.nodemcu_hall_total_volatile_organic_compound
     cards:
       - type: weather-forecast
         entity: weather.openweathermap
@@ -57,7 +56,7 @@ views:
         entity: light.bedroom_light
 
       - entities:
-          - light.bedroom_night_light
+          - light.nodemcu_hall_night_light
           - light.bedroom_light
         title: Light
         type: entities
@@ -67,7 +66,7 @@ views:
           - entity: sensor.b_temperature
           - entity: sensor.d_temperature
           - entity: sensor.living_room_temperature
-          - entity: sensor.bed_room_temperature
+          - entity: sensor.nodemcu_hall_temperature
         type: glance
         title: Temperature
       - entities:
@@ -76,7 +75,7 @@ views:
           - entity: sensor.b_humidity
           - entity: sensor.d_humidity
           - entity: sensor.living_room_humidity
-          - entity: sensor.bed_room_humidity
+          - entity: sensor.nodemcu_hall_humidity
         type: glance
         title: Humidity
       - entities:

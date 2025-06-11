@@ -50,7 +50,7 @@ services:
       - FG_WEBUI_PASSWD={{flexget_web_password}}
     volumes:
       - /home/ubuntu/.config/flexget:/config        # required
-      - /media/ubuntu/Chest/Torrent:/media/ubuntu/Chest/Torrent
+      - /home/ubuntu/torrent:/home/ubuntu/torrent
       - /media/ubuntu/Chest/TV Shows:/media/ubuntu/Chest/TV Shows
       - /tmp:/tmp # for config validation
       - ~/flexget-init.d:/custom-cont-init.d/subliminal # custom script to install subliminal for subtitles

@@ -169,8 +169,7 @@ smartir:
 
 timer:
   tv_sleep_timer:
-  manual_bedroom_light:
-    duration: "01:00:00"
+  hall_motion_timer:
 
 climate:
   - platform: smartir

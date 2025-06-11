@@ -65,10 +65,10 @@ templates:
         identified_by: ep
       from:
         filesystem:
-          path: /media/ubuntu/Chest/Torrent/TV Shows/
+          path: /home/ubuntu/torrent/TV Shows/
   work_on_downloaded_files:
     filesystem:
-      path: /media/ubuntu/Chest/Torrent/TV Shows/
+      path: /home/ubuntu/torrent/TV Shows/
       recursive: yes
       retrieve: files
       regexp: '.*\.(avi|mkv|mp4|m4v|mpg|wmv)$'
@@ -86,7 +86,7 @@ templates:
       host: deluge # docker name
       username: {{deluge_user}}
       password: {{deluge_password}}
-      path: /media/ubuntu/Chest/Torrent/
+      path: /home/ubuntu/torrent/
       main_file_only: yes
       ratio: 0.1
       remove_at_ratio: yes
@@ -95,9 +95,10 @@ templates:
   deluge_tv:
     thetvdb_lookup: yes
     deluge:
-      move_completed_path: {{'/media/ubuntu/Chest/Torrent/TV Shows/{{series_name}}/'}}
+      move_completed_path: {{'/home/ubuntu/torrent/TV Shows/{{series_name}}/'}}
       content_filename: >
         {{'{{ series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
+
 tasks:
   showrss-dload:
     rss:

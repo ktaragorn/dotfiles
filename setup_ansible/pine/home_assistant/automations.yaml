@@ -18,42 +18,42 @@
           {% else %}
             BlueNight
           {% endif %}
-- alias: Any Entered house
-  id: any_enter_house
-  trigger:
-    platform: state
-    entity_id: group.all_people
-    to: home
-  action:
-    - service: script.downstairs_ac
-      data:
-        mode: cool
-    - service: script.notify
-      data:
-        target: home_enter
-        message: Someone entered house. Downstairs AC is on.
+# - alias: Any Entered house
+#   id: any_enter_house
+#   trigger:
+#     platform: state
+#     entity_id: group.all_people
+#     to: home
+#   action:
+#     - service: script.downstairs_ac
+#       data:
+#         mode: cool
+#     - service: script.notify
+#       data:
+#         target: home_enter
+#         message: Someone entered house. Downstairs AC is on.
 
-- alias: All left home
-  id: all_leave_house
-  trigger:
-    platform: state
-    entity_id: group.all_people
-    to: not_home
-  action:
-    - service: script.downstairs_ac
-      data:
-        mode: "off"
-    - service: climate.turn_off
-      entity_id: climate.bedroom_ac
-    - service: light.turn_off
-      entity_id: light.bedroom_light
-    - service: input_boolean.turn_off # cleanup, just in case
-      data:
-        entity_id: input_boolean.we_are_in_bed
-    - service: script.notify
-      data:
-        target: home_enter
-        message: All have left the house, Both ACs have been switched off
+# - alias: All left home
+#   id: all_leave_house
+#   trigger:
+#     platform: state
+#     entity_id: group.all_people
+#     to: not_home
+#   action:
+#     - service: script.downstairs_ac
+#       data:
+#         mode: "off"
+#     - service: climate.turn_off
+#       entity_id: climate.bedroom_ac
+#     - service: light.turn_off
+#       entity_id: light.bedroom_light
+#     - service: input_boolean.turn_off # cleanup, just in case
+#       data:
+#         entity_id: input_boolean.we_are_in_bed
+#     - service: script.notify
+#       data:
+#         target: home_enter
+#         message: All have left the house, Both ACs have been switched off
 
 - alias: Smart Light Connected
   id: light_connected
@@ -77,400 +77,390 @@
     - service: light.turn_off
       entity_id: light.bedroom_light
 
-- alias: Downstairs Button double Pressed
-  id: button_double_pressed
-  trigger:
-    - platform: mqtt
-      topic: trigger/nodemcu/button_double_pressed
-  action:
-    - service: script.downstairs_ac
-      data_template:
-        mode: >
-          {% if is_state("climate.downstairs_ac", "off") %}
-            cool
-          {% else %}
-            off
-          {% endif %}
+# - alias: Downstairs Button double Pressed
+#   id: button_double_pressed
+#   trigger:
+#     - platform: mqtt
+#       topic: trigger/nodemcu/button_double_pressed
+#   action:
+#     - service: script.downstairs_ac
+#       data_template:
+#         mode: >
+#           {% if is_state("climate.downstairs_ac", "off") %}
+#             cool
+#           {% else %}
+#             off
+#           {% endif %}
+
+# # - alias: Downstairs Button long Pressed
+# #   id: button_long_pressed
+# #   trigger:
+# #     - platform: mqtt
+# #       topic: trigger/nodemcu/button_long_pressed
+# #   action:
+# #     - service: input_boolean.toggle
+# #       data:
+# #         entity_id: input_boolean.we_are_going_to_bedroom
+
+# - alias: We are going to bed
+#   id: moved_to_bedroom
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.phone_charging
+#       to: "on"
+#     - platform: time
+#       at: "23:59:00"
+#     - platform: state
+#       entity_id: input_boolean.we_are_going_to_bedroom
+#       to: "on"
+#   condition:
+#     - condition: state
+#       entity_id: group.all_people
+#       state: home
+#     # - condition: time
+#     #   after: '20:00:00'
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "off"
+#   action:
+#     - service: climate.set_temperature
+#       data:
+#         entity_id: climate.bedroom_ac
+#         temperature: 24
+#         hvac_mode: cool
+#     - service: climate.set_fan_mode
+#       data:
+#         entity_id: climate.bedroom_ac
+#         fan_mode: lowMedium
+#     - service: light.turn_off
+#       entity_id: light.bedroom_light
+#     # - service: script.toggle_tv
+#     #   data:
+#     #     tv_state: "on"
+#     - service: script.downstairs_ac
+#       data:
+#         mode: "off"
+#     - service: input_boolean.turn_on
+#       data:
+#         entity_id: input_boolean.we_are_in_bed
+#     - service: input_boolean.turn_on
+#       data:
+#         entity_id: input_boolean.we_are_going_to_bedroom
+#     - service: script.notify
+#       data_template:
+#         target: in_bed
+#         message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ trigger.platform }} trigger
+
+
+# - alias: Start Sleep timer
+#   id: start_sleep_timer
+#   trigger:
+#     - platform: webhook
+#       webhook_id: tv_sleep_timer
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action:
+#     - service: timer.cancel
+#       entity_id: timer.tv_sleep_timer
+#     - service: script.downstairs_ac
+#       data:
+#         mode: "off" # audio feedback
+#     - service: timer.start
+#       data:
+#         entity_id: timer.tv_sleep_timer
+#         duration: 00:20:00
+#     - service: script.notify
+#       data:
+#         target: sleep_timer
+#         message: We have come to bed, AC downstairs is off, AC in the bedroom is on
+
+# # Home assistant cannot use the same trigger with multiple automations
+# - alias: Sleep timer triggered
+#   trigger:
+#     - platform: event
+#       event_type: timer.finished
+#       event_data:
+#         entity_id: timer.tv_sleep_timer
+#     - platform: webhook
+#       webhook_id: tv_sleep_timer_trigger
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#     - condition: state
+#       entity_id: timer.tv_sleep_timer
+#       state: active
+#   action:
+#     - service: timer.cancel
+#       entity_id: timer.tv_sleep_timer
+#     - service: script.toggle_tv
+#       data:
+#         tv_state: "off"
+#     - service: script.notify
+#       data:
+#         target: sleep_timer
+#         message: Sleep Timer - TV turned off
+
+# - alias: We are in bed, increase temperature 1
+#   id: bedroom_ac_temp_up_1
+#   trigger:
+#     - platform: time
+#       at: "2:00:00"
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action:
+#     - service: climate.set_temperature
+#       data:
+#         entity_id: climate.bedroom_ac
+#         temperature: 24
+#     - service: climate.set_fan_mode
+#       data:
+#         entity_id: climate.bedroom_ac
+#         fan_mode: night
+#     - service: script.notify
+#       data:
+#         target: in_bed
+#         message: Bedroom temperature at 24
+
+# - alias: We are in bed, increase temperature 2
+#   id: bedroom_ac_temp_up_2
+#   trigger:
+#     - platform: time
+#       at: "5:00:00"
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action:
+#     - service: climate.set_temperature
+#       data:
+#         entity_id: climate.bedroom_ac
+#         temperature: 25
+#     - service: script.notify
+#       data:
+#         target: in_bed
+#         message: Bedroom temperature at 25
+
+# - alias: We are in bed, set fan mode
+#   id: bedroom_ac_fan
+#   trigger:
+#     - platform: time
+#       at: "7:00:00"
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action:
+#     - service: climate.set_hvac_mode
+#       data:
+#         entity_id: climate.bedroom_ac
+#         hvac_mode: fan_only
+#     - service: climate.set_fan_mode
+#       data:
+#         entity_id: climate.bedroom_ac
+#         fan_mode: lowMedium
+#     - service: script.notify
+#       data:
+#         target: in_bed
+#         message: Bedroom AC on fan
+
+# - alias: We are heading down on workdays
+#   id: moved_downstairs_work
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.phone_charging
+#       to: "off"
+#     - platform: time
+#       at: "10:00:00"
+#     - platform: state
+#       entity_id: input_boolean.we_are_going_to_bedroom
+#       to: "off"
+#   condition:
+#     - condition: time
+#       after: "07:00:00"
+#       before: '22:00:00'
+#       weekday:
+#         - mon
+#         - tue
+#         - wed
+#         - thu
+#         - fri
+#     - condition: state
+#       entity_id: group.all_people
+#       state: home
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action: &going_down_actions
+#     - service: climate.turn_off
+#       entity_id: climate.bedroom_ac
+#     # - service: script.downstairs_ac
+#     #   data:
+#     #     mode: cool
+#     - service: input_boolean.turn_off
+#       data:
+#         entity_id: input_boolean.we_are_in_bed
+#     - service: input_boolean.turn_off
+#       data:
+#         entity_id: input_boolean.we_are_going_to_bedroom
+#     - service: script.notify
+#       data_template:
+#         target: in_bed
+#         message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ trigger.platform }} trigger
+
+# - alias: We are heading down on holidays
+#   id: moved_downstairs_holiday
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.phone_charging
+#       to: "off"
+#     - platform: time
+#       at: "10:00:00"
+#     - platform: state
+#       entity_id: input_boolean.we_are_going_to_bedroom
+#       to: "off"
+#   condition:
+#     - condition: time
+#       after: "07:00:00"
+#       before: '22:30:00'
+#       weekday:
+#         - sun
+#         - sat
+#     - condition: state
+#       entity_id: group.all_people
+#       state: home
+#     - condition: state
+#       entity_id: input_boolean.we_are_in_bed
+#       state: "on"
+#   action: *going_down_actions
+
 
 # - alias: Downstairs Button long Pressed
 #   id: button_long_pressed
 #   trigger:
 #     - platform: mqtt
-#       topic: trigger/nodemcu/button_long_pressed
+#       topic: trigger/+/button_long_pressed
 #   action:
-#     - service: input_boolean.toggle
+#     - &light_on
+#         service: light.turn_on
+#         entity_id: light.bedroom_light
+#         data:
+#           brightness_pct: 70
+
+
+# - alias: Bedroom Button Pressed before 11pm
+#   id: button_pressed_before
+#   trigger:
+#     - &button_pressed
+#         platform: mqtt
+#         topic: trigger/+/button_pressed
+#   condition:
+#     - &only_in_daytime
+#         condition: time
+#         before: "23:00:00"
+#         after: "11:00:00"
+#   action:
+#     - &light_toggle
+#         service: light.toggle
+#         entity_id: light.bedroom_light
+#         data:
+#           brightness_pct: 15
+#     - service: timer.start
+#       entity_id: timer.manual_bedroom_light
 #       data:
-#         entity_id: input_boolean.we_are_going_to_bedroom
+#         duration: "01:00:00"
 
-- alias: We are going to bed
-  id: moved_to_bedroom
+# - alias: Downstairs Button super long Pressed
+#   id: button_super_long_pressed
+#   trigger:
+#     - platform: mqtt
+#       topic: trigger/+/button_super_long_pressed
+#   action:
+#     - <<: *light_on
+#       data:
+#         brightness_pct: 1
+
+# - alias: Bedroom Button Pressed after 11pm
+#   id: button_pressed_after
+#   trigger:
+#     - <<: *button_pressed
+#   condition:
+#     - condition: time
+#       after: "23:00:00"
+#       before: "11:00:00"
+#   action:
+#     - <<: *light_toggle
+#       data:
+#         brightness_pct: 5
+#     - service: timer.start
+#       entity_id: timer.manual_bedroom_light
+#       data:
+#         duration: "12:00:00"
+
+- alias: Someone in hall
+  id: movement_hall
   trigger:
     - platform: state
-      entity_id: binary_sensor.phone_charging
-      to: "on"
-    - platform: time
-      at: "23:59:00"
-    - platform: state
-      entity_id: input_boolean.we_are_going_to_bedroom
-      to: "on"
-  condition:
-    - condition: state
-      entity_id: group.all_people
-      state: home
-    # - condition: time
-    #   after: '20:00:00'
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "off"
-  action:
-    - service: climate.set_temperature
-      data:
-        entity_id: climate.bedroom_ac
-        temperature: 24
-        hvac_mode: cool
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_ac
-        fan_mode: lowMedium
-    - service: light.turn_off
-      entity_id: light.bedroom_light
-    # - service: script.toggle_tv
-    #   data:
-    #     tv_state: "on"
-    - service: script.downstairs_ac
-      data:
-        mode: "off"
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.we_are_in_bed
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.we_are_going_to_bedroom
-    - service: script.notify
-      data_template:
-        target: in_bed
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on, triggered by the {{ trigger.platform }} trigger
-
-
-- alias: Start Sleep timer
-  id: start_sleep_timer
-  trigger:
-    - platform: webhook
-      webhook_id: tv_sleep_timer
-  condition:
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action:
-    - service: timer.cancel
-      entity_id: timer.tv_sleep_timer
-    - service: script.downstairs_ac
-      data:
-        mode: "off" # audio feedback
-    - service: timer.start
-      data:
-        entity_id: timer.tv_sleep_timer
-        duration: 00:20:00
-    - service: script.notify
-      data:
-        target: sleep_timer
-        message: We have come to bed, AC downstairs is off, AC in the bedroom is on
-
-# Home assistant cannot use the same trigger with multiple automations
-- alias: Sleep timer triggered
-  trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.tv_sleep_timer
-    - platform: webhook
-      webhook_id: tv_sleep_timer_trigger
-  condition:
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-    - condition: state
-      entity_id: timer.tv_sleep_timer
-      state: active
-  action:
-    - service: timer.cancel
-      entity_id: timer.tv_sleep_timer
-    - service: script.toggle_tv
-      data:
-        tv_state: "off"
-    - service: script.notify
-      data:
-        target: sleep_timer
-        message: Sleep Timer - TV turned off
-
-- alias: We are in bed, increase temperature 1
-  id: bedroom_ac_temp_up_1
-  trigger:
-    - platform: time
-      at: "2:00:00"
-  condition:
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action:
-    - service: climate.set_temperature
-      data:
-        entity_id: climate.bedroom_ac
-        temperature: 24
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_ac
-        fan_mode: night
-    - service: script.notify
-      data:
-        target: in_bed
-        message: Bedroom temperature at 24
-
-- alias: We are in bed, increase temperature 2
-  id: bedroom_ac_temp_up_2
-  trigger:
-    - platform: time
-      at: "5:00:00"
-  condition:
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action:
-    - service: climate.set_temperature
-      data:
-        entity_id: climate.bedroom_ac
-        temperature: 25
-    - service: script.notify
-      data:
-        target: in_bed
-        message: Bedroom temperature at 25
-
-- alias: We are in bed, set fan mode
-  id: bedroom_ac_fan
-  trigger:
-    - platform: time
-      at: "7:00:00"
-  condition:
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action:
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: climate.bedroom_ac
-        hvac_mode: fan_only
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_ac
-        fan_mode: lowMedium
-    - service: script.notify
-      data:
-        target: in_bed
-        message: Bedroom AC on fan
-
-- alias: We are heading down on workdays
-  id: moved_downstairs_work
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.phone_charging
-      to: "off"
-    - platform: time
-      at: "10:00:00"
-    - platform: state
-      entity_id: input_boolean.we_are_going_to_bedroom
-      to: "off"
-  condition:
-    - condition: time
-      after: "07:00:00"
-      before: '22:00:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-    - condition: state
-      entity_id: group.all_people
-      state: home
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action: &going_down_actions
-    - service: climate.turn_off
-      entity_id: climate.bedroom_ac
-    # - service: script.downstairs_ac
-    #   data:
-    #     mode: cool
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.we_are_in_bed
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.we_are_going_to_bedroom
-    - service: script.notify
-      data_template:
-        target: in_bed
-        message: We are going downstairs, AC downstairs is on, AC in the bedroom is off, triggered by the {{ trigger.platform }} trigger
-
-- alias: We are heading down on holidays
-  id: moved_downstairs_holiday
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.phone_charging
-      to: "off"
-    - platform: time
-      at: "10:00:00"
-    - platform: state
-      entity_id: input_boolean.we_are_going_to_bedroom
-      to: "off"
-  condition:
-    - condition: time
-      after: "07:00:00"
-      before: '22:30:00'
-      weekday:
-        - sun
-        - sat
-    - condition: state
-      entity_id: group.all_people
-      state: home
-    - condition: state
-      entity_id: input_boolean.we_are_in_bed
-      state: "on"
-  action: *going_down_actions
-
-
-- alias: Downstairs Button long Pressed
-  id: button_long_pressed
-  trigger:
-    - platform: mqtt
-      topic: trigger/+/button_long_pressed
-  action:
-    - &light_on
-        service: light.turn_on
-        entity_id: light.bedroom_light
-        data:
-          brightness_pct: 70
-
-
-- alias: Bedroom Button Pressed before 11pm
-  id: button_pressed_before
-  trigger:
-    - &button_pressed
-        platform: mqtt
-        topic: trigger/+/button_pressed 
-  condition: 
-    - &only_in_daytime 
-        condition: time
-        before: "23:00:00"
-        after: "11:00:00"
-  action:
-    - &light_toggle
-        service: light.toggle
-        entity_id: light.bedroom_light
-        data:
-          brightness_pct: 15
-    - service: timer.start
-      entity_id: timer.manual_bedroom_light
-      data:
-        duration: "01:00:00"
-
-- alias: Downstairs Button super long Pressed
-  id: button_super_long_pressed
-  trigger:
-    - platform: mqtt
-      topic: trigger/+/button_super_long_pressed
-  action:
-    - <<: *light_on
-      data:
-        brightness_pct: 1
-
-- alias: Bedroom Button Pressed after 11pm
-  id: button_pressed_after
-  trigger:
-    - <<: *button_pressed
-  condition:
-    - condition: time
-      after: "23:00:00"
-      before: "11:00:00"
-  action:
-    - <<: *light_toggle
-      data:
-        brightness_pct: 5
-    - service: timer.start
-      entity_id: timer.manual_bedroom_light
-      data:
-        duration: "12:00:00"
-
-- alias: Someone in bedroom
-  id: movement_bedroom
-  trigger:
-    - platform: state
-      entity_id: sensor.bedroom_movement
+      entity_id: binary_sensor.nodemcu_hall_motion_sensor
       from: "off"
       to: "on"
   condition: 
-    - &not_manually_controlled
-        condition: state
-        entity_id: timer.manual_bedroom_light
-        state: idle
-    - condition: state
-      entity_id: person.kt
-      state: home
-  action:
-    - service: light.turn_on
-      entity_id: light.bedroom_light
-      data:
-        brightness_pct: 15
-
-- alias: Noone in bedroom
-  id: no_movement_bedroom
-  trigger:
-    - platform: state
-      entity_id: sensor.bedroom_movement
-      from: "on"
-      to: "off"
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.manual_bedroom_light
-  condition: 
-    - <<: *not_manually_controlled 
-    - condition: state
-      entity_id: sensor.bedroom_movement
-      state: "off"
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_light
-
-- alias: Turn Nightlight on
-  id: turn_nightlight_on
-  trigger:
-    - platform: time
-      at: "22:00:00"
-    - platform: state
-      entity_id: light.bedroom_light
-      from: "on"
-      to: "off"
-  condition:
-    - condition: state
-      entity_id: light.bedroom_light
-      state: "off"
     - condition: time
-      after: "22:00:00"
+      after: "23:00:00"
       before: "06:00:00"
   action:
     - service: light.turn_on
-      entity_id: light.bedroom_night_light
+      entity_id: light.nodemcu_hall_night_light
+    - service: timer.start
+      entity_id: timer.hall_motion_timer
+      data:
+        duration: 120
 
-- alias: Turn Nightlight off
-  id: turn_nightlight_off
+
+- alias: Noone in hall
+  id: no_movement_hall
   trigger:
-    - platform: time
-      at: "06:00:00"
-    - platform: state
-      entity_id: light.bedroom_light
-      from: "off"
-      to: "on"
+    - trigger: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.hall_motion_timer
   action:
     - service: light.turn_off
-      entity_id: light.bedroom_night_light
+      entity_id: light.nodemcu_hall_night_light
+
+# - alias: Turn Nightlight on
+#   id: turn_nightlight_on
+#   trigger:
+#     - platform: time
+#       at: "22:00:00"
+#     - platform: state
+#       entity_id: light.nodemcu_hall_night_light
+#       from: "on"
+#       to: "off"
+#   condition:
+#     - condition: state
+#       entity_id: light.nodemcu_hall_night_light
+#       state: "off"
+#     - condition: time
+#       after: "22:00:00"
+#       before: "06:00:00"
+#   action:
+#     - service: light.turn_on
+#       entity_id: light.nodemcu_hall_night_light
+
+# - alias: Turn Nightlight off
+#   id: turn_nightlight_off
+#   trigger:
+#     - platform: time
+#       at: "06:00:00"
+#     - platform: state
+#       entity_id: light.bedroom_light
+#       from: "off"
+#       to: "on"
+#   action:
+#     - service: light.turn_off
+#       entity_id: light.bedroom_night_light

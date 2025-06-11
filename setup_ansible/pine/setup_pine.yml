@@ -94,6 +94,10 @@
           path: /media/ubuntu/Chest
           public: yes
           writable: yes
+        - name: Torrent
+          path: /home/ubuntu/torrent
+          public: yes
+          writable: yes
         # Failing for now, and no vault anyway
         # - name: Vault
         #   path: /media/ubuntu/Vault
@@ -1155,7 +1159,7 @@
       lineinfile:
         dest: ~/.config/deluge/core.conf
         regexp: '"download_location":'
-        line: '  "download_location": "/media/ubuntu/Chest/Torrent",'
+        line: '  "download_location": "/home/ubuntu/Torrent",'
       # similarly needs deluge-web to be started once
     # https://forum.deluge-torrent.org/viewtopic.php?t=36737
     - name: Read hostlists.conf
@@ -1182,22 +1186,24 @@
   hosts: all
   vars_files: [vars/all.yml]
   gather_facts: no
+  become: yes
   vars:
     web_root: /var/www/html/
   tasks:
     # deluge-client for deluge, subliminal for subtitles - need to install in the docker
     - name: Create flexget config folder
       file:
-        dest: ~/.config/flexget
+        dest: /home/ubuntu/.config/flexget
         state: directory
     - name: Copy config file
       template:
         src: flexget/config.yml
-        dest: ~/.config/flexget/config.yml
+        dest: /home/ubuntu/.config/flexget/config.yml
         validate: docker exec flexget flexget -c %s check # may not work.. :shrug:
       notify: Restart Flexget
   handlers:
     - name: Restart Flexget
       docker_container:
         name: flexget
-        state: restarted
+        state: started
+        restart: yes
