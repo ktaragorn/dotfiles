@@ -424,7 +424,7 @@
 - alias: Noone in hall
   id: no_movement_hall
   trigger:
-    - trigger: event
+    - platform: event
       event_type: timer.finished
       event_data:
         entity_id: timer.hall_motion_timer
