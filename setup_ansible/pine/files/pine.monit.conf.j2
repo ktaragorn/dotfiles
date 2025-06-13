@@ -1,7 +1,7 @@
 set logfile /var/log/monit.log
 set httpd
-     port 2812
-     allow admin:monit
+  port 2812
+  allow localhost # allow unauthenticated access
 
 set daemon  120             # check services at 120 seconds intervals
 
