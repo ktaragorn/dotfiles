@@ -22,12 +22,6 @@ sensor:
     address: 0x5A
     update_interval: 60s
 
-binary_sensor:
-  - platform: gpio
-    pin: D7
-    name: "Hall Motion Sensor"
-    device_class: motion
-
 i2c:
   scl: D5
   sda: D6
