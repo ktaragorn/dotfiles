@@ -401,33 +401,21 @@
 #       data:
 #         duration: "12:00:00"
 
-- alias: Someone in hall
-  id: movement_hall
+- alias: Night Time
+  id: night time
   trigger:
-    - platform: state
-      entity_id: binary_sensor.nodemcu_hall_motion_sensor
-      from: "off"
-      to: "on"
-  condition: 
-    - condition: time
-      after: "23:00:00"
-      before: "06:00:00"
+    - platform: time
+      at: "23:00:00"
   action:
     - service: light.turn_on
       entity_id: light.nodemcu_hall_night_light
-    - service: timer.start
-      entity_id: timer.hall_motion_timer
-      data:
-        duration: 120
 
 
-- alias: Noone in hall
-  id: no_movement_hall
+- alias: Day time
+  id: day_time
   trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.hall_motion_timer
+    - platform: time
+      at: "06:00:00"
   action:
     - service: light.turn_off
       entity_id: light.nodemcu_hall_night_light
