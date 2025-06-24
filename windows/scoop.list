@@ -3,52 +3,93 @@
         {
             "Name": "main",
             "Source": "https://github.com/ScoopInstaller/Main.git",
-            "Updated": "2025-04-29T09:30:34+01:00",
-            "Manifests": 1386
+            "Updated": "2025-06-24T17:30:04+01:00",
+            "Manifests": 1391
+        },
+        {
+            "Name": "extras",
+            "Source": "https://github.com/ScoopInstaller/Extras",
+            "Updated": "2025-06-24T17:31:57+01:00",
+            "Manifests": 2167
         }
     ],
     "apps": [
         {
-            "Name": "7zip",
-            "Updated": "2025-04-29T11:25:01.0824955+01:00",
-            "Info": "",
             "Version": "24.09",
-            "Source": "main"
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-04-29T11:25:01.0824955+01:00",
+            "Name": "7zip"
         },
         {
-            "Name": "fzf",
-            "Updated": "2025-04-29T11:08:07.0370061+01:00",
+            "Version": "1.07.1",
             "Info": "",
+            "Source": "main",
+            "Updated": "2025-06-11T11:57:37.1918522+01:00",
+            "Name": "bc"
+        },
+        {
+            "Version": "4.4.2",
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-06-24T17:48:04.2194483+01:00",
+            "Name": "findutils"
+        },
+        {
             "Version": "0.61.3",
-            "Source": "main"
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-04-29T11:08:07.0370061+01:00",
+            "Name": "fzf"
         },
         {
-            "Name": "ripgrep",
-            "Updated": "2025-04-29T11:15:59.0165776+01:00",
+            "Version": "0.27.0",
             "Info": "",
+            "Source": "main",
+            "Updated": "2025-06-06T17:31:49.8951721+01:00",
+            "Name": "gitui"
+        },
+        {
+            "Version": "0.50.6",
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-06-16T13:45:38.2304086+01:00",
+            "Name": "k9s"
+        },
+        {
+            "Version": "0.52.0",
+            "Info": "",
+            "Source": "extras",
+            "Updated": "2025-06-09T10:57:00.6790284+01:00",
+            "Name": "lazygit"
+        },
+        {
             "Version": "14.1.1",
-            "Source": "main"
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-04-29T11:15:59.0165776+01:00",
+            "Name": "ripgrep"
         },
         {
-            "Name": "sort-uniq-wc",
-            "Updated": "2025-04-29T11:33:25.8738347+01:00",
-            "Info": "Install failed",
             "Version": null,
-            "Source": null
+            "Info": "Install failed",
+            "Source": null,
+            "Updated": "2025-04-29T11:33:25.8738347+01:00",
+            "Name": "sort-uniq-wc"
         },
         {
-            "Name": "sudo",
-            "Updated": "2025-04-02T22:18:31.019625+01:00",
-            "Info": "",
             "Version": "0.2020.01.26",
-            "Source": "main"
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-04-02T22:18:31.019625+01:00",
+            "Name": "sudo"
         },
         {
-            "Name": "uutils-coreutils",
-            "Updated": "2025-04-29T11:43:00.4176175+01:00",
-            "Info": "",
             "Version": "0.0.30",
-            "Source": "main"
+            "Info": "",
+            "Source": "main",
+            "Updated": "2025-04-29T11:43:00.4176175+01:00",
+            "Name": "uutils-coreutils"
         }
     ]
 }

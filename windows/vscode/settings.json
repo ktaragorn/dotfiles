@@ -1,6 +1,7 @@
 {
   "typescript.updateImportsOnFileMove.enabled": "always",
   "vs-code-prettier-eslint.prettierLast": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "security.workspace.trust.untrustedFiles": "open",
   "diffEditor.ignoreTrimWhitespace": false,
   "eslint.format.enable": false,
@@ -11,7 +12,7 @@
   "search.useGlobalIgnoreFiles": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {  
-    "source.fixAll.eslint": "always"
+    "source.fixAll": "explicit"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -21,4 +22,10 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "editor.inlayHints.enabled": "on",
+  "csharp.inlayHints.enableInlayHintsForTypes": true,
+  "csharp.inlayHints.enableInlayHintsForLambdaParameterTypes": true,
+  "csharp.inlayHints.enableInlayHintsForImplicitVariableTypes": true,
+  "csharp.inlayHints.enableInlayHintsForImplicitObjectCreation": true,
+  "workbench.colorTheme": "Default Dark+"
 }

@@ -1,11 +1,4 @@
 Chocolatey v1.2.0
-2 validations performed. 1 success(es), 1 warning(s), and 0 error(s).
-
-Validation Warnings:
- - A pending system reboot request has been detected, however, this is
-   being ignored due to the current command being used 'list'.
-   It is recommended that you reboot at your earliest convenience.
-
 7zip 22.1
 7zip.install 22.1
 awscli 2.9.0
@@ -58,7 +51,6 @@ grafana 9.1.6
 jdk8 8.0.211
 jetbrainstoolbox 1.22.10774
 jq 1.6
-k9s 0.40.7
 
 KB2919355 has been installed as a side by side installation.
 Side by side installations are deprecated and is pending removal in v2.0.0.
@@ -134,4 +126,4 @@ wezterm 20240203.110809.0
 wezterm.install 20240203.110809.0
 wixtoolset 3.11.2
 yarn 1.22.5
-74 packages installed.
+73 packages installed.
