@@ -11,6 +11,8 @@ set daemon  120             # check services at 120 seconds intervals
 #    then {{alert}} else if succeeded for 10 cycles then {{alert}}
 # Alert if disk space of root filesystem gets low
 check filesystem Chest with path /media/ubuntu/Chest
+  if does not exist for 2 cycles
+    then exec "/home/ubuntu/remount_drive.sh Chest"
   if space usage > 99% for 5 times within 15 cycles
     then {{alert}} else if succeeded for 10 cycles then {{alert}}
 
