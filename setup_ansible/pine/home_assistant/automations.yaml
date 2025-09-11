@@ -55,28 +55,6 @@
 #         target: home_enter
 #         message: All have left the house, Both ACs have been switched off
 
-- alias: Smart Light Connected
-  id: light_connected
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.smart_light
-      from: "off"
-      to: "on"
-  action:
-    - service: light.turn_on
-      entity_id: light.bedroom_light
-
-- alias: Smart Light Disconnected
-  id: light_disconnected
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.smart_light
-      from: "on"
-      to: "off"
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_light
-
 # - alias: Downstairs Button double Pressed
 #   id: button_double_pressed
 #   trigger:
@@ -338,87 +316,6 @@
 #       state: "on"
 #   action: *going_down_actions
 
-
-# - alias: Downstairs Button long Pressed
-#   id: button_long_pressed
-#   trigger:
-#     - platform: mqtt
-#       topic: trigger/+/button_long_pressed
-#   action:
-#     - &light_on
-#         service: light.turn_on
-#         entity_id: light.bedroom_light
-#         data:
-#           brightness_pct: 70
-
-
-# - alias: Bedroom Button Pressed before 11pm
-#   id: button_pressed_before
-#   trigger:
-#     - &button_pressed
-#         platform: mqtt
-#         topic: trigger/+/button_pressed
-#   condition:
-#     - &only_in_daytime
-#         condition: time
-#         before: "23:00:00"
-#         after: "11:00:00"
-#   action:
-#     - &light_toggle
-#         service: light.toggle
-#         entity_id: light.bedroom_light
-#         data:
-#           brightness_pct: 15
-#     - service: timer.start
-#       entity_id: timer.manual_bedroom_light
-#       data:
-#         duration: "01:00:00"
-
-# - alias: Downstairs Button super long Pressed
-#   id: button_super_long_pressed
-#   trigger:
-#     - platform: mqtt
-#       topic: trigger/+/button_super_long_pressed
-#   action:
-#     - <<: *light_on
-#       data:
-#         brightness_pct: 1
-
-# - alias: Bedroom Button Pressed after 11pm
-#   id: button_pressed_after
-#   trigger:
-#     - <<: *button_pressed
-#   condition:
-#     - condition: time
-#       after: "23:00:00"
-#       before: "11:00:00"
-#   action:
-#     - <<: *light_toggle
-#       data:
-#         brightness_pct: 5
-#     - service: timer.start
-#       entity_id: timer.manual_bedroom_light
-#       data:
-#         duration: "12:00:00"
-
-- alias: Night Time
-  id: night time
-  trigger:
-    - platform: time
-      at: "23:00:00"
-  action:
-    - service: light.turn_on
-      entity_id: light.nodemcu_hall_night_light
-
-
-- alias: Day time
-  id: day_time
-  trigger:
-    - platform: time
-      at: "06:00:00"
-  action:
-    - service: light.turn_off
-      entity_id: light.nodemcu_hall_night_light
 
 # - alias: Turn Nightlight on
 #   id: turn_nightlight_on

@@ -321,7 +321,8 @@ zone:
     icon: mdi:home
 
 # group: !include groups.yaml
-automation: !include automations.yaml
+automation base: !include automations.yaml
+automation light: !include light_automations.yaml
 script: !include scripts.yaml
 
 lovelace:

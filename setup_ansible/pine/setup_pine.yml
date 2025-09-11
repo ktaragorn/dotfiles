@@ -382,6 +382,7 @@
         dest: /home/ubuntu/homeassistant_config/{{item}}.yaml
       with_items:
         - automations
+        - light_automations
         - themes
         - known_devices
         - scripts
