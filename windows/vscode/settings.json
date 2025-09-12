@@ -27,5 +27,11 @@
   "csharp.inlayHints.enableInlayHintsForLambdaParameterTypes": true,
   "csharp.inlayHints.enableInlayHintsForImplicitVariableTypes": true,
   "csharp.inlayHints.enableInlayHintsForImplicitObjectCreation": true,
-  "workbench.colorTheme": "Default Dark+"
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "workbench.colorTheme": "Default Dark+",
+  "todomd.defaultFile": "c:\\dev\\TTD.Infra.Janus\\src\\TTD.Infra.Janus.API.Common\\todo.md"
 }

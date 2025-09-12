@@ -24,3 +24,6 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
    
 new-alias grep rg
+
+# https://github.com/kachick/PSFzfHistory
+Set-FzfHistoryKeybind -Chord Ctrl+r
