@@ -6,20 +6,24 @@
       entity_id: binary_sensor.smart_light
       from: "off"
       to: "on"
+  condition:
+    - condition: state
+      entity_id: light.bedroom_light
+      state: on
   action:
     - service: light.turn_on
       entity_id: light.bedroom_light
 
-- alias: Smart Light Disconnected
-  id: light_disconnected
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.smart_light
-      from: "on"
-      to: "off"
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_light
+# - alias: Smart Light Disconnected
+#   id: light_disconnected
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.smart_light
+#       from: "on"
+#       to: "off"
+#   action:
+#     - service: light.turn_off
+#       entity_id: light.bedroom_light
 
 - alias: Downstairs Button long Pressed
   id: button_long_pressed
@@ -79,7 +83,7 @@
   id: night time
   trigger:
     - platform: time
-      at: "23:00:00"
+      at: "21:00:00"
   action:
     - service: light.turn_on
       entity_id: light.nodemcu_hall_night_light

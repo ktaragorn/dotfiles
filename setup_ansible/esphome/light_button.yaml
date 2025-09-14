@@ -7,13 +7,13 @@ binary_sensor:
       inverted: $inverted
     name: "Light button - $name"
     on_click:
-      - max_length: 275ms
+      - max_length: 745ms
         then:
           - logger.log: "Button Pressed"
           - mqtt.publish:
               topic: trigger/$name/button_pressed
               payload: 'on'
-      - min_length: 300ms
+      - min_length: 750ms
         max_length: 2000ms
         then:
           - logger.log: "Button Long pressed"
