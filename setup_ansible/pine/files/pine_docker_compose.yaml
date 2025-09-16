@@ -27,10 +27,10 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - DELUGE_LOGLEVEL=error #optional
+      - DELUGE_LOGLEVEL=info #optional
     volumes:
       - /home/ubuntu/.config/deluge:/config
-      - /media/ubuntu/Chest/Torrent:/media/ubuntu/Chest/Torrent
+      - /home/ubuntu/torrent:/torrent
     ports:
       - 8112:8112
       - 6881:6881

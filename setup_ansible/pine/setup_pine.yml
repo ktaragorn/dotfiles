@@ -1160,7 +1160,7 @@
       lineinfile:
         dest: ~/.config/deluge/core.conf
         regexp: '"download_location":'
-        line: '  "download_location": "/home/ubuntu/Torrent",'
+        line: '  "download_location": "/torrent",'
       # similarly needs deluge-web to be started once
     # https://forum.deluge-torrent.org/viewtopic.php?t=36737
     - name: Read hostlists.conf

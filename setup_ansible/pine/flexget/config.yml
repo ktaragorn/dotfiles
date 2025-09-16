@@ -86,7 +86,7 @@ templates:
       host: deluge # docker name
       username: {{deluge_user}}
       password: {{deluge_password}}
-      path: /home/ubuntu/torrent/
+      path: /torrent
       main_file_only: yes
       ratio: 0.1
       remove_at_ratio: yes
@@ -95,7 +95,7 @@ templates:
   deluge_tv:
     thetvdb_lookup: yes
     deluge:
-      move_completed_path: {{'/home/ubuntu/torrent/TV Shows/{{series_name}}/'}}
+      move_completed_path: {{'/torrent/TV Shows/{{series_name}}/'}}
       content_filename: >
         {{'{{ series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
 
