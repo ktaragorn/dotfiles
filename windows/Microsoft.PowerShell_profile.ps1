@@ -25,5 +25,7 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
    
 new-alias grep rg
 
+new-alias watch viddy
+
 # https://github.com/kachick/PSFzfHistory
 Set-FzfHistoryKeybind -Chord Ctrl+r
