@@ -201,6 +201,10 @@
         icon: http://pine64.middle.earth:8090/static/favicon-green.svg
         port: 8090
         proc: beszel
+      - name: actual
+        icon: https://img.alwaysdata.com/marketplace/actual-server.png
+        port: 5006
+        proc: actual
       - name: Pihole
         icon: https://static-00.iconduck.com/assets.00/pihole-icon-174x256-w2exgm2v.png
         port: 8008
