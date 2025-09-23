@@ -47,6 +47,8 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git capistrano bundler brew tmux tmuxinator themes zeus gitfast web-search open-it open-in-github zsh-syntax-highlighting z zsh-autosuggestions)
 
+# https://github.com/zsh-users/zsh-syntax-highlighting/issues/513#issuecomment-379145092
+export ZSH_HIGHLIGHT_MAXLENGTH=60
 source $ZSH/oh-my-zsh.sh
 
 # User configuration - from bashrc - hope it doesnt brk linux

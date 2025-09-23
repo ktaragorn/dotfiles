@@ -28,4 +28,10 @@ new-alias grep rg
 new-alias watch viddy
 
 # https://github.com/kachick/PSFzfHistory
+# Install-Module -Name PSFzfHistory
 Set-FzfHistoryKeybind -Chord Ctrl+r
+
+function dotnetclean {
+    cd "C:\dev\TTD.Infra.Janus" 
+    gci -exclude "*.dll" -include bin,obj -recurse | remove-item -force -recurse
+}
