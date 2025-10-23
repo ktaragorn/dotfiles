@@ -11,16 +11,16 @@
   "editor.multiCursorModifier": "ctrlCmd",
   "search.useGlobalIgnoreFiles": true,
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {  
+  "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "dotnet.formatting.organizeImportsOnFormat": true,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "editor.inlayHints.enabled": "on",
   "csharp.inlayHints.enableInlayHintsForTypes": true,
@@ -33,5 +33,18 @@
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "workbench.colorTheme": "Default Dark+",
-  "todomd.defaultFile": "c:\\dev\\TTD.Infra.Janus\\src\\TTD.Infra.Janus.API.Common\\todo.md"
+  "todomd.defaultFile": "c:\\dev\\TTD.Infra.Janus\\src\\TTD.Infra.Janus.API.Common\\todo.md",
+  "gitlens.views.scm.grouped.views": {
+    "commits": true,
+    "branches": true,
+    "remotes": true,
+    "stashes": true,
+    "tags": true,
+    "worktrees": true,
+    "contributors": true,
+    "fileHistory": true,
+    "repositories": true,
+    "searchAndCompare": false,
+    "launchpad": false
+  }
 }

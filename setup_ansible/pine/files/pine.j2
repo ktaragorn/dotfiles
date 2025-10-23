@@ -12,6 +12,7 @@ server {
     allow 192.168.1.0/24;
     allow 172.17.0.0/16;
     allow 127.0.0.1;
+	allow 100.64.0.0/10; # tailscale
     deny all;
 
     auth_basic "The Black Gate";
@@ -54,6 +55,7 @@ server {
 		allow 192.168.1.0/24;
 		allow 172.17.0.0/16;
 		allow 127.0.0.1;
+		allow 100.64.0.0/10; # tailscale
 		deny all;
 		listen 80;
 
@@ -72,6 +74,7 @@ server {
 	allow 192.168.1.0/24;
 	allow 172.17.0.0/16;
 	allow 127.0.0.1;
+	allow 100.64.0.0/10; # tailscale
 	deny all;
 	listen 80;
 
