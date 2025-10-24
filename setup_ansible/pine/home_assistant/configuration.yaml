@@ -164,6 +164,7 @@ tts:
 # fastdotcom:
 #   scan_interval:
 #     hours: 6
+wake on lan: 
 
 smartir:
 
@@ -215,6 +216,12 @@ input_boolean:
   we_are_going_to_bedroom:
     name: We are headed to the bedroom
     icon: mdi:stairs
+  
+switch:
+  - platform: wake_on_lan
+    mac: 00:90:F5:E7:26:ED
+    name: Arnor PC
+    host: arnor
 
 light:
   # - platform: switch
