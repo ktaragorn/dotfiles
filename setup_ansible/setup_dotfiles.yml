@@ -20,6 +20,8 @@
           - git-gui
           - net-tools
           - gitg
+          - jq
+          - unzip
           - bat # cat replacement
           #- broot # a better tree
           #- exa # cd replacement
@@ -207,3 +209,12 @@
     - name: Fix key repeat on osx
       command: defaults write -g ApplePressAndHoldEnabled -bool false
       when: ansible_os_family == 'Darwin'
+
+    - name: Download gah
+      get_url: url=https://raw.githubusercontent.com/get-gah/gah/refs/heads/master/tools/install.sh dest=/tmp/gah.sh
+
+    - name: Execute gah installer
+      shell: sh /tmp/gah.sh creates=~/.local/bin/gah
+
+    # install lazygit
+

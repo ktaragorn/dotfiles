@@ -2,8 +2,14 @@
 - name: Deploy esphome
   hosts: localhost
   tasks:
-    - name: Install esphome
-      pip: name=esphome
+    - name: Install docker
+      become: yes
+      package: name=docker.io
+    - name: Add ubuntu user to docker group
+      user:
+        name: karthikt
+        groups: docker
+        append: yes
     - name: Decrypt secrets
       copy: src=secrets.vault dest=secrets.yaml
     # - name: Deploy to esp32

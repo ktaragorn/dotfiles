@@ -1,6 +1,7 @@
 export EDITOR="vim"
 export TERM="screen-256color"
 export BC_ENV_ARGS="-ql $HOME/.bcrc"
+pathprepend ~/.local/bin
 
 ### Added by the Heroku Toolbelt
 pathprepend /usr/local/heroku/bin
