@@ -1,2 +1,2 @@
 # Needs admin window
-windows_link.ps1 karthik.thirugnanam
+.\windows_link.ps1 karthik.thirugnanam

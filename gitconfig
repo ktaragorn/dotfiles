@@ -2,6 +2,7 @@
 	name = Karthik T
 	email = karthikt.holmes+github@gmail.com
 [alias]
+	cobr = !git checkout $(git branch | fzf)
 	aa = add --all
 	dc = diff --cached
 	di = diff
@@ -12,6 +13,9 @@
 	br = branch
 	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	logall = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d %C(bold blue)%an\t%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --all
+	# From https://github.com/andrewlock/blog-comments/discussions/75#discussioncomment-12881385
+	stack = log --decorate-refs=refs/heads --simplify-by-decoration --pretty=%D ^origin/HEAD HEAD	
+	push-stack = !git push --force-with-lease origin "$(git stack)"
 	type = cat-file -t
 	dump = cat-file -p
 	mff = merge --ff-only
