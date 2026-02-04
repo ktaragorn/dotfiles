@@ -4,6 +4,7 @@ views:
       # - entity: binary_sensor.blackbean
       - entity: binary_sensor.nodemcu
       - entity: binary_sensor.esp32
+      - entity: binary_sensor.esp32_b
       - entity: binary_sensor.d1_mini
       - entity: binary_sensor.smart_light
       - entity: person.anu
@@ -63,6 +64,7 @@ views:
       - entities:
           - entity: sensor.a_temperature
           - entity: sensor.c_temperature
+          - entity: sensor.esp32_b_bedroom_bed_temperature
           - entity: sensor.b_temperature
           - entity: sensor.d_temperature
           - entity: sensor.living_room_temperature
@@ -72,6 +74,7 @@ views:
       - entities:
           - entity: sensor.a_humidity
           - entity: sensor.c_humidity
+          - entity: sensor.esp32_b_bedroom_bed_humidity
           - entity: sensor.b_humidity
           - entity: sensor.d_humidity
           - entity: sensor.living_room_humidity

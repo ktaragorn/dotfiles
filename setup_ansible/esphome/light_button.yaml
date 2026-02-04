@@ -1,7 +1,7 @@
 binary_sensor:
   - platform: gpio
     pin:
-      number: $pin
+      number: $light_button_pin
       mode:
         input: true
       inverted: $inverted

@@ -3,6 +3,58 @@ substitutions:
 
 esp32:
   board: esp32dev
+  framework:
+    type: esp-idf
 
 packages:
   base: !include base.yaml
+
+debug:
+  update_interval: 15s
+psram:
+  mode: quad
+  speed: 80MHz
+text_sensor:
+  - platform: debug
+    device:
+      name: "Device Info"
+      internal: true
+    reset_reason:
+      name: "Reset Reason"
+
+sensor:
+  - platform: dht
+    pin: GPIO27
+    temperature:
+      name: "Hall Temperature"
+    humidity:
+      name: "Hall Humidity"
+  - platform: debug
+    free:
+      name: "Heap Free"
+      internal: true
+    # fragmentation:
+    #   name: "Heap Fragmentation"
+    #   internal: true
+    block:
+      internal: true
+      name: "Heap Max Block"
+    loop_time:
+      name: "Loop Time"
+      internal: true
+    # psram:
+    #   name: "Free PSRAM"
+    #   internal: true
+    cpu_frequency:
+      name: "CPU Frequency"
+      internal: true
+
+light:
+  - platform: binary
+    name: "Hall Night Light"
+    output: light_output
+
+output:
+  - id: light_output
+    platform: gpio
+    pin: GPIO26
