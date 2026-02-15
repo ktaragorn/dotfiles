@@ -86,7 +86,7 @@
       at: "21:00:00"
   action:
     - service: light.turn_on
-      entity_id: light.nodemcu_hall_night_light
+      entity_id: light.hall_night_light
 
 - alias: Day time
   id: day_time
@@ -95,4 +95,4 @@
       at: "06:00:00"
   action:
     - service: light.turn_off
-      entity_id: light.nodemcu_hall_night_light
+      entity_id: light.hall_night_light

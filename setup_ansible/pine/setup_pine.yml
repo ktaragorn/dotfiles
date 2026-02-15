@@ -752,6 +752,7 @@
     - name: Download Image
       docker_image:
         name: eclipse-mosquitto
+        source: pull
     - name: Make required folders
       file:
         state: directory

@@ -1,5 +1,14 @@
 esphome:
   name: $name
+  friendly_name: ${friendly_name |default($name) }
+
+# external_components:
+#   - source:
+#       type: git
+#       url: https://github.com/andrewbackway/esphome-webserver-listcomponents
+#     components: ["webserver_listcomponents"]
+
+# webserver_listcomponents:
 
 # Enable logging
 logger:

@@ -1,5 +1,6 @@
 substitutions:
   name: esp32_b
+  friendly_name: Hall
 
 esp32:
   board: esp32dev
@@ -26,9 +27,9 @@ sensor:
   - platform: dht
     pin: GPIO27
     temperature:
-      name: "Hall Temperature"
+      name: "Temperature"
     humidity:
-      name: "Hall Humidity"
+      name: "Humidity"
   - platform: debug
     free:
       name: "Heap Free"
@@ -51,7 +52,7 @@ sensor:
 
 light:
   - platform: binary
-    name: "Hall Night Light"
+    name: "Night Light"
     output: light_output
 
 output:

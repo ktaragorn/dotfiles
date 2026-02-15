@@ -25,3 +25,7 @@ sensor.d_humidity:
   friendly_name: Outside
 light.bulb_rgbw_cfc9e:
   friendly_name: Bedroom Light
+sensor.hall_temperature:
+  friendly_name: Hall
+sensor.hall_humidity:
+  friendly_name: Hall

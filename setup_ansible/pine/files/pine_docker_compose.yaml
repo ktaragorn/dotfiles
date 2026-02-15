@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
 
   flexget:
-    image: wiserain/flexget:3.5.25
+    image: wiserain/flexget:3.18.31
     container_name: flexget
     ports:
       - 5050:5050                   # optional: for webui
@@ -55,3 +55,17 @@ services:
       - /tmp:/tmp # for config validation
       - ~/flexget-init.d:/custom-cont-init.d/subliminal # custom script to install subliminal for subtitles
     restart: unless-stopped
+
+  mqtt-explorer:
+    container_name: mqtt-explorer
+    image: smeagolworms4/mqtt-explorer
+    restart: always
+    ports:
+      - 9001:9001
+    environment:
+      - HTTP_PORT=9001
+      - CONFIG_PATH=/mqtt-explorer/config
+      - TZ=Europe/Paris
+    volumes:
+      - ./config:/mqtt-explorer/config
+      - /etc/timezone:/etc/timezone:ro

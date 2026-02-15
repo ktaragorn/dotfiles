@@ -95,7 +95,7 @@ templates:
   deluge_tv:
     thetvdb_lookup: yes
     deluge:
-      move_completed_path: {{'/torrent/TV Shows/{{series_name}}/'}}
+      move_completed_path: {{'/torrent/TV Shows/'}}
       content_filename: >
         {{'{{ series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
 
@@ -210,7 +210,6 @@ tasks:
             - en
     move:
       to: {{'/media/ubuntu/Chest/TV Shows/{{series_name}}/Season {{series_season}}/'}}
-      clean_source: 50
       rename: >
         {{'{{ tvdb_series_name  }} - S{{ series_season|pad(2) }}E{{ series_episode|pad(2) }} - {{ tvdb_ep_name |default("") }}'}}
       along:

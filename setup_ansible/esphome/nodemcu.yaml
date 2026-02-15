@@ -2,6 +2,7 @@ substitutions:
   name: nodemcu
   light_button_pin: D7
   inverted: true
+  friendly_name: Bed
 
 esp8266:
   board: nodemcu
@@ -14,14 +15,14 @@ sensor:
   - platform: dht
     pin: D2
     temperature:
-      name: "Bedroom (bed)  Temperature"
+      name: "Temperature"
     humidity:
-      name: "Bedroom (bed)  Humidity"
+      name: "Humidity"
   - platform: ccs811
     eco2:
-      name: "Bedroom (bed) eCO2 Value"
+      name: "eCO2 Value"
     tvoc:
-      name: "Bedroom (bed) Total Volatile Organic Compound"
+      name: "Total Volatile Organic Compound"
     address: 0x5A
     update_interval: 60s
 
