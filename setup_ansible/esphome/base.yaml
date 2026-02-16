@@ -71,3 +71,7 @@ sensor:
   - platform: wifi_signal
     name: "WiFi Signal Sensor - $name"
     update_interval: 60s
+
+button:
+  - platform: restart
+    name: "Restart"

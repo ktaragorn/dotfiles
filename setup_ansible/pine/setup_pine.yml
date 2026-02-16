@@ -120,7 +120,7 @@
         link_to: /deluge
         port: 8112
         terminate: "/"
-        icon: "http://icons.iconarchive.com/icons/bokehlicia/alike/512/deluge-icon.png"
+        icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Deluge-Logo.svg/330px-Deluge-Logo.svg.png"
         proc: deluge-web
       # - name: htpc
       #   link_to: /htpc
@@ -205,6 +205,10 @@
         icon: https://img.alwaysdata.com/marketplace/actual-server.png
         port: 5006
         proc: actual
+      - name: mqtt-explorer
+        icon: http://mqtt-explorer.com/icon.png
+        port: 9001
+        proc: mqtt-explorer
       - name: Pihole
         icon: https://static-00.iconduck.com/assets.00/pihole-icon-174x256-w2exgm2v.png
         port: 8008

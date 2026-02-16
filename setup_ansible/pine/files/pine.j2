@@ -26,6 +26,7 @@ server {
 		proxy_set_header X-Deluge-Base "/deluge/";
 		rewrite ^/monit/(.*) /$1 break; # https://www.htpcguides.com/configure-monit-reverse-proxy-nginx-linux/
 		rewrite ^/beszel/(.*) /$1 break;
+		rewrite ^/mqtt-explorer/(.*) /$1 break;
 		proxy_pass {{service.scheme | default("http")}}://{{service.host | default("localhost")}}:{{service.port}}{{service.terminate | default("")}};
 		proxy_redirect http://{{service.host | default("localhost")}}:{{service.port}}/ $host:$server_port/{{service.name}}/;
 		# https needed for webmin, / in the end needed for deluge, /in the end not needed for htpc
