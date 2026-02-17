@@ -34,6 +34,9 @@ wifi:
 mqtt:
   broker: pine64.middle.earth
   log_topic: log/$name
+  # https://www.reddit.com/r/homeassistant/comments/18odja0/mqtt_not_assigning_unique_ids_i_thought_it_used/
+  # https://esphome.io/components/mqtt/#configuration-variables
+  discovery_unique_id_generator: mac
 
 web_server:
 

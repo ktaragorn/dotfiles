@@ -29,9 +29,9 @@ views:
       - type: glance
         title: Anu & Me
         entities:
-          - device_tracker.wionacmx_pixel4a
+          - device_tracker.ktaragorn_pixel4a
           - device_tracker.anu
-          - device_tracker.wionacmx_mia2lite
+          - device_tracker.ktaragorn_mia2lite
           - device_tracker.kt
           - person.kt
           - person.anu

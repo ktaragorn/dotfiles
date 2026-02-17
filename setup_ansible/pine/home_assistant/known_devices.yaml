@@ -10,7 +10,8 @@ anu:
 kt:
   hide_if_away: false
   icon: mdi:face-man
-  mac: "A4:50:46:2E:1D:AF"
+  # needs to disable "random mac" option in wifi settings
+  mac: "2c:a7:ef:2b:e5:b3"
   name: kt
   picture:
   track: true

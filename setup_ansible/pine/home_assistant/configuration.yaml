@@ -312,12 +312,12 @@ person:
   - name: Anu
     id: anu
     device_trackers:
-      - device_tracker.wionacmx_pixel4a
+      - device_tracker.ktaragorn_pixel4a
       - device_tracker.anu
   - name: Kt
     id: kt
     device_trackers:
-      - device_tracker.wionacmx_mia2lite
+      - device_tracker.ktaragorn_mia2lite
       - device_tracker.kt
 zone:
   # This will override the default home zone
