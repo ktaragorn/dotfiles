@@ -12,3 +12,7 @@ fi
 . $d/os_specific
 . $d/misc
 . $d/asdf
+
+if [ -f ~/.company_specific ]; then
+   . ~/.company_specific
+fi

@@ -69,3 +69,15 @@ services:
     volumes:
       - ./config:/mqtt-explorer/config
       - /etc/timezone:/etc/timezone:ro
+  
+  filebrowser:
+    container_name: filebrowser
+    image: filebrowser/filebrowser
+    environment:
+      - FB_BASE_URL=filebrowser
+    volumes:
+      - /:/srv
+      - ~/filebrowser:/database
+      - ~/filebrowser:/config
+    ports:
+      - 8080:80

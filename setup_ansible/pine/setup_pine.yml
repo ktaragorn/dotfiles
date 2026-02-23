@@ -138,6 +138,11 @@
         port: 5050
         icon: "https://avatars2.githubusercontent.com/u/682553?v=3&s=400"
         proc: flexget
+      - name: filebrowser
+        link_to: /filebrowser
+        port: 8080
+        icon: https://docs.theme-park.dev/site_assets/filebrowser/logo.png
+        proc: filebrowser
       - name: status
         link_to: /status
         port: 80
@@ -1131,15 +1136,32 @@
     #     state: link
     #     src: /run/systemd/resolve/resolv.conf
     #     dest: /etc/resolv.conf
+    - name: Create necessary folders
+      become: no
+      file: 
+        name: '{{item}}'
+        state: directory
+      with_items:
+        - '~/filebrowser'
     - name: Run docker compose
       docker_compose:
-        project_src: ~/
+        project_src: ~/    
+    - name: Copy config files
+      copy: 
+        src: files/filebrowser-settings.json
+        dest: ~/filebrowser/settings.json
+      notify: restart filebrowser
   handlers:
     - name: Restart systemd-resolve
       become: yes
       systemd:
         name: systemd-resolved
         state: restarted
+    - name:  restart filebrowser
+      docker_container:
+        name: flexget
+        state: started
+        restart: yes
 
 - name: Deluge setup (docker compose version)
   become: yes
@@ -1217,3 +1239,15 @@
         name: flexget
         state: started
         restart: yes
+
+- name: Install Dry 0.9 (0.11 is too new currently for the docker on pine)
+  tags: dry
+  hosts: all 
+  gather_facts: no
+  become: no
+  tasks: 
+    - name: Get bin 
+      get_url: 
+        url: https://github.com/moncho/dry/releases/download/v0.9-beta.10/dry-linux-arm64
+        dest: ~/dry
+        mode: u+x
