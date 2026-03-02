@@ -1,0 +1,29 @@
+light:
+  - platform: binary
+    id: night_light
+    name: "Night Light"
+    output: light_output
+
+output:
+  - id: light_output
+    platform: gpio
+    pin: $night_light_pin
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: Europe/London
+    on_time:
+      # Every morning
+      - seconds: 0
+        minutes: 0
+        hours: 6
+        then:
+          - light.turn_off: night_light
+
+      # Every evening
+      - seconds: 0
+        minutes: 20
+        hours: 23
+        then:
+          - light.turn_off: night_light
