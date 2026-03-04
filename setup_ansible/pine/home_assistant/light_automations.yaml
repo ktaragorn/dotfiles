@@ -82,8 +82,21 @@
 - alias: Night Time
   id: night time
   trigger:
+    #  This is so complicated cuz if it disconnects and reconnects
+    #  it gets turned off.. and esp32_b disconnects often..
     - platform: time
-      at: "21:00:00"
+      at: "21:00:00"      
+    - platform: state
+      entity_id: light.hall_night_light
+      from: "on"
+      to: "off"  
+  condition:
+    - condition: state
+      entity_id: light.hall_night_light
+      state: "off"
+    - condition: time
+      after: "22:00:00"
+      before: "06:00:00"
   action:
     - service: light.turn_on
       entity_id: light.hall_night_light

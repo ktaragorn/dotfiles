@@ -316,36 +316,3 @@
 #       state: "on"
 #   action: *going_down_actions
 
-
-# - alias: Turn Nightlight on
-#   id: turn_nightlight_on
-#   trigger:
-#     - platform: time
-#       at: "22:00:00"
-#     - platform: state
-#       entity_id: light.nodemcu_hall_night_light
-#       from: "on"
-#       to: "off"
-#   condition:
-#     - condition: state
-#       entity_id: light.nodemcu_hall_night_light
-#       state: "off"
-#     - condition: time
-#       after: "22:00:00"
-#       before: "06:00:00"
-#   action:
-#     - service: light.turn_on
-#       entity_id: light.nodemcu_hall_night_light
-
-# - alias: Turn Nightlight off
-#   id: turn_nightlight_off
-#   trigger:
-#     - platform: time
-#       at: "06:00:00"
-#     - platform: state
-#       entity_id: light.bedroom_light
-#       from: "off"
-#       to: "on"
-#   action:
-#     - service: light.turn_off
-#       entity_id: light.bedroom_night_light

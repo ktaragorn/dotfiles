@@ -1,6 +1,8 @@
 substitutions:
   name: esp32_b
   friendly_name: Hall
+  night_light_pin: GPIO26
+
 
 esp32:
   board: esp32dev
@@ -9,6 +11,7 @@ esp32:
 
 packages:
   base: !include base.yaml
+  night_light: !include night_light.yaml
 
 debug:
   update_interval: 15s
@@ -49,13 +52,3 @@ sensor:
     cpu_frequency:
       name: "CPU Frequency"
       internal: true
-
-light:
-  - platform: binary
-    name: "Night Light"
-    output: light_output
-
-output:
-  - id: light_output
-    platform: gpio
-    pin: GPIO26
