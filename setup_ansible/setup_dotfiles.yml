@@ -138,14 +138,22 @@
       with_items:
         - vimrc
         - ngrok
-        - rdebugrc
-        - gitconfig
+        - rdebugrc 
         - pryrc
         - gemrc
         - bcrc
         - Xmodmap # only used in linux though
         - tmuxinator
         - asdfrc
+  
+    - name: Include dotfiles gitconfig from main gitconfig at the top (create file if needed) - this allows main gitconfig to customize for local needs (work)
+      blockinfile:
+        block: |
+          [include]
+              path = ~/dotfiles/gitconfig
+        path: ~/.gitconfig
+        insertbefore: BOF
+        create: true              
 
     - name: Install asdf version 0.7.3
       git:

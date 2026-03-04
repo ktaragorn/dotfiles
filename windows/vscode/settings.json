@@ -4,27 +4,21 @@
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "security.workspace.trust.untrustedFiles": "open",
   "diffEditor.ignoreTrimWhitespace": false,
-  "eslint.format.enable": false,
+  "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   "eslint.debug": true,
   //https://stackoverflow.com/a/56024839 and settings says vscode makes sure multi cursor and gotodefinition make sure not to clash, so they are opposites
   "editor.multiCursorModifier": "ctrlCmd",
   "search.useGlobalIgnoreFiles": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "always",
     "source.fixAll.eslint": "explicit",
     "source.fixAll.tslint": "explicit",
-    "source.fixAll.stylelint": "explicit"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "source.fixAll.stylelint": "explicit",
   },
   "dotnet.formatting.organizeImportsOnFormat": true,
   "editor.acceptSuggestionOnCommitCharacter": false,
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
   "editor.inlayHints.enabled": "on",
   "csharp.inlayHints.enableInlayHintsForTypes": true,
   "csharp.inlayHints.enableInlayHintsForLambdaParameterTypes": true,
@@ -48,9 +42,8 @@
     "fileHistory": true,
     "repositories": true,
     "searchAndCompare": false,
-    "launchpad": false
+    "launchpad": false,
   },
-  "security.allowedUNCHosts": [
-    "wsl.localhost"
-  ]
+  "security.allowedUNCHosts": ["wsl.localhost"],
+  "python.pydev.java.home": "c:\\Program Files\\Java\\jdk1.8.0_211",
 }

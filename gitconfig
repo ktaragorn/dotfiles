@@ -56,8 +56,9 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	commentchar = ";"
-[log]
-	excludeDecoration=refs/tags/*
+	autocrlf = false
+# [log]
+# 	excludeDecoration=refs/tags/*
 [rerere]
 # eliminate repeated conflict resolution on rebase by memorizing it the first time https://git-scm.com/book/en/v2/Git-Tools-Rerere
 	enabled = true
