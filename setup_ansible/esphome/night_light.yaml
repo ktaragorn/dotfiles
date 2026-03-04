@@ -23,7 +23,7 @@ time:
 
       # Every evening
       - seconds: 0
-        minutes: 20
-        hours: 23
+        minutes: 10
+        hours: 22
         then:
           - light.turn_off: night_light

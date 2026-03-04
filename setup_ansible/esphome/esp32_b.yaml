@@ -3,7 +3,6 @@ substitutions:
   friendly_name: Hall
   night_light_pin: GPIO26
 
-
 esp32:
   board: esp32dev
   framework:
