@@ -1,49 +1,25 @@
 substitutions:
   name: d1_mini
-  light_button_pin: D4
+  friendly_name: Hall
+  night_light_pin: D3
   # have to invert here and connect the wrong way around.. essentially making the switch pull up instead of down
   # I think the pull down resistor was not pulling the pin low enough, so it was always on. Inverted means it is considered on when low
   inverted: 'true'
+  dht_pin: D2
 
 esp8266:
   board: d1_mini
 
 packages:
   base: !include base.yaml
-  light_button: !include light_button.yaml
+  night_light: !include night_light.yaml
+  dht: !include dht_temperature.yaml
 
 switch:
   - platform: gpio
     pin:
-      number: D0
+      number: D4
       inverted: false
     name: Ground pin
     restore_mode: ALWAYS_OFF
 
-# remote_receiver:
-#   pin:
-#     number: D5
-#     inverted: false
-#   dump: all
-
-remote_transmitter:
-  pin:
-    number: D5
-    inverted: false
-  # RF uses a 100% carrier signal
-  carrier_duty_percent: 100%
-
-button:
-  - platform: template
-    name: Bedroom TV toggle
-    on_press:
-      # - remote_transmitter.transmit_sony:
-      #     data: 0x00000A90
-      #     nbits: 12
-      - remote_transmitter.transmit_pronto:
-          data: "0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3"
-
-# from https://www.remotecentral.com/cgi-bin/codes/sony/tv_generic_driver/page-2/ 0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3
-# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005C 0018 002F 001A 0017 0017 0030 0018 001A 0016 0030 0018 0018 0019 0019 0016 0030 0017 0019 0019 0019 0016 0019 0017 0019 06C3
-# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005D 001A 002E 0018 0019 001A 0030 0016 0019 001A 002E 0019 0018 001A 0016 001A 002D 0018 0019 001A 0016 0019 0017 001A 0016 06C3
-# [20:17:10][D][remote.pronto:238]: Received Pronto: data=0000 006D 000D 0000 005D 0019 002E 001A 0017 001A 002D 001A 0016 0018 0030 0018 001A 0017 0017 0018 0030 001A 0018 0016 0018 0018 0019 001A 0016 06C3

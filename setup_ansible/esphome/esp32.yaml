@@ -1,11 +1,14 @@
 substitutions:
   name: esp32
+  friendly_name: Living Room
+  dht_pin: GPIO23
 
 esp32:
   board: esp32dev
 
 packages:
   base: !include base.yaml
+  dht: !include dht_temperature.yaml
 
 esp32_ble_tracker:
   scan_parameters:
@@ -70,12 +73,6 @@ sensor:
     battery_voltage:
       name: "D Battery-Voltage"
       filters: *filters
-  - platform: dht
-    pin: GPIO23
-    temperature:
-      name: "Living Room Temperature"
-    humidity:
-      name: "Living Room Humidity"
 
 # A4:C1:38:82:D7:E3 - A - My room
 # A4:C1:38:E7:2F:24 - B - bathroom

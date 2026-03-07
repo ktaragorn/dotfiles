@@ -1,0 +1,11 @@
+sensor:
+  - platform: dht
+    pin: $dht_pin
+    temperature:
+      name: "Temperature"
+      filters:
+        - filter_out: nan
+    humidity:
+      name: "Humidity"
+      filters:
+        - filter_out: nan
