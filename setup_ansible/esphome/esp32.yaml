@@ -5,10 +5,12 @@ substitutions:
 
 esp32:
   board: esp32dev
+  framework:
+    type: esp-idf
 
 packages:
-  base: !include base.yaml
-  dht: !include dht_temperature.yaml
+  - !include base.yaml
+  - !include dht_temperature.yaml
 
 esp32_ble_tracker:
   scan_parameters:

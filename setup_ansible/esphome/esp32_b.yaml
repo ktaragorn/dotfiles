@@ -9,8 +9,8 @@ esp32:
     type: esp-idf
 
 packages:
-  base: !include base.yaml
-  night_light: !include night_light.yaml
+  - !include base.yaml
+  - !include night_light.yaml
 
 debug:
   update_interval: 15s

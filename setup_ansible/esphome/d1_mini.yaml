@@ -11,9 +11,9 @@ esp8266:
   board: d1_mini
 
 packages:
-  base: !include base.yaml
-  night_light: !include night_light.yaml
-  dht: !include dht_temperature.yaml
+  - !include base.yaml
+  - !include night_light.yaml
+  - !include dht_temperature.yaml
 
 switch:
   - platform: gpio
