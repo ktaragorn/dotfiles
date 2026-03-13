@@ -1,27 +1,27 @@
 ---
-sensor.a_temperature:
+sensor.living_room_a_temperature:
   friendly_name: Office
-sensor.b_temperature:
+sensor.living_room_b_temperature:
   friendly_name: Toilet
-sensor.c_temperature:
+sensor.living_room_c_temperature:
   friendly_name: Bedroom
-sensor.d_temperature:
+sensor.living_room_d_temperature:
   friendly_name: Outside
-sensor.a_battery_level:
+sensor.living_room_a_battery_level:
   friendly_name: Office
-sensor.b_battery_level:
+sensor.living_room_b_battery_level:
   friendly_name: Toilet
-sensor.c_battery_level:
+sensor.living_room_c_battery_level:
   friendly_name: Bedroom
-sensor.d_battery_level:
+sensor.living_room_d_battery_level:
   friendly_name: Outside
-sensor.a_humidity:
+sensor.living_room_a_humidity:
   friendly_name: Office
-sensor.b_humidity:
+sensor.living_room_b_humidity:
   friendly_name: Toilet
-sensor.c_humidity:
+sensor.living_room_c_humidity:
   friendly_name: Bedroom
-sensor.d_humidity:
+sensor.living_room_d_humidity:
   friendly_name: Outside
 light.bulb_rgbw_cfc9e:
   friendly_name: Bedroom Light

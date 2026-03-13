@@ -62,30 +62,30 @@ views:
         title: Light
         type: entities
       - entities:
-          - entity: sensor.a_temperature
-          - entity: sensor.c_temperature
+          - entity: sensor.living_room_a_temperature
+          - entity: sensor.living_room_c_temperature
           - entity: sensor.hall_temperature
-          - entity: sensor.b_temperature
-          - entity: sensor.d_temperature
+          - entity: sensor.living_room_b_temperature
+          - entity: sensor.living_room_d_temperature
           - entity: sensor.living_room_temperature
           - entity: sensor.bed_temperature
         type: glance
         title: Temperature
       - entities:
-          - entity: sensor.a_humidity
-          - entity: sensor.c_humidity
+          - entity: sensor.living_room_a_humidity
+          - entity: sensor.living_room_c_humidity
           - entity: sensor.hall_humidity
-          - entity: sensor.b_humidity
-          - entity: sensor.d_humidity
+          - entity: sensor.living_room_b_humidity
+          - entity: sensor.living_room_d_humidity
           - entity: sensor.living_room_humidity
           - entity: sensor.bed_humidity
         type: glance
         title: Humidity
       - entities:
-          - entity: sensor.a_battery_level
-          - entity: sensor.c_battery_level
-          - entity: sensor.b_battery_level
-          - entity: sensor.d_battery_level
+          - entity: sensor.living_room_a_battery_level
+          - entity: sensor.living_room_c_battery_level
+          - entity: sensor.living_room_b_battery_level
+          - entity: sensor.living_room_d_battery_level
         type: glance
         title: Thermometer Battery
       - type: glance
