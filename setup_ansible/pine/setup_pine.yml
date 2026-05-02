@@ -140,6 +140,7 @@
         proc: flexget
       - name: filebrowser
         link_to: /filebrowser
+        terminate: "/"
         port: 8080
         icon: https://docs.theme-park.dev/site_assets/filebrowser/logo.png
         proc: filebrowser
@@ -493,6 +494,9 @@
         job: /usr/bin/python3 /home/ubuntu/pushEpicGames.py >> /tmp/epic.log 2>&1
     # to check ` cat /proc/sys/net/netfilter/nf_conntrack_count` and `sudo conntrack -L` after installing conntrack
     # to mitigate sudo sysctl -w net.netfilter.nf_conntrack_max=8388608 (otherwise packets dropped, things slow and monit sad)
+    # This other time it was just deluge.
+    # sudo conntrack -E showed most of them were for the same IP. docker network ls -> docker inspect <network> showed
+    # deluge had that ip, which makes sense.
     - name: Create cron job block outbound to subnet {{item}} because they were overloading nf_conntrack (hack?)
       become: yes
       lineinfile:
@@ -1138,16 +1142,16 @@
     #     dest: /etc/resolv.conf
     - name: Create necessary folders
       become: no
-      file: 
+      file:
         name: '{{item}}'
         state: directory
       with_items:
         - '~/filebrowser'
     - name: Run docker compose
       docker_compose:
-        project_src: ~/    
+        project_src: ~/
     - name: Copy config files
-      copy: 
+      copy:
         src: files/filebrowser-settings.json
         dest: ~/filebrowser/settings.json
       notify: restart filebrowser
@@ -1242,12 +1246,12 @@
 
 - name: Install Dry 0.9 (0.11 is too new currently for the docker on pine)
   tags: dry
-  hosts: all 
+  hosts: all
   gather_facts: no
   become: no
-  tasks: 
-    - name: Get bin 
-      get_url: 
+  tasks:
+    - name: Get bin
+      get_url:
         url: https://github.com/moncho/dry/releases/download/v0.9-beta.10/dry-linux-arm64
         dest: ~/dry
         mode: u+x
