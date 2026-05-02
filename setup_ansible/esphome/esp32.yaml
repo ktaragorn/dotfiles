@@ -1,6 +1,6 @@
 substitutions:
   name: esp32
-  friendly_name: Living Room
+  friendly_name: Baby Room
   dht_pin: GPIO23
 
 esp32:
