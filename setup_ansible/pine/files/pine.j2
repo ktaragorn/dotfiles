@@ -31,8 +31,7 @@ server {
 		rewrite ^/monit/(.*) /$1 break; # https://www.htpcguides.com/configure-monit-reverse-proxy-nginx-linux/
 		rewrite ^/beszel/(.*) /$1 break;
 		rewrite ^/mqtt-explorer/(.*) /$1 break;
-		sub_filter 'filebrowser/' '/filebrowser/';
-		sub_filter '$dollar{baseURL}/' '/$dollar{baseURL}/';
+		sub_filter 'filebrowser/' '';
 		sub_filter_once off;
 		# https://stackoverflow.com/a/32543398/1520364
 		# adding / to terminate will remove the subdir, else will not
