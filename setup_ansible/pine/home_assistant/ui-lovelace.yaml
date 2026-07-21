@@ -61,30 +61,30 @@ views:
         title: Light
         type: entities
       - entities:
-          - entity: sensor.living_room_a_temperature
-          - entity: sensor.living_room_c_temperature
+          - entity: sensor.baby_room_a_temperature
+          - entity: sensor.baby_room_c_temperature
           - entity: sensor.hall_temperature
-          - entity: sensor.living_room_b_temperature
-          - entity: sensor.living_room_d_temperature
-          - entity: sensor.living_room_temperature
+          - entity: sensor.baby_room_b_temperature
+          - entity: sensor.t_h_sensor_temperature
+          - entity: sensor.baby_room_temperature
           - entity: sensor.bed_temperature
         type: glance
         title: Temperature
       - entities:
-          - entity: sensor.living_room_a_humidity
-          - entity: sensor.living_room_c_humidity
+          - entity: sensor.baby_room_a_humidity
+          - entity: sensor.baby_room_c_humidity
           - entity: sensor.hall_humidity
-          - entity: sensor.living_room_b_humidity
-          - entity: sensor.living_room_d_humidity
-          - entity: sensor.living_room_humidity
+          - entity: sensor.baby_room_b_humidity
+          - entity: sensor.t_h_sensor_humidity
+          - entity: sensor.baby_room_humidity
           - entity: sensor.bed_humidity
         type: glance
         title: Humidity
       - entities:
-          - entity: sensor.living_room_a_battery_level
-          - entity: sensor.living_room_c_battery_level
-          - entity: sensor.living_room_b_battery_level
-          - entity: sensor.living_room_d_battery_level
+          - entity: sensor.baby_room_a_battery_level
+          - entity: sensor.baby_room_c_battery_level
+          - entity: sensor.baby_room_b_battery_level
+          - entity: sensor.t_h_sensor_battery
         type: glance
         title: Thermometer Battery
       - type: glance

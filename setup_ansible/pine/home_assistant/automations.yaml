@@ -18,6 +18,29 @@
           {% else %}
             BlueNight
           {% endif %}
+# https://github.com/home-assistant/core/issues/96253
+- alias: Restart Tuya if failed for 2hrs
+  description: ""
+  trigger:
+    - platform: time_pattern
+      minutes: /5
+  condition:
+    - condition: template
+      value_template: >-
+        {{ now() -
+        states.sensor.temperature_sensor_bathroom_temperature.last_changed >=
+        timedelta (hours=2) }}
+  action:
+    - service: homeassistant.reload_config_entry
+      data: {}
+      target:
+        entity_id: sensor.t_h_sensor_temperature
+
+    - service: script.notify
+      data:
+        target: Tuya
+        message: Tuya integration hung, reloading
+  mode: single
 # - alias: Any Entered house
 #   id: any_enter_house
 #   trigger:
