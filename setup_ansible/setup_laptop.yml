@@ -1,5 +1,5 @@
 ---
-- name: setup things specific to the laptop
+- name: setup things specific to the thinkpad laptop
   hosts: localhost
   become: yes
   tasks:

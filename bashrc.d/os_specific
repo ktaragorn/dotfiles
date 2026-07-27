@@ -4,7 +4,7 @@ then
 	alias gitx="reattach-to-user-namespace gitx"
 	alias gitk="wish $(which gitk)"
 	alias open="reattach-to-user-namespace open"
-	alias ls=exa
+	alias ls=eza
 	alias cat=bat
 else
 	alias cat=batcat

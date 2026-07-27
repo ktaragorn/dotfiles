@@ -1,5 +1,10 @@
 # Run with
 # ansible-playbook setup_dotfiles.yml -i inventory.yml
+
+# Mac
+# https://www.reddit.com/r/MacOS/comments/t9a9c8/how_do_i_enable_function_keys_to_work_as_standard/
+# iterm - manually configure it as location to load the settings from
+# 
 ---
 - hosts: localhost
   tasks:
@@ -22,6 +27,8 @@
           - gitg
           - jq
           - unzip
+          # lazygit
+          # asdf
           - bat # cat replacement
           #- broot # a better tree
           #- exa # cd replacement
@@ -43,9 +50,13 @@
           - ncdu
           - wget
           - direnv
+          - lazygit
+          - asdf
+          - fzf
           - bat # cat replacement
           - broot # a better tree
-          - exa # cd replacement
+          # https://github.com/ogham/exa/issues/1243
+          - eza # cd replacement
           - tokei # cloc replacement
       when: ansible_os_family == 'Darwin'
 
@@ -68,17 +79,25 @@
       when: ansible_os_family == 'Darwin'
       ignore_errors: True
       homebrew_cask:
+        accept_external_apps: true  # if preinstalled (chrome by company for e.g)
         name:
-          - Alfred 4 # disable spotlight, set alfreds keybinds
-          - rowanj-gitx
+          - alfred # disable spotlight, set alfreds keybinds
+          # - rowanj-gitx
           - iterm2
           - caffeine
+          - benkoppe/tap/blink # instant workspace switch https://github.com/benkoppe/Blink
+          - ubar # windows style task bar, can replace dock
+          - maccy # copy paste history
+          - rectangle # snap to edge resizing
+          - alt-tab # better alt tab
           - itsycal # E MMM d h:mm a
           - karabiner-elements
           - sensiblesidebuttons
           - firefox
           - google-chrome
+          - ghostty # simpler terminal than iterm2
 
+    # Doesnt work as written, times out. Maybe need to open once after install.. maybe not
     - name: Add casks to login
       when: ansible_os_family == 'Darwin'
       tags: login
@@ -87,7 +106,7 @@
         - Itsycal
         - iTerm
         - Caffeine
-        - Alfred 4
+        - Alfred 5
         - SensibleSideButtons
 
     - name: Checkout/update dotfiles on target machine
@@ -153,21 +172,7 @@
               path = ~/dotfiles/gitconfig
         path: ~/.gitconfig
         insertbefore: BOF
-        create: true              
-
-    - name: Install asdf version 0.7.3
-      git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: ~/.asdf
-        version: v0.7.3
-
-    - name: Install ruby and node plugins
-      shell: asdf plugin-add {{item}}
-      args:
-        creates: ~/.asdf/plugins/{{item}}
-      with_items:
-        - ruby
-        - nodejs
+        create: true
 
     - name: Link inputrc
       file: src=dotfiles/bashrc.d/inputrc dest=~/.inputrc state=link
@@ -208,6 +213,10 @@
     - name: Link tmux.conf in osx systems
       file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
       when: ansible_os_family == 'Darwin'
+    
+    - name: Link ghostty config in osx systems
+      file: src=~/dotfiles/ghostty/config.ghostty dest='/Users/karthik.thirugnanam/Library/Application Support/com.mitchellh.ghostty/config.ghostty' state=link force=yes
+      when: ansible_os_family == 'Darwin'
 
     - name: Link karabiner.json in osx systems
       file: src=~/dotfiles/karabiner/karabiner.json dest=~/.config/karabiner/karabiner.json state=link force=yes
@@ -224,5 +233,4 @@
     - name: Execute gah installer
       shell: sh /tmp/gah.sh creates=~/.local/bin/gah
 
-    # install lazygit
 

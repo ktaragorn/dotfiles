@@ -24,8 +24,13 @@
       become: yes #needs --ask-sudo-pass
       when: ansible_os_family == "Darwin"
 
+    #  Needs password, doesnt seem to work
     - name: Change shell to homebrew version
-      command: chsh -s {{brew_prefix.stdout}}/bin/zsh
+      # command: chsh -s {{brew_prefix.stdout}}/bin/zsh
+      become: yes
+      user:
+        name: karthik.thirugnanam
+        shell: '{{brew_prefix.stdout}}/bin/zsh'
       when: ansible_os_family == "Darwin"
 
     - name: Set shell for linux
