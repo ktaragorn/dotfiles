@@ -7,10 +7,12 @@
 # 
 ---
 - hosts: localhost
+  vars: 
+    os_family: "{{ ansible_facts['os_family'] }}"
   tasks:
     # - name: Add byobu PPA on debian machines
     #   apt_repository: repo='ppa:byobu/ppa' update_cache=yes
-    #   when: ansible_os_family != 'Darwin'
+    #   when: os_family != 'Darwin'
     #   become: yes
 
     - name: Install nice CLI packages on Debian systems
@@ -35,7 +37,7 @@
           #- tokei # cloc replacement
         state: present
 
-      when: ansible_os_family != 'Darwin'
+      when: os_family != 'Darwin'
       become: yes
 
     - name: Install nice CLI packages on OSX systems
@@ -58,25 +60,25 @@
           # https://github.com/ogham/exa/issues/1243
           - eza # cd replacement
           - tokei # cloc replacement
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
     # for FB need to use non standard prefix
     - name: Find brew prefix
       shell: brew --prefix
       register: brew_prefix
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
     #http://superuser.com/a/373448/160502
     - name: Fix htop for osx
       file: name={{brew_prefix.stdout}}/bin/htop mode=6555 owner=root follow=yes
       become: yes
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
       #  - name: Install brew cask
       #homebrew: pkg=caskroom/cask/brew-cask
-      #when: ansible_os_family == 'Darwin'
+      #when: os_family == 'Darwin'
     - name: Install casks
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
       ignore_errors: True
       homebrew_cask:
         accept_external_apps: true  # if preinstalled (chrome by company for e.g)
@@ -99,7 +101,7 @@
 
     # Doesnt work as written, times out. Maybe need to open once after install.. maybe not
     - name: Add casks to login
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
       tags: login
       shell: osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/{{item}}.app", hidden:false}'
       with_items:
@@ -186,13 +188,13 @@
 
     #https://askubuntu.com/questions/7190/why-wont-my-xmodmap-file-load-on-login
     - name: Autostart Xmodmap in linux
-      when: ansible_os_family != 'Darwin' #gnome only??
+      when: os_family != 'Darwin' #gnome only??
       file:
         dest: ~/.config/autostart/
         state: directory
 
     - name: Autostart Xmodmap and guake in linux
-      when: ansible_os_family != 'Darwin' #gnome only??
+      when: os_family != 'Darwin' #gnome only??
       file: src=~/dotfiles/{{item}}.desktop dest=~/.config/autostart/{{item}}.desktop state=link force=yes mode=u+x
       with_items:
         - my-xmodmap
@@ -200,32 +202,34 @@
 
     - name: Create byobu config folder
       file: dest=~/.config/byobu state=directory
-      when: ansible_os_family != 'Darwin'
+      when: os_family != 'Darwin'
 
     - name: Link tmux.conf in debian systems
       file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
-      when: ansible_os_family != 'Darwin'
+      when: os_family != 'Darwin'
 
     - name: Create byobu folder in case it doesnt exist
       file: path=~/.byobu state=directory
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
-    - name: Link tmux.conf in osx systems
-      file: src=~/dotfiles/tmux.conf dest=~/.byobu/.tmux.conf state=link force=yes
-      when: ansible_os_family == 'Darwin'
-    
-    - name: Link ghostty config in osx systems
-      file: src=~/dotfiles/ghostty/config.ghostty dest='/Users/karthik.thirugnanam/Library/Application Support/com.mitchellh.ghostty/config.ghostty' state=link force=yes
-      when: ansible_os_family == 'Darwin'
-
-    - name: Link karabiner.json in osx systems
-      file: src=~/dotfiles/karabiner/karabiner.json dest=~/.config/karabiner/karabiner.json state=link force=yes
-      when: ansible_os_family == 'Darwin'
+    - name: Link dotfiles for osx 
+      when: os_family == 'Darwin'
+      file:
+        src: ~/dotfiles/{{item.from}}
+        dest: ~/{{item.to}}
+        state: link
+        force: yes
+      with_items:
+        - {from: tmux.conf, to: .byobu/.tmux.conf}
+        - {from: ghostty/config.ghostty, to: Library/Application Support/com.mitchellh.ghostty/config.ghostty}
+        - {from: karabiner/karabiner.json, to: .config/karabiner/karabiner.json}
+        - {from: vscode/keybindings.json, to: Library/Application Support/Code/User/keybindings.json}
+        - {from: vscode/settings.json, to: Library/Application Support/Code/User/settings.json}
 
       # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
     - name: Fix key repeat on osx
       command: defaults write -g ApplePressAndHoldEnabled -bool false
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
     - name: Download gah
       get_url: url=https://raw.githubusercontent.com/get-gah/gah/refs/heads/master/tools/install.sh dest=/tmp/gah.sh
