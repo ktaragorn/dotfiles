@@ -7,5 +7,5 @@ new-item -path C:\Users\$userName\AppData\Local\Packages\Microsoft.WindowsTermin
 
 new-item -path "C:\Users\$userName\AppData\Local\Microsoft\PowerToys\Keyboard Manager\default.json" -value C:\Users\$userName\dotfiles\windows\default.json  -ItemType SymbolicLink -Force
 
-new-item -path C:\Users\$userName\AppData\Roaming\Code\User\settings.json -value C:\Users\$userName\dotfiles\windows\vscode\settings.json  -ItemType SymbolicLink -Force
-new-item -path C:\Users\$userName\AppData\Roaming\Code\User\keybindings.json -value C:\Users\$userName\dotfiles\windows\vscode\keybindings.json  -ItemType SymbolicLink -Force
+new-item -path C:\Users\$userName\AppData\Roaming\Code\User\settings.json -value C:\Users\$userName\dotfiles\vscode\settings.json  -ItemType SymbolicLink -Force
+new-item -path C:\Users\$userName\AppData\Roaming\Code\User\keybindings.json -value C:\Users\$userName\dotfiles\vscode\keybindings.json  -ItemType SymbolicLink -Force
