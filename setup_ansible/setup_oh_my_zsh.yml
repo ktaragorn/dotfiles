@@ -1,28 +1,30 @@
 ---
 - hosts: localhost
   connection: local
+  vars: 
+    os_family: "{{ ansible_facts['os_family'] }}"
   tasks:
     # for FB need to use non standard prefix
     - name: Find brew prefix
       shell: brew --prefix
       register: brew_prefix
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
 
     - name: Install zsh
       apt: pkg=zsh state=present
-      when: ansible_os_family != "Darwin"
+      when: os_family != "Darwin"
       with_items: [zsh, curl]
       become: yes
 
     - name: Install zsh (osx)
       homebrew: name=zsh state=present
-      when: ansible_os_family == "Darwin"
+      when: os_family == "Darwin"
 
     #http://zanshin.net/2013/09/03/how-to-use-homebrew-zsh-instead-of-max-os-x-default/
     - name: Add to /etc/shells
       lineinfile: dest=/etc/shells line={{brew_prefix.stdout}}/bin/zsh
       become: yes #needs --ask-sudo-pass
-      when: ansible_os_family == "Darwin"
+      when: os_family == "Darwin"
 
     #  Needs password, doesnt seem to work
     - name: Change shell to homebrew version
@@ -31,13 +33,13 @@
       user:
         name: karthik.thirugnanam
         shell: '{{brew_prefix.stdout}}/bin/zsh'
-      when: ansible_os_family == "Darwin"
+      when: os_family == "Darwin"
 
     - name: Set shell for linux
       user:
         name: karthikt
         shell: /usr/bin/zsh
-      when: ansible_os_family != "Darwin"
+      when: os_family != "Darwin"
       become: yes
 
     - name: Ensure zshrc file exists

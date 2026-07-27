@@ -6,6 +6,7 @@ then
 	alias open="reattach-to-user-namespace open"
 	alias ls=eza
 	alias cat=bat
+	alias tree=broot
 else
 	alias cat=batcat
 	pathappend ~/.local/bin

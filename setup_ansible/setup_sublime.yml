@@ -1,17 +1,20 @@
 ---
 - name: Install Sublime text
   hosts: localhost
+  vars: 
+    os_family: "{{ ansible_facts['os_family'] }}"
   tasks:
     - include_tasks: sublime/osx.yml
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
     - include_tasks: sublime/deb.yml
-      when: ansible_os_family != 'Darwin'
+      when: os_family != 'Darwin'
 
 # had to install package control manually. - cntr shift p -> install package control
 - name: Setup user preferences folder
   hosts: localhost
   tags: link
   vars:
+    os_family: "{{ ansible_facts['os_family'] }}"
     all_paths:
       osx:
         src: ~/dotfiles/Sublime Text 3/Packages/User
@@ -19,14 +22,14 @@
       linux:
         src: ~/dotfiles/Sublime Text 3/Packages/User
         dest: ~/.config/sublime-text-3/Packages/User
-    os: '{{(ansible_os_family == "Darwin") | ternary("osx", "linux")}}'
+    os: '{{(os_family == "Darwin") | ternary("osx", "linux")}}'
     paths: "{{all_paths[os]}}"
   tasks:
     - name: Create user Folder
       file: dest={{paths.dest}} state=directory
     - name: Link user folder
       file: state=link src="{{paths.src}}" dest="{{paths.dest}}" force=yes
-      when: ansible_os_family == 'Darwin'
+      when: os_family == 'Darwin'
       # this is to get the fix from https://github.com/xunker/AutoHideSidebar/issues/3, can be removed if released
     - name: Checkout AutoHideSidebar
       git:
