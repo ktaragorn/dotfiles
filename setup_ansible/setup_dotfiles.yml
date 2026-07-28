@@ -106,7 +106,6 @@
       shell: osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/{{item}}.app", hidden:false}'
       with_items:
         - Itsycal
-        - iTerm
         - Caffeine
         - Blink
         - uBar

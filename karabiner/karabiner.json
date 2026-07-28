@@ -179,7 +179,8 @@
                             "from": { "consumer_key_code": "volume_increment" },
                             "to": [{ "key_code": "f12" }]
                         }
-                    ]
+                    ],
+                    "treat_as_built_in_keyboard": true
                 }
             ],
             "fn_function_keys": [
@@ -222,6 +223,10 @@
                 {
                     "from": { "key_code": "scroll_lock" },
                     "to": [{ "key_code": "power" }]
+                },
+                {
+                    "from": { "key_code": "non_us_backslash" },
+                    "to": [{ "key_code": "grave_accent_and_tilde" }]
                 }
             ],
             "virtual_hid_keyboard": {
