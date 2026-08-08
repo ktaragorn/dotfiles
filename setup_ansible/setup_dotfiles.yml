@@ -83,8 +83,6 @@
       homebrew_cask:
         accept_external_apps: true  # if preinstalled (chrome by company for e.g)
         name:
-          - alfred # disable spotlight, set alfreds keybinds
-          # - rowanj-gitx
           - iterm2
           - caffeine
           - benkoppe/tap/blink # instant workspace switch https://github.com/benkoppe/Blink
@@ -108,8 +106,8 @@
         - Itsycal
         - Caffeine
         - Blink
+        - Rectangle
         - uBar
-        - Alfred 5
         - SensibleSideButtons
 
     - name: Checkout/update dotfiles on target machine

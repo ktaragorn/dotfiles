@@ -28,7 +28,7 @@
     - condition: template
       value_template: >-
         {{ now() -
-        states.sensor.temperature_sensor_bathroom_temperature.last_changed >=
+        states.sensor.t_h_sensor_temperature.last_changed >=
         timedelta (hours=2) }}
   action:
     - service: homeassistant.reload_config_entry

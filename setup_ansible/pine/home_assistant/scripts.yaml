@@ -6,10 +6,6 @@ notify:
         payload: "{{ message }}"
         topic: notify/hass/{{ target }}
         qos: 1
-    - service: notify.pushbullet
-      data:
-        title: Gondor Home Assistant
-        message: "{{ message }}"
     - service: notify.telegram
       data_template:
         title: Gondor Home Assistant

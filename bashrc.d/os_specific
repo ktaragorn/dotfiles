@@ -7,6 +7,7 @@ then
 	alias ls=eza
 	alias cat=bat
 	alias tree=broot
+	alias cloc="tokei --sort lines"
 else
 	alias cat=batcat
 	pathappend ~/.local/bin
