@@ -8,7 +8,9 @@ then
 	alias cat=bat
 	alias tree=broot
 	alias cloc="tokei --sort lines"
+	alias grep=rg
 else
 	alias cat=batcat
+	alias grep=rg
 	pathappend ~/.local/bin
 fi

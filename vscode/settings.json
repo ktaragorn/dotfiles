@@ -47,4 +47,5 @@
     "python.pydev.java.home": "c:\\Program Files\\Java\\jdk1.8.0_211",
     "workbench.colorTheme": "Visual Studio 2019 Dark",
     "js/ts.experimental.useTsgo": true,
+    "claudeCode.preferredLocation": "panel",
 }

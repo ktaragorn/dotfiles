@@ -4,10 +4,10 @@
 # Mac
 # https://www.reddit.com/r/MacOS/comments/t9a9c8/how_do_i_enable_function_keys_to_work_as_standard/
 # iterm - manually configure it as location to load the settings from
-# 
+#
 ---
 - hosts: localhost
-  vars: 
+  vars:
     os_family: "{{ ansible_facts['os_family'] }}"
   tasks:
     # - name: Add byobu PPA on debian machines
@@ -26,6 +26,7 @@
           - guake
           - git-gui
           - net-tools
+          - ripgrep
           - gitg
           - jq
           - unzip
@@ -52,6 +53,7 @@
           - ncdu
           - wget
           - direnv
+          - ripgrep
           - lazygit
           - asdf
           - fzf
@@ -81,18 +83,19 @@
       when: os_family == 'Darwin'
       ignore_errors: True
       homebrew_cask:
-        accept_external_apps: true  # if preinstalled (chrome by company for e.g)
+        accept_external_apps: true # if preinstalled (chrome by company for e.g)
         name:
           - iterm2
+          - PeonPing/tap/peon-ping # notification for when claude needs input
+          #Then run peon-ping-setup to register hooks and download sound packs. macOS and Linux.
           - caffeine
           - benkoppe/tap/blink # instant workspace switch https://github.com/benkoppe/Blink
-          - ubar # windows style task bar, can replace dock
           - maccy # copy paste history
           - rectangle # snap to edge resizing
           - alt-tab # better alt tab
           - itsycal # E MMM d h:mm a
           - karabiner-elements
-          - sensiblesidebuttons
+          - sanesidebuttons # https://github.com/thealpa/SaneSideButtons
           - firefox
           - google-chrome
           - ghostty # simpler terminal than iterm2
@@ -107,8 +110,7 @@
         - Caffeine
         - Blink
         - Rectangle
-        - uBar
-        - SensibleSideButtons
+        - SaneSideButtons
 
     - name: Checkout/update dotfiles on target machine
       git: repo=https://github.com/ktaragorn/dotfiles.git dest=~/dotfiles force=no
@@ -158,14 +160,14 @@
       with_items:
         - vimrc
         - ngrok
-        - rdebugrc 
+        - rdebugrc
         - pryrc
         - gemrc
         - bcrc
         - Xmodmap # only used in linux though
         - tmuxinator
         - asdfrc
-  
+
     - name: Include dotfiles gitconfig from main gitconfig at the top (create file if needed) - this allows main gitconfig to customize for local needs (work)
       blockinfile:
         block: |
@@ -211,7 +213,7 @@
       file: path=~/.byobu state=directory
       when: os_family == 'Darwin'
 
-    - name: Link dotfiles for osx 
+    - name: Link dotfiles for osx
       when: os_family == 'Darwin'
       file:
         src: ~/dotfiles/{{item.from}}
@@ -219,11 +221,23 @@
         state: link
         force: yes
       with_items:
-        - {from: tmux.conf, to: .byobu/.tmux.conf}
-        - {from: ghostty/config.ghostty, to: Library/Application Support/com.mitchellh.ghostty/config.ghostty}
-        - {from: karabiner/karabiner.json, to: .config/karabiner/karabiner.json}
-        - {from: vscode/keybindings.json, to: Library/Application Support/Code/User/keybindings.json}
-        - {from: vscode/settings.json, to: Library/Application Support/Code/User/settings.json}
+        - { from: tmux.conf, to: .byobu/.tmux.conf }
+        - {
+            from: ghostty/config.ghostty,
+            to: Library/Application Support/com.mitchellh.ghostty/config.ghostty,
+          }
+        - {
+            from: karabiner/karabiner.json,
+            to: .config/karabiner/karabiner.json,
+          }
+        - {
+            from: vscode/keybindings.json,
+            to: Library/Application Support/Code/User/keybindings.json,
+          }
+        - {
+            from: vscode/settings.json,
+            to: Library/Application Support/Code/User/settings.json,
+          }
 
       # From http://lifehacker.com/5826055/make-your-keyboard-keys-repeat-properly-when-held-down-in-mac-os-x-lion
     - name: Fix key repeat on osx
@@ -235,5 +249,5 @@
 
     - name: Execute gah installer
       shell: sh /tmp/gah.sh creates=~/.local/bin/gah
-
-
+# Other mac specific bits
+# defaults write com.apple.dock autohide-delay -float 1000; killall Dock // to disable the dock
