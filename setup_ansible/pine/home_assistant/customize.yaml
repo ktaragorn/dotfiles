@@ -1,26 +1,26 @@
 ---
 sensor.baby_room_a_temperature:
-  friendly_name: Office
-sensor.baby_room_b_temperature:
-  friendly_name: Toilet
-sensor.baby_room_c_temperature:
   friendly_name: Bedroom
+sensor.baby_room_b_temperature:
+  friendly_name: Fridge
+sensor.baby_room_c_temperature:
+  friendly_name: Kitchen
 sensor.t_h_sensor_temperature:
   friendly_name: Outside
 sensor.baby_room_a_battery_level:
-  friendly_name: Office
-sensor.baby_room_b_battery_level:
-  friendly_name: Toilet
-sensor.baby_room_c_battery_level:
   friendly_name: Bedroom
+sensor.baby_room_b_battery_level:
+  friendly_name: Fridge
+sensor.baby_room_c_battery_level:
+  friendly_name: Kitchen
 sensor.t_h_sensor_battery:
   friendly_name: Outside
 sensor.baby_room_a_humidity:
-  friendly_name: Office
-sensor.baby_room_b_humidity:
-  friendly_name: Toilet
-sensor.baby_room_c_humidity:
   friendly_name: Bedroom
+sensor.baby_room_b_humidity:
+  friendly_name: Fridge
+sensor.baby_room_c_humidity:
+  friendly_name: Kitchen
 sensor.t_h_sensor_humidity:
   friendly_name: Outside
 light.bulb_rgbw_cfc9e:

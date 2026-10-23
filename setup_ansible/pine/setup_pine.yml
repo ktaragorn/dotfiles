@@ -1113,6 +1113,10 @@
   gather_facts: no
   vars_files: [vars/all.yml]
   tasks:
+    - name: Install Docker compose v2
+      become: yes
+      package:
+        name: docker-compose-plugin
     - name: Copy compose file
       template:
         src: files/pine_docker_compose.yaml
@@ -1163,7 +1167,7 @@
         state: restarted
     - name:  restart filebrowser
       docker_container:
-        name: flexget
+        name: filebrowser
         state: started
         restart: yes
 
