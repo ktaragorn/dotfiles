@@ -221,6 +221,12 @@
         subdomain: yes
         link_to: http://pihole.middle.earth/admin
         proc: pihole-FTL
+      - name: yubal
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/webp/yubal.webp
+        port: 8000
+      - name: copyparty
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/copyparty.png
+        port: 3923
     linked_services: [] # homepage + monit but not reverse proxy
     other_services: # only monit
       - { name: Web Server, port: 80, proc: nginx }
@@ -410,7 +416,7 @@
         name: hass
         # otherwise cant make outgoing calls, or talk to mqtt, lazy way out
         network_mode: host
-        image: homeassistant/home-assistant:2024.4.0
+        image: homeassistant/home-assistant:2026.10.4
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /home/ubuntu/homeassistant_config:/config
@@ -419,6 +425,13 @@
         # published_ports:
         #   - 8123:8123
         restart_policy: unless-stopped
+
+    - name: Install HACS
+      community.docker.docker_container_exec:
+        container: hass
+        shell: wget -O - https://get.hacs.xyz | bash -
+    # Download Tuya Local
+
     # - name: Checkout SmartIR repo
     #   git:
     #     repo: https://github.com/smartHomeHub/SmartIR.git
@@ -1151,6 +1164,7 @@
         state: directory
       with_items:
         - '~/filebrowser'
+        - '~/copyparty'
     - name: Run docker compose
       community.docker.docker_compose_v2:
         project_src: ~/
@@ -1159,6 +1173,11 @@
         src: files/filebrowser-settings.json
         dest: ~/filebrowser/settings.json
       notify: restart filebrowser
+    - name: Copy config files
+      copy:
+        src: files/copyparty.conf
+        dest: ~/copyparty/copyparty.conf
+      notify: restart copyparty
   handlers:
     - name: Restart systemd-resolve
       become: yes
@@ -1168,6 +1187,11 @@
     - name:  restart filebrowser
       docker_container:
         name: filebrowser
+        state: started
+        restart: yes
+    - name:  restart copyparty
+      docker_container:
+        name: copyparty
         state: started
         restart: yes
 

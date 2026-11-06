@@ -33,7 +33,7 @@ config:
 http:
   base_url: http://hass.middle.earth
   use_x_forwarded_for: true
-  trusted_proxies: 
+  trusted_proxies:
     - 127.0.0.1
     - ::1
 
@@ -91,7 +91,7 @@ sensor:
   #   file_paths:
   #     - /config/home-assistant_v2.db
   - platform: time_date
-    display_options: 
+    display_options:
       - date_time
   # no yaml no more
   # - platform: mqtt
@@ -164,7 +164,7 @@ tts:
 # fastdotcom:
 #   scan_interval:
 #     hours: 6
-wake on lan: 
+wake on lan:
 
 smartir:
 
@@ -216,7 +216,7 @@ input_boolean:
   we_are_going_to_bedroom:
     name: We are headed to the bedroom
     icon: mdi:stairs
-  
+
 switch:
   - platform: wake_on_lan
     mac: 00:90:F5:E7:26:ED
@@ -228,7 +228,7 @@ light:
   #   name: Bedroom Light
   #   entity_id: switch.bedroom_light
 
-  # Yaml not supported any longer for flux_led.. gonna leave it here in protest.. 
+  # Yaml not supported any longer for flux_led.. gonna leave it here in protest..
   # this stopped working. Auto discovered light has a different name, need to change its entity id to match light.bedroom_light\
   # cant discover smart_light.. not sure why..
  # - platform: flux_led
@@ -333,4 +333,11 @@ automation light: !include light_automations.yaml
 script: !include scripts.yaml
 
 lovelace:
-  mode: yaml
+  resource_mode: yaml
+  dashboards:
+    lovelace:
+      mode: yaml
+      filename: ui-lovelace.yaml
+      title: Overview
+      icon: mdi:view-dashboard
+      show_in_sidebar: true

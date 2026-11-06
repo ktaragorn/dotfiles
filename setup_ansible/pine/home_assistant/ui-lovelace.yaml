@@ -55,6 +55,14 @@ views:
       - type: light
         entity: light.bedroom_light
 
+      - type: thermostat
+        entity: climate.living_room_living_room_thermostat
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - 'off'
+              - heat
+
       - entities:
           - light.hall_night_light
           - light.bedroom_light
