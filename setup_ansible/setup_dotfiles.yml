@@ -209,9 +209,17 @@
       file: src=~/dotfiles/tmux.conf dest=~/.config/byobu/.tmux.conf state=link force=yes
       when: os_family != 'Darwin'
 
-    - name: Create byobu folder in case it doesnt exist
-      file: path=~/.byobu state=directory
+    - name: Create folders for the osx links in case they dont exist
       when: os_family == 'Darwin'
+      file:
+        path: ~/{{item}}
+        state: directory
+      with_items:
+        - .byobu
+        - .config/herdr
+        - .config/karabiner
+        - Library/Application Support/Code/User
+        - Library/Application Support/com.mitchellh.ghostty
 
     - name: Link dotfiles for osx
       when: os_family == 'Darwin'
@@ -226,6 +234,7 @@
             from: ghostty/config.ghostty,
             to: Library/Application Support/com.mitchellh.ghostty/config.ghostty,
           }
+        - { from: herdr/config.toml, to: .config/herdr/config.toml }
         - {
             from: karabiner/karabiner.json,
             to: .config/karabiner/karabiner.json,

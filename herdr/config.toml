@@ -1,0 +1,9 @@
+onboarding = false
+
+[theme]
+name = "solarized"
+auto_switch = false
+
+[keys]
+previous_tab = ["prefix+p", "cmd+f3"]
+next_tab = ["prefix+n", "cmd+f4"]
