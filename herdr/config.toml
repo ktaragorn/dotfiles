@@ -7,3 +7,11 @@ auto_switch = false
 [keys]
 previous_tab = ["prefix+p", "cmd+f3"]
 next_tab = ["prefix+n", "cmd+f4"]
+
+[ui.sidebar.agents]
+# The defaults plus a third line with the pane's own terminal title (e.g. the Claude session name).
+rows = [
+  ["state_icon", "machine", "workspace", "tab"],
+  ["agent"],
+  ["terminal_title_stripped"],
+]
