@@ -1,2 +1,5 @@
 keybind = global:f12=toggle_quick_terminal
 theme = iTerm2 Dark Background
+
+# Send Cmd+F4 as CSI 14;9~ so herdr reads it as F4+Super (Ghostty default is CSI 1;9S).
+keybind = cmd+f4=csi:14;9~
