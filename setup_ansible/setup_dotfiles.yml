@@ -99,6 +99,7 @@
           - firefox
           - google-chrome
           - ghostty # simpler terminal than iterm2
+          - camguillory/tap/audio-priority-bar
 
     # Doesnt work as written, times out. Maybe need to open once after install.. maybe not
     - name: Add casks to login
@@ -260,3 +261,4 @@
       shell: sh /tmp/gah.sh creates=~/.local/bin/gah
 # Other mac specific bits
 # defaults write com.apple.dock autohide-delay -float 1000; killall Dock // to disable the dock
+
