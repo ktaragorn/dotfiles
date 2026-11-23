@@ -6,8 +6,17 @@ auto_switch = false
 
 [keys]
 prefix = "ctrl+d"
-previous_tab = ["prefix+p", "cmd+f3"]
-next_tab = ["prefix+n", "cmd+f4"]
+# Ctrl+F3 / Ctrl+F4 only reach herdr if these are turned off, as each grabs the key first:
+#  - macOS: System Settings > Keyboard > Keyboard Shortcuts > Keyboard, untick
+#    "Move focus to the Dock" (Ctrl+F3) and "Move focus to the next window" (Ctrl+F4).
+#  - byobu: its Ctrl+F3 / Ctrl+F4 pane-swap bindings are unbound in tmux.conf in this dotfiles repo.
+previous_tab = ["prefix+p", "ctrl+f3"]
+next_tab = ["prefix+n", "ctrl+f4"]
+# Ctrl+Shift+arrow moves focus between panes.
+focus_pane_left = ["prefix+h", "ctrl+shift+left"]
+focus_pane_down = ["prefix+j", "ctrl+shift+down"]
+focus_pane_up = ["prefix+k", "ctrl+shift+up"]
+focus_pane_right = ["prefix+l", "ctrl+shift+right"]
 
 [ui.sidebar.agents]
 # The defaults plus a third line with the pane's own terminal title (e.g. the Claude session name).
