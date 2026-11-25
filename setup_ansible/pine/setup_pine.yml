@@ -426,10 +426,19 @@
         #   - 8123:8123
         restart_policy: unless-stopped
 
+    # Nest Legacy, Tuya local??
     - name: Install HACS
       community.docker.docker_container_exec:
         container: hass
-        shell: wget -O - https://get.hacs.xyz | bash -
+        chdir: /config
+        argv:
+          - bash
+          - -o
+          - pipefail
+          - -c
+          - wget -O - https://get.hacs.xyz | bash -
+      register: hacs_install
+      failed_when: hacs_install is failed or (hacs_install.rc | default(0)) != 0
     # Download Tuya Local
 
     # - name: Checkout SmartIR repo

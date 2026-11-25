@@ -79,34 +79,34 @@
       data:
         brightness_pct: 5
 
-- alias: Night Time
-  id: night time
-  trigger:
-    #  This is so complicated cuz if it disconnects and reconnects
-    #  it gets turned off.. and esp32_b disconnects often..
-    - platform: time
-      at: "22:01:00"      
-    - platform: state
-      entity_id: light.hall_night_light
-      from: "on"
-      to: "off"
-    - platform: state
-      entity_id: binary_sensor.esp32_b
-      from: "off"
-      to: "on"
-  condition:
-    - condition: time
-      after: "22:00:00"
-      before: "06:00:00"
-  action:
-    - service: light.turn_on
-      entity_id: light.hall_night_light
+# - alias: Night Time
+#   id: night time
+#   trigger:
+#     #  This is so complicated cuz if it disconnects and reconnects
+#     #  it gets turned off.. and esp32_b disconnects often..
+#     - platform: time
+#       at: "22:01:00"
+#     - platform: state
+#       entity_id: light.hall_night_light
+#       from: "on"
+#       to: "off"
+#     - platform: state
+#       entity_id: binary_sensor.esp32_b
+#       from: "off"
+#       to: "on"
+#   condition:
+#     - condition: time
+#       after: "22:00:00"
+#       before: "06:00:00"
+#   action:
+#     - service: light.turn_on
+#       entity_id: light.hall_night_light
 
-- alias: Day time
-  id: day_time
-  trigger:
-    - platform: time
-      at: "06:00:00"
-  action:
-    - service: light.turn_off
-      entity_id: light.hall_night_light
+# - alias: Day time
+#   id: day_time
+#   trigger:
+#     - platform: time
+#       at: "06:00:00"
+#   action:
+#     - service: light.turn_off
+#       entity_id: light.hall_night_light

@@ -66,8 +66,10 @@
 	"ignored_packages":
 	[
 		"CoffeeScript",
-		"PhpTidy",
-		"SideBarGit",
+		"GitGutter",
+		"JsPrettier",
+		"MarkdownPreview",
+		"RubyTest",
 		"SublimeCodeIntel",
 		"Vintage"
 	],
@@ -76,6 +78,7 @@
 		"draw_normal",
 		"draw_active"
 	],
+	"index_files": true,
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
 	"mini_diff": false,

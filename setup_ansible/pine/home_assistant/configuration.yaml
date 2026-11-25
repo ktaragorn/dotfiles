@@ -259,17 +259,19 @@ group:
 
 mobile_app:
 
-telegram_bot:
-  - platform: broadcast
-    api_key: {{ telegram_bot_api_key }}
-    allowed_chat_ids:
-      - {{telegram_chat_id}}
+# configured via UI
+# telegram_bot:
+#   - platform: broadcast
+#     api_key: {{ telegram_bot_api_key }}
+#     allowed_chat_ids:
+#       - {{telegram_chat_id}}
 
 notify:
   # not working
   # - name: pushbullet
   #   platform: pushbullet
   #   api_key: {{ pushbullet_access_token }}
+  # not working
   - platform: telegram
     name: telegram
     chat_id: {{telegram_chat_id}}
