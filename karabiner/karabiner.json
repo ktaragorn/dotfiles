@@ -4,6 +4,87 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "VS Code: mouse back/forward buttons to Ctrl+, / Ctrl+. (navigate back/forward)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": { "pointing_button": "button4" },
+                                "to": [
+                                    {
+                                        "key_code": "comma",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": { "pointing_button": "button5" },
+                                "to": [
+                                    {
+                                        "key_code": "period",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Windows style snip screenshot to clipboard",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "s",
+                                    "modifiers": {
+                                        "mandatory": ["left_shift", "left_option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "4",
+                                        "modifiers": ["left_command", "left_shift", "left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Lock screen and sleep by logitech lock",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": { "mandatory": ["left_command", "left_shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": ["left_command", "left_control"]
+                                    },
+                                    { "software_function": { "iokit_power_management_sleep_system": { "delay_milliseconds": 1000 } } }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Lock screen by logitech lock",
                         "manipulators": [
                             {
@@ -181,6 +262,23 @@
                         }
                     ],
                     "treat_as_built_in_keyboard": true
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 591,
+                        "vendor_id": 1452
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_option" },
+                            "to": [{ "key_code": "left_command" }]
+                        }
+                    ]
                 }
             ],
             "fn_function_keys": [
@@ -205,6 +303,7 @@
                     "to": [{ "consumer_key_code": "fastforward" }]
                 }
             ],
+            "ignore_pointing_device_events_by_default": false,
             "name": "Default profile",
             "selected": true,
             "simple_modifications": [
@@ -217,16 +316,16 @@
                     "to": [{ "key_code": "left_command" }]
                 },
                 {
+                    "from": { "key_code": "non_us_backslash" },
+                    "to": [{ "key_code": "grave_accent_and_tilde" }]
+                },
+                {
                     "from": { "key_code": "print_screen" },
                     "to": [{ "key_code": "scroll_lock" }]
                 },
                 {
                     "from": { "key_code": "scroll_lock" },
                     "to": [{ "key_code": "power" }]
-                },
-                {
-                    "from": { "key_code": "non_us_backslash" },
-                    "to": [{ "key_code": "grave_accent_and_tilde" }]
                 }
             ],
             "virtual_hid_keyboard": {

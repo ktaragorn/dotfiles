@@ -218,7 +218,6 @@
       with_items:
         - .byobu
         - .config/herdr
-        - .config/karabiner
         - Library/Application Support/Code/User
         - Library/Application Support/com.mitchellh.ghostty
 
@@ -236,10 +235,10 @@
             to: Library/Application Support/com.mitchellh.ghostty/config.ghostty,
           }
         - { from: herdr/config.toml, to: .config/herdr/config.toml }
-        - {
-            from: karabiner/karabiner.json,
-            to: .config/karabiner/karabiner.json,
-          }
+        # Link the whole folder, not just karabiner.json: Karabiner-Elements saves by writing a
+        # new file, which replaces a symlinked karabiner.json with a regular file. The folder
+        # must not be created beforehand, or the link would end up inside it.
+        - { from: karabiner, to: .config/karabiner }
         - {
             from: vscode/keybindings.json,
             to: Library/Application Support/Code/User/keybindings.json,
